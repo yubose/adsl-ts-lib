@@ -1,0 +1,31 @@
+{
+  "author": "Christopher Tran <christopher@aitmed.com>",
+  "description": "NOODL TypeScript Definitions",
+  "engines": {
+    "node": ">=14",
+    "npm": ">=6"
+  },
+  "files": [
+    "dist"
+  ],
+  "gitHead": "c6d5712c14cedf5faf330797187ffff96b9ce6ee",
+  "homepage": "",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "name": "noodl-types",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://gitlab.aitmed.com/pfftdammitchris/aitmed-noodl-lib.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc -w",
+    "test": "cross-env TS_NODE_PROJECT=\"tsconfig.test.json\" NODE_ENV=test ts-mocha -r source-map-support/register --extensions ts --watch --watch-files src \"src/**/*.test.ts\""
+  },
+  "typings": "dist/index.d.ts",
+  "version": "1.0.212"
+}
