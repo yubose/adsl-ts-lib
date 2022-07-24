@@ -1,0 +1,37 @@
+{
+  "author": "Christopher Tran <pfftdammitchris@gmail.com>",
+  "bugs": {},
+  "description": "Utility/helpers for working with NOODL values",
+  "engines": {
+    "node": ">=14",
+    "npm": ">=7"
+  },
+  "files": [
+    "dist"
+  ],
+  "gitHead": "c6d5712c14cedf5faf330797187ffff96b9ce6ee",
+  "keywords": [
+    "noodl"
+  ],
+  "license": "ISC",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "name": "noodl-utils",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "scripts": {
+    "build": "cross-env NODE_ENV=production rollup -c",
+    "postbuild": "npm run types",
+    "poststart": "npm run types",
+    "start": "cross-env NODE_ENV=development rollup -c -w",
+    "test": "cross-env TS_NODE_PROJECT=\"tsconfig.test.json\" NODE_ENV=test ts-mocha -r jsdom-global/register --file src/__tests__/setup.ts -r source-map-support/register --extensions ts --watch --watch-files src src/**/*.test.ts",
+    "test:file": "NODE_ENV=test ts-mocha -r jsdom-global/register --extensions ts --watch --watch-files src",
+    "types": "tsc --declaration --declarationDir dist --emitDeclarationOnly"
+  },
+  "typings": "./dist/index.d.ts",
+  "version": "0.0.90"
+}
