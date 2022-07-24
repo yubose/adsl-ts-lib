@@ -1,0 +1,37 @@
+{
+  "author": "Christopher Tran <christopher@aitmed.com>",
+  "bugs": {
+    "url": "https://github.com/pfftdammitchris/noodl-cli/issues"
+  },
+  "dependencies": {
+    "noodl-types": "*"
+  },
+  "directories": {
+    "dist": "dist",
+    "test": "__tests__"
+  },
+  "files": [
+    "dist"
+  ],
+  "gitHead": "c6d5712c14cedf5faf330797187ffff96b9ce6ee",
+  "homepage": "https://github.com/pfftdammitchris/noodl-cli#readme",
+  "jsnext:main": "dist/index.js",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "name": "noodl-action-chain",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pfftdammitchris/noodl-cli.git"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "postbuild": "npm run types",
+    "poststart": "npm run types",
+    "start": "concurrently \"rollup -c -w\" \"npm run types\"",
+    "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json --file src/setupTests.ts --extensions ts --watch --watch-files src \"src/**/*.test.ts\"",
+    "types": "tsc --declaration --declarationDir dist --emitDeclarationOnly"
+  },
+  "types": "dist/index.d.ts",
+  "version": "0.0.107"
+}
