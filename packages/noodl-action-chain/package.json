@@ -4,7 +4,7 @@
     "url": "https://github.com/pfftdammitchris/noodl-cli/issues"
   },
   "dependencies": {
-    "noodl-types": "^1.0.217"
+    "noodl-types": "^1.0.218"
   },
   "directories": {
     "dist": "dist",
@@ -29,9 +29,9 @@
     "postbuild": "npm run types",
     "poststart": "npm run types",
     "start": "concurrently \"rollup -c -w\" \"npm run types\"",
-    "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json --file src/setupTests.ts --extensions ts --watch --watch-files src \"src/**/*.test.ts\"",
+    "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json --file src/__tests__/setupTests.ts --extensions ts --watch --watch-files src \"src/**/*.test.ts\"",
     "types": "tsc --declaration --declarationDir dist --emitDeclarationOnly"
   },
   "types": "dist/index.d.ts",
-  "version": "0.0.108"
+  "version": "0.0.109"
 }

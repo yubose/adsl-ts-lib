@@ -27,7 +27,7 @@
     "test": "cross-env TS_NODE_PROJECT=\"tsconfig.test.json\" NODE_ENV=test ts-mocha -r source-map-support/register --extensions ts --watch --watch-files src \"src/**/*.test.ts\""
   },
   "typings": "dist/index.d.ts",
-  "version": "1.0.217",
+  "version": "1.0.218",
   "devDependencies": {
     "tslib": "^2.4.0"
   }
