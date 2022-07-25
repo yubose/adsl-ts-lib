@@ -5,10 +5,9 @@ import createNode from '../utils/createNode'
 import _is_ from '../utils/is'
 import merge from '../transformers/merge'
 import unwrap from '../utils/unwrap'
-import * as c from '../constants'
 import * as t from '../types'
 
-const { scalarNode, pairNode, mapNode, seqNode } = _is_
+const { pairNode } = _is_
 
 function createScalar(value?: any) {
   return new y.Scalar(value)

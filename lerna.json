@@ -20,7 +20,12 @@
     "packages/noodl-types",
     "packages/noodl-action-chain",
     "packages/noodl-utils",
-    "packages/noodl-ui"
+    "packages/noodl-ui-test-utils",
+    "packages/noodl-ui",
+    "packages/noodl-file",
+    "packages/noodl-core",
+    "packages/noodl-yaml",
+    "packages/gatsby-plugin-noodl"
   ],
   "parallel": true,
   "useNx": true,

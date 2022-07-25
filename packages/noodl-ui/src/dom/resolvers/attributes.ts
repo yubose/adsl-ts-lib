@@ -9,7 +9,6 @@ import {
 } from '../utils'
 import type NDOMResolver from '../Resolver'
 import * as t from '../../types'
-import * as i from '../../utils/internal'
 import * as c from '../../constants'
 
 const is = Identify
@@ -157,8 +156,7 @@ const attributesResolver: t.Resolve.Config = {
             // console.info(`PAGE COMPONENT`, args.global.pages)
           }
 
-          const { path, placeholder, style, textBoard } =
-            args.component.blueprint || {}
+          const { path, placeholder, style } = args.component.blueprint || {}
 
           /* -------------------------------------------------------
             ---- GENERAL / COMMON DOM NODES

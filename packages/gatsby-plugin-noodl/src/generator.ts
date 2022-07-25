@@ -42,7 +42,7 @@ export async function getGenerator({
   configUrl = `https://public.aitmed.com/config/${configKey}.yml`,
   ecosEnv = 'stable',
   use = {} as Use,
-} = {}) {
+} = {}): Promise<any> {
   try {
     // Patches the EventTarget so we can sandbox the sdk
     monkeyPatchEventListener({
@@ -96,8 +96,7 @@ export async function getGenerator({
 
     const sdk = new CADL({
       // aspectRatio: 0.59375,
-      // @ts-expect-error
-      cadlVersion: ecosEnv,
+      cadlVersion: ecosEnv as any,
       configUrl,
     })
 
@@ -131,8 +130,7 @@ export async function getGenerator({
             ? { pageName, cadlObject: use.pages?.json?.[pageName] }
             : pageName
 
-          // @ts-expect-error
-          await sdk.initPage(pageArg, [], {
+          await sdk.initPage(pageArg as any, [], {
             wrapEvalObjects: false,
           })
 
@@ -162,6 +160,7 @@ export async function getGenerator({
       viewport: use?.viewport || { width: 0, height: 0 },
     })
 
+    // @ts-expect-error
     async function transform(
       componentProp: ComponentObject,
       options?: ConsumerOptions,

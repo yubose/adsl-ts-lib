@@ -56,7 +56,7 @@ class ComponentResolver<
           ...args[1],
           resolveReference(keyOrValue, value) {
             const isKey = arguments.length > 1
-            const key = isKey ? keyOrValue : ''
+            // const key = isKey ? keyOrValue : ''
             value = isKey ? value : keyOrValue
             return resolveReference({
               localKey: args[1]?.page?.page || '',
@@ -114,7 +114,7 @@ class ComponentResolver<
     await this.resolver?.(component, options, resolveNext)
   }
 
-  toString() {
+  override toString() {
     return `Resolver [${this.#name}]`
   }
 }

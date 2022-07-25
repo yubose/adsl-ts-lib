@@ -108,14 +108,14 @@ setupResolver.setResolver(
       -------------------------------------------------------- */
 
         for (const prop of emitHooks) {
-          let datasetKey = ''
+          // let datasetKey = ''
           let trigger = '' as LiteralUnion<t.NUITrigger, string>
 
           if (u.isObj(prop)) {
-            datasetKey = prop.datasetKey
+            // datasetKey = prop.datasetKey
             trigger = prop.trigger
           } else {
-            datasetKey = trigger = prop
+            // datasetKey = trigger = prop
           }
 
           if (is.folds.emit(original[trigger])) {

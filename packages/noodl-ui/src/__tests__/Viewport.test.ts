@@ -19,12 +19,10 @@ xdescribe(`Viewport`, () => {
     })
 
     it(`should return "0px" if value is a string "0"`, () => {
-      const viewport = new Viewport({ width: 375, height: 667 })
       expect(Viewport.getSize('0', 300, { unit: 'px' })).to.eq('0.00px')
     })
 
     it(`should return the full size by viewport if value is a string "1"`, () => {
-      const viewport = new Viewport({ width: 375, height: 667 })
       expect(Viewport.getSize('1', 2500, { unit: 'px' })).to.eq('2500.00px')
     })
 

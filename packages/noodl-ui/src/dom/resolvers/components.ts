@@ -57,20 +57,19 @@ const componentsResolver: t.Resolve.Config = {
       }
     } catch (error) {
       console.error(error)
-      // @ts-expect-error
       throw new Error(error)
     }
   },
   async resolve(args) {
     try {
-      const { nui, renderPage, setAttr, setDataAttr, setStyleAttr } = args
+      const { nui, setAttr, setDataAttr, setStyleAttr } = args
 
       if (u.isFnc(args.node)) {
         // PLUGIN
         if (_isPluginComponent(args.component)) {
           let path = (args.component.get('path') ||
             args.component.blueprint.path) as string
-          let plugin = args.component.get('plugin') as t.Plugin.Object
+          // let plugin = args.component.get('plugin') as t.Plugin.Object
           let tagName = '' // 'div', etc
           let type = '' // text/html, etc
 
@@ -157,7 +156,7 @@ const componentsResolver: t.Resolve.Config = {
                 elem.parentNode || args.page.node || document.body
               elem.innerHTML += data
               if (parentNode.children.length) {
-                parentNode.insertBefore(elem, parentNode.childNodes[0])
+                parentNode.insertBefore(elem, parentNode.childNodes[0] as any)
               } else {
                 parentNode.appendChild(elem)
               }
@@ -197,7 +196,7 @@ const componentsResolver: t.Resolve.Config = {
                     if (parentNode.children.length) {
                       parentNode.insertBefore(
                         childNode,
-                        parentNode.childNodes[0],
+                        parentNode.childNodes[0] as any,
                       )
                     } else parentNode.appendChild(childNode)
                   } else parentNode.appendChild(childNode)
@@ -235,7 +234,6 @@ const componentsResolver: t.Resolve.Config = {
           autoplay,
           onClick,
           options: selectOptions,
-          poster,
           text,
           videoType,
         } = original
@@ -266,9 +264,9 @@ const componentsResolver: t.Resolve.Config = {
             ) as SignaturePad
 
             if (signaturePad) {
-              signaturePad.onEnd = () => {
+              signaturePad.addEventListener('endStroke', () => {
                 const dataUrl = signaturePad.toDataURL()
-                const mimeType = dataUrl.split(';')[0].split(':')[1] || ''
+                const mimeType = dataUrl.split(';')[0]?.split(':')[1] || ''
                 ;(args.node as HTMLCanvasElement).toBlob(
                   (blob) => {
                     if (nui) {
@@ -282,7 +280,7 @@ const componentsResolver: t.Resolve.Config = {
                           }
                           if (!/^[a-zA-Z]/i.test(dataKey)) return false
                           if (dataKey)
-                            return dataKey[0].toUpperCase() === dataKey[0]
+                            return dataKey[0]?.toUpperCase() === dataKey[0]
                         }
                         return false
                       }
@@ -317,7 +315,7 @@ const componentsResolver: t.Resolve.Config = {
                   mimeType,
                   8,
                 )
-              }
+              })
             } else {
               console.log(
                 `%cSignature pad is missing from a canvas component!`,
@@ -391,45 +389,47 @@ const componentsResolver: t.Resolve.Config = {
           if (args.component.blueprint?.['path=func']) {
             // ;(node as HTMLImageElement).src = '../waiting.png'
             const result = args.component?.get?.(c.DATA_VALUE)
-            if(result?.then){
-              result.then?.((path: any) => {
-                if (!path) {
-                  console.log(
-                    `%cReceived an empty value from "path=func"! An empty string will be set as the image's "src" attribute`,
-                    `color:#ec0000;`,
-                    args.component,
-                  )
-                }
-
-                if (path && path?.url) {
-                  if (path?.type && path.type == 'application/pdf') {
-                    //pdf preview
-                    let key
-                    let iframe = document.createElement('iframe')
-                    iframe.src = `${path.url}#toolbar=0&navpanes=0&scrollbar=0`
-                    iframe.style.border = 'none'
-                    for (let i = 0; i < args.node.style.length; i++) {
-                      key = args.node.style[i]
-                      iframe.style[key] = args.node.style[key]
-                    }
-                    let parent = args.node.parentNode
-                    parent?.appendChild(iframe)
-                    parent?.removeChild(args.node)
-                  } else {
-                    console.log('load path', path)
-                    setAttr('src', path?.url)
+            if (result?.then) {
+              result
+                .then?.((path: any) => {
+                  if (!path) {
+                    console.log(
+                      `%cReceived an empty value from "path=func"! An empty string will be set as the image's "src" attribute`,
+                      `color:#ec0000;`,
+                      args.component,
+                    )
                   }
-                } else {
+
+                  if (path && path?.url) {
+                    if (path?.type && path.type == 'application/pdf') {
+                      //pdf preview
+                      let key
+                      let iframe = document.createElement('iframe')
+                      iframe.src = `${path.url}#toolbar=0&navpanes=0&scrollbar=0`
+                      iframe.style.border = 'none'
+                      for (let i = 0; i < args.node.style.length; i++) {
+                        key = args.node.style[i]
+                        // @ts-expect-error
+                        iframe.style[key] = args.node.style[key as any]
+                      }
+                      let parent = args.node.parentNode
+                      parent?.appendChild(iframe)
+                      parent?.removeChild(args.node)
+                    } else {
+                      console.log('load path', path)
+                      setAttr('src', path?.url)
+                    }
+                  } else {
+                    if (!args.component?.get?.(c.DATA_SRC)) return
+                    setAttr('src', args.component?.get?.(c.DATA_SRC) || '')
+                  }
+                })
+                .catch((error: any) => {
+                  console.log(error)
                   if (!args.component?.get?.(c.DATA_SRC)) return
                   setAttr('src', args.component?.get?.(c.DATA_SRC) || '')
-                }
-              })
-              .catch((error: any) => {
-                console.log(error)
-                if (!args.component?.get?.(c.DATA_SRC)) return
-                setAttr('src', args.component?.get?.(c.DATA_SRC) || '')
-              })
-            }else if(args.component.get('wait')){
+                })
+            } else if (args.component.get('wait')) {
               setAttr('src', result?.url)
             }
           }
@@ -439,7 +439,7 @@ const componentsResolver: t.Resolve.Config = {
           if (args.node) {
             if (args.component.get(c.DATA_VALUE)) {
               const datavalue = args.component.get(c.DATA_VALUE)
-              if(typeof(datavalue.then) === 'function'){
+              if (typeof datavalue.then === 'function') {
                 datavalue.then?.((content: string) => {
                   content =
                     content.indexOf('\n') !== -1
@@ -447,7 +447,7 @@ const componentsResolver: t.Resolve.Config = {
                       : content
                   setAttr('innerHTML', content)
                 })
-              }else{
+              } else {
                 let content = String(datavalue)
                 content =
                   content.indexOf('\n') !== -1
@@ -794,7 +794,7 @@ const componentsResolver: t.Resolve.Config = {
             const numOptions = _node.options
             for (let index = 0; index < numOptions.length; index++) {
               const option = _node.options[index]
-              option.remove()
+              option?.remove()
             }
             _node.options.length = 0
           }
@@ -966,8 +966,8 @@ const componentsResolver: t.Resolve.Config = {
           attrs.forEach((attr) => {
             if (u.isArr(attr)) {
               const [attrib, key] = attr
-              const value = args.component.props[key]
-              !u.isNil(value) && setAttr(attrib, value)
+              const value = args.component.props[key as any]
+              !u.isNil(value) && setAttr(attrib as any, value)
 
               if (attrib === 'src') {
                 sourceEl = document.createElement('source')

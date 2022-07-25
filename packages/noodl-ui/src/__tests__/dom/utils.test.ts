@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as u from '@jsmanifest/utils'
 import { prettyDOM, waitFor } from '@testing-library/dom'
 import { expect } from 'chai'

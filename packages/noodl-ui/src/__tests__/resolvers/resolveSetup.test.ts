@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { expect } from 'chai'
 import { waitFor } from '@testing-library/dom'
 import * as nt from 'noodl-types'

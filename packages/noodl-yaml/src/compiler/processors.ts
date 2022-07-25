@@ -1,13 +1,6 @@
-import type { ReferenceString } from 'noodl-types'
 import { consts, fp } from 'noodl-core'
 import { isScalar } from '../utils/yaml'
-import {
-  getScalarType,
-  getNodeKind,
-  getIfNodeItemKind,
-  getProcessWriteType,
-} from './utils'
-import get from '../utils/get'
+import { getScalarType, getNodeKind } from './utils'
 import { Basic, Organic } from './compilerConstants'
 import type { If, IfNode } from '../types'
 import * as t from './compilerTypes'
@@ -80,7 +73,7 @@ export function createInstructions(value: string) {
 
   for (let index = 0; index < len; index++) {
     const char = value[index]
-    const charCode = char.charCodeAt(0)
+    const charCode = char?.charCodeAt(0)
     const instruction = { value: char } as t.Processor.Instruction
 
     if (charCode === consts.CharCode.At) {
@@ -112,8 +105,8 @@ export function createInterpretations(nodes: unknown[] | unknown) {
         case c.ScalarType.String: {
           switch (kind) {
             case c.ScalarKind.Reference: {
-              const ref = node.value as ReferenceString
-              const tape = createInstructions(ref)
+              // const ref = node.value as ReferenceString
+              // const tape = createInstructions(ref)
               break
             }
             default:
@@ -143,7 +136,7 @@ export function process<N = unknown>({
   instructions = [...instructions].reverse()
   const results = [] as any[]
 
-  let currentValue = ''
+  // let currentValue = ''
 
   while (instructions.length) {
     const { type, value } = instructions.pop() ?? {}
@@ -172,7 +165,7 @@ export function process<N = unknown>({
     } else if (type === Basic.Goto) {
       //
     } else if (type === Basic.Inherit) {
-      const something = createSomething()
+      // const something = createSomething()
     } else if (type === Basic.Override) {
       //
     } else if (type === Organic.Convolve) {

@@ -1,8 +1,8 @@
+// @ts-nocheck
 import * as u from '@jsmanifest/utils'
 import { expect } from 'chai'
 import * as nc from 'noodl-common'
-import { createRender, ndom, ui } from '../test-utils'
-import { nui } from '../nui'
+import { ndom } from '../test-utils'
 import * as i from '../utils/internal'
 import { waitFor } from '@testing-library/dom'
 

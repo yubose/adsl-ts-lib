@@ -5,7 +5,6 @@ import type { ComponentObject, VpUnit } from 'noodl-types'
 import * as fp from './utils/fp'
 import {
   excludeIteratorVar,
-  normalize,
   getSize,
   getPositionProps,
   getViewportBound,
@@ -628,7 +627,7 @@ function transform<Props extends PropsObject>(
                       keepVpUnit ? `calc(${styleValue})` : toStr(vwVhValue),
                     )
                   } else if (is.keyRelatedToWidthOrHeight(styleKey)) {
-                    const vpSize = getViewportBound(viewport, styleKey)
+                    const vpSize = getViewportBound(viewport, styleKey as any)
                     const computedValue = noodlUnit(styleValue)
                       ? toStr(getSize(styleValue, toNum(vpSize)))
                       : ''
@@ -686,7 +685,10 @@ function transform<Props extends PropsObject>(
 
                       if (is.keyRelatedToWidthOrHeight(styleKey)) {
                         if (noodlUnit(_styleValue)) {
-                          const vpSize = getViewportBound(viewport, styleKey)
+                          const vpSize = getViewportBound(
+                            viewport,
+                            styleKey as any,
+                          )
                           const newValue = getSize(_styleValue, toNum(vpSize))
                           set(value, styleKey, toStr(newValue))
                         }

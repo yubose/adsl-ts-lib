@@ -18,7 +18,7 @@ function get(
   node: unknown,
   key: (number | string)[] | y.Scalar | number | string,
   { rootKey = '' }: GetOptions = {},
-) {
+): any {
   let originalKey = key
 
   if (y.isScalar(key) && typeof key.value === 'string') {
@@ -30,7 +30,7 @@ function get(
       const { paths, isLocalRef } = getRefProps(key)
 
       if (!isLocalRef && paths[0] !== rootKey) {
-        rootKey = paths[0]
+        rootKey = paths[0] as string
         key = `${rootKey}.${key}`
       }
 

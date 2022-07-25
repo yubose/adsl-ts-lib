@@ -61,7 +61,7 @@ export type Condition<N = unknown, R = boolean> =
   | FnCondition<N, R>
 
 export interface InternalCondFn<N = unknown> {
-  (kind: Kind, node: N)
+  (kind: Kind, node: N): boolean
 }
 
 export function createAssert<N = any>({
@@ -74,10 +74,12 @@ export function createAssert<N = any>({
   cond: InternalCondFn<N>
   fn: t.AssertFn<N, DiagnosticsHelpers>
 } {
+  // @ts-expect-error
   function _cond(nodeKind: Kind, node: unknown, condFn?: typeof cond) {
     if (coreIs.fnc(condFn)) {
       return condFn(node)
     } else if (coreIs.arr(condFn)) {
+      // @ts-ignore
       return condFn.every((c) => _cond(nodeKind, node, c))
     } else if (coreIs.obj(condFn)) {
       if (anyPass(getNodeFnWithNodeKind(nodeKind, condFn), node)) return true
@@ -100,10 +102,12 @@ export function createAsyncAssert<N = unknown>({
   cond: Condition<Promise<boolean>> | Condition<Promise<boolean>>[]
   fn: t.AssertAsyncFn<N>
 }) {
+  // @ts-expect-error
   function _cond(nodeKind: Kind, node: unknown, condFn?: typeof cond) {
     if (coreIs.fnc(condFn)) {
       return condFn(node as any)
     } else if (coreIs.arr(condFn)) {
+      // @ts-ignore
       return condFn.some((c) => _cond(nodeKind, node, c))
     } else if (coreIs.obj(condFn)) {
       if (allPass(getNodeFnWithNodeKind(nodeKind, condFn), node)) return true

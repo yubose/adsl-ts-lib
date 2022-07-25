@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { expect } from 'chai'
 import * as nc from 'noodl-common'
 import * as util from '../utils'

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as u from '@jsmanifest/utils'
 import { OrArray } from '@jsmanifest/typefest'
 import { NUI, Page as NUIPage } from 'noodl-ui'

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import sinon from 'sinon'
 import * as mock from 'noodl-ui-test-utils'
 import * as u from '@jsmanifest/utils'

@@ -129,7 +129,7 @@ class PageCache implements ICache {
     evt: Evt,
     page: NuiPage | { component?: NuiComponent.Instance; page: NuiPage },
   ) => {
-    this.#hooks[evt]?.forEach?.((fn) => fn?.(page))
+    this.#hooks[evt]?.forEach?.((fn) => fn?.(page as any))
   }
 
   get(id: IPage['id']): { page: NuiPage }

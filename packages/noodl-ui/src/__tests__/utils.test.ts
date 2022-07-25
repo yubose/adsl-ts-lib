@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as u from '@jsmanifest/utils'
 import sinon from 'sinon'
 import { expect } from 'chai'

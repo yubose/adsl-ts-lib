@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as mock from 'noodl-ui-test-utils'
 import { expect } from 'chai'
 import { coolGold, italic, magenta } from 'noodl-common'

@@ -49,7 +49,7 @@ dataAttribsResolver.setResolver(async (component, options, next) => {
     component.edit({ 'data-ux': contentType })
   } else if (/(vidoeSubStream|videoSubStream)/i.test(contentType)) {
     component.edit({ 'data-ux': contentType })
-  }else if(contentType === 'timerLabelPopUp'){
+  } else if (contentType === 'timerLabelPopUp') {
     component.edit({ 'data-ux': contentType })
   }
 
@@ -88,7 +88,7 @@ dataAttribsResolver.setResolver(async (component, options, next) => {
         const listAttribute = n.getListAttribute(component)
         if (iteratorVar === dataKey) {
           result = context?.dataObject
-        }else if(dataKey.startsWith('listAttr')){
+        } else if (dataKey.startsWith('listAttr')) {
           result = get(
             listAttribute,
             excludeIteratorVar(dataKey, 'listAttr') as string,
@@ -122,28 +122,31 @@ dataAttribsResolver.setResolver(async (component, options, next) => {
       }
 
       //path=func
-      if (Identify.component.image(component)||Identify.component.video(component)) {
+      if (
+        Identify.component.image(component) ||
+        Identify.component.video(component)
+      ) {
         if (component.blueprint?.['path=func']) {
-          if(component.get('wait')){
+          if (component.get('wait')) {
             result = await component.get('path=func')?.(result)
-          }else{
+          } else {
             result = component.get('path=func')?.(result)
           }
         }
       }
 
       //___.message
-      if(dataKey.startsWith('_')){
+      if (dataKey.startsWith('_')) {
         let fieldParts = dataKey?.split?.('.')
-        const _field = fieldParts[0]
+        const _field = fieldParts[0] as any
         const key = fieldParts[1]
         let parent: NuiComponent.Instance = component
-        for(let i=0;i<_field.length-1;i++){
-          if(parent?.parent){
+        for (let i = 0; i < _field.length - 1; i++) {
+          if (parent?.parent) {
             parent = parent.parent
           }
         }
-        result = parent.props[key]
+        result = parent.props[key as any]
       }
 
       component.edit({ 'data-value': result })

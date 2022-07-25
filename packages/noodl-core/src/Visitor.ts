@@ -52,7 +52,7 @@ function wrap(
       root,
     }
 
-    const result = callback?.(callbackArgs)
+    const result = callback?.(callbackArgs as any)
 
     if (is.promise(result)) {
       return result
@@ -89,6 +89,7 @@ class Visitor extends t.AVisitor {
   ) {
     init?.({ data, ...helpers, root })
 
+    // @ts-expect-error
     const fn = wrap(this.#callback as any, {
       asserters,
       data,
@@ -145,13 +146,16 @@ class Visitor extends t.AVisitor {
     try {
       await init?.({ data, ...helpers, root })
 
-      const fn = wrap(this.#callback, {
-        asserters,
-        data,
-        page,
-        root,
-        helpers,
-      })
+      const fn = wrap(
+        this.#callback as any,
+        {
+          asserters,
+          data,
+          page,
+          root,
+          helpers,
+        } as any,
+      )
 
       const visit = async (node: unknown, path: (number | string)[] = []) => {
         if (is.arr(node)) {

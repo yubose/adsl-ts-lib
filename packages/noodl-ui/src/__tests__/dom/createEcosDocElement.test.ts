@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as u from '@jsmanifest/utils'
 import { NuiComponent } from 'noodl-ui'
 import { waitFor } from '@testing-library/dom'

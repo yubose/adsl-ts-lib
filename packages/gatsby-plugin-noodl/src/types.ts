@@ -1,4 +1,5 @@
 import type { LiteralUnion } from 'type-fest'
+// @ts-ignore
 import type { ActionChainStatus } from 'noodl-action-chain'
 import type {
   ComponentObject,

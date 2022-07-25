@@ -43,8 +43,6 @@ import * as i from './utils/internal'
 import * as t from './types'
 
 const NUI = (function () {
-  let _getRoot: () => Record<string, any>
-
   const _hooks = new Map<keyof t.On, t.On[keyof t.On][]>()
 
   /**
@@ -368,7 +366,7 @@ const NUI = (function () {
           }
         }
 
-        if (_path[0].toLowerCase() === _path[0]) {
+        if (_path[0]?.toLowerCase() === _path[0]) {
           const value = get(dataObject, _path)
           return !u.isUnd(value) ? value : get(o.getRoot()?.[pageName], _path)
         }
@@ -607,7 +605,7 @@ const NUI = (function () {
           )
         }
       }
-      const { component: resolvedComponent, options } = await xform(
+      const { component: resolvedComponent } = await xform(
         o.createComponent(componentObject, page as NuiPage),
         { callback, context, on, page, ...otherOpts },
       )
@@ -1323,12 +1321,6 @@ const NUI = (function () {
 
       return o
     },
-  }
-
-  function createRootFn(fn: (root: Record<string, any>) => any) {
-    return function () {
-      return fn(_getRoot())
-    }
   }
 
   return o

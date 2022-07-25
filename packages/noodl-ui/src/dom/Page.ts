@@ -185,7 +185,7 @@ class Page {
       }
       previousPage = parts.pop()
     } else if (parts.length === 1) {
-      previousPage = parts[0].split('?')[1]
+      previousPage = parts[0]?.split('?')[1]
     } else {
       previousPage = startPage
     }
@@ -279,7 +279,7 @@ class Page {
 
   setModifier(page: string, obj: { [key: string]: any }) {
     if (!this.#state.modifiers[page]) this.#state.modifiers[page] = {}
-    u.assign(this.#state.modifiers[page], obj)
+    u.assign(this.#state.modifiers[page] as any, obj)
     return this
   }
 

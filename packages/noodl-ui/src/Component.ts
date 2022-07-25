@@ -214,7 +214,7 @@ class Component<C extends ComponentObject = ComponentObject> {
    * Returns a stringified JSON object of the current component
    * @param { number | undefined } spaces - Spaces to indent in the JSON string
    */
-  toString({ spaces = 2 }: { spaces?: number } = {}) {
+  toString({ spaces = 2 }: { spaces?: number } = {}): any {
     return JSON.stringify(this.toJSON(), null, spaces)
   }
 
@@ -401,11 +401,13 @@ class Component<C extends ComponentObject = ComponentObject> {
   }
 
   /** Returns the JS representation of the currently resolved component */
+  // @ts-expect-error
   toJSON() {
     return {
       ...this.props,
       id: this.id,
       parentId: this.parent?.id || null,
+      // @ts-ignore
       children: this.children.map((child) => child?.toJSON?.()),
     }
   }

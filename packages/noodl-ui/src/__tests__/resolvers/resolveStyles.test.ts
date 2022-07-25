@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { expect } from 'chai'
 import { coolGold, italic, magenta } from 'noodl-common'
 import { ui } from '../../utils/test-utils'

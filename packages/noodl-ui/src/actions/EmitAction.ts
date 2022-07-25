@@ -21,15 +21,15 @@ class EmitAction
     this.dataKey = obj?.emit?.dataKey || obj?.dataKey
   }
 
-  get executor() {
+  override get executor() {
     return this.#executor as EmitAction['executor']
   }
 
-  set executor(executor: Action['executor']) {
+  override set executor(executor: Action['executor']) {
     this.#executor = executor
   }
 
-  snapshot() {
+  override snapshot() {
     return {
       ...super.snapshot(),
       dataKey: this.dataKey,

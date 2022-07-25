@@ -75,7 +75,7 @@ export function each<A extends any[]>(
   a: A,
   fn: (v: A[number], i: number, collection: A) => void,
 ) {
-  if (arr(a)) a.forEach((item, i, collection) => fn(item, i, collection))
+  if (arr(a)) a.forEach((item, i, collection) => fn(item, i, collection as any))
 }
 
 /**
@@ -100,10 +100,10 @@ export function get(value: any, path: Path | Path[number]): any {
   return _index && _index == _len ? value : undefined
 }
 
-export function has(value: any, path: Path | Path[number]) {
+export function has(value: any, path: Path | Path[number]): boolean {
   if (obj(value) && path) {
     const paths = arr(path) ? path : String(path).split('.')
-    if (paths.length === 1) return paths[0] in value
+    if (paths.length === 1) return !!paths[0] && paths[0] in value
     const nextKey = paths.shift()
     if (nextKey) return has(value[nextKey as string], paths)
   }
@@ -200,7 +200,7 @@ export function set(o: any, key: Path | number | string | symbol, value?: any) {
   if (arr(o) || obj(o)) {
     const path = toPath(key as Path)
     if (path.length === 1) {
-      o[path[0]] = value
+      o[path[0] as any] = value
     } else {
       const nextKey = path.shift()
       if (nextKey) {
@@ -238,6 +238,7 @@ export function some<T>(
 
 /** @internal */
 export function spread(fn: (k: string, v: any) => any) {
+  // @ts-expect-error
   return function onSpread([key, value]) {
     return fn(key, value)
   }
@@ -268,7 +269,7 @@ export function toPath(key = '' as Path | Path[number]) {
       ? key
       : str(key)
       ? key.split('.')
-      : toArr(key as any).filter((fn) => !und(fn))
+      : toArr(key as any).filter((fn: any) => !und(fn))
   ) as string[]
 }
 

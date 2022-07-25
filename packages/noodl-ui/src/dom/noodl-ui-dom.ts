@@ -316,6 +316,7 @@ class NDOM extends NDOMInternal {
    * The page.requesting value should be set prior to calling this method unless
    * pageRequesting is provided. If it is provided, it will be set automatically
    */
+  // @ts-expect-error
   async request(page = this.page, pageRequesting = '', opts?: { on }) {
     // Cache the currently requesting page to detect for newer requests during the call
     pageRequesting = pageRequesting || page.requesting || ''
@@ -370,7 +371,6 @@ class NDOM extends NDOMInternal {
       })
     } catch (error) {
       if (pageRequesting === page.requesting) page.requesting = ''
-      // @ts-expect-error
       throw error instanceof Error ? error : new Error(error)
     }
 
@@ -435,7 +435,7 @@ class NDOM extends NDOMInternal {
 
     const numComponents = components.length
     for (let index = 0; index < numComponents; index++) {
-      await this.draw(components[index], page.node, page, resolveOptions)
+      await this.draw(components[index] as any, page.node, page, resolveOptions)
     }
 
     page.emitSync(c.eventId.page.on.ON_COMPONENTS_RENDERED, page)
@@ -495,9 +495,10 @@ class NDOM extends NDOMInternal {
           }
         }
         if (
-          this.renderState.draw.loading[page.id].pageName !== page.requesting
+          this.renderState.draw.loading[page.id]?.pageName !== page.requesting
         ) {
-          this.renderState.draw.loading[page.id].pageName = page.requesting
+          ;(this.renderState.draw.loading as any)[page.id].pageName =
+            page.requesting
         }
       } else if (page.requesting) {
         if (this.renderState.draw.loading[page.id]) {
@@ -510,9 +511,10 @@ class NDOM extends NDOMInternal {
           }
         }
         if (
-          this.renderState.draw.active[page.id].pageName !== page.requesting
+          this.renderState.draw.active[page.id]?.pageName !== page.requesting
         ) {
-          this.renderState.draw.active[page.id].pageName = page.requesting
+          ;(this.renderState.draw.active as any)[page.id].pageName =
+            page.requesting
         }
       }
     }
@@ -572,7 +574,7 @@ class NDOM extends NDOMInternal {
           handleDrawGlobalComponent.call(this, node, component, page)
         }
 
-        if(component.type === 'register'){
+        if (component.type === 'register') {
           const onEvent = component.get('onEvent')
           this.global.register.set(onEvent, component)
         }
@@ -704,8 +706,8 @@ class NDOM extends NDOMInternal {
           newComponent.setParent(parent)
           parent.createChild(newComponent)
         }
-        if(index){
-          newComponent.edit({index})
+        if (index) {
+          newComponent.edit({ index })
         }
 
         this.removeComponent(component)
@@ -742,7 +744,6 @@ class NDOM extends NDOMInternal {
       }
     } catch (error) {
       console.error(error)
-      // @ts-expect-error
       throw new Error(error)
     }
 

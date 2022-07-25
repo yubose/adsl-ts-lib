@@ -31,6 +31,10 @@ class Root extends ARoot {
     })
   }
 
+  has(key: any): boolean {
+    return key in this.value
+  }
+
   get(key: string) {
     return fp.get(this.value, key)
   }

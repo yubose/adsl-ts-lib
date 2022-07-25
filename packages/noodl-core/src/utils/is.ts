@@ -107,7 +107,7 @@ export function evalLocalReference(
 }
 
 export function localKey(v: string) {
-  return !!(v && v[0].toLowerCase() === v[0] && !regex.numbers.test(v))
+  return !!(v && v[0]?.toLowerCase() === v[0] && !regex.numbers.test(v))
 }
 
 /**
@@ -154,8 +154,8 @@ export function reference(v: unknown): v is ReferenceString {
 export function rootReference(v: string): v is ReferenceString<string, '.'> {
   if (v.startsWith('..')) return false
   if (v.startsWith('=..')) return false
-  if (v.startsWith('.') && v[1].toUpperCase() === v[1]) return true
-  if (v.startsWith('=.') && v[2].toUpperCase() === v[2]) return true
+  if (v.startsWith('.') && v[1]?.toUpperCase() === v[1]) return true
+  if (v.startsWith('=.') && v[2]?.toUpperCase() === v[2]) return true
   return false
 }
 
@@ -184,7 +184,7 @@ export function traverseReference(v: string) {
 }
 
 export function rootKey(v: string) {
-  return !!(v && v[0].toUpperCase() === v[0] && !regex.numbers.test(v))
+  return !!(v && v[0]?.toUpperCase() === v[0] && !regex.numbers.test(v))
 }
 
 /** @internal */

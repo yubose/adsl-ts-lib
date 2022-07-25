@@ -39,7 +39,7 @@ export default function monkeyPatchAddEventListener(opts: {
     /**
      * Returns true if this node is the wrapper that encapsulates the declaration of class EventTarget
      */
-    function isExportsStatementWrappingEventTarget(p: NodePath) {
+    const isExportsStatementWrappingEventTarget = (p: NodePath) => {
       // @ts-expect-error
       if (t.isAssignmentExpression(p.node.expression)) {
         const { left, right, operator } = (p.node as any)
@@ -56,7 +56,7 @@ export default function monkeyPatchAddEventListener(opts: {
       }
     }
 
-    function getEventTargetClassStatement(expr: t.ArrowFunctionExpression) {
+    const getEventTargetClassStatement = (expr: t.ArrowFunctionExpression) => {
       if (t.isBlockStatement(expr.body)) {
         return expr.body.body.find((statement) =>
           t.isClassDeclaration(statement),
@@ -65,7 +65,7 @@ export default function monkeyPatchAddEventListener(opts: {
       return null
     }
 
-    function getClassMethod(node: t.ClassDeclaration, name: string) {
+    const getClassMethod = (node: t.ClassDeclaration, name: string) => {
       if (t.isClassBody(node.body)) {
         return node.body.body.find(
           // @ts-expect-error
@@ -75,7 +75,7 @@ export default function monkeyPatchAddEventListener(opts: {
       return null
     }
 
-    function isMethodPatched(node: t.ClassMethod) {
+    const isMethodPatched = (node: t.ClassMethod) => {
       return (
         t.isBlockStatement(node.body) && t.isReturnStatement(node.body.body[0])
       )

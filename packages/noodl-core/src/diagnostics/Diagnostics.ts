@@ -7,7 +7,6 @@ import type {
   IDiagnostics,
   DefaultMarkerKey,
   DiagnosticsHelpers,
-  DiagnosticObject,
   Markers,
   RunOptions,
 } from './diagnosticsTypes'

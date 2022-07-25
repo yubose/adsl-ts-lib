@@ -150,7 +150,7 @@ class DocRoot extends ARoot {
     }, {})
   }
 
-  toString() {
+  override toString() {
     return JSON.stringify(this.toJSON())
   }
 

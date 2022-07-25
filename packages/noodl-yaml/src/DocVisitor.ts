@@ -1,11 +1,9 @@
 import y from 'yaml'
-import { AVisitor, is as coreIs, fp, trimReference } from 'noodl-core'
+import { AVisitor, is as coreIs, fp } from 'noodl-core'
 import type { BuiltIns, VisitorOptions, VisitFnArgs } from 'noodl-core'
 import getYamlNodeKind from './utils/getYamlNodeKind'
-import is from './utils/is'
-import unwrap from './utils/unwrap'
 import { isScalar, isPair, isMap, isSeq } from './utils/yaml'
-import { getScalarType, getMapKind } from './compiler/utils'
+import { getMapKind } from './compiler/utils'
 import * as c from './constants'
 import * as t from './types'
 
@@ -48,6 +46,7 @@ export function clearState() {
 
 function decorate() {
   const wrapDecoratedVisitFn = function wrappedDecoratedVisitFn(
+    // @ts-expect-error
     wrappedFn,
     isAsync: boolean,
   ) {
@@ -153,7 +152,7 @@ function wrap<Fn extends t.AssertAsyncFn | t.AssertFn>(
     }
 
     if (isScalar(node)) {
-      const scalarType = getScalarType(node)
+      // const scalarType = getScalarType(node)
     } else if (isPair(node)) {
       //
     } else if (isMap(node)) {
@@ -240,11 +239,13 @@ class DocVisitor<H = any, B extends BuiltIns = BuiltIns> extends AVisitor<
   }
 
   @decorate()
+  // @ts-expect-error
   visit() {
     return y.visit
   }
 
   @decorate()
+  // @ts-expect-error
   async visitAsync() {
     return y.visitAsync
   }

@@ -28,7 +28,7 @@ function getByRef(
     rootKey?: string
     getParent?: any
   },
-) {
+): any {
   // TODO - Resolving traversal references is not working expectedly
   if (is.traverseReference(ref)) {
     if (u.isFnc(getParent)) {
@@ -51,7 +51,7 @@ function getByRef(
               ref,
             },
           })
-          return get(parent, nextKey[1].slice())
+          return get(parent, nextKey[1]?.slice() as string)
         }
 
         nextKey = parts.shift() as string

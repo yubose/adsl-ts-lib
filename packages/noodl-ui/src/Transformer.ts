@@ -24,11 +24,12 @@ class NuiTransformer {
     let resolver = this.#transformers[index]
 
     while (resolver) {
-      resolver.next = this.#transformers[++index]
-      resolver = resolver.next
+      resolver.next = this.#transformers[++index] as any
+      resolver = resolver.next as any
     }
 
-    this.#transform = this.#transformers[0].resolve.bind(this.#transformers[0])
+    // @ts-expect-error
+    this.#transform = this.#transformers[0]?.resolve.bind(this.#transformers[0])
   }
 
   async transform(

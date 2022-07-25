@@ -9,9 +9,9 @@ export type BuiltInFnObject<K extends string = string> = Record<
 >
 
 class Builder {
-  #composer = new y.Composer()
-  #lexer = new y.Lexer()
-  #parser = new y.Parser()
+  // #composer = new y.Composer()
+  // #lexer = new y.Lexer()
+  // #parser = new y.Parser()
   #tokens: y.CST.Token[] = []
 
   add(token: y.CST.Token) {

@@ -7,7 +7,6 @@ import type {
   UncommonComponentObjectProps,
 } from 'noodl-types'
 import * as u from '@jsmanifest/utils'
-import type { NoodlObject } from 'noodl-builder'
 
 export type ActionProps<C extends Partial<ActionObject> = ActionObject> =
   Partial<UncommonActionObjectProps> & C
@@ -69,7 +68,7 @@ export function createComponentObject<
 
 export function mergeObject<
   O extends Record<string, any> = Record<string, any>,
->(obj: NoodlObject, props?: Record<string, any>): NoodlObject<O> {
+>(obj: Record<string, any>, props?: Record<string, any>): Record<string, any> {
   if (u.isObj(props)) {
     u.entries(props).forEach(([k, v]) => obj.createProperty(k, v))
   }
@@ -79,11 +78,11 @@ export function mergeObject<
 export function mergeKeyValOrObj<
   O extends Record<string, any> = Record<string, any>,
 >(
-  obj: NoodlObject,
+  obj: Record<string, any>,
   keyOrObj: any,
   value?: any,
   otherProps?: any,
-): NoodlObject<O> {
+): Record<string, any> {
   if (u.isObj(keyOrObj)) {
     u.entries(keyOrObj).forEach(([k, v]) => obj.createProperty(k, v))
   } else if (u.isStr(keyOrObj)) {

@@ -1,4 +1,3 @@
-import * as c from '../constants'
 import type DocRoot from '../DocRoot'
 import { Basic, Organic } from './compilerConstants'
 

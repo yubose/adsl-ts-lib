@@ -20,6 +20,7 @@ export interface DerefOptions {
  * @param deref options
  * @returns The dereferenced value
  */
+// @ts-expect-error
 function deref({
   dataObject,
   iteratorVar = '',
@@ -41,7 +42,7 @@ function deref({
             let parts = value.trim().split('_')
             let index = parts.length - 1
 
-            while (!parts[0].startsWith('.') && index >= 0) {
+            while (!parts[0]?.startsWith('.') && index >= 0) {
               parts.shift()
               index--
             }
@@ -51,7 +52,7 @@ function deref({
             }
 
             if (parts.length) {
-              if (parts[0].startsWith('.')) parts[0] = parts[0].slice(1)
+              if (parts[0]?.startsWith('.')) parts[0] = parts[0].slice(1)
 
               datapath = parts
 

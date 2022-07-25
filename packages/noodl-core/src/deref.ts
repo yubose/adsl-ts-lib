@@ -44,60 +44,8 @@ const defaultIdentifiers = {
   traverseRef: is.traverseReference,
 }
 
-const identifierKeys = Object.keys(defaultIdentifiers)
-
 const cache = new Map()
 cache.set('identifiers', [{ identifiers: defaultIdentifiers }])
-
-function createDerefReducer(
-  root: Record<string, any> | undefined,
-  rootKey = '',
-  subscribers?: DerefOptions['subscribe'],
-) {
-  let _result: any
-  let _state = {
-    paths: [] as string[],
-    results: [] as any[],
-  }
-
-  function reducer(
-    state: typeof _state,
-    action: Parameters<typeof dispatch>[0],
-  ) {
-    switch (action.type) {
-      case 'start': {
-        const { isLocalRef, paths } = getRefProps(action.reference)
-        if (isLocalRef && rootKey) paths.unshift(rootKey)
-        _result = get(root?.value, paths[0] as string)
-        return { ...state, paths: paths.slice(1) }
-      }
-      case 'next': {
-        _result = get(_result, state.paths[0])
-        return {
-          ...state,
-          paths: state.paths.slice(1),
-          results: state.results.concat({
-            key: state.paths[0],
-            value: _result,
-          }),
-        }
-      }
-    }
-  }
-
-  function dispatch(
-    action: { type: 'next' } | { type: 'start'; reference: ReferenceString },
-  ) {
-    const prevState = _state
-    _state = reducer(_state, action) as typeof _state
-    subscribers?.onUpdate?.(prevState, _state)
-  }
-
-  return {
-    getState: () => ({ ..._state, value: _result }),
-    dispatch,
-  }
-}
 
 /**
  * Deeply dereferences a reference string, an array of values, or an object that contains a reference within
@@ -113,7 +61,7 @@ function deref({
   root,
   rootKey = '',
   identifiers: idy,
-}: DerefOptions) {
+}: DerefOptions): any {
   if (!idy) {
     idy = defaultIdentifiers as NonNullable<DerefOptions['identifiers']>
   }
@@ -140,9 +88,7 @@ function deref({
   //   }
   // }
 
-  let { isLocalKey, isLocalRef, path, paths, ref } = getRefProps(
-    value as ReferenceString,
-  )
+  let { isLocalRef, path, ref } = getRefProps(value as ReferenceString)
 
   if (!iteratorVar) {
     if (isLocalRef) {

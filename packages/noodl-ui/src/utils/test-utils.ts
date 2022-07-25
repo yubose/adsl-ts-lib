@@ -1,3 +1,4 @@
+// @ts-ignore
 import { actionFactory, componentFactory } from 'noodl-ui-test-utils'
 import get from 'lodash/get'
 import * as u from '@jsmanifest/utils'
@@ -37,7 +38,7 @@ export function createOn(
         }
       }
     },
-    reference: (args) => {
+    reference: (args: any) => {
       const { page, value } = args
       if (nt.Identify.reference(value)) {
         const datapath = nu.trimReference(value)
@@ -94,7 +95,7 @@ export function getPresetPageObjects() {
           ui.view({
             style: { shadow: 'true' },
             children: [
-                //@ts-ignore
+              //@ts-ignore
               ui.image({ path: ifObject }),
               ui.page({
                 path: 'Tiger',
@@ -120,14 +121,14 @@ export function getPresetPageObjects() {
             children: [
               ui.textField({
                 onChange: [
-                  ui.emit({
+                  ui.emitObject({
                     dataKey: 'Donut.formData.password',
                   }),
                 ],
               }),
               ui.button({
                 text: `Go to Donut page`,
-                onClick: [ui.goto('Donut')],
+                onClick: [ui.gotoObject('Donut')],
               }),
               ui.divider({ id: 'divider' }),
               ui.label({
@@ -199,9 +200,9 @@ export function getPresetPageObjects() {
                             viewTag: 'updateTag',
                             text: 'Click to update this row',
                             onClick: [
-                              ui.emit(),
+                              ui.emitObject(),
                               ui.evalObject({
-                                object: async () => ui.goto('Cloud'),
+                                object: async () => ui.gotoObject('Cloud'),
                               }),
                               ui.popUp('abc'),
                               ui.builtIn({
@@ -220,7 +221,7 @@ export function getPresetPageObjects() {
           }),
           ui.button({
             text: 'Submit',
-            onClick: [ui.emit(), ui.evalObject(), ui.goto('Abc')],
+            onClick: [ui.emitObject(), ui.evalObject(), ui.gotoObject('Abc')],
           }),
           ui.textField({ dataKey: `..icon`, placeholder: `Icon URL` }),
         ],

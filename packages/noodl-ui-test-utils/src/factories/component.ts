@@ -25,13 +25,7 @@ import type {
   VideoComponentObject,
   ViewComponentObject,
 } from 'noodl-types'
-import builder from '../builder'
-import {
-  mergeObject,
-  mergeKeyValOrObj,
-  strOrUndef,
-  strOrEmptyStr,
-} from '../utils'
+import { mergeObject, strOrEmptyStr } from '../utils'
 import ecosJpgDoc from '../fixtures/jpg.json'
 import ecosNoteDoc from '../fixtures/note.json'
 import ecosPdfDoc from '../fixtures/pdf.json'
@@ -54,11 +48,11 @@ const componentFactory = (function () {
   function button<Text extends string>(
     props?: Text | Partial<ButtonComponentObject> | any[],
   ) {
-    const comp = builder.component('button')
-    if (u.isStr(props)) comp.createProperty('text', props)
-    else if (u.isArr(props)) comp.createProperty('onClick', props)
+    const comp = { type: 'button' } as ButtonComponentObject
+    if (u.isStr(props)) comp.text = props
+    else if (u.isArr(props)) comp.onClick = props
     else mergeObject(comp, props)
-    return comp.build()
+    return comp
   }
 
   function canvas<DataKey extends string>(
@@ -72,10 +66,9 @@ const componentFactory = (function () {
   function canvas<DataKey extends string, O extends CanvasComponentObject>(
     props?: DataKey | Partial<O>,
   ) {
-    const comp = builder.component('canvas')
-    comp.createProperty('dataKey', '')
-    if (u.isStr(props)) comp.setValue('dataKey', props)
-    return mergeObject(comp, props).build()
+    const comp = { type: 'canvas', dataKey: '' } as CanvasComponentObject
+    if (u.isStr(props)) comp.dataKey = props
+    return u.assign(comp, u.isObj(props) ? props : undefined)
   }
 
   function ecosDocComponent(
@@ -113,24 +106,21 @@ const componentFactory = (function () {
   }
 
   function divider(props?: Partial<DividerComponentObject>) {
-    return mergeObject<DividerComponentObject>(
-      builder.component('divider'),
-      props,
-    ).build()
+    return u.merge(
+      { type: 'divider' } as DividerComponentObject,
+      props as DividerComponentObject,
+    )
   }
 
   function footer<O extends FooterComponentObject>(props?: Partial<O>) {
-    return mergeObject<O>(builder.component('footer'), props).build()
+    return { type: 'footer', ...props } as FooterComponentObject
   }
 
   function header(
     props?: Partial<HeaderComponentObject>,
   ): HeaderComponentObject {
     if (u.isUnd(props)) return { type: 'header' }
-    return mergeObject<HeaderComponentObject>(
-      builder.component('header'),
-      props,
-    ).build()
+    return { type: 'header', ...props }
   }
 
   function image<Path extends string>(
@@ -144,12 +134,7 @@ const componentFactory = (function () {
   function image<Path extends string>(
     props?: Path | Partial<ImageComponentObject>,
   ) {
-    return mergeKeyValOrObj<ImageComponentObject>(
-      builder.component('image'),
-      'path',
-      strOrEmptyStr(props),
-      props,
-    ).build()
+    return { type: 'image', path: strOrEmptyStr(props) } as ImageComponentObject
   }
 
   function label<DataKey extends string>(
@@ -163,9 +148,12 @@ const componentFactory = (function () {
   function label<DataKey extends string>(
     obj?: DataKey | Partial<LabelComponentObject>,
   ) {
-    const comp = builder.component('label')
-    if (u.isStr(obj)) comp.createProperty('dataKey', obj)
-    return mergeObject(comp, obj).build()
+    const comp = { type: 'label' } as LabelComponentObject
+    if (u.isStr(obj)) comp.dataKey = obj
+    return {
+      ...comp,
+      ...(u.isObj(obj) ? obj : undefined),
+    } as LabelComponentObject
   }
 
   function list<ListObjectRef extends string>(
@@ -184,24 +172,17 @@ const componentFactory = (function () {
     ListObjectRef extends string = string,
     ListObjectArr extends any[] = any[],
   >(args?: ListObjectRef | ListObjectArr | Partial<ListComponentObject>) {
-    const component = builder.component('list')
-    component.createProperty('iteratorVar', 'itemObject')
-    component.createProperty('contentType', 'listObject')
-    component.createProperty('listObject', '')
-    if (u.isUnd(args)) {
-      return component.build()
-    }
-    if (u.isArr(args)) {
-      return component.setValue('listObject', args).build()
-    }
-    if (u.isObj(args)) {
-      return mergeObject(component, args).build()
-    }
-    if (u.isStr(args)) {
-      component.createProperty('listObject', args)
-      return component.build()
-    }
-    return mergeObject(component, args).build()
+    const component = {
+      type: 'list',
+      contentType: 'listObject',
+      iteratorVar: 'itemObject',
+      listObject: '',
+    } as ListComponentObject
+    if (u.isUnd(args)) return component
+    if (u.isArr(args)) return { ...component, listObject: args }
+    if (u.isStr(args)) return { ...component, listObject: args }
+    if (u.isObj(args)) return { ...component, ...args }
+    return component
   }
 
   function listItem<IteratorVar extends string>(
@@ -238,21 +219,18 @@ const componentFactory = (function () {
       | DataObject,
     arg2?: DataObject,
   ) {
-    const comp = builder.component('listItem')
-    if (u.isUnd(arg1)) {
-      comp.createProperty('itemObject', '')
-      return comp.build()
-    }
+    const comp = { type: 'listItem' } as ListItemComponentObject
+    if (u.isUnd(arg1)) return { ...comp, itemObject: '' }
     if (u.isStr(arg1)) {
-      if (arg2) comp.createProperty(arg1, arg2)
-      else comp.createProperty(arg1, '')
+      if (arg2) comp[arg1] = arg2
+      else comp[arg1] = ''
     }
     if (u.isObj(arg1)) {
-      mergeObject(comp, arg1)
-      if (arg2) comp.setValue('itemObject', arg2)
-      else if (!('itemObject' in arg1)) comp.createProperty('itemObject', '')
+      u.assign(comp, arg1)
+      if (arg2) comp.itemObject = arg2
+      else if (!('itemObject' in arg1)) comp.itemObject = ''
     }
-    return comp.build()
+    return comp
   }
 
   function page<Path extends string>(
@@ -268,12 +246,11 @@ const componentFactory = (function () {
   function page<Path extends string, O extends PageComponentObject>(
     obj?: Path | Partial<O>,
   ) {
-    const comp = builder.component('page')
-    comp.createProperty('path', '')
-    if (u.isUnd(obj)) return comp.build()
-    if (u.isStr(obj)) comp.setValue('path', obj)
-    else if (u.isObj(obj)) mergeObject(comp, obj)
-    return comp.build()
+    const comp = { type: 'page', path: '' } as PageComponentObject
+    if (u.isUnd(obj)) return comp
+    if (u.isStr(obj)) comp.path = obj
+    else if (u.isObj(obj)) u.assign(comp, obj)
+    return comp
   }
 
   function plugin<Path extends string>(
@@ -287,12 +264,11 @@ const componentFactory = (function () {
   function plugin<O extends PluginComponentObject>(
     props?: string | Partial<O>,
   ) {
-    return mergeKeyValOrObj(
-      builder.component('plugin'),
-      'path',
-      u.isStr(props) ? props : '',
-      props,
-    ).build()
+    return {
+      type: 'plugin',
+      path: strOrEmptyStr(props),
+      ...(u.isObj(props) ? props : undefined),
+    } as PluginComponentObject
   }
 
   function pluginHead<Path extends string>(
@@ -306,12 +282,11 @@ const componentFactory = (function () {
   function pluginHead(): PluginHeadComponentObject
 
   function pluginHead(props?: string | Partial<PluginHeadComponentObject>) {
-    return mergeKeyValOrObj(
-      builder.component('pluginHead'),
-      'path',
-      u.isStr(props) ? props : '',
-      props,
-    ).build()
+    return {
+      type: 'pluginHead',
+      path: strOrEmptyStr(props),
+      ...(u.isObj(props) ? props : undefined),
+    } as PluginHeadComponentObject
   }
 
   function pluginBodyTop<Path extends string>(
@@ -327,12 +302,11 @@ const componentFactory = (function () {
   function pluginBodyTop<C extends PluginBodyTopComponentObject>(
     props?: string | Partial<C>,
   ) {
-    return mergeKeyValOrObj(
-      builder.component('pluginBodyTop'),
-      'path',
-      u.isStr(props) ? props : '',
-      props,
-    ).build()
+    return {
+      type: 'pluginBodyTop',
+      path: strOrEmptyStr(props),
+      ...(u.isObj(props) ? props : undefined),
+    } as PluginBodyTopComponentObject
   }
 
   function pluginBodyTail<Path extends string>(
@@ -348,12 +322,11 @@ const componentFactory = (function () {
   function pluginBodyTail<O extends Partial<PluginBodyTailComponentObject>>(
     props?: string | O,
   ) {
-    return mergeKeyValOrObj(
-      builder.component('pluginBodyTail'),
-      'path',
-      u.isStr(props) ? props : '',
-      props,
-    ).build()
+    return {
+      type: 'pluginBodyTail',
+      path: strOrEmptyStr(props),
+      ...(u.isObj(props) ? props : undefined),
+    } as PluginBodyTailComponentObject
   }
 
   function popUpComponent<PopUpView extends string>(
@@ -370,12 +343,11 @@ const componentFactory = (function () {
     PopUpView extends string,
     O extends PopUpComponentObject,
   >(arg?: PopUpView | Partial<O>) {
-    const comp = builder.component('popUp')
-    comp.createProperty('popUpView', '')
-    if (u.isUnd(arg)) return comp.build()
-    if (u.isStr(arg)) comp.createProperty('popUpView', arg)
-    else if (u.isObj(arg)) mergeObject(comp, arg)
-    return comp.build()
+    const comp = { type: 'popUp', popUpView: '' }
+    if (u.isUnd(arg)) return comp
+    if (u.isStr(arg)) comp.popUpView = arg
+    else if (u.isObj(arg)) u.assign(comp, arg)
+    return comp as PopUpComponentObject
   }
 
   function register<OnEvent extends string>(
@@ -391,11 +363,11 @@ const componentFactory = (function () {
   function register<OnEvent extends string, O extends RegisterComponentObject>(
     arg?: OnEvent | Partial<O>,
   ) {
-    const comp = builder.component('register')
-    if (u.isUnd(arg)) return comp.build()
-    if (u.isStr(arg)) comp.createProperty('onEvent', arg)
-    else if (u.isObj(arg)) mergeObject(comp, arg)
-    return comp.build()
+    const comp = { type: 'register' } as RegisterComponentObject
+    if (u.isUnd(arg)) return comp
+    if (u.isStr(arg)) comp.onEvent = arg
+    else if (u.isObj(arg)) u.assign(comp, arg)
+    return comp
   }
 
   function select<OptionsRef extends string>(
@@ -417,20 +389,17 @@ const componentFactory = (function () {
     arg1?: string | any[] | Partial<O>,
     arg2?: any,
   ) {
-    const comp = builder.component('select')
-    if (u.isUnd(arg1)) return mergeObject(comp, { options: '' }).build()
+    const comp = { type: 'select' } as SelectComponentObject
+    if (u.isUnd(arg1)) return u.assign(comp, { options: '' })
     if (u.isUnd(arg2)) {
-      if (u.isArr(arg1)) comp.createProperty('options', arg1)
-      else mergeObject(comp, u.isObj(arg1) ? arg1 : undefined)
+      if (u.isArr(arg1)) comp.options = arg1
+      else u.assign(comp, u.isObj(arg1) ? arg1 : undefined)
     }
-    return comp.build()
+    return comp
   }
 
   function scrollView<O extends ScrollViewComponentObject>(props?: Partial<O>) {
-    return mergeObject<O & ScrollViewComponentObject>(
-      builder.component('scrollView'),
-      props,
-    ).build()
+    return { type: 'scrollView', ...props }
   }
 
   function textField<DataKey extends string>(
@@ -447,16 +416,13 @@ const componentFactory = (function () {
     DataKey extends string,
     O extends TextFieldComponentObject,
   >(arg?: DataKey | Partial<O>) {
-    const comp = builder.component('textField')
-    if (u.isStr(arg)) return mergeObject(comp, { dataKey: arg }).build()
-    return mergeObject(comp, arg).build()
+    const comp = { type: 'textField' }
+    if (u.isStr(arg)) return u.assign(comp, { dataKey: arg })
+    return u.assign(comp, arg)
   }
 
   function textView<O extends TextViewComponentObject>(props?: Partial<O>) {
-    return mergeObject<O & TextViewComponentObject>(
-      builder.component('textView'),
-      props,
-    ).build()
+    return { type: 'textView', ...props }
   }
 
   function video<Path extends string>(
@@ -468,18 +434,15 @@ const componentFactory = (function () {
   function video(): VideoComponentObject
 
   function video<O extends VideoComponentObject>(props?: string | Partial<O>) {
-    const comp = builder.component('video')
-    if (u.isUnd(props)) return comp.build()
-    if (u.isStr(props)) comp.createProperty('path', props)
-    else if (u.isObj(props)) mergeObject(comp, props)
-    return comp.build()
+    const comp = { type: 'video' } as VideoComponentObject
+    if (u.isUnd(props)) return comp
+    if (u.isStr(props)) comp.path = props
+    else if (u.isObj(props)) u.assign(comp, props)
+    return comp
   }
 
   function view<O extends ViewComponentObject>(obj?: Partial<O>) {
-    return mergeObject<O & ViewComponentObject>(
-      builder.component('view'),
-      obj,
-    ).build()
+    return { type: 'view', ...obj }
   }
 
   return {

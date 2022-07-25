@@ -7,7 +7,7 @@ function findWindow(
     if (window.length) {
       let index = 0
       while (index < window.length) {
-        if (cb(window[index])) return window[index]
+        if (cb(window[index] as any)) return window[index]
         index++
       }
     } else {

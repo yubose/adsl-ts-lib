@@ -67,7 +67,7 @@ function createDerefReducer(
         const nextResults = state.results.concat({
           depth: action.depth,
           initiator,
-          key: paths[0],
+          key: paths[0] as string,
           value: is.ymlNode(_result) ? _result?.toJSON?.() : _result,
         })
 
@@ -82,12 +82,12 @@ function createDerefReducer(
       case ActionType.Next: {
         const currResults = [...state.results]
 
-        _result = get(_result, state.paths[0], { rootKey })
+        _result = get(_result, state.paths[0] as string, { rootKey })
 
         currResults.push({
           initiator: state.initialValue as string,
           depth: state.depth,
-          key: state.paths[0],
+          key: state.paths[0] as string,
           value: is.ymlNode(_result) ? _result?.toJSON?.() : _result,
         })
 

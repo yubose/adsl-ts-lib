@@ -23,7 +23,6 @@ import isNDOMPage from '../utils/isNDOMPage'
 import isNuiPage from '../utils/isPage'
 import * as t from '../types'
 import * as c from '../constants'
-import { keyBy } from 'lodash'
 
 export const _DEV_ = process.env.NODE_ENV === 'development'
 export const _TEST_ = process.env.NODE_ENV === 'test'
@@ -205,7 +204,9 @@ export function handleDrawGlobalComponent(
       page,
     }) as GlobalComponentRecord
     this.global.components.set(globalId, globalRecord)
-    globalRecord?.globalId && globalRecord?.globalId !== 'extendView' && attachOnClick(node, globalId)
+    globalRecord?.globalId &&
+      globalRecord?.globalId !== 'extendView' &&
+      attachOnClick(node, globalId)
   }
 
   if (globalRecord) {
@@ -571,7 +572,6 @@ export const findByViewTag = makeFindByAttr('data-viewtag')
 export const findByUX = makeFindByAttr('data-ux')
 export const findByDataOpton = makeFindByAttr('data-option')
 
-
 export function findByClassName(className: string | undefined) {
   return findElement((doc) =>
     doc?.getElementsByClassName(u.isStr(className) ? className : ''),
@@ -614,11 +614,11 @@ export const findFirstByGlobalId = makeFindFirstBy<string>((doc, globalId) =>
 export const findFirstByViewTag = makeFindFirstBy<string>((doc, viewTag) =>
   doc.querySelector(`[data-viewtag="${viewTag}"]`),
 )
-export const findFirstByDataOption = makeFindFirstBy<string>((doc, dataOption) =>
-  doc.querySelector(`[data-option="${dataOption}"]`),
+export const findFirstByDataOption = makeFindFirstBy<string>(
+  (doc, dataOption) => doc.querySelector(`[data-option="${dataOption}"]`),
 )
-export const findFirstByVideoOption = makeFindFirstBy<string>((doc, videoOption) =>
-  doc.querySelector(`[video-option="${videoOption}"]`),
+export const findFirstByVideoOption = makeFindFirstBy<string>(
+  (doc, videoOption) => doc.querySelector(`[video-option="${videoOption}"]`),
 )
 export const findFirstByElementId = makeFindFirstBy<
   t.NuiComponent.Instance | string

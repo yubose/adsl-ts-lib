@@ -1,19 +1,17 @@
 import { consts, is as coreIs, fp, BuiltIns } from 'noodl-core'
-import { visit } from 'yaml'
 import type { BuiltInFn, DiagnosticObjectMessage } from 'noodl-core'
 import deref from '../utils/deref'
 import is from '../utils/is'
 import unwrap from '../utils/unwrap'
 import { createAssert } from '../assert'
-import * as t from '../types'
 
 export default createAssert({
   cond: is.builtInFn,
   fn({ add, data, builtIn, node, page = '', root }, { getJsType, set }) {
     if (is.builtInFn(node)) {
-      const builtInKey = unwrap(node.items[0].key)
+      const builtInKey = unwrap(node.items[0]?.key) as string
       const builtInObject = node.get(builtInKey)
-      const builtInPath = builtInKey.replace('=.builtIn.', '')
+      const builtInPath = builtInKey?.replace('=.builtIn.', '')
 
       if (is.mapNode(builtInObject)) {
         const dataIn = builtInObject.get('dataIn', false)
@@ -22,7 +20,7 @@ export default createAssert({
         const messages = [] as DiagnosticObjectMessage[]
 
         add((diagnostic) => {
-          if (!fp.has(builtIn, builtInPath)) {
+          if (!fp.has(builtIn, builtInPath as string)) {
             messages.push({ type: 'error' })
             diagnostic.error(consts.DiagnosticCode.BUILTIN_FUNCTION_MISSING, {
               key: builtInKey,

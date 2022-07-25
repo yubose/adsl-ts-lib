@@ -1,9 +1,12 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-		"declaration": true,
+    "declaration": true,
     "declarationDir": "./dist",
-    "outDir": "./dist"
+    "lib": ["es2020"],
+    "module": "commonjs",
+    "outDir": "./dist",
+    "target": "es2015"
   },
   "exclude": ["./src/**/*.test.ts", "dist", "src/__tests__/setup.ts"],
   "include": ["./src/**/*"]

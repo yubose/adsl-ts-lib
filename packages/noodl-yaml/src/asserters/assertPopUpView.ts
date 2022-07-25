@@ -1,4 +1,4 @@
-import { consts, is as coreIs } from 'noodl-core'
+import { consts } from 'noodl-core'
 import has from '../utils/has'
 import is from '../utils/is'
 import unwrap from '../utils/unwrap'

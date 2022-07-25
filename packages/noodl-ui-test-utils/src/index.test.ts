@@ -124,9 +124,9 @@ describe(u.yellow(`noodl-ui-test-utils`), () => {
     })
 
     it(`[list] should create a component object, default contentType to listObject, iteratorVar to itemObject and listObject to an empty string`, () => {
-      const list1 = ui.list()
-      const list2 = ui.list('Hello')
-      const list3 = ui.list([1, 2, {}])
+      // const list1 = ui.list()
+      // const list2 = ui.list('Hello')
+      // const list3 = ui.list([1, 2, {}])
 
       expect(ui.list()).to.deep.eq({
         type: 'list',

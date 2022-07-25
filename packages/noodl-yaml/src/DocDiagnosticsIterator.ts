@@ -24,7 +24,7 @@ class DocDiagnosticsIterator {
       if (index > 0) {
         const entry = entries[index]
         entries.splice(index, 1)
-        entries.unshift(entry)
+        entries.unshift(entry as any)
       }
     }
 

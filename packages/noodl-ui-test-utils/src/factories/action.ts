@@ -1,5 +1,4 @@
 import * as u from '@jsmanifest/utils'
-import type { NoodlObject } from 'noodl-builder'
 import type { PartialDeep } from 'type-fest'
 import type {
   BuiltInActionObject,
@@ -18,13 +17,7 @@ import type {
   SaveSignatureActionObject,
   UpdateActionObject,
 } from 'noodl-types'
-import {
-  mergeObject,
-  mergeKeyValOrObj,
-  strOrUndef,
-  strOrEmptyStr,
-} from '../utils'
-import builder from '../builder'
+import { mergeObject, strOrEmptyStr } from '../utils'
 import ecosJpgDoc from '../fixtures/jpg.json'
 import ecosNoteDoc from '../fixtures/note.json'
 import ecosPdfDoc from '../fixtures/pdf.json'
@@ -42,27 +35,29 @@ const actionFactory = (function () {
   function builtIn(): BuiltInActionObject
 
   function builtIn(obj?: string | Partial<BuiltInActionObject>) {
-    const a = builder.action('builtIn')
-    const funcName = a.createProperty('funcName', '')
-    if (u.isStr(obj)) funcName.setValue(obj)
-    return mergeObject(a, u.isObj(obj) ? obj : undefined).build()
+    const a = { actionType: 'builtIn' } as BuiltInActionObject
+    if (u.isStr(obj)) a.funcName = obj
+    return u.assign(a, u.isObj(obj) ? obj : undefined)
   }
 
   function evalObject(
     obj?: any[] | EvalActionObject['object'] | Partial<EvalActionObject>,
   ) {
-    const a = builder.action('evalObject')
-    a.createProperty('object', undefined)
-    if (u.isArr(obj)) a.setValue('object', obj)
-    else if (u.isObj(obj)) mergeObject(a, obj)
-    return a.build() as EvalActionObject
+    const a = {
+      actionType: 'evalObject',
+      object: undefined,
+    } as EvalActionObject
+    if (u.isArr(obj)) a.object = obj
+    else if (u.isObj(obj)) u.assign(a, obj)
+    return a
   }
 
   function pageJump(props?: Partial<PageJumpActionObject>) {
-    return mergeObject<PageJumpActionObject>(builder.action('pageJump'), {
+    return {
+      actionType: 'pageJump',
       destination: 'SignIn',
       ...props,
-    }).build()
+    } as PageJumpActionObject
   }
 
   function popUp<PopUpView extends string>(
@@ -74,9 +69,9 @@ const actionFactory = (function () {
   function popUp(): PopupActionObject
 
   function popUp(props?: string | Partial<PopupActionObject>) {
-    const a = builder.action('popUp')
-    a.createProperty('popUpView', strOrEmptyStr(props))
-    return mergeObject(a, u.isObj(props) ? props : undefined).build()
+    const a = { actionType: 'popUp' } as PopupActionObject
+    a.popUpView = strOrEmptyStr(props)
+    return u.assign(a, u.isObj(props) ? props : undefined)
   }
 
   function popUpDismiss<PopUpView extends string>(
@@ -90,41 +85,43 @@ const actionFactory = (function () {
   function popUpDismiss(): PopupDismissActionObject
 
   function popUpDismiss(props?: string | Partial<PopupDismissActionObject>) {
-    const a = builder.action('popUpDismiss')
+    const a = { actionType: 'popUpDismiss' } as PopupDismissActionObject
     a.createProperty('popUpView', strOrEmptyStr(props))
-    return mergeObject(a, u.isObj(props) ? props : undefined).build()
+    return u.assign(a, u.isObj(props) ? props : undefined)
   }
 
   function refresh<A extends RefreshActionObject>(props?: Partial<A>) {
-    return mergeObject(builder.action('refresh'), props).build()
+    return { type: 'refresh', ...props } as RefreshActionObject
   }
 
   function removeSignature<A extends RemoveSignatureActionObject>(
     props?: Partial<A>,
   ) {
-    return mergeObject(builder.action('removeSignature'), {
+    return {
+      actionType: 'removeSignature',
       dataKey: '',
       dataObject: '',
       ...props,
-    }).build()
+    } as RemoveSignatureActionObject
   }
 
   function saveSignature<A extends SaveSignatureActionObject>(
     props?: Partial<A>,
   ) {
-    return mergeObject(builder.action('saveSignature'), {
+    return {
+      actionType: 'saveSignature',
       dataKey: '',
       dataObject: '',
       ...props,
-    }).build()
+    } as SaveSignatureActionObject
   }
 
   function saveObject<A extends SaveActionObject>(props?: Partial<A>) {
-    return mergeObject(builder.action('saveObject'), props).build()
+    return { type: 'saveObject', ...props } as SaveActionObject
   }
 
   function updateObject<A extends UpdateActionObject>(props?: A) {
-    return mergeObject(builder.action('updateObject'), props).build()
+    return { type: 'updateObject', ...props } as UpdateActionObject
   }
 
   /**
@@ -194,19 +191,16 @@ const actionFactory = (function () {
     arg1?: DataKey | Partial<EmitObjectFold>,
     arg2?: Actions,
   ) {
-    const emit = builder.object()
-    const prop = emit.createProperty('emit')
-    prop.setValue({ dataKey: '', actions: [] })
-    const emitObject = prop.getValue() as NoodlObject
+    const emitObject = { emit: { dataKey: '', actions: [] } } as EmitObjectFold
     if (arg1) {
       if ((u.isObj(arg1) && 'dataKey' in arg1) || 'actions' in arg1) {
         mergeObject(emitObject, arg1)
       } else {
-        emitObject.setValue('dataKey', arg1)
+        emitObject.dataKey = arg1
       }
     }
-    if (u.isArr(arg2)) emitObject.setValue('actions', arg2)
-    return emit.build()
+    if (u.isArr(arg2)) emitObject.actions = arg2
+    return emitObject
   }
 
   function goto<Destination extends string>(
@@ -218,12 +212,10 @@ const actionFactory = (function () {
   function goto(): GotoObject
 
   function goto<A extends GotoObject>(props?: string | Partial<A>) {
-    return mergeKeyValOrObj(
-      builder.action('goto'),
-      'goto',
-      strOrEmptyStr(props),
-      props,
-    ).build()
+    return {
+      goto: strOrEmptyStr(props),
+      ...(u.isObj(props) ? props : undefined),
+    } as GotoObject
   }
 
   function ifObject<IfConditions extends any[]>(
@@ -237,10 +229,10 @@ const actionFactory = (function () {
   function ifObject<IfConditions extends any[]>(
     value?: IfObject | IfConditions,
   ) {
-    const a = builder.object()
-    if (u.isArr(value)) a.createProperty('if', value)
-    else a.createProperty('if', value?.if || [])
-    return a.build()
+    const a = {} as IfObject
+    if (u.isArr(value)) a.if = value as any
+    else a.if = value?.if || ([] as any)
+    return a
   }
 
   return {

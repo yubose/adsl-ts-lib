@@ -1,5 +1,5 @@
-import { consts, is as coreIs, fp } from 'noodl-core'
-import { Scalar, Pair, YAMLMap, YAMLSeq } from 'yaml'
+import { consts, is as coreIs } from 'noodl-core'
+import { Scalar, YAMLMap, YAMLSeq } from 'yaml'
 import getJsType from '../utils/getJsType'
 import is from '../utils/is'
 import {
@@ -7,13 +7,10 @@ import {
   Kind,
   MapKind,
   ScalarType,
-  SeqKind,
   ScalarKind,
   ProcessWriteType,
 } from '../constants'
-import { isScalar, isMap, isPair, isSeq } from '../utils/yaml'
-import type { Processor } from './compilerTypes'
-import * as t from '../types'
+import { isScalar, isMap, isSeq } from '../utils/yaml'
 
 export function getNodeKind<N = unknown>(node: N) {
   if (isScalar(node)) {

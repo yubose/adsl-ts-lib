@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as u from '@jsmanifest/utils'
 import * as nc from 'noodl-common'
 import * as nt from 'noodl-types'

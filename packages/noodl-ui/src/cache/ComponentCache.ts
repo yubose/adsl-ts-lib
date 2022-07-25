@@ -39,12 +39,14 @@ class ComponentCache {
 
         const item = result.components[obj.page]
 
-        !item.ids && (item.ids = [])
-        !item.total && (item.total = 0)
+        if (item) {
+          !item.ids && (item.ids = [])
+          !item.total && (item.total = 0)
 
-        if (!item.ids.includes(obj.component.id)) {
-          item.ids.push(obj.component.id)
-          item.total++
+          if (!item.ids.includes(obj.component.id)) {
+            item.ids.push(obj.component.id)
+            item.total++
+          }
         }
       }
     }

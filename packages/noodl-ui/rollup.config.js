@@ -14,21 +14,23 @@ const _DEV_ = process.env.NODE_ENV === 'development'
 const configs = [
   {
     input: 'src/index.ts',
-    output: [
-      {
-        dir: './dist',
-        exports: 'named',
-        format: 'umd',
-        name: 'nui',
-        sourcemap: true,
+    output: {
+      dir: './dist',
+      exports: 'named',
+      format: 'umd',
+      name: 'nui',
+      sourcemap: true,
+      globals: {
+        'noodl-utils': 'nutils',
       },
-    ],
+    },
     context: 'window',
     plugins: [
       resolve({
         browser: true,
         extensions,
         preferBuiltins: true,
+        moduleDirectories: ['../../node_modules'],
       }),
       commonjs({
         sourceMap: false,

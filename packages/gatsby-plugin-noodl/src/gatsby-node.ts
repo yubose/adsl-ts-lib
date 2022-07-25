@@ -3,7 +3,6 @@
  * https://www.gatsbyjs.com/docs/reference/config-files/node-api-helpers/
  */
 import type { cache as sdkCache } from '@aitmed/cadl'
-import type { Logger } from 'winston'
 import { slash } from 'gatsby-core-utils'
 import * as u from '@jsmanifest/utils'
 import axios from 'axios'
@@ -14,6 +13,7 @@ import nt from 'noodl-types'
 import get from 'lodash/get'
 import set from 'lodash/set'
 import path from 'path'
+// @ts-expect-error
 import n from 'noodl'
 import y from 'yaml'
 import type {
@@ -653,7 +653,6 @@ export const sourceNodes = async function sourceNodes(
 
       for (let index = 0; index < numComponents; index++) {
         let before
-        // @ts-expect-error
         const transformedComponent = await transform(componentsList[index], {
           context: { path: [index] },
           keepVpUnit: true,
@@ -730,7 +729,8 @@ export const sourceNodes = async function sourceNodes(
   /**
    * Create GraphQL nodes for app pages so they can be queried in the client side
    */
-  for (const [name, pageObject] of u.entries(pages)) {
+  for (const entry of u.entries(pages)) {
+    const [name, pageObject] = entry as [string, Record<string, any>]
     page.page = name
 
     const pageCacheDir = path.join(cacheDir, 'generated', name)
@@ -750,8 +750,8 @@ export const sourceNodes = async function sourceNodes(
 
     if (cachedComponents) {
       components = cachedComponents
-      _context_[name] = {
-        ..._context_[name],
+      _context_[name as string] = {
+        ..._context_[name as string],
         ...(await fs.readJson(pathToCachedPageContextFile)),
       }
       retrieveType = 'cache'

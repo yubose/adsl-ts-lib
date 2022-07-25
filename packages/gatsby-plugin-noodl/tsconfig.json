@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
     "allowJs": false,
+    "allowSyntheticDefaultImports": true,
     "declaration": true,
     "declarationDir": "./dist",
+    "esModuleInterop": true,
     "lib": ["es2018"],
     "outDir": "./dist",
     "skipLibCheck": true

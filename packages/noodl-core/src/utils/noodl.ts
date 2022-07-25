@@ -3,7 +3,6 @@ import type {
   ReferenceString,
   ReferenceSymbol,
   StyleObject,
-  VpUnit,
   VpValue,
 } from 'noodl-types'
 import {
@@ -12,15 +11,12 @@ import {
   localReference,
   nil,
   num,
-  noodlUnit,
   str,
   validViewport,
   vw,
   vh,
-  vwVh,
   keyRelatedToHeight,
   keyRelatedToWidth,
-  keyRelatedToWidthOrHeight,
 } from './is'
 import * as regex from './regex'
 import { hasDecimal, toArr, toPath } from './fp'

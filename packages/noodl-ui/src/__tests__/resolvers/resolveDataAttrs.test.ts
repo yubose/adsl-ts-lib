@@ -1,3 +1,4 @@
+// @ts-nocheck
 import sinon from 'sinon'
 import { ComponentObject } from 'noodl-types'
 import { waitFor } from '@testing-library/dom'

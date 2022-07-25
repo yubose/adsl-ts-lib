@@ -1,7 +1,5 @@
-import type { Document, Scalar, YAMLMap, YAMLSeq } from 'yaml'
-import { consts, is as coreIs, trimReference } from 'noodl-core'
-import { Parser } from 'noodl-utils'
-import type { ReferenceString } from 'noodl-types'
+import type { Scalar, YAMLMap, YAMLSeq } from 'yaml'
+import { is as coreIs, trimReference } from 'noodl-core'
 import type { ARoot, Markers } from 'noodl-core'
 import type DocRoot from '../DocRoot'
 import deref from '../utils/deref'
@@ -10,11 +8,9 @@ import has from '../utils/has'
 import originalSet from '../utils/set'
 import is from '../utils/is'
 import unwrap from '../utils/unwrap'
-import { createAssert } from '../assert'
-import { isScalar, isPair, isMap, isSeq, visit } from '../utils/yaml'
-import * as t from '../types'
+import { visit } from '../utils/yaml'
 
-const { BREAK, REMOVE, SKIP } = visit
+const { BREAK } = visit
 
 export const getJsType = getJsTypeFn
 
@@ -120,7 +116,7 @@ export function set(
     } else {
       if (coreIs.rootKey(key)) {
         const parts = key.split('.')
-        rootk = parts[0]
+        rootk = parts[0] as string
         paths.push(...parts.slice(1))
       } else {
         paths.push(...key.split('.'))

@@ -1,5 +1,10 @@
 import * as u from '@jsmanifest/utils'
-import { evalIf as _evalIf, excludeIteratorVar,toDataPath,trimReference } from 'noodl-utils'
+import {
+  evalIf as _evalIf,
+  excludeIteratorVar,
+  toDataPath,
+  trimReference,
+} from 'noodl-utils'
 import type { ComponentObject, IfObject } from 'noodl-types'
 import { Identify } from 'noodl-types'
 import get from 'lodash/get'
@@ -8,11 +13,10 @@ import log from '../utils/log'
 import is from '../utils/is'
 import type { NuiComponent } from '../types'
 
-
-export function getListAttribute(component: NuiComponent.Instance){
-  let dataObject:any
-  let listAttribute:any
-  let index:number
+export function getListAttribute(component: NuiComponent.Instance) {
+  let dataObject: any
+  let listAttribute: any
+  let index: number
   let parentIndex
   let parent: any
   let listItem: any
@@ -22,52 +26,49 @@ export function getListAttribute(component: NuiComponent.Instance){
     listItem = findParent(component, Identify.component.listItem)
   }
 
-  if(Identify.component.listItem(listItem)){
+  if (Identify.component.listItem(listItem)) {
     let iteratorVar = findIteratorVar(listItem)
     let listIndex = u.isNum(listItem.get('index'))
-                    ? listItem.get('index')
-                    : listItem.get('listIndex')
-    index = listIndex?listIndex:0
+      ? listItem.get('index')
+      : listItem.get('listIndex')
+    index = listIndex ? listIndex : 0
     const list = listItem.parent
-    if(isComponent(list)){
-      dataObject =
-        list.blueprint.listObject || list.get('listObject')  
+    if (isComponent(list)) {
+      dataObject = list.blueprint.listObject || list.get('listObject')
       // dataObject = list.get('listObject')
     }
 
-    if(
+    if (
       u.isStr(dataObject) &&
-      dataObject.startsWith('itemObject')&&
+      dataObject.startsWith('itemObject') &&
       isComponent(list)
-    ){
+    ) {
       const parentItem = list.parent
-      if(isComponent(parentItem)){
+      if (isComponent(parentItem)) {
         parentIndex = u.isNum(parentItem.get('index'))
-                      ? parentItem.get('index')
-                      : parentItem.get('listIndex')
+          ? parentItem.get('index')
+          : parentItem.get('listIndex')
         parentIndex = parentIndex ? parentIndex : 0
         let dataKey: any = dataObject.toString()
         dataKey = excludeIteratorVar(dataKey, iteratorVar)
         parent = findListDataObject(parentItem)
-        dataObject = get(parent,dataKey)
+        dataObject = get(parent, dataKey)
       }
-      
     }
-    if(u.isArr(dataObject)){
+    if (u.isArr(dataObject)) {
       listAttribute = {
         length: dataObject.length,
-        index: index+1,
+        index: index + 1,
         dataObject: dataObject,
       }
-      if(u.isNum(parentIndex)){
-        listAttribute['parentIndex']= parentIndex+1
+      if (u.isNum(parentIndex)) {
+        listAttribute['parentIndex'] = parentIndex + 1
         listAttribute['parent'] = parent
       }
     }
   }
-  
+
   return listAttribute || null
-  
 }
 
 export function evalIf<O extends IfObject>(val: O) {
@@ -134,7 +135,7 @@ export function findListDataObject(
     let listIndex = u.isNum(listItem.get('index'))
       ? listItem.get('index')
       : listItem.get('listIndex')
-    listIndex = listIndex?listIndex:0
+    listIndex = listIndex ? listIndex : 0
 
     if (isComponent(list)) {
       if (Identify.component.listItem(component)) {
@@ -344,11 +345,11 @@ export function parseReference(
 ) {
   let trimmedPath = ref.replace(/(\.\.|\.)/, '')
   // Local/private reference
-  if (ref[0] === ref[0].toLowerCase()) {
+  if (ref[0] === ref[0]?.toLowerCase()) {
     return get(root?.[page], trimmedPath)
   }
   // Global reference
-  if (ref[0] === ref[0].toUpperCase()) {
+  if (ref[0] === ref[0]?.toUpperCase()) {
     return get(root, trimmedPath)
   }
   return ''

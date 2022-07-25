@@ -46,7 +46,7 @@ componentResolver.setResolver(async (component, options, next) => {
     createActionChain,
     resolveComponents,
   } = options
-  
+
   callback?.(component)
 
   const mergingProps = on?.createComponent?.(component, {
@@ -60,7 +60,8 @@ componentResolver.setResolver(async (component, options, next) => {
   try {
     const original = component.blueprint || {}
     const originalStyle = original.style || {}
-    const { contentType, dataKey, path, text, textBoard,validateField } = original
+    const { contentType, dataKey, path, text, textBoard, validateField } =
+      original
     const iteratorVar =
       context?.iteratorVar || original.iteratorVar || findIteratorVar(component)
     /* -------------------------------------------------------
@@ -113,10 +114,10 @@ componentResolver.setResolver(async (component, options, next) => {
         const _ref = opts.component?.props?._ref_
         let dataObject
         if (u.isStr(_ref) && is.reference(_ref)) {
-          dataObject = getByRef(opts.getRoot(),_ref,pageName )
+          dataObject = getByRef(opts.getRoot(), _ref, pageName)
         }
         let listObject =
-          // component.blueprint.listObject || component.get('listObject')  
+          // component.blueprint.listObject || component.get('listObject')
           dataObject ||
           component.blueprint.listObject ||
           component.get('listObject')
@@ -190,8 +191,11 @@ componentResolver.setResolver(async (component, options, next) => {
     /* -------------------------------------------------------
       ---- ITEM
     -------------------------------------------------------- */
-    if(is.component.listItem(component)){
-      function getListObject(opts: ConsumerOptions,component:NuiComponent.Instance) {
+    if (is.component.listItem(component)) {
+      function getListObject(
+        opts: ConsumerOptions,
+        component: NuiComponent.Instance,
+      ) {
         let page = opts.page
         let pageName = ''
         if (u.isStr(page)) {
@@ -200,12 +204,12 @@ componentResolver.setResolver(async (component, options, next) => {
         } else if (isNuiPage(page)) {
           pageName = page.page
         }
-        const _ref = u.isStr(component?.props?._ref_)?
-                        component?.props?._ref_:
-                        component?.blueprint?._ref_
+        const _ref = u.isStr(component?.props?._ref_)
+          ? component?.props?._ref_
+          : component?.blueprint?._ref_
         let dataObject
         if (u.isStr(_ref) && is.reference(_ref)) {
-          dataObject = getByRef(opts.getRoot(),_ref,pageName )
+          dataObject = getByRef(opts.getRoot(), _ref, pageName)
         }
         let listObject =
           dataObject ||
@@ -213,26 +217,26 @@ componentResolver.setResolver(async (component, options, next) => {
           component.get('listObject')
         return listObject
       }
-      function getData(component:NuiComponent.Instance,options){
+      function getData(component: NuiComponent.Instance, options?: any) {
         let newComponent = component
-        while(!is.component.listItem(newComponent)){
+        while (!is.component.listItem(newComponent)) {
           newComponent = newComponent.parent as NuiComponent.Instance
         }
         const parentItem = newComponent as NuiComponent.Instance
-        const parentIndex = parentItem.get('index')?
-                              parentItem.get('index'):
-                              parentItem.get('listIndex')
+        const parentIndex = parentItem.get('index')
+          ? parentItem.get('index')
+          : parentItem.get('listIndex')
         const parentParentList = parentItem?.parent as NuiComponent.Instance
-        if(is.component.listLike(parentParentList)){
-          let dataObject = getListObject(options,parentParentList)
-          if(u.isStr(dataObject) && dataObject.startsWith('itemObject')){
-            const parentDataObject = getData(parentParentList,options)
+        if (is.component.listLike(parentParentList)) {
+          let dataObject = getListObject(options, parentParentList)
+          if (u.isStr(dataObject) && dataObject.startsWith('itemObject')) {
+            const parentDataObject = getData(parentParentList, options)
             let dataKey: any = dataObject.toString()
             dataKey = excludeIteratorVar(dataKey, 'itemObject')
             dataObject = get(parentDataObject, dataKey)
           }
 
-          if(parentIndex && u.isArr(dataObject)){
+          if (parentIndex && u.isArr(dataObject)) {
             return dataObject[parentIndex]
           }
         }
@@ -241,23 +245,24 @@ componentResolver.setResolver(async (component, options, next) => {
       let iteratorVar = findIteratorVar(component)
       const currentIndex = context?.index
       const parentList = component.parent as NuiComponent.Instance
-      let parentListObject = getListObject(options,parentList)
-      if(u.isStr(parentListObject) && parentListObject.startsWith(iteratorVar)){
-        const listObject = getData(parentList,options)
+      let parentListObject = getListObject(options, parentList)
+      if (
+        u.isStr(parentListObject) &&
+        parentListObject.startsWith(iteratorVar)
+      ) {
+        const listObject = getData(parentList, options)
         let dataKey: any = parentListObject.toString()
         dataKey = excludeIteratorVar(parentListObject, iteratorVar)
-        parentListObject = get(listObject,dataKey)
+        parentListObject = get(listObject, dataKey)
       }
-      
+
       let currentDataObject
-      if(currentIndex && u.isArr(parentListObject)){
+      if (currentIndex && u.isArr(parentListObject)) {
         currentDataObject = parentListObject[currentIndex]
       }
-      if(context && u.isObj(currentDataObject)){
+      if (context && u.isObj(currentDataObject)) {
         context['dataObject'] = currentDataObject
       }
-      
-
     }
     /* -------------------------------------------------------
       ---- PAGE
@@ -434,7 +439,9 @@ componentResolver.setResolver(async (component, options, next) => {
             component.toJSON(),
           )
         }
-        const dataObject = u.isObj(findListDataObject(component))?findListDataObject(component) : context?.dataObject
+        const dataObject = u.isObj(findListDataObject(component))
+          ? findListDataObject(component)
+          : context?.dataObject
         const listAttribute = getListAttribute(component)
         textBoard.forEach((item) => {
           if (is.textBoardItem(item)) {
@@ -466,10 +473,11 @@ componentResolver.setResolver(async (component, options, next) => {
                   ? get(listAttribute, dataKey)
                   : listAttribute
               } else {
-                const dataObject = findDataValue(
-                  [() => getRoot(), () => getRoot()[page.page]],
-                  item?.dataKey,
-                ) || item.dataKey
+                const dataObject =
+                  findDataValue(
+                    [() => getRoot(), () => getRoot()[page.page]],
+                    item?.dataKey,
+                  ) || item.dataKey
                 item.text = u.isObj(dataObject)
                   ? get(dataObject, item?.datKey)
                   : dataObject
@@ -572,16 +580,16 @@ componentResolver.setResolver(async (component, options, next) => {
         u.isObj(dataObject) && set(dataObject, dataKey, dataValue)
       }
     }
-    
+
     /* -------------------------------------------------------
       ---- ValidateField
     -------------------------------------------------------- */
-    if(validateField){
+    if (validateField) {
       let validateFieldValue = validateField
-      if(!validateField?.emit){
-        for(const key of Object.keys(validateField)){
-          if(is.reference(key)){
-            const value = getByRef(getRoot(),key,page.page)
+      if (!validateField?.emit) {
+        for (const key of Object.keys(validateField)) {
+          if (is.reference(key)) {
+            const value = getByRef(getRoot(), key, page.page)
             validateFieldValue = value[0]
           }
         }
@@ -593,16 +601,16 @@ componentResolver.setResolver(async (component, options, next) => {
       on?.actionChain && actionChain.use(on.actionChain)
       const result = await actionChain.execute()
       const status = result?.[0]?.result
-      if(status===true || status==='true'){
+      if (status === true || status === 'true') {
         component.blueprint.style = cloneDeep(original.validateClass)
         component.props.style = cloneDeep(original.validateClass)
-      }else{
+      } else {
         component.blueprint.style = cloneDeep(original.usuallyClass)
         component.props.style = cloneDeep(original.usuallyClass)
       }
     }
 
-    if(original?.style?.emit){
+    if (original?.style?.emit) {
       const emitAction = original.style.emit
       const actionChain = createActionChain('LoadStyle', [
         { emit: emitAction, actionType: 'emit' },
@@ -610,8 +618,8 @@ componentResolver.setResolver(async (component, options, next) => {
       on?.actionChain && actionChain.use(on.actionChain)
       const result = await actionChain.execute()
       const status = result?.[0]?.result
-      if(u.isObj(status)){
-        for(const k of Object.keys(status)){
+      if (u.isObj(status)) {
+        for (const k of Object.keys(status)) {
           original.style[k] = status[k]
         }
       }

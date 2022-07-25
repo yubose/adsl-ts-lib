@@ -49,7 +49,7 @@ class DocDiagnostics<B extends BuiltIns = BuiltIns> extends Diagnostics<
    * @param helpers
    * @returns
    */
-  createHelpers<H extends Record<string, any> = Record<string, any>>(
+  override createHelpers<H extends Record<string, any> = Record<string, any>>(
     helpers?: H,
   ) {
     const baseHelpers = super.createHelpers(helpers)
@@ -59,7 +59,7 @@ class DocDiagnostics<B extends BuiltIns = BuiltIns> extends Diagnostics<
     }
   }
 
-  use(value: DocDiagnosticsIterator | Parameters<Builder['use']>[0]) {
+  override use(value: DocDiagnosticsIterator | Parameters<Builder['use']>[0]) {
     super.use(value)
     if (coreIs.root(value) || value instanceof DocRoot) {
       ;(value as DocRoot).use(new DocDiagnosticsIterator(this))
