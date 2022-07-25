@@ -1,0 +1,187 @@
+AboutAitmed:
+  pageNumber: '490' # xd page  43
+  init: ''
+  title: 'About'
+  components:
+    - type: view
+      style:
+        width: '1'
+        height: '1'
+        top: '0'
+        left: '0'
+        position: 'absolute'
+      children:
+        - .BaseHeader3: null
+        - .HeaderLeftButton: null
+        - type: label
+          text: About AiTmed
+          style:
+            left: '0.1'
+            marginTop: '0.125'
+            width: '0.8'
+            height: '0.05'
+            fontSize: '14'
+            fontFamily: sans-serif
+            letterSpacing: '2'
+            textAlign:
+              x: center
+            color: '0x6DACDA'
+            border:
+              style: '2'
+            borderColor: '0xb7b7b7ff'
+            borderWidth: '1'
+        - type: label
+          style:
+            marginTop: '0.03'
+            left: '0.1'
+            width: '0.8'
+            height: 'auto'
+            color: '0x9f9f9f'
+            fontSize: '14'
+            textAlign: justify
+            #axis: vertical
+            #display: block
+          textBoard:
+            - text:
+                AiTmed began in 2015 as a telemedicine platform. In 2019 it developed its
+                own ECOS (Edge Computing Operating System) platform, which is
+                integrating blockchain encryption and artificial intelligence
+                technology. AiTmed is designed to be the telehealth platform for
+                people's illness and wellness. Our vision is to become the
+                premier and world leader in telehealth service. By using
+                blockchain and Artificial Intelligence technology we want to
+                give people the most secure and highest level of personal
+                privacy in a faster, more convenient platform. Our goal is to
+                produce top quality software to our consumers. We are a company
+                that is willing to conform to the needs and demands of society
+                at any point in time. We want to be the shining star that our
+                health care system and society need and can utilize every day.
+                AiTmed is what everyone has been waiting for.
+        - type: label
+          text=func: =.builtIn.system.configUrl
+          style:
+            color: '0x9f9f9f'
+            fontSize: '14'
+            height: auto
+            width: '0.86'
+        - type: view
+          style:
+            marginTop: '0.05'
+            left: '0.1'
+            width: '0.9'
+            height: auto # "0.3"
+          children:
+            - type: image
+              viewTag: select
+              onClick:
+                - emit:
+                    actions:
+                      - if:
+                          - =.CreateNewAccount.formData.target
+                          - .CreateNewAccount.formData.target@: false
+                          - .CreateNewAccount.formData.target@: true
+                - actionType: builtIn
+                  funcName: redraw
+                  viewTag: select
+              path:
+                emit:
+                  actions:
+                    - if:
+                        - =.CreateNewAccount.formData.target
+                        - https://public.aitmed.com/commonRes/selectOn.png
+                        - https://public.aitmed.com/commonRes/selectOn.png
+              style:
+                left: '0'
+                width: '0.05'
+                top: '0.015'
+            - type: label
+              style:
+                color: '0x000000'
+                left: '0.07'
+                top: '0.01'
+                fontSize: '11'
+                width: '0.72'
+                height: '0.03'
+                textAlign:
+                  x: left
+              onClick:
+                - goto: UserAgreement
+              textBoard:
+                - text: 'I agree to'
+                - text: ' '
+                - text: 'AiTmed Terms of Use Agreement'
+                  color: '0x69AAD8'
+                - text: ' '
+                - text: ' and '
+            - type: label
+              style:
+                color: '0x000000'
+                left: '0.07'
+                top: '0.035'
+                width: '0.72'
+                height: '0.03'
+                fontSize: '11'
+                textAlign:
+                  x: left
+              onClick:
+                - goto: ServicesAgreement
+              textBoard:
+                - text: 'AiTmed Master Subscription Agreement'
+                  color: '0x69AAD8'
+            - type: image
+              viewTag: select
+              onClick:
+                - emit:
+                    actions:
+                      - if:
+                          - =.CreateNewAccount.formData.tar
+                          - .CreateNewAccount.formData.tar@: false
+                          - .CreateNewAccount.formData.tar@: true
+                - actionType: builtIn
+                  funcName: redraw
+                  viewTag: select
+              path:
+                #..selectData.tar
+                emit:
+                  actions:
+                    - if:
+                        - =.CreateNewAccount.formData.tar
+                        - https://public.aitmed.com/commonRes/selectOn.png
+                        - https://public.aitmed.com/commonRes/selectOn.png
+              style:
+                left: '0'
+                width: '0.05'
+                top: '0.065'
+            - type: label
+              textBoard:
+                - text: 'I also agree to'
+                - text: '  '
+                - text: 'AiTmed Privacy Policy '
+                  color: '0x69aad8'
+              onClick:
+                - goto: PrivacyPolicy
+              style:
+                color: '0x000000'
+                left: '0.07'
+                top: '0.065'
+                width: '0.72'
+                height: '0.03'
+                fontSize: '11'
+                lineHeight: '2'
+                # backgroundColor: "0xcdcdcd"
+                textAlign:
+                  x: left
+        # - type: button
+        #   text: Done
+        #   onClick:
+        #     - actionType: builtIn
+        #       funcName: goBack
+        #   style:
+        #     marginTop: "0.15"
+        #     width: "0.6"
+        #     backgroundColor: "0x388ecc"
+        #     height: "0.06"
+        #     color: "0xffffff"
+        #     left: "0.2"
+        #     textAlign:
+        #       x: center

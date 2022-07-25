@@ -1,0 +1,38 @@
+{
+  "atime": 1619719574,
+  "atimes": 1,
+  "bsig": "KyRGNeLKTPscmfAfMyKktw==",
+  "created_at": 1619719574000,
+  "ctime": 1619719574,
+  "deat": {
+    "exptime": "",
+    "sig": "",
+    "url": "https://s3.us-east-2.amazonaws.com/ecos.aitmed.com/6Kz7B6XdVHCCHoF12YzDM8/8mYaanEkGyrsfWHh1BDGCq/9sg86udSxhwezsA4g93TQ8"
+  },
+  "eid": "PugoYpm8TLq2skvLQNsPSg==",
+  "esig": "PugoYpm8TLq2skvLQNsPSg==",
+  "fid": "R9xoaHI8TEjWWH6FTFo0VQ==",
+  "id": "2EUC92bOSjFIOVhlF5mtLQ==",
+  "modified_at": 1619719574000,
+  "mtime": 1619719574,
+  "name": {
+    "data": "blob:http://127.0.0.1:3000/660f7f76-c1d8-4103-825a-048b6adea785",
+    "tags": [],
+    "title": "jpg",
+    "type": "image/jpeg",
+    "user": "Chris Tran"
+  },
+  "size": 89937,
+  "subtype": {
+    "applicationDataType": 0,
+    "isBinary": false,
+    "isEditable": true,
+    "isEncrypted": true,
+    "isOnServer": false,
+    "isZipped": true,
+    "mediaType": 4,
+    "size": 89937
+  },
+  "tage": 0,
+  "type": 1025
+}

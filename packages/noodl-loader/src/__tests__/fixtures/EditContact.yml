@@ -1,0 +1,214 @@
+EditContact:
+  pageNumber: "390" # xd page 40
+  title: "Edit Contact"
+  init:
+    - .SignInCheck
+    - actionType: evalObject
+      object:
+        .EditContact.contactInfo.document@: =.Global.DocReference.document
+  save:
+    - =.EditContact.contactInfo.docAPI.store: ""
+  update:
+    - =.EditContact.contactInfo.docAPI.delete: ""
+  contactInfo:
+    document: null
+    docAPI:
+      .DocAPI: ""
+      store:
+        api: cd
+        dataKey: EditContact.contactInfo.document
+      delete:
+        api: dx
+        dataIn: EditContact.contactInfo.document
+  components:
+    - .WithCancelHeader: null
+    - type: view
+      style:
+        left: "0"
+        top: "0.1"
+        width: "1"
+        height: "1"
+        contentSize:
+          width: "1"
+          height: "1"
+      children:
+        - type: label
+          textBoard:
+            - text: "Phone #"
+            - text: "*"
+              color: "0xD53C42"
+          style:
+            left: "0.15"
+            top: "0.02"
+            width: "0.7"
+            height: "0.04"
+            fontSize: "12"
+            color: "0x000000"
+            textAlign:
+              x: left
+              y: center
+        - type: textField
+          dataKey: contactInfo.document.name.data.phoneNumber
+          contentType: text
+          style:
+            left: "0.15"
+            top: "0.07"
+            width: "0.7"
+            height: "0.04"
+            fontSize: "16"
+            textAlign:
+              x: left
+              y: center
+            border:
+              style: "2"
+              borderWidth: "1"
+            borderColor: "0xc2c2c2"
+        - type: label
+          textBoard:
+            - text: "First Name"
+            - text: "*"
+              color: "0xD53C42"
+          style:
+            left: "0.15"
+            top: "0.12"
+            width: "0.7"
+            height: "0.04"
+            fontSize: "12"
+            color: "0x000000"
+            textAlign:
+              x: left
+              y: center
+        - type: textField
+          dataKey: contactInfo.document.name.data.firstName
+          contentType: text
+          style:
+            left: "0.15"
+            top: "0.17"
+            width: "0.7"
+            height: "0.04"
+            fontSize: "16"
+            textAlign:
+              x: left
+              y: center
+            border:
+              style: "2"
+              borderWidth: "1"
+            borderColor: "0xc2c2c2"
+
+        - type: label
+          textBoard:
+            - text: "Last Name"
+            - text: "*"
+              color: "0xD53C42"
+          style:
+            left: "0.15"
+            top: "0.22"
+            width: "0.7"
+            height: "0.04"
+            fontSize: "12"
+            color: "0x000000"
+            textAlign:
+              x: left
+              y: center
+        - type: textField
+          dataKey: contactInfo.document.name.data.lastName
+          contentType: text
+          style:
+            left: "0.15"
+            top: "0.27"
+            width: "0.7"
+            height: "0.04"
+            fontSize: "16"
+            textAlign:
+              x: left
+              y: center
+            border:
+              style: "2"
+              borderWidth: "1"
+            borderColor: "0xc2c2c2"
+        - type: label
+          text: Add Note
+          style:
+            left: "0.15"
+            top: "0.32"
+            width: "0.8"
+            height: "0.04"
+            fontSize: "12"
+            color: "0x000000"
+            textAlign:
+              x: left
+              y: center
+        - type: textView
+          isEditable: "true"
+          dataKey: contactInfo.document.name.data.note
+          style:
+            left: "0.15"
+            top: "0.37"
+            width: "0.7"
+            height: "0.15"
+            fontSize: "16"
+            textAlign:
+              x: left
+              y: center
+            border:
+              style: "4"
+              borderWidth: "1"
+            borderColor: "0xc2c2c2"
+        # - type: image
+        #   dataId: qrCode
+        #   path: qrCode.png
+        #   style:
+        #     left: "0.35"
+        #     top: "1"
+        #     width: "0.25"
+        #     height: "0.15"
+        #     border:
+        #       style: "5"
+        #     borderRadius: "0.075"
+        - type: button
+          text: Save
+          onClick:
+            - actionType: evalObject
+              object:
+                =.builtIn.string.concat:
+                  dataIn:
+                    - =..contactInfo.document.name.data.firstName
+                    - " "
+                    - =..contactInfo.document.name.data.lastName
+                  dataOut: EditContact.contactInfo.document.name.data.fullName
+            - actionType: evalObject
+              object: ..save
+            - actionType: evalObject
+              object:
+                .Global._nonce@:
+                  =.builtIn.math.random: ""
+            - goto: ContactsList
+          style:
+            left: "0.2"
+            top: "0.7"
+            width: "0.6"
+            height: "0.07"
+            color: "0xffffffff"
+            backgroundColor: "0x388ECC"
+            textAlign:
+              x: center
+
+        - type: button
+          text: Delete
+          onClick:
+            - actionType: evalObject
+              object: ..update
+            - actionType: evalObject
+              object:
+                .Global._nonce@:
+                  =.builtIn.math.random: ""
+            - goto: ContactsList
+          style:
+            left: "0.2"
+            top: "0.8"
+            width: "0.6"
+            height: "0.07"
+            color: "0xffffffff"
+            backgroundColor: "0xd53c42"
+            textAlign:
+              x: center

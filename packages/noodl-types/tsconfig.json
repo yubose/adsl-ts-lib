@@ -1,0 +1,16 @@
+{
+  "typedocOptions": {
+    "entryPoints": [
+      "src/index.ts"
+    ],
+    "name": "noodl-types"
+  },
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+		"declaration": true,
+    "declarationDir": "dist",
+    "outDir": "dist"
+  },
+  "include": ["src"]
+}

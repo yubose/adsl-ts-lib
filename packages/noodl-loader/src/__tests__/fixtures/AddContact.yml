@@ -1,0 +1,275 @@
+AddContact:
+  pageNumber: "360 " # xd page 38
+  title: "Add Contact"
+  init:
+    - .SignInCheck
+  save:
+    - =.AddContact.newContact.docAPI.store: ""
+  newContact:
+    document:
+      .Document: ""
+      # subtype: 
+      #   applicationDataType : .Const.contact # 104
+      eid: .Global.rootNotebookID
+      type: .DocType.Contact # 2
+      name:
+        title: ""
+        type: ..newContact.docAPI.store.subtype.mediaType
+        data:
+          phoneNumber: ""
+          email: ""
+          firstName: ""
+          fullName: ""
+          lastName: ""
+          note: ""
+          isFavorite: false
+    docAPI:
+      .DocAPI: ""
+      store:
+        api: cd
+        dataKey: newContact.document
+        subtype:
+          mediaType: "application/json" # mediaType : "image/jpeg"
+  components:
+    - .BaseHeader: null
+    - .HeaderLeftButton: null
+    - type: button
+      contentType: scan
+      onClick:
+        - actionType: builtIn
+          funcName: scanCamera
+          dataKey: newContact.document
+      style:
+        top: "0"
+        left: "0.8"
+        width: "0.18"
+        height: "0.1"
+        backgroundColor: "0x388eccff"
+        zIndex: 100
+        textAlign:
+          y: center
+      children:
+        - type: image
+          path: qr.png
+          style:
+            left: "0.01"
+            top: "0.03"
+            height: "0.04"
+            zIndex: 100
+          textAlign:
+            y: center
+        - type: label
+          text: scan
+          style:
+            left: "0.08"
+            top: "0"
+            height: "0.1"
+            width: "0.1"
+            zIndex: 100
+            fontSize: "17"
+            color: "0xffffffff"
+            textAlign:
+              x: left
+              y: center
+
+    - type: view
+      style:
+        left: "0"
+        top: "0.1"
+        width: "1"
+        height: "1"
+        contentSize:
+          width: "1"
+          height: "1.2"
+      children:
+        - type: label
+          text: "Fill out required fields*"
+          style:
+            top: "0.01"
+            width: "1"
+            height: "0.01"
+            fontSize: "14"
+            color: "0xD53C42"
+            textAlign:
+              x: center
+        - type: label
+          textBoard:
+            - text: "Phone #"
+            - text: "*"
+              color: "0xD53C42"
+          style:
+            left: "0.15"
+            top: "0.05"
+            width: "0.7"
+            height: "0.04"
+            fontSize: "12"
+            color: "0x000000"
+            textAlign:
+              x: left
+              y: center
+        - type: textField
+          dataKey: newContact.document.name.data.phoneNumber
+          contentType: phoneNumber
+          style:
+            left: "0.15"
+            top: "0.1"
+            width: "0.7"
+            height: "0.04"
+            fontSize: "16"
+            textAlign:
+              x: left
+              y: center
+            border:
+              style: "2"
+              borderWidth: "1"
+            borderColor: "0xc2c2c2"
+            # border:
+            #   style: "2"
+            #   width: "1"
+            #   color: "0x000000"
+        - type: label
+          textBoard:
+            - text: "First Name"
+            - text: "*"
+              color: "0xD53C42"
+          style:
+            left: "0.15"
+            top: "0.15"
+            width: "0.7"
+            height: "0.04"
+            fontSize: "12"
+            color: "0x000000"
+            textAlign:
+              x: left
+              y: center
+        - type: textField
+          dataKey: newContact.document.name.data.firstName
+          contentType: text
+          style:
+            left: "0.15"
+            top: "0.2"
+            width: "0.7"
+            height: "0.04"
+            fontSize: "16"
+            textAlign:
+              x: left
+              y: center
+            border:
+              style: "2"
+              borderWidth: "1"
+            borderColor: "0xc2c2c2"
+            # border:
+            #   style: "2"
+            #   width: "1"
+            #   color: "0x000000"
+        - type: label
+          textBoard:
+            - text: "Last Name"
+            - text: "*"
+              color: "0xD53C42"
+          style:
+            left: "0.15"
+            top: "0.25"
+            width: "0.7"
+            height: "0.04"
+            fontSize: "12"
+            color: "0x000000"
+            textAlign:
+              x: left
+              y: center
+        - type: textField
+          dataKey: newContact.document.name.data.lastName
+          contentType: text
+          style:
+            left: "0.15"
+            top: "0.3"
+            width: "0.7"
+            height: "0.04"
+            fontSize: "16"
+            textAlign:
+              x: left
+              y: center
+            border:
+              style: "2"
+              borderWidth: "1"
+            borderColor: "0xc2c2c2"
+            # border:
+            #   style: "2"
+            #   width: "1"
+            #   color: "0x000000"
+        - type: label
+          text: Add Note
+          style:
+            left: "0.15"
+            top: "0.35"
+            width: "0.8"
+            height: "0.04"
+            fontSize: "12"
+            color: "black" #color: "0x00000058"
+            textAlign:
+              x: left
+              y: center
+        - type: textView
+          isEditable: "true"
+          dataKey: newContact.document.name.data.note
+          contentType: text
+          style:
+            left: "0.15"
+            top: "0.4"
+            width: "0.7"
+            height: "0.15"
+            fontSize: "16"
+            textAlign:
+              y: top
+              x: left
+            border:
+              style: "4"
+              borderWidth: "1"
+            borderColor: "0xc2c2c2"
+            # border:
+            #   style: "4"
+            #   width: "1"
+            #   color: "0x000000"
+        - type: button
+          text: "Create Contact"
+          onClick:
+            - actionType: evalObject
+              object:
+                =.builtIn.string.concat:
+                  dataIn:
+                    - =..newContact.document.name.data.firstName
+                    - " "
+                    - =..newContact.document.name.data.lastName
+                  dataOut: AddContact.newContact.document.name.data.fullName
+            - actionType: evalObject
+              object: ..save
+            - actionType: evalObject
+              object:
+                .Global._nonce@:
+                  =.builtIn.math.random: ""
+            - goto: ContactsList
+          style:
+            left: "0.2"
+            top: "0.78"
+            width: "0.6"
+            height: "0.07"
+            color: "0xffffffff"
+            fontSize: "16"
+            backgroundColor: "0x388ECC"
+            textAlign:
+              x: center
+        # - type: button
+        #   text: Delete
+        #   onClick: 
+        #     - actionType: builtIn
+        #       funcName: goBack
+        #   style:
+        #     left: "0.2"
+        #     top: "0.88"
+        #     width: "0.6"
+        #     height: "0.07"
+        #     color: "0xfa0808"
+        #     fontSize: "16"
+        #     backgroundColor: "0xFFFFFF"
+        #     textAlign:
+        #       x: center

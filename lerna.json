@@ -1,0 +1,28 @@
+{
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json",
+  "bootstrap": true,
+  "command": {
+    "bootstrap": {
+      "ignore": "noodl-loader"
+    },
+    "create": {
+      "license": "MIT"
+    },
+    "publish": {
+      "bump": "patch",
+      "message": "Update"
+    }
+  },
+  "forceLocal": true,
+  "loglevel": "verbose",
+  "message": "Update",
+  "packages": [
+    "packages/noodl-types",
+    "packages/noodl-action-chain",
+    "packages/noodl-utils",
+    "packages/noodl-ui"
+  ],
+  "parallel": true,
+  "useNx": true,
+  "version": "independent"
+}

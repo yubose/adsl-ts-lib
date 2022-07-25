@@ -1,0 +1,38 @@
+{
+  "atime": 1619719061,
+  "atimes": 1,
+  "bsig": "KyRGNeLKTPscmfAfMyKktw==",
+  "created_at": 1619719061000,
+  "ctime": 1619719061,
+  "deat": {
+    "exptime": "",
+    "sig": "",
+    "url": "https://s3.us-east-2.amazonaws.com/ecos.aitmed.com/6Kz7B6XdVHCCHoF12YzDM8/8mYaanEkGyrsfWHh1BDGCq/UTUT4S5jMX67tUTFDGM9j1"
+  },
+  "eid": "PugoYpm8TLq2skvLQNsPSg==",
+  "esig": "PugoYpm8TLq2skvLQNsPSg==",
+  "fid": "3lj/gXwyScvcXDFAJUzWtA==",
+  "id": "WTlXBSznRzBnwE3eYQsf7A==",
+  "modified_at": 1619719061000,
+  "mtime": 1619719061,
+  "name": {
+    "data": "blob:http://127.0.0.1:3000/6a3aa03e-38ed-43e7-9a16-4354f6297401",
+    "tags": [],
+    "title": "ucr",
+    "type": "application/pdf",
+    "user": "Chris Tran"
+  },
+  "size": 1902587,
+  "subtype": {
+    "applicationDataType": 0,
+    "isBinary": false,
+    "isEditable": true,
+    "isEncrypted": true,
+    "isOnServer": false,
+    "isZipped": true,
+    "mediaType": 1,
+    "size": 1902587
+  },
+  "tage": 0,
+  "type": 1025
+}
