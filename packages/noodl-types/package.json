@@ -8,7 +8,7 @@
   "files": [
     "dist"
   ],
-  "gitHead": "f1e356cdfb396f28ed3122cc8f8b602cc73f9146",
+  "gitHead": "8addd47b1f6f9b8ea252f4f55c7aaae1b337ec52",
   "homepage": "",
   "license": "ISC",
   "main": "dist/index.js",
@@ -27,7 +27,7 @@
     "test": "cross-env TS_NODE_PROJECT=\"tsconfig.test.json\" NODE_ENV=test ts-mocha -r source-map-support/register --extensions ts --watch --watch-files src \"src/**/*.test.ts\""
   },
   "typings": "dist/index.d.ts",
-  "version": "1.0.219",
+  "version": "1.0.220",
   "devDependencies": {
     "tslib": "^2.4.0"
   }
