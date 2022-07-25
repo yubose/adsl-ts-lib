@@ -1,7 +1,9 @@
 {
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
+  "dependencies": {
+    "noodl-types": "^1.0.222"
+  },
   "description": "Core JavaScript library for the Neuron Organic Object Description Language (NOODL)",
-  "devDependencies": {},
   "directories": {
     "dist": "dist",
     "test": "__tests__"
@@ -39,6 +41,6 @@
     "types": "tsc --emitDeclarationOnly --esModuleInterop --declaration --declarationDir dist --project tsconfig.json",
     "types:watch": "npm run types -- -w"
   },
-  "typings": "./dist/index.d.ts",
-  "version": "0.1.15"
+  "types": "./dist/index.d.ts",
+  "version": "0.1.16"
 }

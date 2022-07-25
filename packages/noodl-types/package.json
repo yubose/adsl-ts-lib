@@ -1,6 +1,9 @@
 {
   "author": "Christopher Tran <christopher@aitmed.com>",
   "description": "NOODL TypeScript Definitions",
+  "devDependencies": {
+    "tslib": "^2.4.0"
+  },
   "engines": {
     "node": ">=14",
     "npm": ">=6"
@@ -26,9 +29,6 @@
     "start": "tsc -w",
     "test": "cross-env TS_NODE_PROJECT=\"tsconfig.test.json\" NODE_ENV=test ts-mocha -r source-map-support/register --extensions ts --watch --watch-files src \"src/**/*.test.ts\""
   },
-  "typings": "dist/index.d.ts",
-  "version": "1.0.221",
-  "devDependencies": {
-    "tslib": "^2.4.0"
-  }
+  "types": "dist/index.d.ts",
+  "version": "1.0.222"
 }

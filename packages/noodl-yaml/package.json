@@ -1,5 +1,10 @@
 {
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
+  "dependencies": {
+    "noodl-core": "^0.1.16",
+    "noodl-types": "^1.0.222",
+    "noodl-utils": "^0.0.95"
+  },
   "description": "YAML bindings for noodl-core",
   "directories": {
     "dist": "dist",
@@ -31,12 +36,12 @@
     "build": "rollup -c",
     "dev": "concurrently \"npm run types:watch\" \"rollup -c -w\"",
     "postbuild": "npm run types",
-    "start": "tsc -w",
+    "start": "npx tsc -w",
     "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" --watch-files \"../noodl-core/dist\" \"src/**/*.test.ts\" --file src/__tests__/setup.ts",
     "test:file": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" --file src/__tests__/setup.ts",
-    "types": "tsc --emitDeclarationOnly --esModuleInterop --declaration --declarationDir dist --project tsconfig.json",
+    "types": "npx tsc --emitDeclarationOnly --esModuleInterop --declaration --declarationDir dist --project tsconfig.json",
     "types:watch": "npm run types -- -w"
   },
   "types": "dist/index.d.ts",
-  "version": "0.0.11"
+  "version": "0.0.12"
 }
