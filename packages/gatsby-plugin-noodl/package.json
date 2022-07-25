@@ -1,8 +1,12 @@
 {
   "author": "Christopher <christopher@aitmed.com>",
   "dependencies": {
+    "@aitmed/cadl": "^1.0.689",
+    "@aitmed/ecos-lvl2-sdk": "^1.4.198",
     "gatsby-source-filesystem": "^4.12.1",
-    "loglevel": "^1.8.0"
+    "loglevel": "^1.8.0",
+    "noodl-types": "^1.0.221",
+    "noodl-ui": "^0.1.132"
   },
   "description": "Gatsby AiTmed plugin to generate static pages from a noodl config",
   "devDependencies": {
@@ -107,5 +111,6 @@
     "start": "tsc -w",
     "test": "cross-env NODE_ENV=test mocha --watch --watch-files . \"__tests__/**/*.test.js\" --file __tests__/setup.js"
   },
-  "types": "./types.d.ts"
+  "types": "./types.d.ts",
+  "version": "0.0.51"
 }
