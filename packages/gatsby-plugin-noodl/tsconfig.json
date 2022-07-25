@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "declaration": true,
+    "declarationDir": "./dist",
+    "lib": ["es2018"],
+    "outDir": "./dist",
+    "skipLibCheck": true
+  },
+  "include": [],
+  "exclude": ["node_modules"],
+  "files": ["src/gatsby-node.ts"]
+}

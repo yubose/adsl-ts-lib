@@ -1,0 +1,332 @@
+EditMyDocument:
+  pageNumber: "524" # xd page 28
+  title: "Edit My Documents"
+  init:
+    - .SignInCheck
+    - actionType: evalObject
+      object:
+        .EditMyDocument.docDetail.document@: =.Global.DocReference.document
+    # - actionType: evalObject
+    #   object:
+    #     =.builtIn.utils.prepareDoc:
+    #       dataIn:
+    #         doc: =..docDetail.document
+    #       dataOut: DocumentDetail.docDetail.document
+    - =.EditMyDocument.signData.docAPI.get: ""
+    - if:
+        - =.EditMyDocument.signData.doc.0
+        - actionType: evalObject
+          object:
+            =.builtIn.utils.prepareDoc:
+              dataIn:
+                doc: =..signData.doc.0
+              dataOut: EditMyDocument.signData.doc.0
+        - continue
+  save:
+    - =.EditMyDocument.docDetail.docAPI.store: ""
+  update:
+    - =.EditMyDocument.docDetail.docAPI.delete: ""
+  docDetail:
+    document: ""
+    docAPI:
+      .DocAPI: ""
+      store:
+        dataIn: EditMyDocument.docDetail.document
+      delete:
+        api: dx
+        dataIn: EditMyDocument.docDetail.document
+  signData:
+    doc:
+      .Document: ""
+    docAPI:
+      .DocAPI: ""
+      get:
+        .DocAPI.get: ""
+        api: rd
+        dataKey: signData
+        ids:
+          - =.EditMyDocument.docDetail.document.id
+        xfname: fid
+        type: .DocType.DocumentSignature
+        obfname: "ctime"
+        maxcount: "1"
+        _nonce: .Global._nonce
+  components:
+    - .BaseHeader3: null
+    - .HeaderLeftButton: null
+        # - .HeaderRightButton:
+        #   text: Done
+        #   onClick:
+        #     - goto: EditMyDocument
+    - type: view
+      style:
+        left: "0"
+        top: "0.1"
+        height: "0.7"
+        width: "1"
+      children:
+        - type: textField
+          dataKey: docDetail.document.name.title
+          style:
+            left: "0.15"
+            top: "0.02"
+            width: "0.7"
+            height: "0.04"
+            fontSize: "20"
+            color: "0x000000"
+            textAlign:
+              x: center
+            border:
+              style: "3"
+            borderWidth: "1"
+        - type: view
+          style:
+            left: "0.03"
+            width: "0.94"
+            top: "0.08"
+            backgroundColor: "0xefefef"
+            border:
+              style: "3"
+            borderRadius: "15"
+          children:
+            - type: label
+              text: "Shared by: "
+              style:
+                top: "0.015"
+                left: "0.04"
+                width: "0.2"
+                height: "0.03"
+                color: "0x00000099"
+                textAlign:
+                  x: left
+            - type: label
+              dataKey: docDetail.document.name.user
+              style:
+                top: "0.015"
+                left: "0.1"
+                width: "0.4"
+                height: "0.03"
+                color: "0x000000"
+                textAlign:
+                  x: center
+                # backgroundColor: "0xefefef"
+                # border:
+                #   style: "1"
+            - type: label
+              text=func: =.builtIn.string.formatUnixtime_en
+              dataKey: docDetail.document.ctime
+              style:
+                top: "0.015"
+                left: "0.4"
+                width: "0.55"
+                height: "0.03"
+                color: "0x000000"
+                textAlign:
+                  x: right
+                # backgroundColor: "0xefefef"
+                # border:
+                #   style: "1"
+                # - type: image
+                #   path: ..docDetail.document.name.data
+        - type: ecosDoc
+          ecosObj: ..docDetail.document
+          style:
+            left: "0.22"
+            top: "0.15"
+            width: "0.6"
+            height: "0.4"
+
+        - type: button
+          text: "Save"
+          onClick:
+            - actionType: evalObject
+              object: ..save
+            - actionType: builtIn
+              funcName: goBack
+              reload: true
+            - actionType: builtIn
+              funcName: goBack
+              reload: true
+          style:
+            left: "0.55"
+            top: "0.81"
+            width: "0.3"
+            height: "0.05"
+            backgroundColor: "0x388eccff"
+            borderRadius: "5"
+            color: "0xffffffff"
+            textAlign:
+              x: center
+          # - type: button
+          #   text: "Done"
+          #   onClick: 
+          #     # - actionType: saveObject
+          #     #   object: ..save
+          #     - actionType: builtIn
+          #       funcName: goBack
+          #      # reload: true
+          #   style: 
+          #     left: "0.133"
+          #     top: "0.83"
+          #     borderRadius: "5"
+          #     width: "0.72"
+          #     height: "0.05"
+          #     backgroundColor: "0x388eccff"
+          #     color: "0xffffffff"
+          #     textAlign:
+          #       x: center
+        - type: label
+          text: "Signature: "
+          style:
+            left: "0.07"
+            top: "0.58"
+            width: "0.7"
+            height: "0.04"
+            fontSize: "12"
+            color: "0x000000"
+            # border:
+            #   style: "2"
+            # borderWidth: "1"
+            textAlign:
+              x: left
+        - type: view
+          style:
+            # top: "0.2"
+            width: "0.7"
+            height: "0.12"
+            # backgroundColor: "0x000000cc"
+            border:
+              style: "4"
+              width: "1.5"
+              color: "0xacacac"
+            left: "0.133"
+            top: "0.62"
+          children:
+            - type: ecosDoc
+              ecosObj: .EditMyDocument.signData.doc.0
+              # dataKey: EditMyDocument.signData.document.name.data
+              style:
+                left: "0"
+                width: "0.7"
+                height: "0.12"
+                overflow: scroll
+        - type: button
+          text: "Remove"
+          onClick:
+            - actionType: popUp
+              popUpView: removeView
+          style:
+            left: "0.15"
+            top: "0.81"
+            borderRadius: "5"
+            width: "0.3"
+            height: "0.05"
+            backgroundColor: "0xd53c42"
+            color: "0xffffff"
+            textAlign:
+              x: center
+
+        - type: popUp
+          viewTag: removeView
+          style:
+            left: "0"
+            top: "0"
+            width: "0.8"
+            height: "1"
+            # backgroundColor: "0x00000066" 
+          children:
+            - type: view
+              style:
+                left: "0.1"
+                top: "0.2"
+                width: "0.8"
+                height: "0.35"
+                backgroundColor: "0xeeeeeeff"
+                border:
+                  style: "5"
+                borderRadius: "15"
+              children:
+                - type: label
+                  text: "Are you sure you want to remove this note?"
+                  style:
+                    .LabelStyle:
+                      left: "0.05"
+                      top: "0.1"
+                      width: "0.7"
+                      height: "0.04"
+                      color: "0x00000088"
+                      fontSize: "20"
+                      # fontStyle: bold
+                      display: inline
+                      textAlign:
+                        x: center
+                        y: center
+                - type: divider
+                  style:
+                    .DividerStyle:
+                      left: "0"
+                      top: "0.25436"
+                      width: "0.8"
+                      height: "0.001"
+                      backgroundColor: "0x00000088"
+                - type: button
+                  onClick:
+                    - actionType: popUpDismiss
+                      popUpView: removeView
+                  text: Cancel
+                  style:
+                    .LabelStyle:
+                      left: "0"
+                      top: "0.275"
+                      width: "0.4"
+                      height: "0.06812"
+                      color: "0x007affff"
+                      fontSize: "17"
+                      display: inline
+                      textAlign:
+                        x: center
+                        y: center
+                      border:
+                        style: "5"
+                      borderRadius: "15"
+
+                - type: button
+                  onClick:
+                    - actionType: popUpDismiss
+                      popUpView: removeView
+                    - actionType: evalObject
+                      object: ..update
+                    - actionType: evalObject
+                      object:
+                        .Global._nonce@:
+                          =.builtIn.math.random: ""
+                    - actionType: builtIn
+                      funcName: goBack
+                      reload: true
+                    - actionType: builtIn
+                      funcName: goBack
+                      reload: true
+                  text: Remove
+                  style:
+                    .LabelStyle:
+                      left: "0.4"
+                      top: "0.275"
+                      width: "0.4"
+                      height: "0.06812"
+                      color: "0x007affff"
+                      fontSize: "17"
+                      display: inline
+                      textAlign:
+                        x: center
+                        y: center
+                      border:
+                        style: "5"
+                      borderRadius: "15"
+                - type: divider
+                  style:
+                    .DividerStyle:
+                      left: "0.4"
+                      top: "0.26"
+                      width: "0.001"
+                      height: "0.07"
+                      backgroundColor: "0x00000088"

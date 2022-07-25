@@ -1,0 +1,46 @@
+{
+  "author": "Christopher Tran <pfftdammitchris@gmail.com>",
+  "dependencies": {
+    "path-browserify": "^1.0.1"
+  },
+  "description": "Browser friendly JavaScript noodl file format that works in the memory. An NFile tracks metadata such as its path, history of movements between locations and its value",
+  "devDependencies": {
+    "@types/path-browserify": "^1.0.0"
+  },
+  "directories": {
+    "dist": "dist",
+    "test": "__tests__"
+  },
+  "files": [
+    "dist"
+  ],
+  "homepage": "",
+  "keywords": [
+    "noodl",
+    "ecos",
+    "nfile",
+    "telemedicine",
+    "aitmed"
+  ],
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "name": "noodl-file",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://gitlab.aitmed.com/pfftdammitchris/aitmed-noodl-lib.git"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "postbuild": "npm run types",
+    "start": "tsc -w",
+    "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" \"src/**/*.test.ts\"",
+    "test:file": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json --file src/setupTests.ts -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\"",
+    "types": "tsc --emitDeclarationOnly --esModuleInterop --declaration --declarationDir dist --project tsconfig.json"
+  },
+  "typings": "./dist/index.d.ts",
+  "version": "0.0.8"
+}

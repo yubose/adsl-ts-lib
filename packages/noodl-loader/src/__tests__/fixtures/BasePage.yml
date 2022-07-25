@@ -1,0 +1,70 @@
+BasePage:
+  pageNumber: "0"
+
+LeftBackButton:
+  type: button
+  onClick:
+    - actionType: builtIn
+      funcName: goBack
+  style:
+    left: "0.03"
+    top: "0.025"
+    width: "0.15"
+    height: "0.05"
+    backgroundColor: "0x388eccff"
+  children:
+    - type: image
+      path: backWhiteArrow.png
+      style:
+        left: "0.02"
+        top: "0.01"
+        width: "0.04"
+        height: "0.02"
+    - type: label
+      text: Back
+      style:
+        left: "0.08"
+        top: "0"
+        width: "0.08"
+        height: "0.04"
+        fontSize: "12"
+        color: "0xffffffff"
+        textAlign:
+          x: left
+          y: center
+
+BaseHeader:
+  type: header
+  style:
+    left: "0"
+    top: "0"
+    width: "1"
+    height: "0.1"
+    backgroundColor: "0x388eccff"
+  children:
+    - type: button
+      text: =..title
+      style:
+        left: "0.3"
+        width: "0.4"
+        top: "0"
+        fontWeight: 300
+        backgroundColor: "0x388eccff"
+        height: "0.1"
+        fontSize: "18"
+        color: "0xffffffff"
+        textAlign:
+          x: center
+
+HeaderRightImg:
+  type: image
+  path: "sideNav2.png"
+  style: .HeaderRightImgStyle
+
+HeaderRightImg1:
+  type: image
+  style:
+    left: "0.87"
+    top: "0.036"
+    height: "0.028"
+    zIndex: "10000"

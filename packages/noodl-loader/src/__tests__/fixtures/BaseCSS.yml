@@ -1,0 +1,33 @@
+# line 2 is equivalent to line 3 to 6
+#xyz: .DividerStyle
+#xyz:
+#  width: "0.8"
+#  height: "0.00136"
+#  backgroundColor: "0xd3d3d3ff"
+
+Style:
+  top: "0"
+  left: "0"
+  width: "1"
+  height: "1"
+  fontSize: "15"
+  textAlign:
+    x: center
+  #    y: center
+  color: "0x000000ff"
+  #  backgroundColor: "0xffffffff"
+  borderWidth: "0"
+  shadow: "false"
+
+ImageStyle:
+  .Style:
+    border:
+      style: "1"
+    objectFit: cover
+
+LabelStyle:
+  .Style:
+    display: inline
+    textAlign:
+      x: left
+      y: center

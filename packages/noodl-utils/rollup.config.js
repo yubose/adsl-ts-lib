@@ -14,6 +14,12 @@ const configs = [
       {
         dir: `dist`,
         format: 'umd',
+        globals: {
+          'noodl-action-chain': 'nac',
+          'noodl-types': 'ntypes',
+          'noodl-utils': 'nutils',
+          signature_pad: 'spad',
+        },
         name: 'nutils',
         sourcemap: true,
       },

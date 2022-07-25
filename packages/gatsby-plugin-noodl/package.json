@@ -1,0 +1,111 @@
+{
+  "author": "Christopher <christopher@aitmed.com>",
+  "dependencies": {
+    "gatsby-source-filesystem": "^4.12.1",
+    "loglevel": "^1.8.0"
+  },
+  "description": "Gatsby AiTmed plugin to generate static pages from a noodl config",
+  "devDependencies": {
+    "eslint-plugin-jsx-a11y": "^6.5.1"
+  },
+  "eslintConfig": {
+    "env": {
+      "es6": true,
+      "mocha": true,
+      "node": true
+    },
+    "extends": [
+      "plugin:prettier/recommended",
+      "plugin:import/recommended"
+    ],
+    "ignorePatterns": [
+      "**/*.js.map",
+      "legacy",
+      "dist",
+      "output",
+      "node_modules"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2020,
+      "sourceType": "module"
+    },
+    "plugins": [],
+    "root": true,
+    "rules": {
+      "array-callback-return": "error",
+      "arrow-parens": "warn",
+      "arrow-spacing": "warn",
+      "camelcase": "off",
+      "class-methods-use-this": "warn",
+      "consistent-return": "off",
+      "generator-star-spacing": "error",
+      "global-require": "off",
+      "import/export": "error",
+      "import/no-extraneous-dependencies": "off",
+      "import/prefer-default-export": "off",
+      "no-alert": "off",
+      "no-array-constructor": "error",
+      "no-await-in-loop": "off",
+      "no-console": "off",
+      "no-continue": "off",
+      "no-empty-function": "warn",
+      "no-inner-declarations": "off",
+      "no-lone-blocks": "off",
+      "no-loop-func": "error",
+      "no-new": "off",
+      "no-new-func": "error",
+      "no-param-reassign": "off",
+      "no-plusplus": "off",
+      "no-restricted-syntax": "off",
+      "no-shadow": "warn",
+      "no-template-curly-in-string": "off",
+      "no-undef": "error",
+      "no-underscore-dangle": "off",
+      "no-unused-expressions": "off",
+      "no-unused-vars": "warn",
+      "no-use-before-define": [
+        "error",
+        {
+          "functions": false
+        }
+      ],
+      "no-useless-escape": "error",
+      "prefer-const": "warn",
+      "prefer-object-spread": "error",
+      "prefer-spread": "warn",
+      "space-before-blocks": "error"
+    },
+    "settings": {
+      "react": {
+        "version": "latest"
+      }
+    }
+  },
+  "keywords": [
+    "aitmed",
+    "website",
+    "noodl",
+    "static",
+    "gatsby"
+  ],
+  "license": "0BSD",
+  "main": "dist/gatsby-node.js",
+  "module": "dist/gatsby-node.js",
+  "name": "gatsby-plugin-noodl",
+  "prettier": {
+    "arrowParens": "always",
+    "endOfLine": "lf",
+    "printWidth": 80,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all"
+  },
+  "scripts": {
+    "build": "tsc",
+    "bump:minor": "npm version patch -f",
+    "start": "tsc -w",
+    "test": "cross-env NODE_ENV=test mocha --watch --watch-files . \"__tests__/**/*.test.js\" --file __tests__/setup.js"
+  },
+  "types": "./types.d.ts"
+}

@@ -1,0 +1,35 @@
+{
+  "atime": 1621029483,
+  "atimes": 1,
+  "bsig": "KyRGNeLKTPscmfAfMyKktw==",
+  "created_at": 1621029483000,
+  "ctime": 1621029483,
+  "deat": null,
+  "eid": "Qw5wPVM/TquV5Ake0Scg5w==",
+  "esig": "Qw5wPVM/TquV5Ake0Scg5w==",
+  "fid": "",
+  "id": "pRGvYhVVTjF3OZHrm9riNw==",
+  "modified_at": 1621029483000,
+  "mtime": 1621029483,
+  "name": {
+    "data": "coffe ",
+    "tags": [],
+    "targetRoomName": "awwa",
+    "title": "abc123 title",
+    "type": "application/json",
+    "user": "Chris Tran"
+  },
+  "size": 6,
+  "subtype": {
+    "applicationDataType": 0,
+    "isBinary": false,
+    "isEditable": true,
+    "isEncrypted": false,
+    "isOnServer": true,
+    "isZipped": false,
+    "mediaType": 8,
+    "size": 6
+  },
+  "tage": 0,
+  "type": 1025
+}

@@ -1,0 +1,86 @@
+ReferenceTest:
+  pageNumber: '524'
+  title: 'The Page for ReferenceTest tests'
+  docDetail:
+    document:
+      name:
+        title: document title
+        data: binFile
+        type: image/png
+        countryCodes: .CountryCode # --> .CountryCode
+  avatar: 'https://public.aitmed.com/avatar/JohnDoe.jpg'
+  demographics:
+    gender:
+      options:
+        - male
+        - female
+        - other
+  components:
+    - .HeaderLeftButton: # --> .HeaderLeftButton --> .LeftButtonStyle --> .Style
+      style:
+        left: '0'
+        height: '0.4'
+    - type: view
+      children:
+        - type: textField
+          dataKey: docDetail.document.name.title
+          style:
+            color: '0x000000'
+            borderWidth: '1'
+        - type: view
+          children:
+            - type: label
+              text: 'Shared by: '
+              style:
+                top: '0.015'
+            - type: label
+              dataKey: docDetail.document.name.user
+        - type: ecosDoc
+          ecosObj: ..docDetail.document
+        - type: button
+          text: 'Save'
+          onClick:
+            - actionType: builtIn
+              funcName: goBack
+              reload: true
+          style:
+            backgroundColor: '0x388eccff'
+            borderRadius: '5'
+        - type: view
+          style:
+            border:
+              style: '4'
+              width: '1.5'
+              color: '0xacacac'
+          children:
+            - type: select
+              initialValue: ..demographics.gender.options.1
+              options: ..demographics.gender.options
+              style:
+                left: '0'
+                width: '0.7'
+                height: '0.12'
+        - type: popUp
+          viewTag: removeView
+          style:
+          children:
+            - type: view
+              style:
+                backgroundColor: '0xeeeeeeff'
+                borderRadius: '15'
+              children:
+                - type: label
+                  text: 'Are you sure you want to remove this note?'
+                - type: divider
+                - type: button
+                  onClick:
+                    - actionType: builtIn
+                      funcName: goBack
+                      reload: true
+                  text: Remove
+                  style:
+                    display: inline
+                    textAlign:
+                      x: center
+                      y: center
+                    borderRadius: '15'

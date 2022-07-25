@@ -1,0 +1,7 @@
+{
+  "eslint.workingDirectories": ["./"],
+  "eslint.probe": [
+    "javascript",
+    "markdown"
+  ]
+}

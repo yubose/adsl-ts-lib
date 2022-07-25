@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+		"declaration": true,
+    "declarationDir": "./dist",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "target": "es2015"
+  },
+  "exclude": ["./src/**/*.test.ts"],
+  "include": [],
+  "files": ["./src/index.ts"]
+}

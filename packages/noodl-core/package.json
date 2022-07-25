@@ -1,0 +1,44 @@
+{
+  "author": "Christopher Tran <pfftdammitchris@gmail.com>",
+  "description": "Core JavaScript library for the Neuron Organic Object Description Language (NOODL)",
+  "devDependencies": {},
+  "directories": {
+    "dist": "dist",
+    "test": "__tests__"
+  },
+  "files": [
+    "dist"
+  ],
+  "homepage": "",
+  "keywords": [
+    "noodl",
+    "ecos",
+    "aitmed",
+    "noodl-ui",
+    "telemedicine"
+  ],
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "name": "noodl-core",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://gitlab.aitmed.com/pfftdammitchris/aitmed-noodl-lib.git"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "concurrently \"npm run types:watch\" \"rollup -c -w\"",
+    "postbuild": "npm run types",
+    "poststart": "npm run types",
+    "start": "tsc -w",
+    "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" \"src/**/*.test.ts\"",
+    "test:file": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\"",
+    "types": "tsc --emitDeclarationOnly --esModuleInterop --declaration --declarationDir dist --project tsconfig.json",
+    "types:watch": "npm run types -- -w"
+  },
+  "typings": "./dist/index.d.ts",
+  "version": "0.1.15"
+}
