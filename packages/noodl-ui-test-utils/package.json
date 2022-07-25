@@ -1,5 +1,8 @@
 {
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
+  "dependencies": {
+    "noodl-types": "^1.0.219"
+  },
   "description": "Test utilities for the noodl-ui library",
   "directories": {
     "dist": "dist"
@@ -32,5 +35,5 @@
   },
   "types": "./dist/index.d.ts",
   "typings": "dist/noodl-ui-test-utils.d.ts",
-  "version": "0.0.13"
+  "version": "0.0.14"
 }

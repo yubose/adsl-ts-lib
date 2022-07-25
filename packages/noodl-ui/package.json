@@ -1,9 +1,11 @@
 {
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
   "dependencies": {
-    "noodl-action-chain": "*",
-    "noodl-types": "*",
-    "noodl-utils": "*"
+    "noodl-action-chain": "^0.0.110",
+    "noodl-types": "^1.0.219",
+    "noodl-ui-test-utils": "^0.0.14",
+    "noodl-utils": "^0.0.92",
+    "signature_pad": "^4.0.7"
   },
   "description": "NOODL JavaScript library",
   "engines": {
@@ -25,13 +27,13 @@
   "name": "noodl-ui",
   "repository": "pfftdammitchris/noodl-ui",
   "scripts": {
-    "build": "concurrently \"rollup -c --environment BUILD:production\" \"bun run types\"",
-    "build:development": "cross-env NODE_ENV=development concurrently \"rollup -c --environment BUILD:development\" \"bun run types\"",
-    "start": "concurrently \"rollup -c -w --environment BUILD:development\" \"bun run types\"",
+    "build": "concurrently \"rollup -c --environment BUILD:production\" \"npm run types\"",
+    "build:development": "cross-env NODE_ENV=development concurrently \"rollup -c --environment BUILD:development\" \"npm run types\"",
+    "start": "concurrently \"rollup -c -w --environment BUILD:development\" \"npm run types\"",
     "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --file src/setupTests.ts --extensions ts --watch --watch-files \"src/**/*.ts\" \"src/**/*.test.ts\" --ignore \"src/__tests__/dom/**/*\"",
     "test:file": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json --file src/setupTests.ts -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\"",
     "types": "tsc --declaration --declarationDir dist --emitDeclarationOnly"
   },
   "typings": "dist/index.d.ts",
-  "version": "0.1.129"
+  "version": "0.1.130"
 }
