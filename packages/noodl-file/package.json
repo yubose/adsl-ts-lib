@@ -42,5 +42,5 @@
     "types": "tsc --emitDeclarationOnly --esModuleInterop --declaration --declarationDir dist --project tsconfig.json"
   },
   "typings": "./dist/index.d.ts",
-  "version": "0.0.9"
+  "version": "0.0.10"
 }
