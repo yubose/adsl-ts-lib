@@ -5,9 +5,9 @@
     "@aitmed/ecos-lvl2-sdk": "^1.4.198",
     "gatsby-source-filesystem": "^4.19.0",
     "loglevel": "^1.8.0",
-    "noodl-action-chain": "^0.0.114",
-    "noodl-types": "^1.0.223",
-    "noodl-ui": "^0.1.134"
+    "noodl-action-chain": "^0.0.115",
+    "noodl-types": "^1.0.224",
+    "noodl-ui": "^0.1.135"
   },
   "description": "Gatsby AiTmed plugin to generate static pages from a noodl config",
   "devDependencies": {
@@ -113,5 +113,5 @@
     "test": "cross-env NODE_ENV=test mocha --watch --watch-files . \"__tests__/**/*.test.js\" --file __tests__/setup.js"
   },
   "types": "./types.d.ts",
-  "version": "0.0.53"
+  "version": "0.0.54"
 }
