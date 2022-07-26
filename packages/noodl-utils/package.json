@@ -2,7 +2,7 @@
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
   "bugs": {},
   "dependencies": {
-    "noodl-types": "^1.0.224"
+    "noodl-types": "^1.0.225"
   },
   "description": "Utility/helpers for working with NOODL values",
   "engines": {
@@ -36,5 +36,5 @@
     "types": "tsc --declaration --declarationDir dist --emitDeclarationOnly"
   },
   "typings": "./dist/index.d.ts",
-  "version": "0.0.97"
+  "version": "0.0.98"
 }

@@ -1,4 +1,3 @@
-// @ts-ignore
 import { actionFactory, componentFactory } from 'noodl-ui-test-utils'
 import get from 'lodash/get'
 import * as u from '@jsmanifest/utils'
@@ -121,14 +120,14 @@ export function getPresetPageObjects() {
             children: [
               ui.textField({
                 onChange: [
-                  ui.emitObject({
+                  ui.emit({
                     dataKey: 'Donut.formData.password',
                   }),
                 ],
               }),
               ui.button({
                 text: `Go to Donut page`,
-                onClick: [ui.gotoObject('Donut')],
+                onClick: [ui.goto('Donut')],
               }),
               ui.divider({ id: 'divider' }),
               ui.label({
@@ -200,9 +199,9 @@ export function getPresetPageObjects() {
                             viewTag: 'updateTag',
                             text: 'Click to update this row',
                             onClick: [
-                              ui.emitObject(),
+                              ui.emit(),
                               ui.evalObject({
-                                object: async () => ui.gotoObject('Cloud'),
+                                object: async () => ui.goto('Cloud'),
                               }),
                               ui.popUp('abc'),
                               ui.builtIn({
@@ -221,7 +220,7 @@ export function getPresetPageObjects() {
           }),
           ui.button({
             text: 'Submit',
-            onClick: [ui.emitObject(), ui.evalObject(), ui.gotoObject('Abc')],
+            onClick: [ui.emit(), ui.evalObject(), ui.goto('Abc')],
           }),
           ui.textField({ dataKey: `..icon`, placeholder: `Icon URL` }),
         ],
