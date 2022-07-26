@@ -26,13 +26,10 @@ const configs = [
       esbuild({
         include: /\.ts$/,
         exclude: /node_modules/,
-        target: 'es2015',
+        target: 'es2018',
       }),
     ],
   },
 ]
-
-// "presets": ["@babel/env"],
-// "plugins": ["@babel/plugin-transform-runtime"]
 
 export default configs

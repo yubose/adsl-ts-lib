@@ -3,9 +3,7 @@
  * https://www.gatsbyjs.com/docs/reference/config-files/node-api-helpers/
  */
 import type { cache as sdkCache } from '@aitmed/cadl'
-import { slash } from 'gatsby-core-utils'
 import * as u from '@jsmanifest/utils'
-import axios from 'axios'
 import { NuiComponent, publish } from 'noodl-ui'
 import log from 'loglevel'
 import fs from 'fs-extra'
@@ -13,15 +11,9 @@ import nt from 'noodl-types'
 import get from 'lodash/get'
 import set from 'lodash/set'
 import path from 'path'
-// @ts-expect-error
 import n from 'noodl'
 import y from 'yaml'
-import type {
-  CreatePagesArgs,
-  CreateSchemaCustomizationArgs,
-  NodePluginArgs,
-  SourceNodesArgs,
-} from 'gatsby'
+import type { CreatePagesArgs, NodePluginArgs, SourceNodesArgs } from 'gatsby'
 import { getGenerator } from './generator'
 import utils from './utils'
 import * as t from './types'
@@ -32,9 +24,7 @@ const DEFAULT_ECOS_ENV = 'stable'
 const DEFAULT_LOG_LEVEL = 'info'
 const DEFAULT_OUTPUT_PATH = 'output'
 const DEFAULT_SRC_PATH = './src'
-const DEFAULT_TEMPLATE_PATH = slash(
-  path.resolve(path.join(DEFAULT_SRC_PATH, 'templates/page.tsx')),
-)
+const DEFAULT_TEMPLATE_PATH = path.join(DEFAULT_SRC_PATH, 'templates/page.tsx')
 const DEFAULT_VIEWPORT_WIDTH = 1024
 const DEFAULT_VIEWPORT_HEIGHT = 768
 const NOODL_PAGE_NODE_TYPE = 'NoodlPage'
@@ -157,7 +147,7 @@ export const dumpMetadata = async ({
     },
   })
   if (write) {
-    const filepath = slash(path.join(_paths.output, './metadata.json'))
+    const filepath = u.unixify(path.join(_paths.output, './metadata.json'))
     log.debug(`Writing to: ${u.yellow(filepath)}`)
     await fs.writeJson(filepath, metadata, { spaces: 2 })
   }
@@ -233,7 +223,9 @@ export const onPluginInit = async function onPluginInit(
   log.debug('onPluginInit START')
   _paths.output = pluginOpts.paths?.output || DEFAULT_OUTPUT_PATH
   _paths.src = pluginOpts.paths?.src || DEFAULT_SRC_PATH
-  _paths.template = pluginOpts.paths?.template || DEFAULT_TEMPLATE_PATH
+  _paths.template = require.resolve(
+    pluginOpts.paths?.template || DEFAULT_TEMPLATE_PATH,
+  )
 
   _cacheDir = args.cache.directory
   _cwd = pluginOpts.cwd || process.cwd()
@@ -251,11 +243,11 @@ export const onPluginInit = async function onPluginInit(
   debug(`Log level set to: ${yellow(_loglevel)}`)
   debug(`Template path: ${yellow(_paths.template)}`)
 
-  resolvedOutputNamespacedWithConfig = slash(utils.getConfigDir(_configKey))
-  resolvedAssetsDir = slash(
+  resolvedOutputNamespacedWithConfig = u.unixify(utils.getConfigDir(_configKey))
+  resolvedAssetsDir = u.unixify(
     path.join(resolvedOutputNamespacedWithConfig, 'assets'),
   )
-  resolvedConfigsDir = slash(
+  resolvedConfigsDir = u.unixify(
     path.join(
       resolvedOutputNamespacedWithConfig,
       utils.ensureExt(_configKey, 'yml'),
@@ -315,7 +307,7 @@ export const onPluginInit = async function onPluginInit(
     throw new Error(`Could not load a config file both locally and remotely`)
   }
 
-  resolvedAppConfigFile = slash(
+  resolvedAppConfigFile = u.unixify(
     path.join(resolvedOutputNamespacedWithConfig, _appKey),
   )
 
@@ -568,8 +560,8 @@ export const onPluginInit = async function onPluginInit(
         }
       } catch (error) {
         const err = error instanceof Error ? error : new Error(String(error))
-        if (axios.isAxiosError(err)) {
-          if (err.response?.status === 404) {
+        if ('response' in err) {
+          if (err['response']?.status === 404) {
             const logMsg = `The asset "${asset.url}" `
             warn(logMsg + `returned a ${red(`404 Not Found`)} error`)
           }
@@ -820,12 +812,13 @@ export const sourceNodes = async function sourceNodes(
      * Create the GraphQL nodes for page objects
      * These will be merged and eventually form the noodl root object that wraps our react app so they can be available to page routes to work with
      */
-    createNode({
+    await createNode({
       name,
       slug: `/${name}/`,
       id: createNodeId(name),
       content: _pages.serialized[name],
       children: [],
+      parent: null,
       internal: {
         content: _pages.serialized[name],
         contentDigest: createContentDigest(_pages.serialized[name]),
@@ -847,7 +840,7 @@ export const sourceNodes = async function sourceNodes(
   }
 }
 
-export const createPages = async function createPages(
+export const createPages = async function (
   args: CreatePagesArgs,
   pluginOpts: t.GatsbyNoodlPluginOptions,
 ) {
@@ -918,9 +911,9 @@ export const createPages = async function createPages(
 }
 
 /**
- * @argument { import('gatsby').CreatePageArgs } opts
+ * @param { import('gatsby').CreatePageArgs } opts
  */
-export const onCreatePage = async function onCreatePage(opts) {
+export async function onCreatePage(opts) {
   const { actions, page } = opts
   const { createPage, deletePage } = actions
 
@@ -947,6 +940,22 @@ export const onCreatePage = async function onCreatePage(opts) {
   }
 }
 
+// export const createSchemaCustomization = ({
+//   actions,
+//   schema,
+// }: CreateSchemaCustomizationArgs) => {
+//   const { createTypes } = actions
+//   createTypes([
+//     schema.buildObjectType({
+//       name: 'NoodlPage',
+//       fields: {
+//         name: 'String',
+//       },
+//       interfaces: ['Node'],
+//     }),
+//   ])
+// }
+
 process.on('uncaughtException', (error, origin) => {
   log.error(
     `[${u.cyan(
@@ -969,19 +978,3 @@ process.on('exit', (code) => {
     )
   }
 })
-
-export const createSchemaCustomization = ({
-  actions,
-  schema,
-}: CreateSchemaCustomizationArgs) => {
-  const { createTypes } = actions
-  createTypes([
-    schema.buildObjectType({
-      name: 'NoodlPage',
-      fields: {
-        name: 'String',
-      },
-      interfaces: ['Node'],
-    }),
-  ])
-}

@@ -30,8 +30,8 @@ async function downloadFile(
   } catch (error) {
     const err = error instanceof Error ? error : new Error(String(error))
     // log.error(`[${u.yellow(err.name)}] ${u.red(err.message)}`)
-    if (axios.isAxiosError(err)) {
-      if (err.response?.status === 404) {
+    if ('response' in err) {
+      if (err['response']?.status === 404) {
         log.warn(`The file "${url}" returned a ${u.red(`404 Not Found`)} error`)
       }
     } else {
