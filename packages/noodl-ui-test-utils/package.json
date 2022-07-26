@@ -7,7 +7,7 @@
   "files": [
     "dist"
   ],
-  "gitHead": "302517adcce5480179a061c3cbcb0d472e086c1e",
+  "gitHead": "0be60bf26d3b63452ca98167c6e95448db3ed79e",
   "homepage": "",
   "keywords": [
     "noodl-ui",
@@ -40,5 +40,5 @@
     "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" \"src/**/*.test.ts\""
   },
   "types": "dist/index.d.ts",
-  "version": "0.0.17"
+  "version": "0.0.18"
 }

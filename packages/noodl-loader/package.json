@@ -33,6 +33,6 @@
     "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" \"src/**/*.test.ts\"",
     "test:file": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json --file src/setupTests.ts -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\""
   },
-  "version": "0.0.10",
-  "gitHead": "302517adcce5480179a061c3cbcb0d472e086c1e"
+  "version": "0.0.11",
+  "gitHead": "0be60bf26d3b63452ca98167c6e95448db3ed79e"
 }
