@@ -1,16 +1,27 @@
 import * as u from '@jsmanifest/utils'
 import path from 'path'
 import y from 'yaml'
-import Extractor from '../Extractor'
+import Extractor from '../extractor/Extractor'
 import NoodlConfig from '../Config'
 import NoodlCadlEndpoint from '../CadlEndpoint'
 import loadFile from '../utils/loadFile'
-import { isNode, merge, toDocument, unwrap } from '../utils/yml'
+import {
+  isNode,
+  isScalar,
+  isPair,
+  isMap,
+  isSeq,
+  isDocument,
+  merge,
+  toDocument,
+  unwrap,
+} from '../utils/yml'
 import { assertNonEmpty } from '../utils/assert'
 import { isPageInArray, resolvePath } from './loaderUtils'
 import type Strategy from './Strategy'
 import * as is from '../utils/is'
 import * as t from '../types'
+import { ExtractedItem } from '../extractor'
 
 class NoodlLoader extends t.ALoader {
   #root: {
@@ -18,17 +29,15 @@ class NoodlLoader extends t.ALoader {
     Global: Record<string, t.YAMLNode>
   } & { [key: string]: any }
 
-  #strategies = [] as t.ALoaderStrategy[]
-
   config: NoodlConfig
-  cadlEndpoint: NoodlCadlEndpoint
-  extractor: Extractor;
+  cadlEndpoint: NoodlCadlEndpoint;
 
   [Symbol.for('nodejs.util.inspect.custom')]() {
     return {
       config: this.config.toJSON(),
       cadlEndpoint: this.cadlEndpoint.toJSON(),
       rootKeys: u.keys(this.#root),
+      strategies: this.strategies,
     }
   }
 
@@ -47,52 +56,170 @@ class NoodlLoader extends t.ALoader {
     return this.#root
   }
 
-  async load(value: string) {
+  getOptions<O extends Record<string, any> = Record<string, any>>(other?: O) {
+    return {
+      config: this.config,
+      cadlEndpoint: this.cadlEndpoint,
+      root: this.root,
+      ...other,
+    }
+  }
+
+  extract<
+    S extends string = string,
+    R extends Record<S, ExtractedItem[]> = Record<S, ExtractedItem[]>,
+  >(
+    value: unknown,
+    {
+      use,
+    }: {
+      use?: {
+        extractors?:
+          | { name: string; extractor: Extractor }[]
+          | { name: string; extractor: Extractor }
+      }
+    } = {},
+  ): Record<string, ExtractedItem[]> {
+    const assets = {} as Record<string, ExtractedItem[]>
+    const data = {} as Record<
+      string,
+      {
+        [name: string]: {
+          items: ExtractedItem[]
+          ids: any[]
+        }
+      }
+    >
+
+    const extractors = {} as Record<string, Extractor[]>
+
+    if (u.isObj(use)) {
+      if (use.extractors) {
+        for (const { name, extractor } of u.array(use.extractors)) {
+          if (!extractors[name]) extractors[name] = []
+          if (!assets[name]) assets[name] = []
+          extractors[name].push(extractor)
+        }
+      }
+    }
+
+    const wrapVisitFn = (fn: y.visitorFn<any>) => {
+      return (...args: Parameters<y.visitorFn<any>>) => {
+        const [key, node, path] = args
+        const result = fn({
+          key,
+          node,
+          path,
+        })
+        if (!u.isUnd(result)) return result
+      }
+    }
+
+    if (y.isPair(value)) value = value.value
+
+    if (isNode(value) || isDocument(value)) {
+      y.visit(
+        value,
+        wrapVisitFn((key, node, path) => {
+          for (const [name, xtractors] of u.entries(extractors)) {
+            xtractors.forEach((extractor) => {
+              assets[name] = assets[name].concat(
+                u.array(
+                  extractor.extract({
+                    data,
+                    key,
+                    node,
+                    path,
+                  }),
+                ),
+              )
+            })
+          }
+        }),
+      )
+    }
+
+    return assets
+  }
+
+  async load(
+    value: string,
+    {
+      preload = true,
+      pages = true,
+    }: { preload?: boolean; pages?: boolean } = {},
+  ) {
     try {
-      for (const strategy of this.#strategies) {
-        if (strategy.is(value)) {
-          let result = strategy.load(value, {
-            root: this.root,
-          })
+      let doc: y.Document<y.Node<any>> | undefined
 
-          if (u.isPromise(result)) result = await result
+      for (const strategy of this.strategies) {
+        if (strategy.is(value, this.getOptions())) {
+          let { name, ext = '' } = strategy.parse(value, this.getOptions())
+          let { configKey, appKey } = this.config
+          let formattedValue = strategy.format(value, this.getOptions())
 
-          const { config: configYml, cadlEndpoint: cadlEndpointYml = '' } =
-            result
+          if (name) {
+            let doc: y.Document<y.Node<any>> | undefined
+            let yml = strategy.load(formattedValue, this.getOptions())
 
-          const config = toDocument(configYml)
-          const cadlEndpoint = toDocument(cadlEndpointYml)
+            if (u.isPromise(yml)) yml = await yml
 
-          for (const doc of [config, cadlEndpoint]) {
-            if (y.isMap(doc.contents)) {
-              const isRootConfig = doc === config
-              const name = (
-                isRootConfig ? this.config.configKey : this.config.appKey
-              ).replace(/_en|\.yml/i, '')
+            doc = toDocument(yml)
 
-              doc.contents.items.forEach((pair) => {
-                const key = unwrap(pair.key) as string
-                const value = y.isNode(pair.value)
-                  ? pair.value.toJSON()
-                  : pair.value
-
-                if (isRootConfig) {
-                  if (key === 'cadlBaseUrl') {
-                    this.config.baseUrl = value
-                  } else if (key === 'cadlMain') {
-                    this.config.appKey = value
-                  } else {
-                    this.config[key] = value
-                  }
-                } else {
-                  if (key === 'page') {
-                    this.cadlEndpoint.pages = value
-                  } else {
-                    this.cadlEndpoint[key] = value
+            if (configKey.includes(name)) {
+              this.loadRootConfig(doc)
+            } else if (appKey.includes(name)) {
+              this.loadAppConfig(doc)
+            } else {
+              if (isPageInArray(this.cadlEndpoint.preload, name) && preload) {
+                if (preload) {
+                  for (const item of this.cadlEndpoint.preload) {
+                    const yml = strategy.load(item, this.getOptions())
+                    const doc = toDocument(yml)
+                    this.loadPreload(name, doc)
                   }
                 }
-              })
+              } else if (
+                isPageInArray(this.cadlEndpoint.pages, name) &&
+                pages
+              ) {
+                for (const item of this.cadlEndpoint.preload) {
+                  const yml = strategy.load(item, this.getOptions())
+                  const doc = toDocument(yml)
+                  this.loadPage(name, doc)
+                }
+              }
             }
+          }
+
+          if (y.isMap(doc?.contents)) {
+            const isRootConfig = doc === config
+            const name = (
+              isRootConfig ? this.config.configKey : this.config.appKey
+            ).replace(/_en|\.yml/i, '')
+
+            doc.contents.items.forEach((pair) => {
+              const key = unwrap(pair.key) as string
+              const value = y.isNode(pair.value)
+                ? pair.value.toJSON()
+                : pair.value
+
+              if (isRootConfig) {
+                if (key === 'cadlBaseUrl') {
+                  this.config.baseUrl = value
+                } else if (key === 'cadlMain') {
+                  this.config.appKey = value
+                } else {
+                  this.config[key] = value
+                }
+              } else {
+                if (key === 'page') {
+                  this.cadlEndpoint.pages = value
+                } else {
+                  this.cadlEndpoint[key] = value
+                }
+              }
+            })
           }
         }
       }
@@ -229,9 +356,11 @@ class NoodlLoader extends t.ALoader {
     return this
   }
 
-  use(value: Strategy) {
-    if (is.strategy(value)) {
-      this.#strategies.push(value)
+  use(value: Extractor | Strategy) {
+    if (is.extractor(value)) {
+      this.extractors.push(value)
+    } else if (is.strategy(value)) {
+      this.strategies?.push(value)
     }
     return this
   }

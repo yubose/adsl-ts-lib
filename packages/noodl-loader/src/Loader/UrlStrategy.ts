@@ -1,56 +1,70 @@
 import path from 'path'
-import y from 'yaml'
 import Strategy from './Strategy'
 import { fetchYml } from '../utils/yml'
 import { url as isURL } from '../utils/is'
-import * as t from '../types'
+import type { LoaderCommonOptions } from '../types'
 
-class UrlStrategy extends Strategy implements t.LoaderStrategy {
+class UrlStrategy extends Strategy {
   constructor() {
     super()
-  }
-
-  format(value: any, options: Parameters<t.LoaderStrategy['format']>[1]) {
-    //
   }
 
   is(value: unknown) {
     return isURL(value)
   }
 
-  async load(...[value, { config }]: Parameters<t.ALoaderStrategy['load']>) {
-    if (typeof value !== 'string') {
-      value = String(value)
-    }
+  /**
+   * @param value String or URL
+   * @param Options
+   * @returns The value formatted into a URL
+   */
+  format(value: unknown, { name: string; ext: string; config, cadlEndpoint }: LoaderCommonOptions) {
+    let url: URL | undefined
 
-    let url = new URL(value as string)
-    let { name } = path.parse(url.href)
-
-    let _config = ''
-    let _cadlEndpoint = ''
-
-    if (name.endsWith('_en')) name = name.substring(0, name.length - 3)
-
-    if (url.pathname.endsWith('.yml')) {
-      let { appKey, configKey } = config
-
-      if (configKey && configKey === name) {
-        _config = await fetchYml(url.href)
+    if (!this.is(value)) {
+      if (typeof value === 'string') {
+        if (value) {
+          if (
+            config.configKey.includes(value) ||
+            config.appKey.includes(value)
+          ) {
+            url = new URL(
+              `${config.baseUrl}${
+                value.endsWith('.yml') ? `${value}.yml` : value
+              }`,
+            )
+          }
+        }
       } else {
-        //
+        return ''
       }
-
-      if (appKey?.includes(name)) {
-        _cadlEndpoint = await fetchYml(url.href)
-      } else {
-        //
-      }
+    } else {
+  return ''
     }
 
-    return {
-      config: _config,
-      cadlEndpoint: _cadlEndpoint,
-    }
+    return url?.toString() ?? ''
+  }
+
+  parse(value: URL | string, options: LoaderCommonOptions) {
+    let url = new URL(value)
+    let { name, ext } = path.parse(url.href)
+    if (ext.startsWith('.')) ext = ext.substring(1)
+    return { name, ext }
+  }
+
+  /**
+   * @param value string or URL object
+   * @param options Load options
+   *
+   * @example
+   * ```js
+   * await load('https://public.aitmed.com/config/meetd2.yml')
+   * await load('https://public.aitmed.com/cadl/www0.48/cadlEndpoint.yml')
+   * ```
+   */
+  async load(value: URL | string) {
+    const url = new URL(value instanceof URL ? value : new URL(value))
+    return fetchYml(url.toString())
   }
 }
 

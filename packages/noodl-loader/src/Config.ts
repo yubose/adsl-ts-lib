@@ -9,12 +9,12 @@ class NoodlConfig {
 
   apiHost = ''
   apiPort = ''
-  webApiHost: 'apiHost'
-  appApiHost: 'apiHost'
+  webApiHost = 'apiHost'
+  appApiHost = 'apiHost'
   appKey = ''
   baseUrl = ''
   configKey = ''
-  platform: ''
+  platform = ''
 
   viewWidthHeightRatio = {
     min: null,

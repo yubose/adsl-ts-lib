@@ -1,4 +1,4 @@
-export { default as Extractor } from './Extractor'
+export { default as Extractor } from './extractor/Extractor'
 export { default as loadFile } from './utils/loadFile'
 export { default as loadFiles } from './utils/loadFiles'
 export * as consts from './constants'

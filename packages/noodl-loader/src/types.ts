@@ -5,6 +5,8 @@ import * as nt from 'noodl-types'
 import type Config from './Config'
 import type CadlEndpoint from './CadlEndpoint'
 import * as c from './constants'
+import type LoaderStrategy from './Loader/Strategy'
+import type { Extractor, ExtractedItem } from './extractor'
 
 type OrArray<V> = V | V[]
 
@@ -42,24 +44,21 @@ export interface IAccumulator<V = any> {
 }
 
 export abstract class ALoader {
-  abstract root: Record<string, any>
+  abstract extract<S extends string = string>(
+    node: NoodlYAMLNode,
+    options: {
+      use?: Record<S, Extractor>
+    },
+  ): ExtractedItem[]
   abstract load(...args: any[]): Promise<any> | any
-}
-
-export abstract class ALoaderStrategy {
-  abstract is(value: any): boolean
-  abstract load(
-    value: any,
-    options: Pick<LoaderCommonOptions, 'config' | 'root'> & Record<string, any>,
-  ):
-    | Promise<{ config: string; cadlEndpoint?: string }>
-    | { config: string; cadlEndpoint?: string }
+  strategies: LoaderStrategy[] = []
+  extractors: Extractor[] = []
 }
 
 export interface LoaderCommonOptions {
   config: Config
   cadlEndpoint: CadlEndpoint
-  root: ALoader['root']
+  root: Record<string, any>
 }
 
 export namespace Loader {
@@ -265,9 +264,6 @@ export type Hooks = {
   [c.appPageRetrieveFailed](args: { error: Error; pageName: string }): void
 }
 
-export type YAMLNode =
-  | y.Document
-  | y.Document.Parsed
-  | y.Node
-  | y.YAMLMap
-  | y.YAMLSeq
+export type YAMLNode = y.Document | y.Node<any> | y.Pair
+
+export type NoodlYAMLNode = YAMLNode | boolean | number | string | null

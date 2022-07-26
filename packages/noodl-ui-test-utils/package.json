@@ -1,8 +1,5 @@
 {
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
-  "dependencies": {
-    "noodl-types": "^1.0.224"
-  },
   "description": "Test utilities for the noodl-ui library",
   "directories": {
     "dist": "dist"
@@ -10,7 +7,7 @@
   "files": [
     "dist"
   ],
-  "gitHead": "637b5b8d77e90591d198137ca90de9205ea63d88",
+  "gitHead": "b8bdca3b7f3d00aee7b947f190dadc07c1885acc",
   "homepage": "",
   "keywords": [
     "noodl-ui",
@@ -21,19 +18,27 @@
     "aitmed"
   ],
   "license": "ISC",
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "name": "noodl-ui-test-utils",
+  "prettier": {
+    "arrowParens": "always",
+    "endOfLine": "lf",
+    "printWidth": 80,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all"
+  },
   "repository": {
     "type": "git",
-    "url": "http://gitlab.aitmed.com/pfftdammitchris/aitmed-noodl-lib.git"
+    "url": "http://gitlab.aitmed.com/pfftdammitchris/aitmed-noodl-web.git"
   },
   "scripts": {
     "build": "tsc",
     "start": "tsc -w",
     "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" \"src/**/*.test.ts\""
   },
-  "types": "./dist/index.d.ts",
-  "typings": "dist/noodl-ui-test-utils.d.ts",
-  "version": "0.0.23"
+  "types": "dist/index.d.ts",
+  "version": "0.0.15"
 }

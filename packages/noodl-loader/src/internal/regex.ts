@@ -1,6 +1,6 @@
 export const extStrings = {
   document: ['doc', 'docx', 'json', 'pdf'],
-  image: ['bmp', 'gif', 'jpg', 'jpeg', 'tif', 'tiff', 'png', 'webp'],
+  image: ['bmp', 'gif', 'jpg', 'jpeg', 'tif', 'tiff', 'png', 'svg', 'webp'],
   page: ['yml'],
   script: ['js'],
   video: ['avi', 'flac', 'flav', 'mpg', 'mpeg', 'mkv', 'mp4', 'ogg', 'wmv'],

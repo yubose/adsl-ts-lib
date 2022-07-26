@@ -1,12 +1,15 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "baseUrl": "src",
     "declaration": true,
     "declarationDir": "./dist",
     "lib": ["es2020"],
-    "outDir": "./dist"
+    "module": "commonjs",
+    "outDir": "./dist",
+    "target": "es2015"
   },
-  "exclude": ["./src/**/*.test.ts", "dist", "node_modules"],
+  "exclude": ["dist", "node_modules"],
   "include": [],
   "files": ["./src/index.ts"]
 }

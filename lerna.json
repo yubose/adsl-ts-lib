@@ -2,18 +2,18 @@
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "bootstrap": true,
   "command": {
-    "bootstrap": {
-      "ignore": "noodl-loader"
-    },
+    "bootstrap": {},
     "create": {
       "license": "MIT"
     },
     "publish": {
       "bump": "patch",
       "message": "Update"
-    }
+    },
+    "run": {}
   },
   "forceLocal": true,
+  "ignore": "",
   "loglevel": "verbose",
   "message": "Update",
   "packages": [
@@ -27,7 +27,7 @@
     "packages/noodl-yaml",
     "packages/gatsby-plugin-noodl"
   ],
-  "parallel": true,
   "useNx": true,
+  "useWorkspaces": true,
   "version": "independent"
 }

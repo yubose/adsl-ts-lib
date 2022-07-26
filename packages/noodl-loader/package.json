@@ -1,7 +1,14 @@
 {
-  "name": "noodl-loader",
-  "version": "0.0.8",
+  "author": "Christopher Tran <pfftdammitchris@gmail.com>",
   "description": "Loader for noodl applications",
+  "directories": {
+    "dist": "dist",
+    "test": "__tests__"
+  },
+  "files": [
+    "dist"
+  ],
+  "homepage": "",
   "keywords": [
     "noodl",
     "ecos",
@@ -10,17 +17,9 @@
     "loader",
     "file"
   ],
-  "author": "Christopher Tran <pfftdammitchris@gmail.com>",
-  "homepage": "",
   "license": "MIT",
   "main": "dist/index.js",
-  "directories": {
-    "dist": "dist",
-    "test": "__tests__"
-  },
-  "files": [
-    "dist"
-  ],
+  "name": "noodl-loader",
   "publishConfig": {
     "access": "public"
   },
@@ -33,5 +32,6 @@
     "start": "tsc -w",
     "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" \"src/**/*.test.ts\"",
     "test:file": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json --file src/setupTests.ts -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\""
-  }
+  },
+  "version": "0.0.8"
 }

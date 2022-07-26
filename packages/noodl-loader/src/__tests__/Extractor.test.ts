@@ -4,11 +4,13 @@ import y from 'yaml'
 import sinon from 'sinon'
 import { DocRoot } from 'noodl-yaml'
 import { toDocument } from '../utils/yml'
-import Extractor from '../Extractor'
+import { ExtractImage, ExtractYaml } from '../extractor'
+import type Extractor from '../extractor/Extractor'
 import { ui } from './test-utils'
 import * as t from '../types'
 
 const assetsUrl = `https://public.aitmed.com/cadl/meet/v0.13/assets/`
+
 const getRoot = () => ({
   Cereal: {
     formData: {
@@ -55,45 +57,101 @@ const getRoot = () => ({
 })
 
 describe(`Extractor`, () => {
-  describe(`[for of] should iterate over the root`, () => {
-    xit(``, () => {
-      //
+  describe(`ExtractImage`, () => {
+    let yml = ''
+
+    beforeEach(() => {
+      yml = `
+      SignIn:
+        components:
+          - type: view
+            children:
+              - type: image
+                path: abc.png
+              - type: plugin
+                path: main.js
+              - type: video
+                path: AiTmedMov1.mp4
+              - type: image
+                path: https://public.aitmed.com/cadl/www6.47/assets/green.svg
+              - type: video
+                path: https://public.aitmed.com/cadl/www6.47/assets/myMovie.avi
+              - type: video
+                path: https://public.aitmed.com/cadl/www6.47/assets/myMovie.jpeg
+              - type: scrollView
+                children:
+                  - type: image
+                    path: public.gif
+                  - type: page
+                    path: Dashboard
+                  - type: page
+                    path: https://public.aitmed.com/cadl/www6.47/assets/Covid.yml
+                  - type: view
+                    children:
+                      - type: image
+                        path: colors.jpeg
+      `
     })
-  })
 
-  describe(`doc`, () => {
-    it(
-      `should be able to collect all assets using the DocIterator, ` +
-        `DocVisitor, FileStructure, LinkStructure, and ObjAccumulator`,
-      () => {
-        const extractor = new Extractor()
-        const root = new DocRoot()
-        extractor.use(root)
+    it(`should extract all image assets`, async () => {
+      const doc = toDocument(yml)
+      const extractor = new ExtractImage()
+      const results = extractor.extract(doc)
+      const resultsObject = results.reduce((acc, result) => {
+        acc[result.value] = result
+        return acc
+      }, {})
+      expect(resultsObject).to.have.property('abc.png')
+      expect(resultsObject).to.have.property(
+        'https://public.aitmed.com/cadl/www6.47/assets/green.svg',
+      )
+      expect(resultsObject).to.have.property(
+        'https://public.aitmed.com/cadl/www6.47/assets/myMovie.jpeg',
+      )
+      expect(resultsObject).to.have.property('public.gif')
+    })
 
-        u.entries(getRoot()).forEach(([name, json]) => {
-          const doc = y.parseDocument(y.stringify(json))
-          root.set(name, doc)
-        })
+    it.skip(`should extract all script assets`, () => {
+      const doc = toDocument(yml)
+      const extractor = new ExtractYaml()
+      const results = extractor.extract(doc)
+      const resultsObject = results.reduce((acc, result) => {
+        acc[result.value] = result
+        return acc
+      }, {})
+      expect(resultsObject)
+        .to.have.property('Dashboard')
+        .to.have.property('type', 'Yaml')
+      expect(resultsObject)
+        .to.have.property(
+          'https://public.aitmed.com/cadl/www6.47/assets/Covid.yml',
+        )
+        .to.have.property('type', 'Yaml')
+    })
 
-        const assets = extractor.extract((name, node, fs) => {
-          console.log(node.contents.items[0].key.value)
-        })
-
-        console.log({ assets })
-
-        // const filepaths = u
-        //   .values(assets)
-        //   .reduce((acc, asset) => acc.concat(asset.map(({ name }) => name)), [])
-
-        // expect(filepaths).to.have.all.members([
-        //   'backpack',
-        //   'reindeer',
-        //   'event',
-        //   'abc',
-        //   'movie',
-        // ])
-      },
-    )
+    it.skip(`should extract all yaml assets`, () => {
+      process.stdout.write('\x1Bc')
+      const doc = toDocument(yml)
+      y.visit(doc, function (key, node, path) {
+        if (y.isScalar(node) && node.value === 'public.gif') {
+          console.log(path)
+        }
+      })
+      // const extractor = new ExtractYaml()
+      // const results = extractor.extract(doc)
+      // const resultsObject = results.reduce((acc, result) => {
+      //   acc[result.value] = result
+      //   return acc
+      // }, {})
+      // expect(resultsObject)
+      //   .to.have.property('Dashboard')
+      //   .to.have.property('type', 'Yaml')
+      // expect(resultsObject)
+      //   .to.have.property(
+      //     'https://public.aitmed.com/cadl/www6.47/assets/Covid.yml',
+      //   )
+      //   .to.have.property('type', 'Yaml')
+    })
   })
 
   describe.skip(`accumulators`, () => {

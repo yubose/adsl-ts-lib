@@ -4,6 +4,16 @@ import y from 'yaml'
 import type { ToStringOptions } from 'yaml'
 import * as t from '../types'
 
+export {
+  isMap,
+  isSeq,
+  isScalar,
+  isPair,
+  isCollection,
+  isDocument,
+  visit,
+} from 'yaml'
+
 /**
  * Fetches a yaml file using the url provided.
  * If "as" is "json", the result will be parsed and returned as json
@@ -98,6 +108,25 @@ export function parse<DataType extends t.Loader.RootDataType>(
   opts?: y.DocumentOptions & y.ParseOptions & y.SchemaOptions,
 ): DataType extends 'map' ? y.Document.Parsed : Record<string, any> {
   return dataType === 'map' ? y.parseDocument(yml, opts) : y.parse(yml, opts)
+}
+
+export function getScalars(
+  node: unknown,
+  fn: (...args: Parameters<y.visitorFn<any>>) => boolean = (_, node) =>
+    y.isScalar(node),
+): y.Scalar[] {
+  const scalars = [] as y.Scalar[]
+
+  if (y.isNode(node) || y.isDocument(node)) {
+    y.visit(node, function onVisitNode(key, n, path) {
+      const scalar = fn(key, n, path)
+      if (scalar) scalars.push(n as y.Scalar)
+    })
+  } else if (y.isPair(node)) {
+    return scalars.concat(getScalars(node.value, fn))
+  }
+
+  return scalars
 }
 
 /**

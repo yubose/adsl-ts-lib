@@ -5,7 +5,7 @@ const getHelpers = require('./helpers')
 const program = new Command()
 const helpers = getHelpers()
 
-const { cwd, execSync, fs, path, u } = helpers
+const { cwd, execSync, fg, fs, log, path, u } = helpers
 
 function getPackage(value) {
   let pkg = ''

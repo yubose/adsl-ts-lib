@@ -1,6 +1,14 @@
+import * as u from '@jsmanifest/utils'
+// import { isDocument, isScalar, isPair, isMap, isSeq } from '../utils/yml'
 import regex from '../internal/regex'
-import { _id } from '../constants'
-import type { ALoaderStrategy, Ext } from '../types'
+import { _id, idKey } from '../constants'
+import type { Extractor } from '../extractor'
+import type Strategy from '../Loader/Strategy'
+import type { Ext } from '../types'
+
+export function extractor(value: unknown): value is Extractor {
+  return u.isObj(value) && value[idKey] === _id.extractor
+}
 
 export function typeOf(value: unknown) {
   if (Array.isArray(value)) return 'array'
@@ -49,9 +57,9 @@ export function promise<V = any>(value: unknown): value is Promise<V> {
   return value !== null && typeof value === 'object' && 'then' in value
 }
 
-export function strategy(value: unknown): value is ALoaderStrategy {
+export function strategy(value: unknown): value is Strategy {
   return (
-    value != null && typeof value === 'object' && value['_id'] === _id.strategy
+    value != null && typeof value === 'object' && value[idKey] === _id.strategy
   )
 }
 
@@ -62,8 +70,13 @@ export function stringInArray(arr: any[], value: unknown) {
   return false
 }
 
+export function yaml(value: unknown): value is `${string}.yml` {
+  if (!u.isStr(value)) return false
+  return value.endsWith('.yml')
+}
+
 export function url(value: unknown): boolean {
-  if (typeof value !== 'string') return false
+  if (typeof value !== 'string' && !(value instanceof URL)) return false
 
   let url: URL
 

@@ -2,7 +2,6 @@ const u = require('@jsmanifest/utils')
 const childProcess = require('child_process')
 const chalk = require('chalk')
 const esbuild = require('esbuild')
-const del = require('del')
 const fs = require('fs-extra')
 const fg = require('fast-glob')
 const os = require('os')
@@ -33,7 +32,6 @@ const helpers = {
     yellow: chalk.hex('#FFDB72'),
   },
   cwd: process.cwd(),
-  del,
   esbuild,
   execSync,
   env: process.env,

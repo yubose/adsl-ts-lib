@@ -1,411 +1,210 @@
-// import * as u from '@jsmanifest/utils'
-// import { expect } from 'chai'
-// import chalk from 'chalk'
-// import fs from 'fs-extra'
-// import * as path from 'path'
-// import nock from 'nock'
-// import sinon from 'sinon'
-// import y from 'yaml'
-// import { ensureExt } from 'noodl-file'
-// import loadFiles from '../utils/loadFiles'
-// import Loader from '../Loader'
-// import loadFile from '../utils/loadFile'
-// import * as c from '../constants'
+import * as u from '@jsmanifest/utils'
+import path from 'path'
+import { expect } from 'chai'
+import mfs from 'mock-fs'
+import nock from 'nock'
+import { defaultBaseUrl, getFixturePath, proxyPageYmls } from './test-utils'
+import { ExtractImage, ExtractScript, ExtractYaml } from '../extractor'
+import Loader from '../Loader'
+import { toDocument } from '../utils/yml'
+import * as c from '../constants'
 
-// const meetd2yml = fs.readFileSync(path.join(__dirname, './fixtures/meetd2.yml'))
-// const baseCssObject = loadFile(
-//   path.join(__dirname, './fixtures/BaseCSS.yml'),
-//   'json',
-// )
+beforeEach(() => {
+  mfs(
+    {
+      src: {
+        __tests__: {
+          fixtures: {
+            'meetd2.yml': mfs.load(getFixturePath('meetd2.yml')),
+            'cadlEndpoint.yml': mfs.load(getFixturePath('cadlEndpoint.yml')),
+            'BaseCSS.yml': mfs.load(getFixturePath('BaseCSS.yml')),
+            'BaseDataModel.yml': mfs.load(getFixturePath('BaseDataModel.yml')),
+            'BasePage.yml': mfs.load(getFixturePath('BasePage.yml')),
+            'DocumentNotes.yml': mfs.load(getFixturePath('DocumentNotes.yml')),
+            'EditContact.yml': mfs.load(getFixturePath('EditContact.yml')),
+            'EditMyDocument.yml': mfs.load(
+              getFixturePath('EditMyDocument.yml'),
+            ),
+            'ReferenceTest.yml': mfs.load(getFixturePath('ReferenceTest.yml')),
+            'SignIn.yml': mfs.load(getFixturePath('SignIn.yml')),
+          },
+        },
+      },
+      'package.json': mfs.load(path.join(process.cwd(), 'package.json')),
+      'tsconfig.json': mfs.load(path.join(process.cwd(), 'tsconfig.json')),
+    },
+    { createCwd: true, createTmp: true },
+  )
+})
 
-// const config = 'meetd2'
-// const pathToFixtures = path.join(__dirname, './fixtures')
+afterEach(() => {
+  nock.cleanAll()
+  mfs.restore()
+})
 
-// const loadYmlFactory =
-//   (filename = '') =>
-//   () =>
-//     fs.readFileSync(
-//       path.join(pathToFixtures, `${ensureExt(filename, 'yml')}`),
-//       'utf8',
-//     )
+describe.only(`Loader`, () => {
+  for (const loadType of ['url', 'file']) {
+    describe(`when loading by file path`, () => {
+      const getPath = (str: string) =>
+        isLoadFile ? getFixturePath(str) : `${baseAppUrl}${str}`
 
-// const getRootConfigYml = loadYmlFactory(config)
-// const getAppConfigYml = loadYmlFactory(`cadlEndpoint`)
+      const isLoadFile = loadType === 'file'
+      const baseConfigUrl = 'https://public.aitmed.com/config'
+      const baseAppUrl = `http://127.0.0.1:3001/`
+      const configKey = 'meetd2'
+      const pathToConfig = isLoadFile
+        ? getFixturePath(`${configKey}.yml`)
+        : `${baseConfigUrl}/${configKey}.yml`
 
-// const rootConfig = y.parse(getRootConfigYml())
-// const appConfig = y.parse(getAppConfigYml())
-// const preloadPages = (appConfig.preload || []) as string[]
-// const pages = (appConfig.page || []) as string[]
-// const data = loadFiles(pathToFixtures, { as: 'object' })
+      beforeEach(() => {
+        if (!isLoadFile) {
+          proxyPageYmls({ baseUrl: baseConfigUrl, names: `${configKey}.yml` })
+        }
+      })
 
-// const mockAllPageRequests = (_loader = loader) => {
-//   for (let page of [...preloadPages, ...pages] as string[]) {
-//     page.startsWith('~/') && (page = page.replace('~/', ''))
-//     nock(baseUrl).get(new RegExp(page, 'i')).reply(200, data[page])
-//   }
-// }
+      it(`should load root config props`, async () => {
+        const loader = new Loader()
+        loader.config.configKey = configKey
+        await loader.load(pathToConfig)
+        expect(loader.config.apiHost).to.eq('albh2.aitmed.io')
+        expect(loader.config.apiPort).to.eq('443')
+        expect(loader.config.viewWidthHeightRatio).to.have.property('min', 0.56)
+        expect(loader.config.viewWidthHeightRatio).to.have.property('max', 0.7)
+        expect(loader.config.webApiHost).to.eq('apiHost')
+        expect(loader.config.appApiHost).to.eq('apiHost')
+        expect(loader.config).to.have.property('loadingLevel', 1)
+        expect(loader.config.baseUrl).to.eq(baseAppUrl)
+        expect(loader.config.appKey).to.eq('cadlEndpoint.yml')
+        expect(loader.config).to.have.property('timestamp').to.eq(5272021)
+      })
 
-// let loader: Loader<typeof config, 'map'>
-// let assetsUrl = `http://127.0.0.1:3001/assets/`
-// let baseConfigUrl = `http://127.0.0.1:3001/config`
-// let baseUrl = `http://127.0.0.1:3001/`
+      it(`should load app config props`, async () => {
+        if (!isLoadFile) {
+          proxyPageYmls({ baseUrl: baseAppUrl, names: ['cadlEndpoint.yml'] })
+        }
+        const loader = new Loader()
+        loader.config.configKey = configKey
+        await loader.load(pathToConfig)
+        await loader.load(getPath('cadlEndpoint.yml'))
+        expect(loader.cadlEndpoint.assetsUrl).to.eq(`\${cadlBaseUrl}assets/`)
+        expect(loader.cadlEndpoint.baseUrl).to.eq(`\${cadlBaseUrl}`)
+        expect(loader.cadlEndpoint.languageSuffix).to.be.an('object')
+        expect(loader.cadlEndpoint.fileSuffix).to.eq('.yml')
+        expect(loader.cadlEndpoint.startPage).to.eq('SignIn')
+        expect(loader.cadlEndpoint.preload).to.be.an('array')
+        expect(loader.cadlEndpoint.pages).to.be.an('array')
+        expect(loader.cadlEndpoint.preload).to.include.members([
+          'BasePage',
+          'BaseCSS',
+          'BaseDataModel',
+        ])
+        expect(loader.cadlEndpoint.pages).to.include.members([
+          'AboutAitmed',
+          'AddContact',
+          'DocumentNotes',
+          'EditContact',
+          'ReferenceTest',
+        ])
+      })
 
-// beforeEach(() => {
-//   loader = new Loader({ config: 'meetd2', loglevel: 'error' })
-//   nock(baseConfigUrl).get('/meetd2.yml').reply(200, meetd2yml)
-//   nock(baseUrl).get('/cadlEndpoint.yml').reply(200, getAppConfigYml())
-// })
+      it(`should load preload files and spread their key/values to root`, async () => {
+        if (!isLoadFile) {
+          proxyPageYmls({
+            baseUrl: baseAppUrl,
+            names: ['cadlEndpoint.yml', 'BaseCSS.yml'],
+          })
+        }
+        const loader = new Loader()
+        loader.config.configKey = configKey
+        await loader.load(pathToConfig)
+        await loader.load(getPath('cadlEndpoint.yml'))
+        expect(loader.root).not.to.have.property('Style')
+        expect(loader.root).not.to.have.property('ImageStyle')
+        expect(loader.root).not.to.have.property('LabelStyle')
+        await loader.load(getPath('BaseCSS.yml'))
+        expect(loader.root).to.have.property('Style')
+        expect(loader.root).to.have.property('ImageStyle')
+        expect(loader.root).to.have.property('LabelStyle')
+      })
 
-// afterEach(() => {
-//   nock.cleanAll()
-// })
+      it(`should load page files by ${loadType}`, async () => {
+        if (!isLoadFile) {
+          proxyPageYmls({
+            baseUrl: defaultBaseUrl,
+            names: [
+              'cadlEndpoint.yml',
+              'AboutAitmed.yml',
+              'EditContact.yml',
+              'ReferenceTest.yml',
+            ],
+          })
+        }
+        const loader = new Loader()
+        loader.config.configKey = configKey
+        await loader.load(pathToConfig)
+        await loader.load(getPath('cadlEndpoint.yml'))
+        expect(loader.root).not.to.have.property('AboutAitmed')
+        expect(loader.root).not.to.have.property('EditContact')
+        expect(loader.root).not.to.have.property('ReferenceTest')
+        await loader.load(getPath('AboutAitmed.yml'))
+        await loader.load(getPath('EditContact.yml'))
+        await loader.load(getPath('ReferenceTest.yml'))
+        expect(loader.root).to.have.property('AboutAitmed')
+        expect(loader.root).to.have.property('EditContact')
+        expect(loader.root).to.have.property('ReferenceTest')
+      })
+    })
 
-// async function init(
-//   _loader = loader as ConstructorParameters<typeof Loader>[0] | Loader,
-// ) {
-//   let options: ConstructorParameters<typeof Loader>[0]
-//   if (!(_loader instanceof Loader)) {
-//     options = _loader
-//     _loader = new Loader(options)
-//   }
-//   return (_loader as Loader).init({
-//     dir: pathToFixtures,
-//     loadPages: false,
-//     loadPreloadPages: false,
-//     ...(u.isObj(options) ? options : { config: options }),
-//   })
-// }
+    describe.only(`when extracting assets`, () => {
+      it(`should be able to extract all image assets`, () => {
+        const loader = new Loader()
+        loader.use(new ExtractImage())
+        const yml = `
+SignIn:
+  formData:
+    avatar: abc.png
+    documents:
+      - license.pdf
+      - registration.jpg
+      - name: thumbnail
+        link: https://www.aitmed.com/cadl/wwwv4.16/fish123.svg
+  components:
+    - type: scrollView
+      children:
+        - type: view
+          children:
+            - type: image
+              path: food.png
+            - type: scrollView
+              children:
+                - type: image
+                  path: hello.jpeg
+                - type: video
+                  path: rollercoaster.mp4
+                - type: page
+                  path: Dashboard
+`
+        const doc = toDocument(yml)
+        const imageExtractor = new ExtractImage()
+        const extractedImages = loader.extract(doc, {
+          use: {
+            extractors: [{ name: 'images', extractor: imageExtractor }],
+          },
+        })
+        console.log(extractedImages)
+      })
+    })
+  }
 
-// describe.skip(chalk.keyword('navajowhite')('noodl'), () => {
-//   describe(`constructor`, () => {
-//     it(`should construct without errors when given no args`, () => {
-//       expect(() => new Loader()).to.not.throw()
-//     })
-//   })
+  describe(`should be able to take the internal UrlStrategy to resolve remote urls`, () => {
+    xit(``, () => {
+      //
+    })
+  })
 
-//   describe(u.italic(`init`), () => {
-//     describe(`when dataType is map`, () => {
-//       beforeEach(() => {
-//         loader = new Loader({ config: 'meetd2' })
-//       })
-
-//       it(`[map] should initiate both the root config and app config`, async () => {
-//         await init()
-//         const cadlEndpoint = loader.root.get('cadlEndpoint') as y.Document
-//         const cadlMain = loader.root.get(config) as y.Document
-//         expect(cadlMain.has('cadlMain')).to.be.true
-//         expect(cadlEndpoint.has('preload')).to.be.true
-//         expect(cadlEndpoint.has('page')).to.be.true
-//       })
-
-//       it(`[map] should set the root value as a yaml node`, async () => {
-//         await init()
-//         expect(y.isDocument(loader.root.get(config) as y.Document)).to.be.true
-//       })
-//     })
-
-//     describe(`when dataType is object`, () => {
-//       let loader: Loader<'meetd2', 'object'>
-
-//       beforeEach(() => {
-//         loader = new Loader({ config: 'meetd2', dataType: 'object' })
-//       })
-
-//       it(`[object] should initiate both the root config and app config`, async () => {
-//         await init(loader)
-//         const cadlEndpoint = loader.root.cadlEndpoint
-//         const cadlMain = loader.root.meetd2
-//         expect(cadlMain).to.have.property('cadlMain')
-//         expect(cadlEndpoint).to.have.property('preload')
-//         expect(cadlEndpoint).to.have.property('page')
-//       })
-
-//       it(`[object] should set root/app config as plain objects`, async () => {
-//         await loader.init({ dir: pathToFixtures })
-//         for (const node of u.values(loader.root)) {
-//           expect(y.isNode(node)).to.be.false
-//           expect(y.isDocument(node)).to.be.false
-//           expect(y.isPair(node)).to.be.false
-//           expect(y.isAlias(node)).to.be.false
-//           expect(u.isObj(node)).to.be.true
-//         }
-//       })
-
-//       it(`[object] should return the parsed appConfigUrl`, async () => {
-//         const loader = new Loader({ config: 'meetd2', dataType: 'object' })
-//         await loader.loadRootConfig({
-//           ...rootConfig,
-//           cadlBaseUrl:
-//             'https://public.aitmed.com/cadl/meet3_${cadlVersion}${designSuffix}/',
-//         })
-//         expect(loader.appConfigUrl).to.eq(
-//           `https://public.aitmed.com/cadl/meet3_${rootConfig?.web?.cadlVersion?.test}/${loader.appKey}.yml`,
-//         )
-//       })
-
-//       describe(`when loading preload pages`, () => {
-//         it(`[object] should load each key of preload object as plain objects when using spread`, async () => {
-//           mockAllPageRequests()
-//           await loader.init({
-//             dir: pathToFixtures,
-//             loadPages: false,
-//             loadPreloadPages: true,
-//             spread: ['BaseCSS'],
-//           })
-//           const obj = baseCssObject
-//           const keys = u.keys(obj)
-//           expect(keys).to.have.length.greaterThan(0)
-//           keys.forEach((key) => {
-//             const value = obj[key]
-//             expect(y.isNode(value)).to.be.false
-//             expect(y.isDocument(value)).to.be.false
-//             expect(y.isPair(value)).to.be.false
-//             expect(y.isAlias(value)).to.be.false
-//             expect(u.isObj(obj)).to.be.true
-//           })
-//         })
-
-//         it(`[object] should not spread keys of objects when it is not in "spread"`, async () => {
-//           mockAllPageRequests()
-//           await loader.init({
-//             dir: pathToFixtures,
-//             loadPages: false,
-//             loadPreloadPages: true,
-//             spread: ['BaseCSS'],
-//           })
-//           for (const [name, obj] of u.entries(
-//             u.pick(
-//               loader.root,
-//               preloadPages.filter((s) => s !== 'BaseCSS'),
-//             ),
-//           )) {
-//             expect(loader.root).to.have.property(name)
-//             u.keys(obj).forEach((key) => {
-//               if (/global/i.test(key as string)) return
-//               expect(loader.root).not.to.have.property(key as any)
-//             })
-//           }
-//         })
-//       })
-
-//       describe(`when loading app pages`, () => {
-//         it(`[object] should load each page as a plain object`, async () => {
-//           mockAllPageRequests()
-//           await loader.init({
-//             dir: pathToFixtures,
-//             loadPages: true,
-//             loadPreloadPages: true,
-//           })
-//           for (const [name, obj] of u.entries(u.pick(loader.root, pages))) {
-//             const pageObject = loader.root[name]
-//             expect(y.isNode(pageObject)).to.be.false
-//             expect(y.isDocument(pageObject)).to.be.false
-//             expect(y.isPair(pageObject)).to.be.false
-//             expect(y.isAlias(pageObject)).to.be.false
-//             expect(u.isObj(obj)).to.be.true
-//           }
-//         })
-
-//         it(`[object] should be able to retrieve their objects using getInRoot`, async () => {
-//           mockAllPageRequests()
-//           await loader.init({
-//             dir: pathToFixtures,
-//             loadPages: true,
-//             loadPreloadPages: false,
-//           })
-//           pages.forEach((page) => {
-//             const value = loader.getInRoot(page)
-//             expect(value).to.exist
-//             expect(value).to.be.an('object')
-//           })
-//         })
-//       })
-
-//       it(`[object] should resolve/return the assetsUrl`, async () => {
-//         const loader = new Loader({
-//           config: 'meetd2',
-//           dataType: 'object',
-//         })
-//         mockAllPageRequests()
-//         expect(loader.assetsUrl).not.to.eq(assetsUrl)
-//         await loader.loadRootConfig({ config: 'meetd2', dir: pathToFixtures })
-//         expect(loader.assetsUrl).to.eq(assetsUrl)
-//       })
-//     })
-
-//     xit(`should return the same amount of assets regardless of dataType`, async () => {
-//       mockAllPageRequests()
-
-//       let mapAssets = []
-//       let objectAssets = []
-
-//       const getAssets = async (dataType: 'map' | 'object') => {
-//         let loader = new Loader({
-//           config: 'meetd2',
-//           dataType,
-//         })
-//         await loader.init({
-//           dir: pathToFixtures,
-//           loadPages: true,
-//           loadPreloadPages: true,
-//         })
-//         return loader.extractAssets()
-//       }
-
-//       mapAssets.push(...(await getAssets('map')))
-//       objectAssets.push(...(await getAssets('object')))
-
-//       expect(mapAssets).to.have.length.greaterThan(0)
-//       expect(objectAssets).to.have.length.greaterThan(0)
-//       expect(mapAssets).to.have.lengthOf(objectAssets.length)
-//     })
-
-//     it(`should return the assets url`, async () => {
-//       expect(loader.assetsUrl).not.to.eq(assetsUrl)
-//       await init()
-//       expect(loader.assetsUrl).to.eq(assetsUrl)
-//     })
-
-//     it(`should return the baseUrl`, async () => {
-//       expect(loader.baseUrl).not.to.eq(baseUrl)
-//       await init()
-//       expect(loader.baseUrl).to.eq(baseUrl)
-//     })
-
-//     it(`should return the config version (latest)`, async () => {
-//       expect(loader.configVersion).to.eq('')
-//       await init()
-//       expect(loader.configVersion).to.eq('0.7d')
-//     })
-
-//     it(`should return the app config url`, async () => {
-//       expect(loader.appConfigUrl).to.eq('')
-//       await init()
-//       expect(loader.configVersion).to.eq('0.7d')
-//     })
-
-//     it(`should load all the preload pages by default`, async () => {
-//       for (const name of preloadPages) {
-//         nock(baseUrl)
-//           .get(new RegExp(name as string, 'gi'))
-//           .reply(
-//             200,
-//             `
-// 					${name}:
-// 						VoidObj: vVoOiIdD
-// 						Style:
-// 							top: '0'
-// 					`,
-//           )
-//       }
-//       await loader.init({ dir: pathToFixtures, loadPages: false })
-//       preloadPages.forEach((preloadPage) => {
-//         expect(loader.root.get(preloadPage as string)).to.exist
-//       })
-//     })
-
-//     it(`should load all the pages by default`, async () => {
-//       await loader.init({ dir: pathToFixtures, loadPreloadPages: false })
-//       const pages = (
-//         (loader.root.get('cadlEndpoint') as y.Document).get('page') as y.YAMLSeq
-//       ).toJSON()
-//       expect(pages).to.have.length.greaterThan(0)
-//       pages.forEach((page) => {
-//         // @ts-expect-error
-//         expect(loader.root.get(page.replace('~/', ''))).to.exist
-//       })
-//     })
-//   })
-
-//   describe(u.italic(`extractAssets`), () => {
-//     let remoteBaseUrl = 'https://public.aitmed.com/cadl/meet3_${cadlVersion}/'
-
-//     beforeEach(async () => {
-//       nock(`https://public.aitmed.com/config`)
-//         .get('/meetd2.yml')
-//         .reply(
-//           200,
-//           y.stringify({
-//             ...y.parse(meetd2yml),
-//             cadlBaseUrl: remoteBaseUrl,
-//           }),
-//         )
-//       await loader.init({ dir: pathToFixtures })
-//     })
-
-//     it(`should extract the assets`, async () => {
-//       const assets = await loader.extractAssets()
-//       expect(assets).to.have.length.greaterThan(0)
-//       for (const asset of assets) {
-//         expect(asset).to.have.property('url').to.be.a('string')
-//         expect(asset.url.startsWith('http')).to.be.true
-//       }
-//     })
-
-//     it(`should set isRemote to false when assets is relative to the app's baseUrl`, async () => {
-//       const assets = await loader.extractAssets()
-//       for (const asset of assets) {
-//         if (!asset.raw.startsWith('http')) {
-//           expect(asset.isRemote).to.be.false
-//         } else {
-//           expect(asset.isRemote).to.be.true
-//         }
-//       }
-//     })
-
-//     it(`should set the url to be the remote url if isRemote is false (relative to app's baseUrl)`, async () => {
-//       const assets = await loader.extractAssets()
-//       for (const asset of assets) {
-//         if (!asset.isRemote) {
-//           expect(/(127.0.0.1|localhost)/.test(asset.url)).to.be.false
-//           expect(/public.aitmed.com/.test(asset.url)).to.be.true
-//         }
-//       }
-//     })
-//   })
-
-//   it(`[map] should set values of root properties as yaml nodes`, async () => {
-//     await loader.init({ dir: pathToFixtures })
-//     for (const node of loader.root.values()) {
-//       expect(y.isNode(node) || y.isDocument(node)).to.be.true
-//     }
-//   })
-
-//   describe(`observers`, () => {
-//     beforeEach(() => {
-//       nock.cleanAll()
-//       nock(`https://${c.defaultConfigHostname}/config`)
-//         .get('/meetd2.yml')
-//         .reply(200, getRootConfigYml())
-//     })
-
-//     describe(c.configKeySet, () => {
-//       it(`should pass in the config key`, async () => {
-//         const spy = sinon.spy()
-//         loader.on(c.configKeySet, spy)
-//         await loader.loadRootConfig('meetd2')
-//         expect(spy).to.be.calledOnce
-//         expect(spy.firstCall.args[0][0]).to.eq('meetd2')
-//       })
-//     })
-
-//     describe(c.rootConfigIsBeingRetrieved, () => {
-//       it(`should pass in the configKey and configUrl`, async () => {
-//         const spy = sinon.spy()
-//         loader.on(c.rootConfigIsBeingRetrieved, spy)
-//         await loader.loadRootConfig('meetd2')
-//         expect(spy).to.be.calledOnce
-//         expect(spy.args[0][0]).to.be.an('array')
-//         expect(spy.args[0][0][0]).to.have.property('configKey', 'meetd2')
-//         expect(spy.args[0][0][0]).to.have.property(
-//           'configUrl',
-//           `https://${c.defaultConfigHostname}/config/meetd2.yml`,
-//         )
-//       })
-//     })
-
-//     describe(c.rootConfigRetrieved, () => {
-//       it(`should pass in the rootConfig and the yml`, async () => {})
-//     })
-//   })
-// })
+  describe(`should be able to take the internal FileStrategy to resolve file paths`, () => {
+    xit(``, () => {
+      //
+    })
+  })
+})
