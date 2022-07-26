@@ -10,6 +10,7 @@
     "clean": "rm -rf node_modules package-lock.json packages/*/node_modules packages/*/package-lock.json packages/*/dist",
     "bootstrap": "lerna bootstrap --hoist --force-local",
     "postinstall": "node scripts/postinstall.js",
+    "publish": "lerna publish --force-publish",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

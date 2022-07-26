@@ -37,12 +37,6 @@ const NOODL_PAGE_NODE_TYPE = 'NoodlPage'
 
 log.setDefaultLevel(DEFAULT_LOG_LEVEL)
 
-let logStr = 'HELLLO!!'
-console.error(logStr)
-console.error(logStr)
-console.error(logStr)
-console.error(logStr)
-
 const BASE_CONFIG_URL = `https://public.aitmed.com/config/`
 const LOGLEVELS = ['trace', 'debug', 'info', 'warn', 'error', 'silent']
 const { cyan, yellow, red, newline } = u
