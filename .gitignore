@@ -2,3 +2,4 @@ node_modules
 dist
 build
 generated
+lerna-debug.log
