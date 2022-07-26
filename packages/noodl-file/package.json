@@ -42,6 +42,6 @@
     "types": "tsc --emitDeclarationOnly --esModuleInterop --declaration --declarationDir dist --project tsconfig.json"
   },
   "typings": "./dist/index.d.ts",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "gitHead": "0be60bf26d3b63452ca98167c6e95448db3ed79e"
 }
