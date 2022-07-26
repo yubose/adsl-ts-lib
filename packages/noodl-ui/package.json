@@ -1,10 +1,10 @@
 {
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
   "dependencies": {
-    "noodl-action-chain": "^0.0.116",
-    "noodl-types": "^1.0.225",
-    "noodl-ui-test-utils": "^0.0.16",
-    "noodl-utils": "^0.0.98",
+    "noodl-action-chain": "^0.0.117",
+    "noodl-types": "^1.0.226",
+    "noodl-ui-test-utils": "^0.0.17",
+    "noodl-utils": "^0.0.99",
     "signature_pad": "^4.0.7"
   },
   "description": "NOODL JavaScript library",
@@ -20,7 +20,7 @@
     "tsconfig.json",
     "tsconfig.test.json"
   ],
-  "gitHead": "637b5b8d77e90591d198137ca90de9205ea63d88",
+  "gitHead": "302517adcce5480179a061c3cbcb0d472e086c1e",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -35,7 +35,7 @@
     "types": "tsc --declaration --declarationDir dist --emitDeclarationOnly"
   },
   "typings": "dist/index.d.ts",
-  "version": "0.1.136",
+  "version": "0.1.137",
   "devDependencies": {
     "@types/signature_pad": "^2.3.2"
   }

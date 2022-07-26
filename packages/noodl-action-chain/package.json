@@ -4,7 +4,7 @@
     "url": "https://github.com/pfftdammitchris/noodl-cli/issues"
   },
   "dependencies": {
-    "noodl-types": "^1.0.225"
+    "noodl-types": "^1.0.226"
   },
   "directories": {
     "dist": "dist",
@@ -13,7 +13,7 @@
   "files": [
     "dist"
   ],
-  "gitHead": "637b5b8d77e90591d198137ca90de9205ea63d88",
+  "gitHead": "302517adcce5480179a061c3cbcb0d472e086c1e",
   "homepage": "https://github.com/pfftdammitchris/noodl-cli#readme",
   "jsnext:main": "dist/index.js",
   "license": "ISC",
@@ -33,5 +33,5 @@
     "types": "tsc --declaration --declarationDir dist --emitDeclarationOnly"
   },
   "types": "dist/index.d.ts",
-  "version": "0.0.116"
+  "version": "0.0.117"
 }
