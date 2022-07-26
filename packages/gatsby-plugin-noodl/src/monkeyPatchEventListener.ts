@@ -124,9 +124,9 @@ export default function monkeyPatchAddEventListener(opts: {
     })
 
     if (!eventListenersWerePatched) {
-      console.log('getPathToEventTargetFile', getPathToEventTargetFile())
-      const result = transformFromAstSync(ast)
-      fs.writeFileSync(getPathToEventTargetFile(), result.code, 'utf8')
+      console.log(`Path to event target file: ${getPathToEventTargetFile()}`)
+      const result = transformFromAstSync(ast as any)
+      fs.writeFileSync(getPathToEventTargetFile(), result?.code || '', 'utf8')
       // @ts-expect-error
       return result
     }

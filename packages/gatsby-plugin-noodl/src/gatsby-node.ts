@@ -4,16 +4,22 @@
  */
 import type { cache as sdkCache } from '@aitmed/cadl'
 import * as u from '@jsmanifest/utils'
-import { NuiComponent, publish } from 'noodl-ui'
+import { ConsumerOptions, NuiComponent, publish } from 'noodl-ui'
 import log from 'loglevel'
 import fs from 'fs-extra'
-import nt from 'noodl-types'
+import * as nt from 'noodl-types'
 import get from 'lodash/get'
 import set from 'lodash/set'
 import path from 'path'
-import n from 'noodl'
+import { Loader, loadFile, LinkStructure } from 'noodl'
 import y from 'yaml'
-import type { CreatePagesArgs, NodePluginArgs, SourceNodesArgs } from 'gatsby'
+import type {
+  CreatePagesArgs,
+  CreatePageArgs,
+  CreateSchemaCustomizationArgs,
+  NodePluginArgs,
+  SourceNodesArgs,
+} from 'gatsby'
 import { getGenerator } from './generator'
 import utils from './utils'
 import * as t from './types'
@@ -31,6 +37,12 @@ const NOODL_PAGE_NODE_TYPE = 'NoodlPage'
 
 log.setDefaultLevel(DEFAULT_LOG_LEVEL)
 
+let logStr = 'HELLLO!!'
+console.error(logStr)
+console.error(logStr)
+console.error(logStr)
+console.error(logStr)
+
 const BASE_CONFIG_URL = `https://public.aitmed.com/config/`
 const LOGLEVELS = ['trace', 'debug', 'info', 'warn', 'error', 'silent']
 const { cyan, yellow, red, newline } = u
@@ -38,7 +50,7 @@ const { debug, info, warn } = log
 
 let _sdkCache: typeof sdkCache
 
-let _loader: n.Loader<any, any>
+let _loader: Loader<any, any>
 
 let _appKey = ''
 let _assetsUrl = ''
@@ -88,7 +100,7 @@ let resolvedConfigsDir = ''
 let resolvedAppConfigFile = ''
 let resolvedOutputNamespacedWithConfig = ''
 
-const withoutCwd = (s: string | Record<string, any>) => {
+const withoutCwd = (s: string | Record<string, any>): any => {
   if (u.isObj(s)) {
     return u
       .entries(s)
@@ -186,7 +198,6 @@ export const reset = () => {
 /**
  * https://www.gatsbyjs.com/docs/node-apis/
  */
-
 export const onPreInit = (
   _: NodePluginArgs,
   pluginOpts: t.GatsbyNoodlPluginOptions,
@@ -194,6 +205,7 @@ export const onPreInit = (
   _.reporter.setVerbose(true)
   _.reporter.info('onPreInit START')
   log.debug('onPreInit START')
+  console.log('onPreInit START')
   newline()
 
   const loglevel = pluginOpts?.loglevel
@@ -296,10 +308,10 @@ export const onPluginInit = async function onPluginInit(
     debug(`Fetching config from ${yellow(url)}`)
 
     const yml = await utils.fetchYml(url)
-    n.writeFileSync(resolvedConfigsDir, yml)
+    await fs.writeFile(resolvedConfigsDir, yml)
   }
 
-  const rootConfig = y.parse(n.readFileSync(resolvedConfigsDir))
+  const rootConfig = y.parse(await fs.readFile(resolvedConfigsDir, 'utf8'))
 
   _appKey = rootConfig?.cadlMain || ''
 
@@ -311,7 +323,7 @@ export const onPluginInit = async function onPluginInit(
     path.join(resolvedOutputNamespacedWithConfig, _appKey),
   )
 
-  _loader = new n.Loader({
+  _loader = new Loader({
     config: _configKey,
     dataType: 'object',
     deviceType: _deviceType,
@@ -338,7 +350,7 @@ export const onPluginInit = async function onPluginInit(
   _pages.json[_appKey] = y.parse(appConfigYml)
 
   if (!fs.existsSync(resolvedAppConfigFile)) {
-    n.writeFileSync(resolvedAppConfigFile, appConfigYml)
+    await fs.writeFile(resolvedAppConfigFile, appConfigYml, 'utf8')
     debug(`Saved app config to ${yellow(resolvedAppConfigFile)}`)
   }
 
@@ -411,7 +423,7 @@ export const onPluginInit = async function onPluginInit(
             await utils.downloadFile(log as any, pageUrl, filename, filesDir)
           }
 
-          const pageYml = n.loadFile(filepath)
+          const pageYml = loadFile(filepath)
           const pageObject = y.parse(pageYml)
           _pages.json[name] = pageObject
           debug(`Loaded ${yellow(name)}`)
@@ -441,13 +453,13 @@ export const onPluginInit = async function onPluginInit(
   const allYmlPageNames =
     _loader.root[appKey]?.preload?.concat?.(_loader.root[appKey]?.page) || []
 
-  allYmlPageNames.forEach((name) => {
+  allYmlPageNames.forEach((name: string) => {
     const filename = `${name}_en.yml`
     const filepath = path.join(resolvedOutputNamespacedWithConfig, filename)
     if (!fs.existsSync(filepath)) {
       _missingFiles.pages[name] = { filename, filepath, name }
     } else {
-      loadTo_pages_(name, n.loadFile(filepath, 'json'))
+      loadTo_pages_(name, loadFile(filepath, 'json'))
     }
   })
 
@@ -460,7 +472,7 @@ export const onPluginInit = async function onPluginInit(
   await Promise.all(
     missingPageNames.map((name: string): Promise<void> => {
       return new Promise((resolve) => {
-        const { filename = '', filepath = '' } = _missingFiles.pages[name] || {}
+        const { filename = '' } = _missingFiles.pages[name] || {}
         const url = `${baseUrl}${filename}`
         if (nt.Identify.reference(filename)) return
         if (filename.startsWith('itemObject')) return
@@ -489,8 +501,7 @@ export const onPluginInit = async function onPluginInit(
     }),
   )
 
-  /** @type { import('noodl').LinkStructure[] } */
-  let assets
+  let assets: LinkStructure[] | undefined
 
   try {
     assets = await _loader.extractAssets()
@@ -526,7 +537,7 @@ export const onPluginInit = async function onPluginInit(
   const isAssetLogged = (url = '') => _loggedAssets.includes(url)
 
   await Promise.all(
-    assets.map(async (asset: Record<string, any>) => {
+    assets?.map(async (asset: Record<string, any>) => {
       const filename = `${asset.raw}`
       const assetFilePath = path.join(resolvedAssetsDir, filename)
       if (fs.existsSync(assetFilePath)) return
@@ -569,7 +580,7 @@ export const onPluginInit = async function onPluginInit(
           debug(error instanceof Error ? error : new Error(String(error)))
         }
       }
-    }),
+    }) || [],
   )
   log.debug('onPluginInit END')
 }
@@ -632,13 +643,15 @@ export const sourceNodes = async function sourceNodes(
    * @param { string } pageName
    * @param { nt.ComponentObject[] } componentObjects
    */
-  async function generateComponents(pageName, componentObjects) {
-    const resolvedPageComponents = []
-    /**
-     * @param { nt.ComponentObject | nt.ComponentObject[] } value
-     * @returns { Promise<import('./generator').NuiComponent[] }
-     */
-    async function transformAllComponents(value) {
+  async function generateComponents(
+    pageName: string,
+    componentObjects: nt.ComponentObject[],
+  ) {
+    const resolvedPageComponents = [] as NuiComponent.Instance[]
+
+    async function transformAllComponents(
+      value: nt.ComponentObject | nt.ComponentObject[],
+    ): Promise<NuiComponent.Instance[]> {
       const components = []
       const componentsList = u.filter(Boolean, u.array(value))
       const numComponents = componentsList.length
@@ -650,7 +663,10 @@ export const sourceNodes = async function sourceNodes(
           keepVpUnit: true,
           on: {
             /** Called for every component creation (depth-first) */
-            async createComponent(comp, opts) {
+            async createComponent(
+              comp: NuiComponent.Instance,
+              opts: ConsumerOptions & { path?: string },
+            ) {
               before = u.omit(comp.toJSON(), ['children'])
               const { path: componentPath } = opts || {}
               if (!_context_[pageName]) _context_[pageName] = {}
@@ -659,7 +675,7 @@ export const sourceNodes = async function sourceNodes(
                 const iteratorVar = comp.blueprint?.iteratorVar || ''
                 const refs = getPageRefs(pageName)
                 const currListObjectPath = [pageName, 'components']
-                  .concat(componentPath)
+                  .concat(componentPath as string)
                   .concat('listObject')
                   .reduce((acc, strOrIndex, i) => {
                     if (
@@ -703,7 +719,7 @@ export const sourceNodes = async function sourceNodes(
           },
         })
         const after = transformedComponent.toJSON()
-        resolvedPageComponents.push({ before, after })
+        resolvedPageComponents.push({ before, after } as any)
         // Serialize the noodl-ui components before they get sent to
         // bootstrap the server-side rendering
         components.push(transformedComponent.toJSON())
@@ -717,6 +733,8 @@ export const sourceNodes = async function sourceNodes(
   }
 
   const cacheDir = cache.directory
+
+  console.log(pages)
 
   /**
    * Create GraphQL nodes for app pages so they can be queried in the client side
@@ -772,16 +790,18 @@ export const sourceNodes = async function sourceNodes(
     }
 
     if (!_context_[name]) _context_[name] = {}
-    _context_[name].refs = getPageRefs(name) as any
+    if (_context_[name]) {
+      ;(_context_[name] as any).refs = getPageRefs(name) as any
+    }
 
-    const lists = _context_[name].lists
+    const lists = _context_[name]?.lists
 
     // Insert all descendants id's to the list component's children list.
     // This enables the mapping in the client side
     ;(pageObject as nt.PageObject).components.forEach((component) => {
       publish(component as NuiComponent.Instance, (comp) => {
         if (nt.Identify.component.list(comp)) {
-          const ctx = lists[comp.id]
+          const ctx = lists?.[comp.id] || ({} as t.ListComponentsContext)
           if (!ctx.children) ctx.children = []
 
           comp.children.forEach((child, index) => {
@@ -851,16 +871,19 @@ export const createPages = async function (
     /**
      * Query the created GraphQL nodes from app pages
      */
-    const {
-      data: { allNoodlPage },
-      errors,
-    } = await graphql(`
+    const { data: { allNoodlPage } = {}, errors } = await graphql<{
+      allNoodlPage: {
+        nodes: {
+          name: string
+          content: string
+        }[]
+      }
+    }>(`
       {
         allNoodlPage {
           nodes {
             name
             content
-            slug
           }
         }
       }
@@ -869,7 +892,7 @@ export const createPages = async function (
     if (errors) {
       throw new Error(errors)
     } else {
-      const numNoodlPages = allNoodlPage.nodes.length || 0
+      const numNoodlPages = allNoodlPage?.nodes.length || 0
       info(`Creating ${numNoodlPages} pages`)
       /**
        * Creates the page route
@@ -910,10 +933,7 @@ export const createPages = async function (
   }
 }
 
-/**
- * @param { import('gatsby').CreatePageArgs } opts
- */
-export async function onCreatePage(opts) {
+export async function onCreatePage(opts: CreatePageArgs) {
   const { actions, page } = opts
   const { createPage, deletePage } = actions
 
@@ -940,21 +960,37 @@ export async function onCreatePage(opts) {
   }
 }
 
-// export const createSchemaCustomization = ({
+// export const onCreateWebpackConfig = ({
 //   actions,
-//   schema,
-// }: CreateSchemaCustomizationArgs) => {
-//   const { createTypes } = actions
-//   createTypes([
-//     schema.buildObjectType({
-//       name: 'NoodlPage',
-//       fields: {
-//         name: 'String',
-//       },
-//       interfaces: ['Node'],
-//     }),
-//   ])
+//   stage,
+// }: CreateWebpackConfigArgs) => {
+//   actions.setWebpackConfig({
+//     plugins: [
+//       new IgnorePlugin({
+//         contextRegExp: /canvas|pnpapi|jsdom$/,
+//         resourceRegExp: /canvas|pnpapi|jsdom$/,
+//       }),
+//     ],
+//   })
 // }
+
+export const createSchemaCustomization = ({
+  actions,
+  schema,
+}: CreateSchemaCustomizationArgs) => {
+  const { createTypes } = actions
+  createTypes([
+    schema.buildObjectType({
+      name: 'NoodlPage',
+      fields: {
+        name: 'String',
+        content: 'String',
+        slug: 'String',
+      },
+      interfaces: ['Node'],
+    }),
+  ])
+}
 
 process.on('uncaughtException', (error, origin) => {
   log.error(

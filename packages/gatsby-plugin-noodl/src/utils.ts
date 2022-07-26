@@ -44,7 +44,7 @@ function getConfigUrl(configKey = 'aitmed') {
   return `https://public.aitmed.com/config/${ensureExt(configKey, 'yml')}`
 }
 
-function configDirExists(baseDir, configKey) {
+function configDirExists(baseDir: string | null, configKey: string) {
   const filepath = getConfigDir(configKey)
   console.log(`Checking if ${filepath} exists`)
   return fs.existsSync(getConfigDir(configKey))
@@ -89,7 +89,8 @@ const utils = {
   getAssetFilePath,
   getConfigDir,
   getConfigUrl,
-  getConfigVersion: (config, env = 'stable') => config?.web?.cadlVersion?.[env],
+  getConfigVersion: (config: any, env = 'stable') =>
+    config?.web?.cadlVersion?.[env],
   normalizePath,
   removeExt,
   regex,

@@ -23,25 +23,36 @@ u.newline()
 
 const nui = NUI
 
+// require('jsdom-global')('', {
+//   resources: 'usable',
+//   runScripts: 'dangerously',
+//   url: `https://127.0.0.1:3001`,
+//   beforeParse: (win: any) => {
+//     global.EventTarget = win.EventTarget
+//     global.localStorage = win.localStorage
+//     // eslint-disable-next-line
+//     localStorage = win.localStorage
+//     // Silences the "getContext" is not implemented message during build
+//     win.HTMLCanvasElement.prototype.getContext = () => ({} as any)
+//   },
+// })
+
 /**
  * @typedef { import('noodl-ui').NuiComponent.Instance } NuiComponent
  * @typedef { import('noodl-ui').Page } NuiPage
  * @typedef { import('@babel/traverse').NodePath } NodePath
  */
 
-/**
- * @param { object } opts
- * @param { string } [opts.configUrl]
- * @param { string } [opts.configKey]
- * @param { string } [opts.ecosEnv]
- * @param { Use } [opts.use]
- * @returns { Promise<{ cache: import('@aitmed/cadl')['cache']; components: nt.ComponentObject[]; nui: typeof NUI; page: NuiPage; sdk: CADL; pages: Record<string, nt.PageObject>; transform: (componentProp: nt.ComponentObject, options: import('noodl-ui').ConsumerOptions) => Promise<NuiComponent.Instance> }> }
- */
 export async function getGenerator({
   configKey = 'www',
   configUrl = `https://public.aitmed.com/config/${configKey}.yml`,
   ecosEnv = 'stable',
   use = {} as Use,
+}: {
+  configKey?: string
+  configUrl?: string
+  ecosEnv?: string
+  use?: Use
 } = {}): Promise<any> {
   try {
     // Patches the EventTarget so we can sandbox the sdk
@@ -81,7 +92,7 @@ export async function getGenerator({
       resources: 'usable',
       runScripts: 'dangerously',
       url: `https://127.0.0.1:3001`,
-      beforeParse: (win) => {
+      beforeParse: (win: any) => {
         global.EventTarget = win.EventTarget
         global.localStorage = win.localStorage
         // eslint-disable-next-line
@@ -105,13 +116,13 @@ export async function getGenerator({
         ...use.preload,
         config: use.config,
         cadlEndpoint: use.appConfig,
-      },
+      } as any,
     })
 
     nui.use({
       getRoot: () => sdk.root,
       getAssetsUrl: () => sdk.assetsUrl,
-      getBaseUrl: () => sdk.cadlBaseUrl,
+      getBaseUrl: () => sdk.cadlBaseUrl as string,
       getPreloadPages: () => sdk.cadlEndpoint?.preload || [],
       getPages: () => sdk.cadlEndpoint?.page || [],
     })
@@ -120,9 +131,9 @@ export async function getGenerator({
 
     // App pages
     await Promise.all(
-      sdk.cadlEndpoint.page.map(async (pageName: string) => {
+      sdk.cadlEndpoint?.page.map(async (pageName: string) => {
         try {
-          if (sdk.cadlEndpoint.preload.includes(pageName)) {
+          if (sdk.cadlEndpoint?.preload.includes(pageName)) {
             if (/^(Base[a-zA-Z0-9]+)/.test(pageName)) return
           }
 
@@ -145,7 +156,7 @@ export async function getGenerator({
           }
           console.log(`[${u.yellow(err.name)}] ${u.red(err.message)}`)
         }
-      }),
+      }) || [],
     )
 
     // Fixes navbar to stay at the top
@@ -156,11 +167,10 @@ export async function getGenerator({
     const transformer = new Transformer()
     const page = nui.createPage({
       id: 'root',
-      name: sdk.cadlEndpoint.startPage || '',
+      name: sdk.cadlEndpoint?.startPage || '',
       viewport: use?.viewport || { width: 0, height: 0 },
     })
 
-    // @ts-expect-error
     async function transform(
       componentProp: ComponentObject,
       options?: ConsumerOptions,
