@@ -7,9 +7,9 @@
     "gatsby-source-filesystem": "^4.19.0",
     "loglevel": "^1.8.0",
     "noodl": "^0.0.44",
-    "noodl-action-chain": "^0.0.119",
-    "noodl-types": "^1.0.228",
-    "noodl-ui": "^0.1.139"
+    "noodl-action-chain": "^0.0.120",
+    "noodl-types": "^1.0.229",
+    "noodl-ui": "^0.1.140"
   },
   "description": "Gatsby AiTmed plugin to generate static pages from a noodl config",
   "devDependencies": {
@@ -88,7 +88,7 @@
       }
     }
   },
-  "gitHead": "0be60bf26d3b63452ca98167c6e95448db3ed79e",
+  "gitHead": "8d25fcb1c7079abb8c5afaf063fb945f2eace127",
   "keywords": [
     "aitmed",
     "website",
@@ -115,5 +115,5 @@
     "test": "cross-env NODE_ENV=test mocha --watch --watch-files . \"__tests__/**/*.test.js\" --file __tests__/setup.js"
   },
   "types": "./types.d.ts",
-  "version": "0.0.61"
+  "version": "0.0.62"
 }

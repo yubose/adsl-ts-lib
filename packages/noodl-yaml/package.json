@@ -1,9 +1,9 @@
 {
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
   "dependencies": {
-    "noodl-core": "^0.1.22",
-    "noodl-types": "^1.0.228",
-    "noodl-utils": "^0.0.101"
+    "noodl-core": "^0.1.23",
+    "noodl-types": "^1.0.229",
+    "noodl-utils": "^0.0.102"
   },
   "description": "YAML bindings for noodl-core",
   "directories": {
@@ -43,6 +43,6 @@
     "types:watch": "npm run types -- -w"
   },
   "types": "dist/index.d.ts",
-  "version": "0.0.18",
-  "gitHead": "0be60bf26d3b63452ca98167c6e95448db3ed79e"
+  "version": "0.0.19",
+  "gitHead": "8d25fcb1c7079abb8c5afaf063fb945f2eace127"
 }
