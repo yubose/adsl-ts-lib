@@ -1,6 +1,6 @@
 import * as u from '@jsmanifest/utils'
 import y from 'yaml'
-import Extractor from '../extractor/Extractor'
+import Extractor from '../extractor/createExtractor'
 import NoodlConfig from '../Config'
 import NoodlCadlEndpoint from '../CadlEndpoint'
 import {
