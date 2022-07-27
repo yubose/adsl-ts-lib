@@ -1,4 +1,15 @@
-import y from 'yaml'
+import y, { visitAsync } from 'yaml'
+import type Config from '../Config'
+import type CadlEndpoint from '../CadlEndpoint'
+import {
+  isNode,
+  isScalar,
+  isPair,
+  isMap,
+  isSeq,
+  isDocument,
+  visit,
+} from '../internal/yaml'
 import * as is from '../utils/is'
 import * as c from '../constants'
 import * as t from './extractorTypes'
@@ -59,27 +70,50 @@ export function defaultExtractor(
   return extract([], node)
 }
 
-abstract class Extractor {
-  [Symbol.for('nodejs.util.inspect.custom')]() {
-    return {}
-  }
+function createExtractor(options) {
+  async function extract(
+    value: YAMLNode,
+    {
+      config,
+      cadlEndpoint,
+      use = [],
+    }: {
+      config?: Config
+      cadlEndpoint?: CadlEndpoint
+      use?: any[]
+    },
+  ) {
+    if (isPair(value)) {
+      if (isNode(value.value)) {
+        value = value.value
+      } else {
+        throw new Error(
+          `The value ${value.value} is not a compatible node to visit`,
+        )
+      }
+    }
 
-  constructor() {
-    Object.defineProperty(this, c.idKey, {
-      configurable: false,
-      enumerable: false,
-      writable: false,
-      value: c._id.extractor,
+    const state = {} as Record<string, any>
+
+    await visitAsync(value, (key, node, path) => {
+      for (const fn of use) {
+        const result = fn(key, node, path, {
+          config,
+          cadlEndpoint,
+          state,
+        })
+      }
     })
   }
 
-  abstract is(...args: any[]): boolean
+  Object.defineProperty(extract, c.idKey, {
+    configurable: false,
+    enumerable: false,
+    writable: false,
+    value: c._id.extractor,
+  })
 
-  abstract extract(options: {
-    node: YAMLNode
-    key: 'key' | 'value' | null
-    path: (y.Document | y.Node | y.Pair)[]
-  }): t.ExtractedItem[]
+  return extract
 }
 
-export default Extractor
+export default createExtractor

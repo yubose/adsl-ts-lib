@@ -12,7 +12,7 @@ import get from 'lodash/get'
 import set from 'lodash/set'
 import path from 'path'
 import { Loader, loadFile, LinkStructure } from 'noodl'
-import y from 'yaml'
+import * as y from 'yaml'
 import type {
   CreatePagesArgs,
   CreatePageArgs,
@@ -935,7 +935,7 @@ export async function onCreatePage(opts: CreatePageArgs) {
   if (page.path === '/') {
     const oldPage = u.assign({}, page)
     const pageName = _startPage
-    const slug = `/${pageName}/`
+    const slug = `/${pageName}/index.html`
     page.context = {
       assetsUrl: _assetsUrl,
       baseUrl: _baseUrl,

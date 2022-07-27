@@ -1,10 +1,8 @@
 import * as u from '@jsmanifest/utils'
-import path from 'path'
 import y from 'yaml'
 import Extractor from '../extractor/Extractor'
 import NoodlConfig from '../Config'
 import NoodlCadlEndpoint from '../CadlEndpoint'
-import loadFile from '../utils/loadFile'
 import {
   isNode,
   isScalar,
@@ -17,11 +15,11 @@ import {
   unwrap,
 } from '../utils/yml'
 import { assertNonEmpty } from '../utils/assert'
-import { isPageInArray, resolvePath } from './loaderUtils'
+import { ExtractedItem } from '../extractor'
+import { isPageInArray } from './loaderUtils'
 import type Strategy from './Strategy'
 import * as is from '../utils/is'
 import * as t from '../types'
-import { ExtractedItem } from '../extractor'
 
 class NoodlLoader extends t.ALoader {
   #root: {
