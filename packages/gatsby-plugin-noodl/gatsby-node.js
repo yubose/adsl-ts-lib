@@ -11,7 +11,7 @@ const get_1 = tslib_1.__importDefault(require("lodash/get"));
 const set_1 = tslib_1.__importDefault(require("lodash/set"));
 const path_1 = tslib_1.__importDefault(require("path"));
 const noodl_1 = require("noodl");
-const yaml_1 = tslib_1.__importDefault(require("yaml"));
+const y = tslib_1.__importStar(require("yaml"));
 const generator_1 = require("./generator");
 const utils_1 = tslib_1.__importDefault(require("./utils"));
 const DEFAULT_CONFIG = 'aitmed';
@@ -205,7 +205,7 @@ const onPluginInit = function onPluginInit(args, pluginOpts = {}) {
             const yml = yield utils_1.default.fetchYml(url);
             yield fs_extra_1.default.writeFile(resolvedConfigsDir, yml);
         }
-        const rootConfig = yaml_1.default.parse(yield fs_extra_1.default.readFile(resolvedConfigsDir, 'utf8'));
+        const rootConfig = y.parse(yield fs_extra_1.default.readFile(resolvedConfigsDir, 'utf8'));
         _appKey = (rootConfig === null || rootConfig === void 0 ? void 0 : rootConfig.cadlMain) || '';
         if (!rootConfig) {
             throw new Error(`Could not load a config file both locally and remotely`);
@@ -227,7 +227,7 @@ const onPluginInit = function onPluginInit(args, pluginOpts = {}) {
         });
         debug(`Loaded root config. Loading app config using key: ${yellow(_appKey)} at ${yellow(_loader.appConfigUrl)}`);
         const appConfigYml = yield utils_1.default.fetchYml(_loader.appConfigUrl);
-        _pages.json[_appKey] = yaml_1.default.parse(appConfigYml);
+        _pages.json[_appKey] = y.parse(appConfigYml);
         if (!fs_extra_1.default.existsSync(resolvedAppConfigFile)) {
             yield fs_extra_1.default.writeFile(resolvedAppConfigFile, appConfigYml, 'utf8');
             debug(`Saved app config to ${yellow(resolvedAppConfigFile)}`);
@@ -280,7 +280,7 @@ const onPluginInit = function onPluginInit(args, pluginOpts = {}) {
                             yield utils_1.default.downloadFile(loglevel_1.default, pageUrl, filename, filesDir);
                         }
                         const pageYml = (0, noodl_1.loadFile)(filepath);
-                        const pageObject = yaml_1.default.parse(pageYml);
+                        const pageObject = y.parse(pageYml);
                         _pages.json[name] = pageObject;
                         debug(`Loaded ${yellow(name)}`);
                     }
@@ -331,7 +331,7 @@ const onPluginInit = function onPluginInit(args, pluginOpts = {}) {
                     utils_1.default
                         .downloadFile(loglevel_1.default, url, filename, resolvedOutputNamespacedWithConfig)
                         .then((yml) => {
-                        loadTo_pages_(name, yaml_1.default.parse(yml));
+                        loadTo_pages_(name, y.parse(yml));
                         resolve();
                     });
                 }
@@ -717,7 +717,7 @@ function onCreatePage(opts) {
         if (page.path === '/') {
             const oldPage = u.assign({}, page);
             const pageName = _startPage;
-            const slug = `/${pageName}/`;
+            const slug = `/${pageName}/index.html`;
             page.context = {
                 assetsUrl: _assetsUrl,
                 baseUrl: _baseUrl,
