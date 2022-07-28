@@ -13,7 +13,14 @@
   },
   "description": "Gatsby AiTmed plugin to generate static pages from a noodl config",
   "devDependencies": {
-    "eslint-plugin-jsx-a11y": "^6.5.1"
+    "@types/app-root-path": "^1.2.4",
+    "@types/chai": "^4.3.1",
+    "@types/mocha": "^9.1.1",
+    "app-root-path": "^3.0.0",
+    "chai": "^4.3.6",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "mocha": "^10.0.0",
+    "ts-mocha": "^10.0.0"
   },
   "eslintConfig": {
     "env": {
@@ -112,7 +119,7 @@
     "build": "tsc",
     "bump:minor": "npm version patch -f",
     "start": "tsc -w",
-    "test": "cross-env NODE_ENV=test mocha --watch --watch-files . \"__tests__/**/*.test.js\" --file __tests__/setup.js"
+    "test": "cross-env NODE_ENV=test TS_NODE_PROJECT=\"tsconfig.test.json\" ts-mocha --source-map-support --watch --watch-files src \"src/__tests__/**/*.test.ts\" --file src/__tests__/setup.ts"
   },
   "types": "./types.d.ts",
   "version": "0.0.68"

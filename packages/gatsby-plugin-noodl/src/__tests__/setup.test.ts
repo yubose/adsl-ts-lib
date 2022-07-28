@@ -2,9 +2,8 @@
  * Tests are following this template:
  * https://www.gatsbyjs.com/docs/files-gatsby-looks-for-in-a-plugin/
  */
-
-const { expect } = require('chai')
-const pkgJson = require('../package.json')
+import { expect } from 'chai'
+import pkgJson from '../../package.json'
 
 const pluginName = 'gatsby-plugin-noodl'
 const entryPoint = 'index.js'
