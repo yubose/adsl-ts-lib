@@ -409,7 +409,6 @@ const componentsResolver: t.Resolve.Config = {
                       iframe.style.border = 'none'
                       for (let i = 0; i < args.node.style.length; i++) {
                         key = args.node.style[i]
-                        // @ts-expect-error
                         iframe.style[key] = args.node.style[key as any]
                       }
                       let parent = args.node.parentNode

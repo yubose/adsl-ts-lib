@@ -1,34 +1,34 @@
 import { expect } from 'chai'
 import * as u from '@jsmanifest/utils'
-import fg from 'fast-glob'
+// import fg from 'fast-glob'
 import fs from 'fs-extra'
-import path from 'path'
+// import path from 'path'
 import sinon from 'sinon'
 import appRoot from 'app-root-path'
 import mfs from 'mock-fs'
 import {
   onPreInit,
   onPluginInit,
-  sourceNodes,
-  createPages,
-  onCreatePage,
-  paths,
+  // sourceNodes,
+  // createPages,
+  // onCreatePage,
+  // paths,
   reset,
-  dumpMetadata,
+  // dumpMetadata,
 } from '../gatsby-node'
 import { Metadata } from '../utils'
 
-const rootDir = appRoot.toString()
-const cwd = process.cwd()
+// const rootDir = appRoot.toString()
+// const cwd = process.cwd()
 
-function getAllFiles() {
-  /** @type { string[] } */
-  const files = []
-  const dirfiles = fs.readdirSync('.')
-  for (const filename of dirfiles) {
-    //
-  }
-}
+// function getAllFiles() {
+/** @type { string[] } */
+// const files = []
+// const dirfiles = fs.readdirSync('.')
+// for (const filename of dirfiles) {
+//
+// }
+// }
 
 const getMockCache = () => {
   const cache = new Map()
@@ -134,7 +134,7 @@ afterEach(() => {
   mfs.restore()
 })
 
-const getDumpedMetadata = () => dumpMetadata()
+// const getDumpedMetadata = () => dumpMetadata()
 
 describe.only(`gatsby-node.js`, () => {
   it(``, async () => {
@@ -152,6 +152,7 @@ describe.only(`gatsby-node.js`, () => {
         src: 'C:\\Users\\Chris\\abc\\drafts',
         template: 'D:/Users\\Chris/drafts',
       }
+      // @ts-expect-error
       onPreInit({ reporter: { setVerbose: sinon.spy() } }, pluginOptions)
       expect(pluginOptions.output).to.eq('meetd2')
       expect(pluginOptions.src).to.eq('C:/Users/Chris/abc/drafts')
@@ -165,6 +166,7 @@ describe.only(`gatsby-node.js`, () => {
         const meta = new Metadata()
         const pluginOpts = { metadata: meta }
         console.log(process.cwd())
+        // @ts-expect-error
         await onPluginInit({ cache: { directory: '.cache' } }, pluginOpts)
       })
     })
@@ -202,6 +204,7 @@ describe.only(`gatsby-node.js`, () => {
     xit(`should set the configKey and configUrl in cache`, async () => {
       const cache = getMockCache()
       await onPluginInit(
+        // @ts-expect-error
         { cache },
         {
           config: 'meetd2',

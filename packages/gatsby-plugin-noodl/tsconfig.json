@@ -5,9 +5,10 @@
     "declaration": true,
     "lib": ["es2020"],
     "outDir": ".",
+		"rootDir": ".",
     "skipLibCheck": true
   },
-  "include": ["./src"],
-  "exclude": ["./node_modules"],
+  "include": ["src"],
+  "exclude": ["node_modules"],
   "extends": "../../tsconfig.json"
 }
