@@ -1,6 +1,3 @@
-export { default as Extractor } from './Extractor'
-export { default as ExtractImage } from './extractors/ExtractImage'
-export { default as ExtractScript } from './extractors/ExtractScript'
-export { default as ExtractYaml } from './extractors/ExtractYaml'
-export * from './Extractor'
+export * from './createExtractor'
 export * from './extractorTypes'
+export { default as Asset } from './Asset'

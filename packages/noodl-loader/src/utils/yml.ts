@@ -1,6 +1,7 @@
+import type { LiteralUnion } from 'type-fest'
 import * as u from '@jsmanifest/utils'
 import axios from 'axios'
-import y from 'yaml'
+import y, { isPair } from 'yaml'
 import type { ToStringOptions } from 'yaml'
 import * as t from '../types'
 
@@ -171,6 +172,53 @@ export function toDocument(
     )
   }
   return new y.Document(value, opts)
+}
+
+export function toNode<S extends string>(
+  value: Record<LiteralUnion<S, string>, any>,
+): y.YAMLMap<S>
+
+export function toNode<V extends null | undefined | string | boolean | number>(
+  value: V,
+): y.Scalar<V>
+
+export function toNode<S extends string>(value: y.YAMLMap): y.YAMLMap<S>
+
+export function toNode<O = any>(value: O[]): y.YAMLSeq<O>
+
+export function toNode<O extends y.Node>(value: O[]): t.YAMLNode
+
+export function toNode(value: unknown) {
+  if (isNode(value)) return value
+
+  switch (typeof value) {
+    case 'boolean':
+    case 'number':
+    case 'string':
+    case 'undefined':
+      return new y.Scalar(value)
+    default: {
+      if (value === null) {
+        return new y.Scalar(null)
+      }
+
+      if (isPair(value)) {
+        return value
+      }
+
+      if (u.isArr(value)) {
+        const seq = new y.YAMLSeq()
+        value.forEach((v) => seq.items.push(toNode(v)))
+        return seq
+      } else if (u.isObj(value)) {
+        const map = new y.YAMLMap()
+        u.entries(value).forEach(([k, v]) => map.set(k, toNode(v)))
+        return map
+      }
+
+      return value
+    }
+  }
 }
 
 export function withYmlExt(s = '') {

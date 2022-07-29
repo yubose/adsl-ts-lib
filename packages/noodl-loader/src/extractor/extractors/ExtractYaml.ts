@@ -1,5 +1,5 @@
 import * as u from '@jsmanifest/utils'
-import Extractor from '../Extractor'
+import Extractor from '../createExtractor'
 import {
   isNode,
   isDocument,

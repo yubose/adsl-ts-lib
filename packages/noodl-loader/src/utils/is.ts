@@ -22,6 +22,18 @@ export function image<S extends string = string>(
   return regex.image.test(value)
 }
 
+export function json<S extends string = string>(
+  value: string,
+): value is `${S}.${Ext.Json}` {
+  return /\.json/i.test(value)
+}
+
+export function pdf<S extends string = string>(
+  value: string,
+): value is `${S}.${Ext.Pdf}` {
+  return /\.pdf/i.test(value)
+}
+
 export function script<S extends string = string>(
   value: string,
 ): value is `${S}.${Ext.Script}` {

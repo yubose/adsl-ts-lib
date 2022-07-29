@@ -3,10 +3,13 @@
   "dependencies": {
     "@aitmed/cadl": "^1.0.689",
     "@aitmed/ecos-lvl2-sdk": "^1.4.198",
+    "app-root-path": "^3.0.0",
     "gatsby-plugin-utils": "^3.13.0",
     "gatsby-source-filesystem": "^4.19.0",
+    "jsdom": "^20.0.0",
+    "jsdom-global": "^3.0.2",
     "loglevel": "^1.8.0",
-    "noodl": "^0.0.44",
+    "noodl": "^0.0.45",
     "noodl-action-chain": "^0.0.126",
     "noodl-types": "^1.0.235",
     "noodl-ui": "^0.1.146"
@@ -115,5 +118,5 @@
     "test": "cross-env NODE_ENV=test mocha --watch --watch-files . \"__tests__/**/*.test.js\" --file __tests__/setup.js"
   },
   "types": "./types.d.ts",
-  "version": "0.0.68"
+  "version": "0.0.70"
 }

@@ -3,9 +3,14 @@ import { expect } from 'chai'
 import y from 'yaml'
 import sinon from 'sinon'
 import { DocRoot } from 'noodl-yaml'
+import NoodlLoader from '../Loader'
 import { toDocument } from '../utils/yml'
-import { ExtractImage, ExtractYaml } from '../extractor'
-import type Extractor from '../extractor/Extractor'
+import {
+  createExtractor,
+  ExtractFnOptions,
+  ExtractedAssetsArray,
+  ExtractedAssetsObject,
+} from '../extractor'
 import { ui } from './test-utils'
 import * as t from '../types'
 
@@ -56,11 +61,20 @@ const getRoot = () => ({
   },
 })
 
-describe(`Extractor`, () => {
-  describe(`ExtractImage`, () => {
+describe(`createExtractor`, () => {
+  describe(`when extracting assets`, () => {
+    let loader: NoodlLoader
     let yml = ''
 
+    const getOptions = (
+      opts?: Parameters<ReturnType<typeof createExtractor>>[1],
+    ) => ({
+      ...u.pick(loader, ['config', 'cadlEndpoint', 'root']),
+      ...opts,
+    })
+
     beforeEach(() => {
+      loader = new NoodlLoader()
       yml = `
       SignIn:
         components:
@@ -90,67 +104,84 @@ describe(`Extractor`, () => {
                     children:
                       - type: image
                         path: colors.jpeg
+                  - type: image
+                    path: colors.jpeg
+              - type: page
+                path: https://abc.com/bob.pdf
       `
     })
 
-    it(`should extract all image assets`, async () => {
-      const doc = toDocument(yml)
-      const extractor = new ExtractImage()
-      const results = extractor.extract(doc)
-      const resultsObject = results.reduce((acc, result) => {
-        acc[result.value] = result
-        return acc
-      }, {})
-      expect(resultsObject).to.have.property('abc.png')
-      expect(resultsObject).to.have.property(
+    it(`should extract all image assets using the "images" preset`, async () => {
+      const extract = createExtractor()
+      const results = await extract(
+        toDocument(yml),
+        getOptions({
+          as: 'object',
+          include: 'images',
+        }),
+      )
+      expect(results).to.have.property('abc.png')
+      expect(results).to.have.property('public.gif')
+      expect(results).to.have.property('colors.jpeg')
+      expect(results).to.have.property(
         'https://public.aitmed.com/cadl/www6.47/assets/green.svg',
       )
-      expect(resultsObject).to.have.property(
-        'https://public.aitmed.com/cadl/www6.47/assets/myMovie.jpeg',
+      expect(u.keys(results)).to.have.lengthOf(4)
+    })
+
+    it(`should extract all pdf and json assets`, async () => {
+      const extract = createExtractor()
+      const results = await extract(
+        toDocument(yml),
+        getOptions({ as: 'object', include: 'documents' }),
       )
-      expect(resultsObject).to.have.property('public.gif')
+      expect(results)
+        .to.have.property('https://abc.com/bob.pdf')
+        .to.have.property('type', 'asset')
     })
 
-    it.skip(`should extract all script assets`, () => {
-      const doc = toDocument(yml)
-      const extractor = new ExtractYaml()
-      const results = extractor.extract(doc)
-      const resultsObject = results.reduce((acc, result) => {
-        acc[result.value] = result
-        return acc
-      }, {})
-      expect(resultsObject)
-        .to.have.property('Dashboard')
-        .to.have.property('type', 'Yaml')
-      expect(resultsObject)
-        .to.have.property(
-          'https://public.aitmed.com/cadl/www6.47/assets/Covid.yml',
-        )
-        .to.have.property('type', 'Yaml')
+    it(`should extract all script assets`, async () => {
+      const extract = createExtractor()
+      const results = await extract(
+        toDocument(yml),
+        getOptions({ as: 'object', include: 'scripts' }),
+      )
+      expect(results)
+        .to.have.property('main.js')
+        .to.have.property('type', 'asset')
     })
 
-    it.skip(`should extract all yaml assets`, () => {
+    it.skip(`should extract all pages`, async () => {
       process.stdout.write('\x1Bc')
-      const doc = toDocument(yml)
-      y.visit(doc, function (key, node, path) {
-        if (y.isScalar(node) && node.value === 'public.gif') {
-          console.log(path)
-        }
+      const extract = createExtractor()
+      const results = await extract(
+        toDocument(yml),
+        getOptions({ as: 'object', include: 'pages' }),
+      )
+
+      expect(results).to.have.property(
+        'https://public.aitmed.com/cadl/www6.47/assets/Covid.yml',
+      )
+
+      console.log(loader)
+    })
+
+    describe(`when passing in args`, () => {
+      describe(`assetsUrl`, () => {
+        xit(`should pass in the assetsUrl`, () => {
+          //
+        })
+
+        xit(`should fall back to \${config.baseUrl}/assets`, () => {
+          //
+        })
       })
-      // const extractor = new ExtractYaml()
-      // const results = extractor.extract(doc)
-      // const resultsObject = results.reduce((acc, result) => {
-      //   acc[result.value] = result
-      //   return acc
-      // }, {})
-      // expect(resultsObject)
-      //   .to.have.property('Dashboard')
-      //   .to.have.property('type', 'Yaml')
-      // expect(resultsObject)
-      //   .to.have.property(
-      //     'https://public.aitmed.com/cadl/www6.47/assets/Covid.yml',
-      //   )
-      //   .to.have.property('type', 'Yaml')
+
+      describe(`baseUrl`, () => {
+        xit(`should pass in the baseUrl`, () => {
+          //
+        })
+      })
     })
   })
 

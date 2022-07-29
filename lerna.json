@@ -13,7 +13,7 @@
     "run": {}
   },
   "forceLocal": true,
-  "ignore": "",
+  "ignore": "noodl-loader",
   "loglevel": "verbose",
   "message": "Update",
   "packages": [

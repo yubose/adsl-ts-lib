@@ -1,6 +1,6 @@
 import * as u from '@jsmanifest/utils'
 import y from 'yaml'
-import Extractor from '../extractor/Extractor'
+import { createExtractor } from '../extractor'
 import NoodlConfig from '../Config'
 import NoodlCadlEndpoint from '../CadlEndpoint'
 import {
@@ -28,7 +28,8 @@ class NoodlLoader extends t.ALoader {
   } & { [key: string]: any }
 
   config: NoodlConfig
-  cadlEndpoint: NoodlCadlEndpoint;
+  cadlEndpoint: NoodlCadlEndpoint
+  extractor: ReturnType<typeof createExtractor>;
 
   [Symbol.for('nodejs.util.inspect.custom')]() {
     return {
@@ -47,7 +48,7 @@ class NoodlLoader extends t.ALoader {
     }
     this.config = this.#root.Config as NoodlConfig
     this.cadlEndpoint = new NoodlCadlEndpoint()
-    this.extractor = new Extractor(this.#root)
+    this.extractor = createExtractor(this.#root)
   }
 
   get root() {
@@ -61,83 +62,6 @@ class NoodlLoader extends t.ALoader {
       root: this.root,
       ...other,
     }
-  }
-
-  extract<
-    S extends string = string,
-    R extends Record<S, ExtractedItem[]> = Record<S, ExtractedItem[]>,
-  >(
-    value: unknown,
-    {
-      use,
-    }: {
-      use?: {
-        extractors?:
-          | { name: string; extractor: Extractor }[]
-          | { name: string; extractor: Extractor }
-      }
-    } = {},
-  ): Record<string, ExtractedItem[]> {
-    const assets = {} as Record<string, ExtractedItem[]>
-    const data = {} as Record<
-      string,
-      {
-        [name: string]: {
-          items: ExtractedItem[]
-          ids: any[]
-        }
-      }
-    >
-
-    const extractors = {} as Record<string, Extractor[]>
-
-    if (u.isObj(use)) {
-      if (use.extractors) {
-        for (const { name, extractor } of u.array(use.extractors)) {
-          if (!extractors[name]) extractors[name] = []
-          if (!assets[name]) assets[name] = []
-          extractors[name].push(extractor)
-        }
-      }
-    }
-
-    const wrapVisitFn = (fn: y.visitorFn<any>) => {
-      return (...args: Parameters<y.visitorFn<any>>) => {
-        const [key, node, path] = args
-        const result = fn({
-          key,
-          node,
-          path,
-        })
-        if (!u.isUnd(result)) return result
-      }
-    }
-
-    if (y.isPair(value)) value = value.value
-
-    if (isNode(value) || isDocument(value)) {
-      y.visit(
-        value,
-        wrapVisitFn((key, node, path) => {
-          for (const [name, xtractors] of u.entries(extractors)) {
-            xtractors.forEach((extractor) => {
-              assets[name] = assets[name].concat(
-                u.array(
-                  extractor.extract({
-                    data,
-                    key,
-                    node,
-                    path,
-                  }),
-                ),
-              )
-            })
-          }
-        }),
-      )
-    }
-
-    return assets
   }
 
   async load(

@@ -1,5 +1,5 @@
 import * as u from '@jsmanifest/utils'
-import Extractor from '../Extractor'
+import Extractor from '../createExtractor'
 import { getScalars, isScalar } from '../../utils/yml'
 import type { ExtractedItem } from '../extractorTypes'
 import type { NoodlYAMLNode } from '../../types'

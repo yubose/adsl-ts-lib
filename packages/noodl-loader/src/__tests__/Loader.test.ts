@@ -42,7 +42,7 @@ afterEach(() => {
   mfs.restore()
 })
 
-describe.only(`Loader`, () => {
+describe.skip(`Loader`, () => {
   for (const loadType of ['url', 'file']) {
     describe(`when loading by file path`, () => {
       const getPath = (str: string) =>
@@ -155,7 +155,7 @@ describe.only(`Loader`, () => {
       })
     })
 
-    describe.only(`when extracting assets`, () => {
+    describe(`when extracting assets`, () => {
       it(`should be able to extract all image assets`, () => {
         const loader = new Loader()
         loader.use(new ExtractImage())

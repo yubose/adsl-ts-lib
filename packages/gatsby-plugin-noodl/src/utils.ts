@@ -2,7 +2,6 @@ import axios from 'axios'
 import * as u from '@jsmanifest/utils'
 import fs from 'fs-extra'
 import path from 'path'
-import get from 'lodash/get'
 import set from 'lodash/set'
 import type { Logger } from 'winston'
 import * as t from './types'
@@ -122,13 +121,13 @@ export class Metadata {
 
   setOrCreate(key: string, value: any) {
     if (!this.#store.has(key)) {
-      const
+      // const
     } else {
       const val = this.#store.get(key)
       if (u.isArr(val) || u.isObj(val)) {
         set(val, key, value)
       }
-      this.#store.set()
+      // this.#store.set()
     }
   }
 

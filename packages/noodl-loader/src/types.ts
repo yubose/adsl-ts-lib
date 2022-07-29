@@ -34,6 +34,8 @@ export abstract class AVisitor {
 
 export namespace Ext {
   export type Image = 'bmp' | 'gif' | 'jpeg' | 'jpg' | 'png' | 'webp'
+  export type Json = 'json'
+  export type Pdf = 'pdf'
   export type Script = 'js'
   export type Text = 'css' | 'html' | 'txt'
   export type Video = 'avi' | 'flac' | 'mkv' | 'mp4' | 'mpeg' | 'mpg'

@@ -529,8 +529,8 @@ export const onPluginInit = async function onPluginInit(
     _loader.root[appKey]?.preload?.concat?.(_loader.root[appKey]?.page) || []
 
   allYmlPageNames.forEach((name: string) => {
-    // const filename = `${name}_en.yml`
-    const filename = `${name}.yml`
+    const filename = `${name}_en.yml`
+    // const filename = `${name}.yml`
     const filepath = path.join(resolvedOutputNamespacedWithConfig, filename)
     if (!fs.existsSync(filepath)) {
       _missingFiles.pages[name] = { filename, filepath, name }
@@ -817,10 +817,10 @@ export const sourceNodes = async function sourceNodes(
 
   const cacheDir = cache.directory
 
-  const getMetaPathsObject = () =>
-    (_meta.get('paths') || {}) as Record<string, any>
+  // const getMetaPathsObject = () =>
+  //   (_meta.get('paths') || {}) as Record<string, any>
 
-  const metaAppPaths = getMetaPathsObject()
+  // const metaAppPaths = getMetaPathsObject()
 
   /**
    * Create GraphQL nodes for app pages so they can be queried in the client side
@@ -833,9 +833,9 @@ export const sourceNodes = async function sourceNodes(
     const cachedComponentsFilePath = path.join(pageCacheDir, 'components.json')
     const pathToCachedPageContextFile = path.join(pageCacheDir, 'context.json')
 
-    metaPaths.pageCacheDirectory = pageCacheDir
-    metaPaths.pageComponentsCacheDirectory = cachedComponentsFilePath
-    metaPaths.pageContextFile = pathToCachedPageContextFile
+    // metaPaths.pageCacheDirectory = pageCacheDir
+    // metaPaths.pageComponentsCacheDirectory = cachedComponentsFilePath
+    // metaPaths.pageContextFile = pathToCachedPageContextFile
 
     _cacheFiles[name] = pageCacheDir
 
