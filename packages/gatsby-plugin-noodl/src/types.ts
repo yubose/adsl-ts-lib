@@ -9,6 +9,7 @@ import type {
 } from 'noodl-types'
 import type { NUIAction, NUIActionObject, NUITrigger } from 'noodl-ui'
 import type { PluginOptions as GatsbyPluginOptions } from 'gatsby'
+import type { Metadata } from './utils'
 
 export interface GatsbyNoodlPluginOptions {
   plugins: GatsbyPluginOptions
@@ -19,8 +20,9 @@ export interface GatsbyNoodlPluginOptions {
   /**
    * Dumps a file with useful metadata about the most recent build
    * The output file will be saved at <cwd>/output/metadata.json
+   * If an instance of Metadata is provided it will use it to generate the metadata instead of generating a new one
    */
-  metadata?: boolean
+  metadata?: boolean | Metadata
   loglevel?: 'error' | 'debug' | 'info' | 'silent' | 'trace' | 'warn'
   paths?: {
     // assets?: string

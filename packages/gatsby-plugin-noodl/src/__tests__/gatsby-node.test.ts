@@ -1,11 +1,12 @@
-const u = require('@jsmanifest/utils')
-const sinon = require('sinon')
-const { expect } = require('chai')
-const appRoot = require('app-root-path')
-const mfs = require('mock-fs')
-const fs = require('fs-extra')
-const fg = require('fast-glob')
-const {
+import { expect } from 'chai'
+import * as u from '@jsmanifest/utils'
+import fg from 'fast-glob'
+import fs from 'fs-extra'
+import path from 'path'
+import sinon from 'sinon'
+import appRoot from 'app-root-path'
+import mfs from 'mock-fs'
+import {
   onPreInit,
   onPluginInit,
   sourceNodes,
@@ -14,7 +15,8 @@ const {
   paths,
   reset,
   dumpMetadata,
-} = require('../gatsby-node')
+} from '../gatsby-node'
+import { Metadata } from '../utils'
 
 const rootDir = appRoot.toString()
 const cwd = process.cwd()
@@ -31,14 +33,14 @@ function getAllFiles() {
 const getMockCache = () => {
   const cache = new Map()
   return {
-    get: async (key) =>
+    get: async (key: string) =>
       key === undefined
         ? [...cache.entries()].reduce(
             (acc, [k, v]) => u.assign(acc, { [k]: v }),
             {},
           )
         : cache.get(key),
-    set: async (key, value) => {
+    set: async (key: string, value: any) => {
       cache.set(key, value)
     },
   }
@@ -47,92 +49,85 @@ const getMockCache = () => {
 beforeEach(() => {
   reset()
 
-  mfs({
-    node_modules: mfs.directory({
-      items: {
-        winston: mfs.directory({
-          items: {
-            lib: mfs.directory({
-              items: {
-                winston: mfs.directory({
-                  items: {
-                    transports: mfs.directory({
-                      items: {
-                        'console.js': mfs.file({ content: '' }),
-                      },
-                    }),
-                  },
-                }),
+  mfs(
+    {
+      node_modules: {
+        winston: {
+          lib: {
+            winston: {
+              transports: {
+                'console.js': mfs.file({ content: '' }),
               },
-            }),
+            },
           },
-        }),
+        },
       },
-    }),
-    packages: mfs.directory({
-      items: {
-        [`packages/gatsby-plugin-noodl`]: mfs.directory({
-          __tests__: mfs.directory(),
-          node_modules: mfs.directory(),
+      packages: {
+        'gatsby-plugin-noodl': {
+          src: {
+            'gatsby-node.ts': mfs.file({ content: '' }),
+            'generator.ts': mfs.file({ content: '' }),
+            'index.ts': mfs.file({ content: '' }),
+            'monkeyPatchEventListener.ts': mfs.file({ content: '' }),
+            'types.ts': mfs.file({ content: '' }),
+            'utils.ts': mfs.file({ content: '' }),
+          },
+          __tests__: {},
+          node_modules: {},
           'gatsby-node.js': mfs.file({ content: '' }),
           'package.json': mfs.file({ content: '{}' }),
           'tsconfig.json': mfs.file({ content: '{}' }),
           'types.d.ts': mfs.file({ content: '' }),
           'utils.js': mfs.file({ content: '' }),
-        }),
-        [`packages/homepage`]: mfs.directory({
-          src: mfs.directory({
-            items: {
-              resources: mfs.directory({
-                items: {
-                  assets: mfs.directory({
-                    items: [
-                      'a_animation1.png',
-                      'a_animation2.png',
-                      'a_animation3.png',
-                      'abdominal_pain_in_children.png',
-                      'aboutRed.svg',
-                      'IconAwesomeCheck.png',
-                      'zhuanquan.gif',
-                    ].reduce(
-                      (acc, filename) =>
-                        u.assign(acc, {
-                          [filename]: mfs.file({ content: Buffer.from([]) }),
-                        }),
-                      {},
-                    ),
-                  }),
-                  images: mfs.directory({
-                    items: {
-                      'logo.png': mfs.file({ content: Buffer.from([]) }),
-                    },
-                  }),
-                  'favicon.ico': mfs.file({ content: 'favicon data' }),
-                },
-              }),
-              static: mfs.directory({
-                items: {
-                  'BaseCSS.json': mfs.file({ content: '{}' }),
-                  'logo.png': mfs.file({ content: Buffer.from([]) }),
-                  'robots.txt': mfs.file({ content: '' }),
-                },
-              }),
-              templates: mfs.directory({
-                items: { [`page.tsx`]: mfs.file({ content: '' }) },
-              }),
-              'theme.ts': mfs.file({ content: '' }),
+        },
+      },
+      apps: {
+        static: {
+          src: {
+            resources: {
+              assets: {
+                items: [
+                  'a_animation1.png',
+                  'a_animation2.png',
+                  'a_animation3.png',
+                  'abdominal_pain_in_children.png',
+                  'aboutRed.svg',
+                  'IconAwesomeCheck.png',
+                  'zhuanquan.gif',
+                ].reduce(
+                  (acc, filename) =>
+                    u.assign(acc, {
+                      [filename]: mfs.file({ content: Buffer.from([]) }),
+                    }),
+                  {},
+                ),
+              },
+              images: {
+                'logo.png': mfs.file({ content: Buffer.from([]) }),
+              },
+              'favicon.ico': mfs.file({ content: 'favicon data' }),
             },
-          }),
+            static: {
+              'BaseCSS.json': mfs.file({ content: '{}' }),
+              'logo.png': mfs.file({ content: Buffer.from([]) }),
+              'robots.txt': mfs.file({ content: '' }),
+            },
+            templates: {
+              'page.tsx': mfs.file({ content: '' }),
+            },
+            'theme.ts': mfs.file({ content: '' }),
+          },
           [`gatsby-browser.js`]: mfs.file({ content: '' }),
           [`gatsby-config.js`]: mfs.file({ content: '' }),
           [`gatsby-node.js`]: mfs.file({ content: '' }),
           [`gatsby-ssr.js`]: mfs.file({ content: '' }),
           [`package.json`]: mfs.file({ content: '{}' }),
           [`tsconfig.json`]: mfs.file({ content: '{}' }),
-        }),
+        },
       },
-    }),
-  })
+    },
+    { createCwd: true },
+  )
 })
 
 afterEach(() => {
@@ -151,13 +146,13 @@ describe.only(`gatsby-node.js`, () => {
   })
 
   describe(`onPreInit`, () => {
-    it(`should convert back slashes to forward slashes on all provided paths from the user`, async () => {
+    it(`should convert back slashes to forward slashes on all provided paths from the user`, () => {
       const pluginOptions = {
         output: 'meetd2',
         src: 'C:\\Users\\Chris\\abc\\drafts',
         template: 'D:/Users\\Chris/drafts',
       }
-      onPreInit({}, pluginOptions)
+      onPreInit({ reporter: { setVerbose: sinon.spy() } }, pluginOptions)
       expect(pluginOptions.output).to.eq('meetd2')
       expect(pluginOptions.src).to.eq('C:/Users/Chris/abc/drafts')
       expect(pluginOptions.template).to.eq('D:/Users/Chris/drafts')
@@ -165,9 +160,13 @@ describe.only(`gatsby-node.js`, () => {
   })
 
   describe.only(`onPluginInit`, () => {
-    it(`should set the cache directory`, async () => {
-      await onPluginInit({ cache: { directory: '.cache' } })
-      expect((await getDumpedMetadata()).cacheDir).to.eq('.cachef')
+    describe(`when processing paths`, () => {
+      it(``, async () => {
+        const meta = new Metadata()
+        const pluginOpts = { metadata: meta }
+        console.log(process.cwd())
+        await onPluginInit({ cache: { directory: '.cache' } }, pluginOpts)
+      })
     })
 
     xit(`should set the cwd`, async () => {})

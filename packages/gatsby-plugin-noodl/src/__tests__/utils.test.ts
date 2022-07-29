@@ -1,5 +1,5 @@
-const { expect } = require('chai')
-const utils = require('../utils')
+import { expect } from 'chai'
+import utils from '../../utils'
 
 describe(`utils`, () => {
   describe(`getConfigVersion`, () => {
