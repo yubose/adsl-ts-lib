@@ -2,6 +2,9 @@ import { _id, idKey } from '../constants'
 import type { LoaderCommonOptions } from '../types'
 
 abstract class LoaderStrategyBase {
+  abstract readonly kind: string
+  abstract readonly id: string
+
   constructor() {
     Object.defineProperty(this, idKey, {
       configurable: false,

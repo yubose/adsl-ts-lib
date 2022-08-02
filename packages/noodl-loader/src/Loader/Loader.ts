@@ -3,21 +3,12 @@ import y from 'yaml'
 import { createExtractor } from '../extractor'
 import NoodlConfig from '../Config'
 import NoodlCadlEndpoint from '../CadlEndpoint'
-import {
-  isNode,
-  // isScalar,
-  // isPair,
-  // isMap,
-  // isSeq,
-  // isDocument,
-  merge,
-  toDocument,
-  unwrap,
-} from '../utils/yml'
+import { isNode, merge, toDocument, unwrap } from '../utils/yml'
 import { assertNonEmpty } from '../utils/assert'
 import { isPageInArray } from './loaderUtils'
 import type Strategy from './Strategy'
 import * as is from '../utils/is'
+import * as c from '../constants'
 import * as t from '../types'
 
 class NoodlLoader extends t.ALoader {
@@ -82,12 +73,25 @@ class NoodlLoader extends t.ALoader {
     {
       preload = true,
       pages = true,
-    }: { preload?: boolean; pages?: boolean } = {},
+      strategies = [],
+    }: {
+      preload?: boolean
+      pages?: boolean
+      strategies?: Strategy | Strategy[]
+    } = {},
   ) {
     try {
       let doc: y.Document<y.Node<any>> | undefined
 
-      for (const strategy of this.strategies) {
+      strategies = [...u.array(strategies), ...this.strategies].reduce(
+        (acc, strategy) => {
+          if (!acc.includes(strategy)) return acc.concat(strategy)
+          return acc
+        },
+        [] as Strategy[],
+      )
+
+      for (const strategy of strategies) {
         if (strategy.is(value, this.getOptions())) {
           let { name } = strategy.parse(value, this.getOptions())
           let { configKey, appKey } = this.config

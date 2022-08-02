@@ -19,9 +19,14 @@ const path = require('path')
 
     const loader = new Loader()
 
-    loader.use()
+    // loader.use(new UrlStrategy())
 
-    await loader.load('packages/noodl-loader/src/__tests__/fixtures/meetd2.yml')
+    await loader.load(
+      'packages/noodl-loader/src/__tests__/fixtures/meetd2.yml',
+      {
+        strategies: new UrlStrategy(),
+      },
+    )
 
     console.log(loader)
   } catch (error) {

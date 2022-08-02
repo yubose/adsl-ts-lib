@@ -1,12 +1,25 @@
+import * as u from '@jsmanifest/utils'
 import path from 'path'
 import Strategy from './Strategy'
 import { fetchYml } from '../utils/yml'
 import { url as isURL } from '../utils/is'
+import { _id, StrategyKind } from '../constants'
 import type { LoaderCommonOptions } from '../types'
 
 class UrlStrategy extends Strategy {
+  #id: string
+
   constructor() {
     super()
+    this.#id = u.getRandomKey()
+  }
+
+  get kind() {
+    return StrategyKind.Url
+  }
+
+  get id() {
+    return this.#id
   }
 
   is(value: unknown) {
@@ -18,7 +31,15 @@ class UrlStrategy extends Strategy {
    * @param Options
    * @returns The value formatted into a URL
    */
-  format(value: unknown, { name: string; ext: string; config, cadlEndpoint }: LoaderCommonOptions) {
+  format(
+    value: unknown,
+    {
+      name = '',
+      ext = '',
+      config,
+      cadlEndpoint,
+    }: LoaderCommonOptions & { name?: string; ext?: string },
+  ) {
     let url: URL | undefined
 
     if (!this.is(value)) {
@@ -39,7 +60,7 @@ class UrlStrategy extends Strategy {
         return ''
       }
     } else {
-  return ''
+      return ''
     }
 
     return url?.toString() ?? ''

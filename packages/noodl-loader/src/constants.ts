@@ -23,6 +23,7 @@ export const idKey = `noodl-loader:id`
 export const _id = {
   extractor: Symbol.for(`noodl-loader:extractor`),
   strategy: Symbol.for(`noodl-loader:strategy`),
+  urlStrategy: Symbol.for(`noodl-loader:url-strategy`),
 } as const
 
 export enum ExtractType {
@@ -42,4 +43,8 @@ export enum AssetType {
   Script = 'Script',
   Text = 'Text',
   Video = 'Video',
+}
+
+export enum StrategyKind {
+  Url = 'Url',
 }
