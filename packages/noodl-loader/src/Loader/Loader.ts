@@ -5,31 +5,30 @@ import NoodlConfig from '../Config'
 import NoodlCadlEndpoint from '../CadlEndpoint'
 import {
   isNode,
-  isScalar,
-  isPair,
-  isMap,
-  isSeq,
-  isDocument,
+  // isScalar,
+  // isPair,
+  // isMap,
+  // isSeq,
+  // isDocument,
   merge,
   toDocument,
   unwrap,
 } from '../utils/yml'
 import { assertNonEmpty } from '../utils/assert'
-import { ExtractedItem } from '../extractor'
 import { isPageInArray } from './loaderUtils'
 import type Strategy from './Strategy'
 import * as is from '../utils/is'
 import * as t from '../types'
 
 class NoodlLoader extends t.ALoader {
+  #extractor: ReturnType<typeof createExtractor>
   #root: {
     Config: NoodlConfig | null
     Global: Record<string, t.YAMLNode>
   } & { [key: string]: any }
 
   config: NoodlConfig
-  cadlEndpoint: NoodlCadlEndpoint
-  extractor: ReturnType<typeof createExtractor>;
+  cadlEndpoint: NoodlCadlEndpoint;
 
   [Symbol.for('nodejs.util.inspect.custom')]() {
     return {
@@ -48,11 +47,25 @@ class NoodlLoader extends t.ALoader {
     }
     this.config = this.#root.Config as NoodlConfig
     this.cadlEndpoint = new NoodlCadlEndpoint()
-    this.extractor = createExtractor(this.#root)
+    this.#extractor = createExtractor()
   }
 
   get root() {
     return this.#root
+  }
+
+  extract(
+    node: Parameters<ReturnType<typeof createExtractor>['extract']>[0],
+    options: Omit<
+      Parameters<ReturnType<typeof createExtractor>['extract']>[1],
+      'config' | 'cadlEndpoint'
+    >,
+  ) {
+    return this.#extractor.extract(node, {
+      ...options,
+      config: this.config,
+      cadlEndpoint: this.cadlEndpoint,
+    })
   }
 
   getOptions<O extends Record<string, any> = Record<string, any>>(other?: O) {
@@ -76,7 +89,7 @@ class NoodlLoader extends t.ALoader {
 
       for (const strategy of this.strategies) {
         if (strategy.is(value, this.getOptions())) {
-          let { name, ext = '' } = strategy.parse(value, this.getOptions())
+          let { name } = strategy.parse(value, this.getOptions())
           let { configKey, appKey } = this.config
           let formattedValue = strategy.format(value, this.getOptions())
 
@@ -115,12 +128,13 @@ class NoodlLoader extends t.ALoader {
           }
 
           if (y.isMap(doc?.contents)) {
-            const isRootConfig = doc === config
-            const name = (
-              isRootConfig ? this.config.configKey : this.config.appKey
-            ).replace(/_en|\.yml/i, '')
+            // const isRootConfig = doc === config
+            const isRootConfig = false
+            // const name = (
+            //   isRootConfig ? this.config.configKey : this.config.appKey
+            // ).replace(/_en|\.yml/i, '')
 
-            doc.contents.items.forEach((pair) => {
+            doc?.contents.items.forEach((pair) => {
               const key = unwrap(pair.key) as string
               const value = y.isNode(pair.value)
                 ? pair.value.toJSON()
@@ -278,10 +292,8 @@ class NoodlLoader extends t.ALoader {
     return this
   }
 
-  use(value: Extractor | Strategy) {
-    if (is.extractor(value)) {
-      this.extractors.push(value)
-    } else if (is.strategy(value)) {
+  use(value: Strategy) {
+    if (is.strategy(value)) {
       this.strategies?.push(value)
     }
     return this

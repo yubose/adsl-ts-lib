@@ -103,7 +103,7 @@ export function merge(node: unknown, value: unknown) {
   return node
 }
 
-export function parse<DataType extends t.Loader.RootDataType>(
+export function parse<DataType extends 'map' | 'object'>(
   dataType: DataType,
   yml = '',
   opts?: y.DocumentOptions & y.ParseOptions & y.SchemaOptions,
@@ -189,7 +189,7 @@ export function toNode<O = any>(value: O[]): y.YAMLSeq<O>
 export function toNode<O extends y.Node>(value: O[]): t.YAMLNode
 
 export function toNode(value: unknown) {
-  if (isNode(value)) return value
+  if (isNode(value) || isPair(value)) return value
 
   switch (typeof value) {
     case 'boolean':
@@ -201,11 +201,6 @@ export function toNode(value: unknown) {
       if (value === null) {
         return new y.Scalar(null)
       }
-
-      if (isPair(value)) {
-        return value
-      }
-
       if (u.isArr(value)) {
         const seq = new y.YAMLSeq()
         value.forEach((v) => seq.items.push(toNode(v)))

@@ -4,13 +4,13 @@ class NoodlConfig {
   #otherOptions = {
     connectiontimeout: '5',
     loadingLevel: 1,
-    debug: 'console_log_api',
+    debug: '',
   }
 
   apiHost = ''
   apiPort = ''
-  webApiHost = 'apiHost'
-  appApiHost = 'apiHost'
+  webApiHost = ''
+  appApiHost = ''
   appKey = ''
   baseUrl = ''
   configKey = ''
@@ -32,7 +32,7 @@ class NoodlConfig {
     let dateStr = ''
 
     dateStr += date.getMonth()
-    dateStr += date.getDay()
+    dateStr += date.getDate()
     dateStr += date.getFullYear()
     dateStr += '.'
     // TODO - Implement this correctly

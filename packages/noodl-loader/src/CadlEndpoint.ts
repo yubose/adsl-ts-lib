@@ -1,9 +1,7 @@
-import type { AppConfig } from 'noodl-core'
 import type { LiteralUnion } from 'type-fest'
 import y from 'yaml'
 import type NoodlConfig from './Config'
 import { stringify } from './utils/yml'
-import * as t from './types'
 
 class NoodlCadlEndpoint {
   assetsUrl = ''

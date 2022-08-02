@@ -286,17 +286,15 @@ class ComponentPage<
 
     return this
   }
-  // @ts-expect-error
   emitSync<Evt extends ComponentPageEvent>(
     evt: Evt,
     ...args: Parameters<ComponentPageHooks[Evt][number]>
   ): this
-  // @ts-expect-error
+  // @ts-ignore
   emitSync<
     Evt extends typeof c.eventId.page.on[keyof typeof c.eventId.page.on],
   >(...args: Parameters<NDOMPage['emitSync']>): this
 
-  // @ts-expect-error
   emitSync<Evt extends string>(
     evt: Evt,
     ...args:
@@ -306,7 +304,7 @@ class ComponentPage<
     if (evt in super.hooks) {
       super.emitSync(
         evt as typeof c.eventId.page.on[keyof typeof c.eventId.page.on],
-        // @ts-expect-error
+        // @ts-ignore
         ...(args as Parameters<NDOMPage['emitSync']>),
       )
     } else if (evt in this.#hooks) {
@@ -324,14 +322,12 @@ class ComponentPage<
     return this
   }
 
-  // @ts-expect-error
   getNuiPage() {
     const nuiPage = this.#component?.get?.('page') as NUIPage
     nuiPage && this.#nuiPage !== nuiPage && (this.#nuiPage = nuiPage)
     return this.#nuiPage as NUIPage
   }
 
-  // @ts-expect-error
   on<
     Evt extends
       | ComponentPageEvent

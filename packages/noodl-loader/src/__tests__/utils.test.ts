@@ -1,8 +1,4 @@
-import path from 'path'
 import { expect } from 'chai'
-import nock from 'nock'
-import sinon from 'sinon'
-import y from 'yaml'
 import { toNode } from '../utils/yml'
 import { replacePlaceholder, replacePlaceholders } from '../utils/replace'
 
@@ -27,32 +23,89 @@ describe(`utils`, () => {
     })
   })
 
-  describe.only(`replacePlaceholders`, () => {
-    it(`should replace all placeholders from YAMLMap nodes`, () => {
-      const node = toNode({
-        hello: [
-          {
-            greeting1: 'Hi!',
-            greeting2:
-              'https://public.aitmed.com/cadl/www${cadlVersion}${designSuffix}/',
+  describe(`replacePlaceholders`, () => {
+    describe(`when given an object of values`, () => {
+      it(`should replace all placeholders from object literals`, () => {
+        const apiHost = 'albh2.aitmed.io'
+        const cadlBaseUrl =
+          'https://public.aitmed.com/cadl/wwwv4.18/_${apiHost}'
+        const cadlVersion = 'epic'
+        const obj = {
+          hello: [
+            {
+              greeting1: 'Hi!',
+              greeting2:
+                'https://public.aitmed.com/cadl/www${cadlVersion}${designSuffix}/',
+            },
+          ],
+          age: 13,
+          views: {
+            modern: 'classic ${cadlBaseUrl}',
+            food: cadlBaseUrl,
+            zeus: 'google ${width}..=-  ',
+            atheus: '${height}',
+            list: [{ child1: 'bob' }, { child2: '${apiHost}' }],
           },
-        ],
-        age: 13,
-        views: {
-          modern: 'classic',
-        },
+        }
+        replacePlaceholders(obj, {
+          apiHost,
+          cadlVersion,
+          cadlBaseUrl,
+          width: '10px',
+          height: '10px',
+        })
+        expect(obj.hello[0].greeting2).to.eq(
+          `https://public.aitmed.com/cadl/www${cadlVersion}\${designSuffix}/`,
+        )
+        expect(obj.views.food).to.eq(
+          `https://public.aitmed.com/cadl/wwwv4.18/_${apiHost}`,
+        )
+        expect(obj.views.zeus).to.eq('google 10px..=-  ')
+        expect(obj.views.atheus).to.eq('10px')
+        expect(obj.views.list[1].child2).to.eq(apiHost)
       })
-      node.setIn(
-        ['hello', 0, 'greeting2'],
-        replacePlaceholders(node, { cadlVersion: 'epic' }),
-      )
-      const result = node.getIn(['hello', 0, 'greeting2'], false)
 
-      console.dir(node.getIn(['hello', 0, 'greeting2']), { depth: Infinity })
-
-      expect(result).to.eq(
-        'https://public.aitmed.com/cadl/wwwepic${designSuffix}/',
-      )
+      it(`should replace all placeholders from YAML nodes`, () => {
+        const apiHost = 'albh2.aitmed.io'
+        const cadlBaseUrl =
+          'https://public.aitmed.com/cadl/wwwv4.18/_${apiHost}'
+        const cadlVersion = 'epic'
+        const node = toNode({
+          hello: [
+            {
+              greeting1: 'Hi!',
+              greeting2:
+                'https://public.aitmed.com/cadl/www${cadlVersion}${designSuffix}/',
+            },
+          ],
+          age: 13,
+          views: {
+            modern: 'classic ${cadlBaseUrl}',
+            food: cadlBaseUrl,
+            zeus: 'google ${width}..=-  ',
+            atheus: '${height}',
+            mortal: 'i.i  ${width}${height}  ',
+            list: [{ child1: 'bob' }, { child2: '${apiHost}' }],
+          },
+        })
+        replacePlaceholders(node, {
+          apiHost,
+          cadlVersion,
+          cadlBaseUrl,
+          width: '10px',
+          height: '11px',
+        })
+        expect(node.getIn(['hello', 0, 'greeting2'], false)).to.eq(
+          'https://public.aitmed.com/cadl/wwwepic${designSuffix}/',
+        )
+        expect(node.getIn(['views', 'food'], false)).to.eq(
+          `https://public.aitmed.com/cadl/wwwv4.18/_${apiHost}`,
+        )
+        expect(node.getIn(['views', 'zeus'], false)).to.eq('google 10px..=-  ')
+        expect(node.getIn(['views', 'atheus'], false)).to.eq('11px')
+        expect(node.getIn(['views', 'mortal'], false)).to.eq('i.i  10px11px  ')
+        expect(node.getIn(['views', 'list', 1, 'child2'], false)).to.eq(apiHost)
+      })
     })
   })
 })

@@ -1,7 +1,8 @@
 import type { LiteralUnion } from 'type-fest'
 import type NoodlLoader from '../Loader'
-import type Asset from './Asset'
 import type y from 'yaml'
+import type Asset from './Asset'
+import { ExtractType } from '../constants'
 
 export type ExtractAssetPreset =
   | 'config'
@@ -33,10 +34,10 @@ export interface ExtractFnOptions
   }
   createAsset(
     propsOrType:
-      | Asset['type']
+      | LiteralUnion<ExtractType, string>
       | Asset
       | {
-          type?: string
+          type?: LiteralUnion<ExtractType, string>
           id?: string
           props?: Record<string, any>
         },

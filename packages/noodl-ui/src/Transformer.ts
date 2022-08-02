@@ -28,7 +28,6 @@ class NuiTransformer {
       resolver = resolver.next as any
     }
 
-    // @ts-expect-error
     this.#transform = this.#transformers[0]?.resolve.bind(this.#transformers[0])
   }
 

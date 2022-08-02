@@ -1,12 +1,13 @@
 import y from 'yaml'
 import * as is from '../../utils/is'
 import type { ExtractFn } from '../extractorTypes'
+import { ExtractType } from '../../constants'
 
 const extractDocuments: ExtractFn = (
   key,
   node,
   path,
-  { cadlEndpoint, createAsset, state },
+  { cadlEndpoint, createAsset },
 ) => {
   if (y.isScalar(node)) {
     if (typeof node.value === 'string') {
@@ -17,13 +18,11 @@ const extractDocuments: ExtractFn = (
           : `${cadlEndpoint?.assetsUrl}${value}`
         const assetId = url
 
-        if (!state.assetIds.includes(assetId)) {
-          createAsset({
-            type: 'asset',
-            id: assetId,
-            props: { url, value },
-          })
-        }
+        createAsset({
+          type: ExtractType.Asset,
+          id: assetId,
+          props: { url, value },
+        })
       }
     }
   }
