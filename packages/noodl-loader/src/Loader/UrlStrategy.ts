@@ -68,9 +68,9 @@ class UrlStrategy extends Strategy {
 
   parse(value: URL | string, options: LoaderCommonOptions) {
     let url = new URL(value)
-    let { name, ext } = path.parse(url.href)
+    let { base: filename, name, ext } = path.parse(url.href)
     if (ext.startsWith('.')) ext = ext.substring(1)
-    return { name, ext }
+    return { filename, name, ext, value }
   }
 
   /**

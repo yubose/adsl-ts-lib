@@ -147,6 +147,7 @@ export function proxyPageYmls({
     if (ext.startsWith('.')) ext = ext.substring(1)
     let name = u.isObj(obj) ? obj.name : obj
     let filename = path.basename(name)
+    if (!filename.endsWith('.yml')) filename = `${filename}.yml`
     if (name.endsWith(`.${ext}`)) name = name.substring(0, `.${ext}`.length)
     let route = `/${filename}`
     let content = ''

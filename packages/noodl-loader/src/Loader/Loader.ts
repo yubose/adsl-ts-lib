@@ -68,6 +68,11 @@ class NoodlLoader extends t.ALoader {
     }
   }
 
+  /**
+   *
+   * @param value Config, cadlEndpoint, preload name, page name, URL, filepath
+   * @param param1
+   */
   async load(
     value: string,
     {

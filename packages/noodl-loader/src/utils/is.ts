@@ -12,9 +12,9 @@ export function typeOf(value: unknown) {
 }
 
 export function image<S extends string = string>(
-  value: string,
+  value: unknown,
 ): value is `${S}.${Ext.Image}` {
-  return regex.image.test(value)
+  return u.isStr(value) && regex.image.test(value)
 }
 
 export function json<S extends string = string>(
@@ -48,15 +48,19 @@ export function video<S extends string = string>(
 }
 
 export function file<S extends string = string>(
-  value: string,
+  value: unknown,
 ): value is `${S}.${Ext.Image | Ext.Video}` {
-  if (typeof value !== 'string') return false
+  if (!u.isStr(value)) return false
   if (value.startsWith('file:')) return true
   try {
     new URL(value) as any
     return false
   } catch (error) {}
   if (!value.includes('.') && !value.includes('/')) return false
+  if (value.startsWith('/') && value.length > 1) return true
+  if (/\.(com|cn|co|de|dev|edu|gov|in|io|ly|me|net|org|uk|us)/i.test(value)) {
+    return false
+  }
   return regex.file.test(value)
 }
 
