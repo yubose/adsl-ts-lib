@@ -1,65 +1,11 @@
 import * as u from '@jsmanifest/utils'
 import { expect } from 'chai'
-import y from 'yaml'
 import sinon from 'sinon'
-import { DocRoot } from 'noodl-yaml'
 import NoodlLoader from '../Loader'
 import { toDocument } from '../utils/yml'
-import {
-  createExtractor,
-  ExtractFnOptions,
-  ExtractedAssetsArray,
-  ExtractedAssetsObject,
-} from '../extractor'
-import { ui } from './test-utils'
+import { createExtractor } from '../extractor'
+import * as c from '../constants'
 import * as t from '../types'
-
-const assetsUrl = `https://public.aitmed.com/cadl/meet/v0.13/assets/`
-
-const getRoot = () => ({
-  Cereal: {
-    formData: {
-      user: {
-        firstName: `Bob`,
-        nicknames: [`Pizza Guy`, `Tooler`, `Framer`],
-        videoUrls: [
-          {
-            name: 'backpack',
-            path: 'backpack.mp4',
-            related: ['reindeer.mkv'],
-          },
-        ],
-      },
-    },
-  },
-  Tiger: {
-    currentImageName: 'event.gif',
-    components: [
-      ui.view({
-        children: [
-          ui.label({ dataKey: `Cereal.formData.user.firstName` }),
-          ui.list({
-            children: [
-              ui.listItem({
-                children: [
-                  ui.divider(),
-                  ui.label(`...currentImageName`),
-                  ui.button({ text: 'Get ticket' }),
-                ],
-              }),
-            ],
-          }),
-          ui.image({ path: 'abc.png' }),
-          ui.view({
-            children: [
-              ui.view({ children: [ui.video({ path: 'movie.mkv' })] }),
-            ],
-          }),
-        ],
-      }),
-    ],
-  },
-})
 
 describe(`createExtractor`, () => {
   describe(`when extracting assets`, () => {
@@ -75,6 +21,7 @@ describe(`createExtractor`, () => {
 
     beforeEach(() => {
       loader = new NoodlLoader()
+      loader.config.baseUrl = 'https://public.aitmed.com/cadl/www6.47/'
       yml = `
       SignIn:
         components:
@@ -129,6 +76,29 @@ describe(`createExtractor`, () => {
       expect(u.keys(results)).to.have.lengthOf(4)
     })
 
+    it(`should set the full url on props.url`, async () => {
+      const assetsUrl = `https://public.aitmed.com/cadl/www6.47/assets/`
+      loader.cadlEndpoint.baseUrl = 'https://public.aitmed.com/cadl/www6.47/'
+      loader.cadlEndpoint.assetsUrl = '${cadlBaseUrl}assets/'
+      const extract = createExtractor()
+      const results = await extract(
+        toDocument(yml),
+        getOptions({ as: 'object', include: 'images' }),
+      )
+      expect(results)
+        .to.have.property('abc.png')
+        .to.have.property('props')
+        .to.have.property('url')
+        .to.eq(`${assetsUrl}abc.png`)
+      expect(results['public.gif'].props.url).to.eq(assetsUrl + 'public.gif')
+      expect(results['colors.jpeg'].props.url).to.eq(assetsUrl + 'colors.jpeg')
+      expect(results)
+        .to.have.property(`${assetsUrl}green.svg`)
+        .to.have.property('props')
+        .to.have.property('url')
+        .to.eq(`${assetsUrl}green.svg`)
+    })
+
     it(`should extract all pdf and json assets`, async () => {
       const extract = createExtractor()
       const results = await extract(
@@ -137,7 +107,7 @@ describe(`createExtractor`, () => {
       )
       expect(results)
         .to.have.property('https://abc.com/bob.pdf')
-        .to.have.property('type', 'asset')
+        .to.have.property('type', c.ExtractType.Asset)
     })
 
     it(`should extract all script assets`, async () => {
@@ -148,58 +118,24 @@ describe(`createExtractor`, () => {
       )
       expect(results)
         .to.have.property('main.js')
-        .to.have.property('type', 'asset')
+        .to.have.property('type', c.ExtractType.Asset)
     })
 
-    it.skip(`should extract all pages`, async () => {
-      process.stdout.write('\x1Bc')
+    it(`should extract all pages`, async () => {
+      loader.cadlEndpoint.preload = ['BaseCSS']
+      loader.cadlEndpoint.pages = ['SignIn', 'Dashboard', 'SignUp']
       const extract = createExtractor()
       const results = await extract(
         toDocument(yml),
         getOptions({ as: 'object', include: 'pages' }),
       )
-
-      expect(results).to.have.property(
-        'https://public.aitmed.com/cadl/www6.47/assets/Covid.yml',
-      )
-
-      console.log(loader)
-    })
-
-    describe(`when passing in args`, () => {
-      describe(`assetsUrl`, () => {
-        xit(`should pass in the assetsUrl`, () => {
-          //
-        })
-
-        xit(`should fall back to \${config.baseUrl}/assets`, () => {
-          //
-        })
-      })
-
-      describe(`baseUrl`, () => {
-        xit(`should pass in the baseUrl`, () => {
-          //
-        })
-      })
-    })
-  })
-
-  describe.skip(`accumulators`, () => {
-    describe(`ObjAccumulator`, () => {
-      it(`[init] should reset its value to an empty object`, () => {
-        const acc = new ObjAccumulator()
-        acc.value = []
-        expect(acc.value).to.deep.eq([])
-        acc.init()
-        expect(acc.value).to.deep.eq({})
-      })
-
-      it(`[reduce] should set the name as key and result as its value`, () => {
-        const acc = new ObjAccumulator()
-        const obj = acc.init()
-        acc.reduce(obj, 'hello', 'topo')
-        expect(acc.value).to.deep.eq({ hello: 'topo' })
+      const filenames = u.keys(results as Record<string, any>)
+      expect(filenames).to.have.lengthOf(3)
+      filenames.forEach((filename) => {
+        const obj = results[filename]
+        expect(obj).to.be.an('object')
+        expect(obj).to.have.property('type', c.ExtractType.Page)
+        // expect(obj.id).to.exist
       })
     })
   })

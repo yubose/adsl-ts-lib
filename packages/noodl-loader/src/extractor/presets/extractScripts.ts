@@ -1,12 +1,13 @@
 import y from 'yaml'
 import * as is from '../../utils/is'
 import type { ExtractFn } from '../extractorTypes'
+import { ExtractType } from '../../constants'
 
 const extractScripts: ExtractFn = (
   key,
   node,
   path,
-  { cadlEndpoint, createAsset, state },
+  { cadlEndpoint, createAsset },
 ) => {
   if (y.isScalar(node)) {
     if (typeof node.value === 'string') {
@@ -15,15 +16,11 @@ const extractScripts: ExtractFn = (
           ? node.value
           : `${cadlEndpoint?.assetsUrl}${node.value}`
 
-        if (!state.assetIds.includes(url)) {
-          createAsset({
-            type: 'asset',
-            id: url,
-            props: { url, value: node.value },
-          })
-
-          state.assetIds.push(url)
-        }
+        createAsset({
+          type: ExtractType.Asset,
+          id: url,
+          props: { url, value: node.value },
+        })
       }
     }
   }

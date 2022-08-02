@@ -1,12 +1,13 @@
 import * as u from '@jsmanifest/utils'
 import { visitAsync } from 'yaml'
-import { isNode, isPair, visit } from '../internal/yaml'
 import Asset from './Asset'
 import extractDocuments from './presets/extractDocuments'
 import extractImages from './presets/extractImages'
 import extractPages from './presets/extractPages'
 import extractScripts from './presets/extractScripts'
 import extractVideos from './presets/extractVideos'
+import { isNode, isPair, visit } from '../internal/yaml'
+import { replacePlaceholders } from '../utils/replace'
 import type NoodlLoader from '../Loader'
 import type { YAMLNode } from '../types'
 import * as c from '../constants'
@@ -16,7 +17,7 @@ export interface CreateExtractorOptions {
   //
 }
 
-function createExtractor(options?: CreateExtractorOptions) {
+function createExtractor() {
   const { BREAK, REMOVE, SKIP } = visit
 
   async function extract<As extends 'array' | 'object' = 'array'>(
@@ -32,7 +33,7 @@ function createExtractor(options?: CreateExtractorOptions) {
       use: useProp = [],
     }: Partial<Pick<NoodlLoader, 'cadlEndpoint' | 'config' | 'root'>> & {
       as?: As
-      include?: t.ExtractAssetPreset | t.ExtractAssetPreset[]
+      include?: t.ExtractAssetPreset | t.ExtractAssetPreset[] | 'any'
       prepareState?: (
         state: Record<string, any>,
       ) => Record<string, any> | undefined | void
@@ -58,7 +59,17 @@ function createExtractor(options?: CreateExtractorOptions) {
     )[]
 
     for (const preset of u.array(include)) {
-      if (preset === 'documents') {
+      if (preset === 'any') {
+        use.length = 0
+        use.push(
+          extractDocuments,
+          extractImages,
+          extractPages,
+          extractScripts,
+          extractVideos,
+        )
+        break
+      } else if (preset === 'documents') {
         use.push(extractDocuments)
       } else if (preset === 'images') {
         use.push(extractImages)
@@ -125,10 +136,12 @@ function createExtractor(options?: CreateExtractorOptions) {
     }
 
     if (config) {
-      extractFnOptions.assetsUrl = `${
-        cadlEndpoint?.assetsUrl || `${config.baseUrl}assets/`
-      }`
-      extractFnOptions.baseUrl = `${cadlEndpoint?.baseUrl}`
+      const baseUrl = config.baseUrl || ''
+      const assetsUrl = replacePlaceholders(cadlEndpoint?.assetsUrl || '', {
+        cadlBaseUrl: baseUrl,
+      })
+      extractFnOptions.baseUrl = baseUrl
+      extractFnOptions.assetsUrl = assetsUrl
     }
 
     await visitAsync(value, async (key, node, path) => {
@@ -144,7 +157,7 @@ function createExtractor(options?: CreateExtractorOptions) {
           obj = { ...opts }
         }
 
-        let result = fn?.(key, node, path, extractFnOptions)
+        let result = fn?.(key, node, path, extractFnOptions) as unknown
 
         if (u.isPromise(result)) result = (await result) as any
 
@@ -186,7 +199,9 @@ function createExtractor(options?: CreateExtractorOptions) {
     value: c._id.extractor,
   })
 
-  return extract
+  return {
+    extract,
+  }
 }
 
 export default createExtractor

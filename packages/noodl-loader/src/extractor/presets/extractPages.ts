@@ -1,18 +1,19 @@
 import type { ExtractFn } from '../extractorTypes'
+import { ExtractType } from '../../constants'
 
 const extractPages: ExtractFn = (
   key,
   node,
   path,
-  { config, cadlEndpoint, createAsset, state },
+  { config, cadlEndpoint, createAsset },
 ) => {
   const preload = [] as string[]
   const pages = [] as string[]
-  const ymls = [] as string[]
+  // const ymls = [] as string[]
 
   if (config) {
     if (config.configKey) {
-      ymls.push(`https://public.aitmed.com/config/${config.configKey}.yml`)
+      // ymls.push(`https://public.aitmed.com/config/${config.configKey}.yml`)
     }
 
     if (config.appKey) {
@@ -22,9 +23,9 @@ const extractPages: ExtractFn = (
         appKey = `${appKey}.yml`
       }
 
-      if (!ymls.includes(appKey)) {
-        ymls.push(appKey)
-      }
+      // if (!ymls.includes(appKey)) {
+      //   ymls.push(appKey)
+      // }
     }
   }
 
@@ -33,28 +34,43 @@ const extractPages: ExtractFn = (
     if (cadlEndpoint.pages) pages.push(...cadlEndpoint.pages)
   }
 
-  for (const yml of ymls) {
-    const url = yml.startsWith('http')
-      ? yml
-      : `${cadlEndpoint?.assetsUrl}${yml}`
-    const assetId = url
-
-    if (!state.assetIds.includes(assetId)) {
-      const assetType = url.includes('public.aitmed.com/config')
-        ? 'config'
-        : url.includes('cadlEndpoint')
-        ? 'cadlEndpoint'
-        : 'pages'
-
-      createAsset({
-        type: assetType,
-        id: assetId,
-        props: { value: yml, url },
-      })
-
-      state.assetIds.push(assetId)
-    }
+  for (const page of pages) {
+    const name = page.endsWith('.yml')
+      ? page.substring(0, page.length - 4)
+      : page
+    const filename = `${name}.yml`
+    const url = `${config?.baseUrl}${filename}`
+    createAsset({
+      type: ExtractType.Page,
+      id: filename,
+      props: {
+        url,
+        name,
+        filename,
+        ext: 'yml',
+      },
+    })
   }
+
+  // for (const yml of ymls) {
+  //   const url = replacePlaceholders(
+  //     yml.startsWith('http') ? yml : `${config?.baseUrl}${yml}`,
+  //     {},
+  //   )
+  //   const assetId = url
+
+  //   const assetType = url.includes('public.aitmed.com/config')
+  //     ? ExtractType.Config
+  //     : url.includes('cadlEndpoint')
+  //     ? ExtractType.CadlEndpoint
+  //     : ExtractType.Page
+
+  //   createAsset({
+  //     type: assetType,
+  //     id: assetId,
+  //     props: { value: yml, url },
+  //   })
+  // }
 }
 
 export default extractPages

@@ -1,11 +1,12 @@
 import y from 'yaml'
 import type { ExtractFn } from '../extractorTypes'
+import { ExtractType } from '../../constants'
 
 const extractVideos: ExtractFn = (
   key,
   node,
   path,
-  { cadlEndpoint, createAsset, state },
+  { cadlEndpoint, createAsset },
 ) => {
   if (y.isMap(node)) {
     if (node.has('path')) {
@@ -13,16 +14,16 @@ const extractVideos: ExtractFn = (
 
       if (type === 'video') {
         const value = node.get('path', false) as string
-        const url = `${cadlEndpoint?.assetsUrl}${value}`
+        const url = value.startsWith('http')
+          ? value
+          : `${cadlEndpoint?.assetsUrl}${value}`
         const assetId = url
 
-        if (!state.assetIds.includes(assetId)) {
-          createAsset({
-            type: 'asset',
-            id: assetId,
-            props: { type, path: value, url },
-          })
-        }
+        createAsset({
+          type: ExtractType.Asset,
+          id: assetId,
+          props: { type, path: value, url },
+        })
       }
     }
   }

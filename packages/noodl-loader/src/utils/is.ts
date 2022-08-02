@@ -2,13 +2,8 @@ import * as u from '@jsmanifest/utils'
 // import { isDocument, isScalar, isPair, isMap, isSeq } from '../utils/yml'
 import regex from '../internal/regex'
 import { _id, idKey } from '../constants'
-import type { Extractor } from '../extractor'
 import type Strategy from '../Loader/Strategy'
 import type { Ext } from '../types'
-
-export function extractor(value: unknown): value is Extractor {
-  return u.isObj(value) && value[idKey] === _id.extractor
-}
 
 export function typeOf(value: unknown) {
   if (Array.isArray(value)) return 'array'

@@ -18,21 +18,28 @@ export const appPageNotFound = 'APP_PAGE_DOES_NOT_EXIST'
 export const appPageRetrieved = 'RETRIEVED_APP_PAGE'
 export const appPageRetrieveFailed = 'RETRIEVE_APP_PAGE_FAILED'
 
-export const idKey = `noodl-loader:_id`
+export const idKey = `noodl-loader:id`
 
 export const _id = {
   extractor: Symbol.for(`noodl-loader:extractor`),
   strategy: Symbol.for(`noodl-loader:strategy`),
 } as const
 
-export enum Asset {
+export enum ExtractType {
   Unknown = 'Unknown',
-  Audio = 'Audio',
-  Css = 'Css',
+  Asset = 'Asset',
+  CadlEndpoint = 'CadlEndpoint',
+  Config = 'Config',
+  Page = 'Page',
+}
+
+export enum AssetType {
+  Unknown = 'Unknown',
+  Document = 'Document',
   Image = 'Image',
-  Json = 'Json',
-  Pdf = 'Pdf',
+  Preload = 'Preload',
+  Page = 'Page',
   Script = 'Script',
+  Text = 'Text',
   Video = 'Video',
-  Yaml = 'Yaml',
 }
