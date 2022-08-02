@@ -828,7 +828,7 @@ const componentsResolver: t.Resolve.Config = {
           } else if (u.isStr(selectOptions) || (dataKey && u.isStr(dataKey))) {
             // Retrieved through reference
           }
-
+          setSelectOptions(args.node as HTMLSelectElement, selectOptions)
           args.component.on('options', (dataOptions: any[]) => {
             // clearOptions(args.node as HTMLSelectElement)
             clearOptions(args.node as HTMLSelectElement)

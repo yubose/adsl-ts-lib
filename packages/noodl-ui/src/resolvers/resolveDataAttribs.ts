@@ -265,10 +265,23 @@ dataAttribsResolver.setResolver(async (component, options, next) => {
   if (Identify.component.select(component)) {
     // Receiving their options by reference
     if ([dataKey, selectOptions].find((v) => v && u.isStr(v))) {
-      let dataPath = dataKey && u.isStr(dataKey) ? dataKey : selectOptions
       let dataOptions = selectOptions
+      if(u.isStr(selectOptions)){
+        if(iteratorVar &&  selectOptions.startsWith(iteratorVar)){
+          const dataOptionsKey = excludeIteratorVar(selectOptions, iteratorVar)
+          dataOptions = dataOptionsKey
+            ? get(n.findListDataObject(component), dataOptionsKey)
+            : n.findListDataObject(component)
+        }else{
+          const dataOptionsKey = trimReference(selectOptions)
+          dataOptions = get(
+            Identify.localKey(dataOptionsKey) ? getRoot()[page.page] : getRoot(),
+            dataOptionsKey,
+          )
+        }
+      }
+      let dataPath = dataKey && u.isStr(dataKey) ? dataKey : selectOptions
       let isListPath = !!(iteratorVar && dataPath.startsWith(iteratorVar))
-
       if (!u.isArr(dataOptions)) {
         if (isListPath) {
           dataPath = excludeIteratorVar(dataPath, iteratorVar)
