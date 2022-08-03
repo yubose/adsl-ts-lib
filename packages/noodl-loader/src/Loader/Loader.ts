@@ -1,15 +1,15 @@
 import * as u from '@jsmanifest/utils'
 import y from 'yaml'
 import { createExtractor } from '../extractor'
-import NoodlConfig from '../Config'
-import NoodlCadlEndpoint from '../CadlEndpoint'
+import NoodlConfig from '../config'
+import NoodlCadlEndpoint from '../cadlendpoint'
 import { isNode, merge, toDocument, unwrap } from '../utils/yml'
 import { assertNonEmpty } from '../utils/assert'
-import { isPageInArray } from './loaderUtils'
+import { isPageInArray } from './loader-utils'
 import type { YAMLNode } from '../types'
-import type Strategy from './Strategy'
+import type Strategy from './strategy'
 import * as is from '../utils/is'
-import * as t from './loaderTypes'
+import * as t from './loader-types'
 
 class NoodlLoader extends t.AbstractLoader {
   #extractor: ReturnType<typeof createExtractor>

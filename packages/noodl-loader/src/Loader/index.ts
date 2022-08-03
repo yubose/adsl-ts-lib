@@ -1,3 +1,3 @@
-export { default } from './Loader'
-export * from './Loader'
-export * from './loaderUtils'
+export { default } from './loader'
+export * from './loader'
+export * from './loader-utils'

@@ -3,7 +3,7 @@ import { getFileStructure, getFileName, path } from 'noodl-file'
 import fg from 'fast-glob'
 import { Document as YAMLDocument, isDocument, isMap, Scalar } from 'yaml'
 import { fp, is } from 'noodl-core'
-import loadFile from './loadFile'
+import loadFile from './load-file'
 import * as t from '../types'
 
 /**

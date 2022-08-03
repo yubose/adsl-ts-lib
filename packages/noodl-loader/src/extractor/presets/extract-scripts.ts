@@ -1,6 +1,6 @@
 import y from 'yaml'
 import * as is from '../../utils/is'
-import type { ExtractFn } from '../extractorTypes'
+import type { ExtractFn } from '../extractor-types'
 import { ExtractType } from '../../constants'
 
 const extractScripts: ExtractFn = (

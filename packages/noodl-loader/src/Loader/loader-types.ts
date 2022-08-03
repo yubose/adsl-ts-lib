@@ -1,6 +1,6 @@
-import type Config from '../Config'
-import type CadlEndpoint from '../CadlEndpoint'
-import type Strategy from './Strategy'
+import type Config from '../config'
+import type CadlEndpoint from '../cadlendpoint'
+import type Strategy from './strategy'
 
 export abstract class AbstractLoader {
   abstract load(...args: any[]): Promise<any> | any

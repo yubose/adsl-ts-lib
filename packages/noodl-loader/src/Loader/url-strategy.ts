@@ -1,6 +1,6 @@
 import * as u from '@jsmanifest/utils'
 import path from 'path'
-import Strategy from './Strategy'
+import Strategy from './strategy'
 import { fetchYml } from '../utils/yml'
 import { url as isURL } from '../utils/is'
 import { _id, StrategyKind } from '../constants'

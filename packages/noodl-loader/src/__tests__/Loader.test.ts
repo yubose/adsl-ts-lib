@@ -4,7 +4,7 @@ import { expect } from 'chai'
 import mfs from 'mock-fs'
 import nock from 'nock'
 import { defaultBaseUrl, getFixturePath, proxyPageYmls } from './test-utils'
-import Loader from '../Loader'
+import Loader from '../loader'
 import { toDocument } from '../utils/yml'
 import * as c from '../constants'
 
