@@ -6,16 +6,16 @@ import NoodlCadlEndpoint from '../CadlEndpoint'
 import { isNode, merge, toDocument, unwrap } from '../utils/yml'
 import { assertNonEmpty } from '../utils/assert'
 import { isPageInArray } from './loaderUtils'
+import type { YAMLNode } from '../types'
 import type Strategy from './Strategy'
 import * as is from '../utils/is'
-import * as c from '../constants'
-import * as t from '../types'
+import * as t from './loaderTypes'
 
-class NoodlLoader extends t.ALoader {
+class NoodlLoader extends t.AbstractLoader {
   #extractor: ReturnType<typeof createExtractor>
   #root: {
     Config: NoodlConfig | null
-    Global: Record<string, t.YAMLNode>
+    Global: Record<string, YAMLNode>
   } & { [key: string]: any }
 
   config: NoodlConfig
@@ -34,7 +34,7 @@ class NoodlLoader extends t.ALoader {
     super()
     this.#root = {
       Config: new NoodlConfig(),
-      Global: {} as Record<string, t.YAMLNode>,
+      Global: {} as Record<string, YAMLNode>,
     }
     this.config = this.#root.Config as NoodlConfig
     this.cadlEndpoint = new NoodlCadlEndpoint()
@@ -283,7 +283,7 @@ class NoodlLoader extends t.ALoader {
     return this
   }
 
-  loadPreload(name: t.YAMLNode | string, preload?: t.YAMLNode) {
+  loadPreload(name: YAMLNode | string, preload?: YAMLNode) {
     if (u.isStr(name)) {
       this.#root[name] = preload
     } else if (isNode(name)) {
