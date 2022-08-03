@@ -3,8 +3,9 @@
  * https://www.gatsbyjs.com/docs/files-gatsby-looks-for-in-a-plugin/
  */
 import { expect } from 'chai'
-import pkgJson from '../../package.json'
+import fs from 'fs-extra'
 
+const pkgJson = fs.readJsonSync('../../package.json')
 const pluginName = 'gatsby-plugin-noodl'
 const entryPoint = 'index.js'
 

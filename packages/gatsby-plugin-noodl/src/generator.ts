@@ -1,5 +1,6 @@
 import * as u from '@jsmanifest/utils'
 import { ConsumerOptions, NUI, Transformer } from 'noodl-ui'
+import fs from 'fs-extra'
 import type {
   AppConfig,
   ComponentObject,
@@ -88,19 +89,19 @@ export async function getGenerator({
 
     // const { default: JsDOM } = await import('jsdom-global')
 
-    require('jsdom-global')('', {
-      resources: 'usable',
-      runScripts: 'dangerously',
-      url: `https://127.0.0.1:3001`,
-      beforeParse: (win: any) => {
-        global.EventTarget = win.EventTarget
-        global.localStorage = win.localStorage
-        // eslint-disable-next-line
-        localStorage = win.localStorage
-        // Silences the "getContext" is not implemented message during build
-        win.HTMLCanvasElement.prototype.getContext = () => ({} as any)
-      },
-    })
+    // require('jsdom-global')('', {
+    //   resources: 'usable',
+    //   runScripts: 'dangerously',
+    //   url: `https://127.0.0.1:3001`,
+    //   beforeParse: (win: any) => {
+    //     global.EventTarget = win.EventTarget
+    //     global.localStorage = win.localStorage
+    //     // eslint-disable-next-line
+    //     localStorage = win.localStorage
+    //     // Silences the "getContext" is not implemented message during build
+    //     win.HTMLCanvasElement.prototype.getContext = () => ({} as any)
+    //   },
+    // })
 
     // Intentionally using require
     const { cache, CADL } = await import('@aitmed/cadl')
@@ -185,6 +186,29 @@ export async function getGenerator({
       })
 
       await transformer.transform(component, consumerOptions)
+
+      if (
+        component.blueprint?.viewTag === 'imageUpdate' ||
+        component.props.viewTag === 'imageUpdate' ||
+        component.props['data-viewtag'] === 'imageUpdate'
+      ) {
+        const imageUpdateComponentData = {
+          blueprint: component.blueprint,
+          component: component.toJSON(),
+          assetsUrl: options?.getAssetsUrl(),
+          baseUrl: options?.getBaseUrl(),
+          context: options?.context,
+          page: options?.page,
+          viewport: options?.viewport,
+        }
+        console.log(imageUpdateComponentData)
+
+        await fs.writeJson(
+          'imageUpdateComponentData',
+          imageUpdateComponentData,
+          { spaces: 2 },
+        )
+      }
 
       return component
     }

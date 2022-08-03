@@ -10,10 +10,12 @@
       "bump": "patch",
       "message": "Update"
     },
-    "run": {}
+    "run": {
+      "ignore": "noodl-*{loader,loader-docs}"
+    }
   },
   "forceLocal": true,
-  "ignore": "noodl-loader",
+  "ignore": "noodl-*{loader}",
   "loglevel": "verbose",
   "message": "Update",
   "packages": [

@@ -4,6 +4,7 @@ exports.getGenerator = void 0;
 const tslib_1 = require("tslib");
 const u = tslib_1.__importStar(require("@jsmanifest/utils"));
 const noodl_ui_1 = require("noodl-ui");
+const fs_extra_1 = tslib_1.__importDefault(require("fs-extra"));
 const monkeyPatchEventListener_1 = tslib_1.__importDefault(require("./monkeyPatchEventListener"));
 u.newline();
 const nui = noodl_ui_1.NUI;
@@ -55,19 +56,19 @@ function getGenerator({ configKey = 'www', configUrl = `https://public.aitmed.co
                 }, {}),
             });
             // const { default: JsDOM } = await import('jsdom-global')
-            require('jsdom-global')('', {
-                resources: 'usable',
-                runScripts: 'dangerously',
-                url: `https://127.0.0.1:3001`,
-                beforeParse: (win) => {
-                    global.EventTarget = win.EventTarget;
-                    global.localStorage = win.localStorage;
-                    // eslint-disable-next-line
-                    localStorage = win.localStorage;
-                    // Silences the "getContext" is not implemented message during build
-                    win.HTMLCanvasElement.prototype.getContext = () => ({});
-                },
-            });
+            // require('jsdom-global')('', {
+            //   resources: 'usable',
+            //   runScripts: 'dangerously',
+            //   url: `https://127.0.0.1:3001`,
+            //   beforeParse: (win: any) => {
+            //     global.EventTarget = win.EventTarget
+            //     global.localStorage = win.localStorage
+            //     // eslint-disable-next-line
+            //     localStorage = win.localStorage
+            //     // Silences the "getContext" is not implemented message during build
+            //     win.HTMLCanvasElement.prototype.getContext = () => ({} as any)
+            //   },
+            // })
             // Intentionally using require
             const { cache, CADL } = yield Promise.resolve().then(() => tslib_1.__importStar(require('@aitmed/cadl')));
             const sdk = new CADL({
@@ -125,6 +126,7 @@ function getGenerator({ configKey = 'www', configUrl = `https://public.aitmed.co
                 viewport: (use === null || use === void 0 ? void 0 : use.viewport) || { width: 0, height: 0 },
             });
             function transform(componentProp, options) {
+                var _a;
                 return tslib_1.__awaiter(this, void 0, void 0, function* () {
                     if (!componentProp)
                         componentProp = {};
@@ -132,6 +134,21 @@ function getGenerator({ configKey = 'www', configUrl = `https://public.aitmed.co
                     const consumerOptions = nui.getConsumerOptions(Object.assign({ component,
                         page, viewport: use.viewport || page.viewport }, options));
                     yield transformer.transform(component, consumerOptions);
+                    if (((_a = component.blueprint) === null || _a === void 0 ? void 0 : _a.viewTag) === 'imageUpdate' ||
+                        component.props.viewTag === 'imageUpdate' ||
+                        component.props['data-viewtag'] === 'imageUpdate') {
+                        const imageUpdateComponentData = {
+                            blueprint: component.blueprint,
+                            component: component.toJSON(),
+                            assetsUrl: options === null || options === void 0 ? void 0 : options.getAssetsUrl(),
+                            baseUrl: options === null || options === void 0 ? void 0 : options.getBaseUrl(),
+                            context: options === null || options === void 0 ? void 0 : options.context,
+                            page: options === null || options === void 0 ? void 0 : options.page,
+                            viewport: options === null || options === void 0 ? void 0 : options.viewport,
+                        };
+                        console.log(imageUpdateComponentData);
+                        yield fs_extra_1.default.writeJson('imageUpdateComponentData', imageUpdateComponentData, { spaces: 2 });
+                    }
                     return component;
                 });
             }

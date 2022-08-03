@@ -198,6 +198,8 @@ export const reset = () => {
   resolvedOutputNamespacedWithConfig = ''
 }
 
+//
+
 /**
  * https://www.gatsbyjs.com/docs/node-apis/
  */
@@ -970,6 +972,7 @@ export const createPages = async function (
         nodes: {
           name: string
           content: string
+          slug: string
         }[]
       }
     }>(`
@@ -978,6 +981,7 @@ export const createPages = async function (
           nodes {
             name
             content
+            slug
           }
         }
       }

@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import utils from '../../utils'
+import utils from '../utils'
 
 describe(`utils`, () => {
   describe(`getConfigVersion`, () => {

@@ -139,6 +139,7 @@ const reset = () => {
     resolvedOutputNamespacedWithConfig = '';
 };
 exports.reset = reset;
+//
 /**
  * https://www.gatsbyjs.com/docs/node-apis/
  */
@@ -153,10 +154,13 @@ const onPreInit = (_, pluginOpts) => {
         _dump.loglevel = loglevel;
         _meta.set('loglevel', loglevel);
     }
+    if (pluginOpts.metadata && pluginOpts.metadata instanceof utils_1.Metadata) {
+        _meta = pluginOpts.metadata;
+    }
     for (const key of u.keys(_paths)) {
         if (pluginOpts[key]) {
-            pluginOpts[key] = pluginOpts[key];
-            _dump.paths[key] = pluginOpts[key];
+            pluginOpts[key] = u.unixify(pluginOpts[key]);
+            _dump.paths[key] = u.unixify(_dump.paths[key]);
         }
     }
 };
@@ -719,6 +723,7 @@ const createPages = function (args, pluginOpts) {
           nodes {
             name
             content
+            slug
           }
         }
       }

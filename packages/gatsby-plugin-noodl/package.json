@@ -4,6 +4,7 @@
     "@aitmed/cadl": "^1.0.689",
     "@aitmed/ecos-lvl2-sdk": "^1.4.198",
     "app-root-path": "^3.0.0",
+    "canvas": "^2.9.3",
     "gatsby-plugin-utils": "^3.13.0",
     "gatsby-source-filesystem": "^4.19.0",
     "jsdom": "^20.0.0",
