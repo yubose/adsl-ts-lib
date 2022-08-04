@@ -8,19 +8,19 @@ const fs_extra_1 = tslib_1.__importDefault(require("fs-extra"));
 const monkeyPatchEventListener_1 = tslib_1.__importDefault(require("./monkeyPatchEventListener"));
 u.newline();
 const nui = noodl_ui_1.NUI;
-// require('jsdom-global')('', {
-//   resources: 'usable',
-//   runScripts: 'dangerously',
-//   url: `https://127.0.0.1:3001`,
-//   beforeParse: (win: any) => {
-//     global.EventTarget = win.EventTarget
-//     global.localStorage = win.localStorage
-//     // eslint-disable-next-line
-//     localStorage = win.localStorage
-//     // Silences the "getContext" is not implemented message during build
-//     win.HTMLCanvasElement.prototype.getContext = () => ({} as any)
-//   },
-// })
+require('jsdom-global')('', {
+    resources: 'usable',
+    runScripts: 'dangerously',
+    url: `https://127.0.0.1:3001`,
+    beforeParse: (win) => {
+        global.EventTarget = win.EventTarget;
+        global.localStorage = win.localStorage;
+        // eslint-disable-next-line
+        localStorage = win.localStorage;
+        // Silences the "getContext" is not implemented message during build
+        win.HTMLCanvasElement.prototype.getContext = () => ({});
+    },
+});
 /**
  * @typedef { import('noodl-ui').NuiComponent.Instance } NuiComponent
  * @typedef { import('noodl-ui').Page } NuiPage
