@@ -11,9 +11,9 @@
     "jsdom-global": "^3.0.2",
     "loglevel": "^1.8.0",
     "noodl": "^0.0.45",
-    "noodl-action-chain": "^0.0.126",
-    "noodl-types": "^1.0.235",
-    "noodl-ui": "^0.1.146"
+    "noodl-action-chain": "^0.0.127",
+    "noodl-types": "^1.0.236",
+    "noodl-ui": "^0.1.147"
   },
   "description": "Gatsby AiTmed plugin to generate static pages from a noodl config",
   "devDependencies": {
@@ -126,5 +126,5 @@
     "test": "cross-env NODE_ENV=test TS_NODE_PROJECT=\"tsconfig.test.json\" ts-mocha --source-map-support --watch --watch-files src \"src/__tests__/**/*.test.ts\" --file src/__tests__/setup.ts"
   },
   "types": "./types.d.ts",
-  "version": "0.0.70"
+  "version": "0.0.71"
 }
