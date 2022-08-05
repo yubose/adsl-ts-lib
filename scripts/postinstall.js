@@ -12,7 +12,9 @@ const exec = (cmd, o) => spawnSync(cmd, { shell: true, stdio: 'inherit', ...o })
     u.newline()
     exec('npm run bootstrap -- --ignore-scripts')
     exec(`lerna run --scope noodl-types build`)
-    exec(`lerna run build --ignore noodl-types --ignore noodl-loader`)
+    exec(
+      `lerna run build --ignore noodl-types --ignore noodl-loader --ignore noodl-loader-docs`,
+    )
   } catch (error) {
     const err = error instanceof Error ? error : new Error(String(error))
     console.log(`[${u.yellow(err.name)}] ${u.red(err.message)}`)
