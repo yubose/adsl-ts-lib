@@ -12,7 +12,6 @@ const set_1 = tslib_1.__importDefault(require("lodash/set"));
 const path_1 = tslib_1.__importDefault(require("path"));
 const noodl_1 = require("noodl");
 const y = tslib_1.__importStar(require("yaml"));
-const generator_1 = require("./generator");
 const utils_1 = tslib_1.__importStar(require("./utils"));
 const DEFAULT_CONFIG = 'aitmed';
 const DEFAULT_DEVICE_TYPE = 'web';
@@ -482,7 +481,7 @@ const sourceNodes = function sourceNodes(args, pluginOpts) {
         }, } = pluginOpts;
         _viewport = viewport;
         _meta.set('viewport', u.pick(viewport, ['width', 'height']));
-        const { cache: sdkCache, page, pages, sdk, transform, } = yield (0, generator_1.getGenerator)({
+        const { cache: sdkCache, page, pages, sdk, transform, } = yield (yield Promise.resolve().then(() => tslib_1.__importStar(require('./generator')))).getGenerator({
             configKey: _configKey,
             use: {
                 config: (_a = _loader === null || _loader === void 0 ? void 0 : _loader.getInRoot) === null || _a === void 0 ? void 0 : _a.call(_loader, _configKey),
