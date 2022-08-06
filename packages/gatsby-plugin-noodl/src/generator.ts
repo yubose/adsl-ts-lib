@@ -24,19 +24,19 @@ u.newline()
 
 const nui = NUI
 
-// require('jsdom-global')('', {
-//   resources: 'usable',
-//   runScripts: 'dangerously',
-//   url: `https://127.0.0.1:3001`,
-//   beforeParse: (win: any) => {
-//     global.EventTarget = win.EventTarget
-//     global.localStorage = win.localStorage
-//     // eslint-disable-next-line
-//     localStorage = win.localStorage
-//     // Silences the "getContext" is not implemented message during build
-//     win.HTMLCanvasElement.prototype.getContext = () => ({} as any)
-//   },
-// })
+require('jsdom-global')('', {
+  resources: 'usable',
+  runScripts: 'dangerously',
+  url: `https://127.0.0.1:3001`,
+  beforeParse: (win: any) => {
+    global.EventTarget = win.EventTarget
+    global.localStorage = win.localStorage
+    // eslint-disable-next-line
+    localStorage = win.localStorage
+    // Silences the "getContext" is not implemented message during build
+    win.HTMLCanvasElement.prototype.getContext = () => ({} as any)
+  },
+})
 
 /**
  * @typedef { import('noodl-ui').NuiComponent.Instance } NuiComponent
