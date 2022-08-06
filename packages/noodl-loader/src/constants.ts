@@ -1,3 +1,4 @@
+export const baseRemoteConfigUrl = 'https://public.aitmed.com/config'
 export const defaultConfigHostname = 'public.aitmed.com'
 
 export const configKeySet = 'CONFIG_KEY'

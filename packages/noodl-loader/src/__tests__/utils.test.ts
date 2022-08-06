@@ -1,5 +1,6 @@
 import { expect } from 'chai'
 import { toNode } from '../utils/yml'
+import { hasPlaceholder, listPlaceholders } from '../utils/parse'
 import { replacePlaceholder, replacePlaceholders } from '../utils/replace'
 
 describe(`utils`, () => {
@@ -7,6 +8,22 @@ describe(`utils`, () => {
     xit(``, () => {
       //
     })
+  })
+
+  it(`should return true if a string has one or more placeholders`, () => {
+    const str = '${cadlBaseUrl}assets/${designSuffix} . ${abc}'
+    expect(hasPlaceholder(str)).to.be.true
+  })
+
+  it(`should return all the placeholders available`, () => {
+    const str = '${cadlBaseUrl}assets/${designSuffix} . ${abc}'
+    const placeholders = listPlaceholders(str)
+    expect(placeholders).to.have.lengthOf(3)
+    expect(placeholders).to.have.all.members([
+      'cadlBaseUrl',
+      'designSuffix',
+      'abc',
+    ])
   })
 
   describe(`replacePlaceholder`, () => {

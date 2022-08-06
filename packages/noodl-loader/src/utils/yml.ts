@@ -53,6 +53,15 @@ export async function fetchYml(
   }
 }
 
+export function getNodeTypeLabel(node: unknown) {
+  if (y.isScalar(node)) return 'Scalar'
+  if (y.isPair(node)) return 'Scalar'
+  if (y.isMap(node)) return 'YAMLMap'
+  if (y.isSeq(node)) return 'YAMLSeq'
+  if (y.isNode(node)) return 'Node'
+  return 'unknown'
+}
+
 export function isNode(
   value: unknown,
 ): value is y.Document | y.Document.Parsed | y.Node | y.Pair {

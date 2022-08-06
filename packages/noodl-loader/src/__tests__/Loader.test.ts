@@ -1,49 +1,152 @@
 import * as u from '@jsmanifest/utils'
+import { fs, vol } from 'memfs'
+import y from 'yaml'
 import path from 'path'
 import { expect } from 'chai'
-import mfs from 'mock-fs'
 import nock from 'nock'
 import { defaultBaseUrl, getFixturePath, proxyPageYmls } from './test-utils'
-import Loader from '../loader'
+import { loadMockedFixtures } from './helpers'
+import Loader, { FileStrategy, UrlStrategy } from '../loader'
+import Config from '../config'
+import CadlEndpoint from '../cadlendpoint'
 import { toDocument } from '../utils/yml'
+import { nockUrlRequest } from './helpers'
 import * as c from '../constants'
 
+const readFile = (fp: string) => {
+  return new Promise((resolve) => {
+    fs.readFile(fp, resolve)
+  })
+}
+
 beforeEach(() => {
-  mfs(
-    {
-      src: {
-        __tests__: {
-          fixtures: {
-            'meetd2.yml': mfs.load(getFixturePath('meetd2.yml')),
-            'cadlEndpoint.yml': mfs.load(getFixturePath('cadlEndpoint.yml')),
-            'BaseCSS.yml': mfs.load(getFixturePath('BaseCSS.yml')),
-            'BaseDataModel.yml': mfs.load(getFixturePath('BaseDataModel.yml')),
-            'BasePage.yml': mfs.load(getFixturePath('BasePage.yml')),
-            'DocumentNotes.yml': mfs.load(getFixturePath('DocumentNotes.yml')),
-            'EditContact.yml': mfs.load(getFixturePath('EditContact.yml')),
-            'EditMyDocument.yml': mfs.load(
-              getFixturePath('EditMyDocument.yml'),
-            ),
-            'ReferenceTest.yml': mfs.load(getFixturePath('ReferenceTest.yml')),
-            'SignIn.yml': mfs.load(getFixturePath('SignIn.yml')),
-          },
-        },
-      },
-      'package.json': mfs.load(path.join(process.cwd(), 'package.json')),
-      'tsconfig.json': mfs.load(path.join(process.cwd(), 'tsconfig.json')),
-    },
-    { createCwd: true, createTmp: true },
-  )
+  loadMockedFixtures()
 })
 
 afterEach(() => {
   nock.cleanAll()
-  mfs.restore()
 })
 
 describe.only(`Loader`, () => {
+  describe(`load`, () => {
+    describe(`when given a string`, () => {
+      describe(`when string is the config key`, () => {
+        xit(`should load the config`, async () => {
+          const config = new Config()
+          const loader = new Loader()
+          config.baseUrl = 'https://google.com/'
+          nockUrlRequest(
+            c.baseRemoteConfigUrl,
+            'meetd2.yml',
+            y.stringify(config),
+          )
+          loader.config.configKey = 'meetd2'
+          await loader.load('meetd2')
+          console.log(loader)
+          expect(loader.cadlEndpoint.baseUrl).to.eq(config.baseUrl)
+        })
+      })
+
+      describe.only(`when string is a value from preload list`, () => {
+        it(`should spread the preload item to root from name`, async () => {
+          const loader = new Loader()
+          const yml = y.stringify({
+            Style: { top: '0.1' },
+            HeaderStyle: { color: '0x033000' },
+          })
+          nockUrlRequest(`https://google.com/`, 'BaseCSS.yml', yml)
+          loader.cadlEndpoint.preload.push('BaseCSS')
+          loader.cadlEndpoint.baseUrl = 'https://google.com/'
+          expect(loader.root).not.to.have.property('Style')
+          expect(loader.root).not.to.have.property('HeaderStyle')
+          await loader.load('BaseCSS')
+          expect(loader.root).to.have.property('Style')
+          expect(loader.root).to.have.property('HeaderStyle')
+          expect(loader.root).to.have.property('HeaderStyle')
+          expect(loader.root.Style).to.be.instanceOf(y.YAMLMap)
+          expect(loader.root.HeaderStyle).to.be.instanceOf(y.YAMLMap)
+        })
+
+        it(`should spread the preload item to root from url`, async () => {
+          const loader = new Loader()
+          const yml = y.stringify({
+            Style: { top: '0.1' },
+            HeaderStyle: { color: '0x033000' },
+          })
+          nockUrlRequest(`https://google.com/`, 'BaseCSS.yml', yml)
+          loader.cadlEndpoint.preload.push('BaseCSS')
+          loader.cadlEndpoint.baseUrl = 'https://google.com/'
+          expect(loader.root).not.to.have.property('Style')
+          expect(loader.root).not.to.have.property('HeaderStyle')
+          await loader.load('https://google.com/BaseCSS.yml')
+          expect(loader.root).to.have.property('Style')
+          expect(loader.root).to.have.property('HeaderStyle')
+          expect(loader.root).to.have.property('HeaderStyle')
+          expect(loader.root.Style).to.be.instanceOf(y.YAMLMap)
+          expect(loader.root.HeaderStyle).to.be.instanceOf(y.YAMLMap)
+        })
+
+        it.only(`should spread the preload item to root from file path`, async () => {
+          const yml = y.stringify({
+            Style: { top: '0.1' },
+            HeaderStyle: { color: '0x033000' },
+          })
+          const loader = new Loader()
+          loader.cadlEndpoint.preload.push('BaseCSS')
+          loader.cadlEndpoint.baseUrl = 'https://google.com/'
+          expect(loader.root).not.to.have.property('Style')
+          expect(loader.root).not.to.have.property('HeaderStyle')
+          await loader.load('./generated/meetd2/BaseCSS.yml', {
+            fs: { ...fs, readFile },
+            mode: 'file',
+          })
+          expect(loader.root).to.have.property('Style')
+          expect(loader.root).to.have.property('HeaderStyle')
+          expect(loader.root.Style).to.be.instanceOf(y.YAMLMap)
+          expect(loader.root.HeaderStyle).to.be.instanceOf(y.YAMLMap)
+        })
+      })
+
+      describe(`when string is a value from page list`, () => {
+        it(`should load the page to root from page name`, async () => {
+          nockUrlRequest(`https://google.com/`, 'SignIn.yml', 'SignIn:\n')
+          const loader = new Loader()
+          loader.cadlEndpoint.pages.push('SignIn')
+          loader.cadlEndpoint.baseUrl = 'https://google.com/'
+          expect(loader.root).not.to.have.property('SignIn')
+          await loader.load('SignIn')
+          expect(loader.root).to.have.property('SignIn')
+          expect(loader.root.SignIn).to.be.instanceOf(y.Document)
+        })
+
+        it(`should load the page to root from page url`, async () => {
+          nockUrlRequest(`https://google.com/`, 'SignIn.yml', 'SignIn:\n')
+          const loader = new Loader()
+          loader.cadlEndpoint.pages.push('SignIn')
+          loader.cadlEndpoint.baseUrl = 'https://google.com/'
+          expect(loader.root).not.to.have.property('SignIn')
+          await loader.load('https://google.com/SignIn.yml')
+          expect(loader.root).to.have.property('SignIn')
+          expect(loader.root.SignIn).to.be.instanceOf(y.Document)
+        })
+
+        it(`should load the page to root from filepath`, async () => {
+          const loader = new Loader()
+          loader.cadlEndpoint.pages.push('SignIn')
+          expect(loader.root).not.to.have.property('SignIn')
+          await loader.load('./generated/meetd2/SignIn.yml', {
+            fs: { ...fs, readFile },
+            mode: 'file',
+          })
+          expect(loader.root).to.have.property('SignIn')
+          expect(loader.root.SignIn).to.be.instanceOf(y.Document)
+        })
+      })
+    })
+  })
+
   for (const loadType of ['url', 'file']) {
-    describe.only(`when loading by ${loadType}`, () => {
+    describe(`when loading by ${loadType}`, () => {
       const getPath = (str: string) =>
         isLoadFile ? getFixturePath(str) : `${baseAppUrl}${str}`
 
@@ -61,20 +164,35 @@ describe.only(`Loader`, () => {
         }
       })
 
-      it(`should load root config props`, async () => {
-        const loader = new Loader()
-        loader.config.configKey = configKey
-        await loader.load(pathToConfig)
-        expect(loader.config.apiHost).to.eq('albh2.aitmed.io')
-        expect(loader.config.apiPort).to.eq('443')
-        expect(loader.config.viewWidthHeightRatio).to.have.property('min', 0.56)
-        expect(loader.config.viewWidthHeightRatio).to.have.property('max', 0.7)
-        expect(loader.config.webApiHost).to.eq('apiHost')
-        expect(loader.config.appApiHost).to.eq('apiHost')
-        expect(loader.config).to.have.property('loadingLevel', 1)
-        expect(loader.config.baseUrl).to.eq(baseAppUrl)
-        expect(loader.config.appKey).to.eq('cadlEndpoint.yml')
-        expect(loader.config).to.have.property('timestamp').to.eq(5272021)
+      describe(`when loading config props`, () => {
+        it.skip(`should load config if given config as ${loadType} path`, async () => {
+          const loader = new Loader()
+          loader.config.rootConfigUrl = 'https://public.aitmed.com/config'
+          loader.config.configKey = 'meetd2'
+          await loader.load('meetd2')
+        })
+
+        it.skip(`should load root config props`, async () => {
+          const loader = new Loader()
+          loader.config.configKey = configKey
+          await loader.load(pathToConfig)
+          expect(loader.config.apiHost).to.eq('albh2.aitmed.io')
+          expect(loader.config.apiPort).to.eq('443')
+          expect(loader.config.viewWidthHeightRatio).to.have.property(
+            'min',
+            0.56,
+          )
+          expect(loader.config.viewWidthHeightRatio).to.have.property(
+            'max',
+            0.7,
+          )
+          expect(loader.config.webApiHost).to.eq('apiHost')
+          expect(loader.config.appApiHost).to.eq('apiHost')
+          expect(loader.config).to.have.property('loadingLevel', 1)
+          expect(loader.config.baseUrl).to.eq(baseAppUrl)
+          expect(loader.config.appKey).to.eq('cadlEndpoint.yml')
+          expect(loader.config).to.have.property('timestamp').to.eq(5272021)
+        })
       })
 
       it(`should load app config props`, async () => {

@@ -34,5 +34,8 @@
     "test:file": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json --file src/setupTests.ts -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\""
   },
   "version": "0.0.19",
-  "gitHead": "8d25fcb1c7079abb8c5afaf063fb945f2eace127"
+  "gitHead": "8d25fcb1c7079abb8c5afaf063fb945f2eace127",
+  "devDependencies": {
+    "memfs": "^3.4.7"
+  }
 }

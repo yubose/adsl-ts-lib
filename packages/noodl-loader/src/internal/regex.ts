@@ -46,7 +46,7 @@ export default {
   image,
   script,
   text,
-  templateLiteralPlaceholder: /\${[a-zA-Z0-9]+}/,
+  placeholder: /\${[a-zA-Z0-9]+}/,
   video,
   url,
 }

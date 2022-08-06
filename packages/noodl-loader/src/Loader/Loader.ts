@@ -1,15 +1,36 @@
 import * as u from '@jsmanifest/utils'
 import y from 'yaml'
+import fs from 'fs-extra'
+import path from 'path'
 import { createExtractor } from '../extractor'
 import NoodlConfig from '../config'
 import NoodlCadlEndpoint from '../cadlendpoint'
-import { isNode, merge, toDocument, unwrap } from '../utils/yml'
+import {
+  isNode,
+  merge,
+  fetchYml,
+  getNodeTypeLabel,
+  toDocument,
+  unwrap,
+} from '../utils/yml'
 import { assertNonEmpty } from '../utils/assert'
-import { isPageInArray } from './loader-utils'
+import { trimPageName } from '../utils/trim'
 import type { YAMLNode } from '../types'
 import type Strategy from './strategy'
 import * as is from '../utils/is'
 import * as t from './loader-types'
+
+function spreadToRoot(root: NoodlLoader['root'], node: y.Document | y.YAMLMap) {
+  if (y.isDocument(node)) {
+    node = node.contents as y.YAMLMap
+  }
+  if (y.isMap(node)) {
+    node.items.forEach((pair) => {
+      root[String(pair.key)] = pair.value
+    })
+  }
+  return root
+}
 
 class NoodlLoader extends t.AbstractLoader {
   #extractor: ReturnType<typeof createExtractor>
@@ -75,98 +96,186 @@ class NoodlLoader extends t.AbstractLoader {
    */
   async load(
     value: string,
-    {
-      preload = true,
-      pages = true,
-      strategies = [],
-    }: {
+    options: {
+      fs?: any
+      mode?: 'url' | 'file'
+      overwrite?: boolean
       preload?: boolean
       pages?: boolean
       strategies?: Strategy | Strategy[]
     } = {},
   ) {
+    const {
+      mode = 'url',
+      overwrite = false,
+      preload = true,
+      pages = true,
+      strategies = [],
+    } = options || {}
+
+    const fsys = (options?.fs || fs) as typeof fs
+
     try {
+      if (!value) return
+
       let doc: y.Document<y.Node<any>> | undefined
 
-      strategies = [...u.array(strategies), ...this.strategies].reduce(
-        (acc, strategy) => {
-          if (!acc.includes(strategy)) return acc.concat(strategy)
-          return acc
-        },
-        [] as Strategy[],
-      )
+      if (u.isStr(value)) {
+        // If just config key, load by remote url
+        if (
+          value === this.config.configKey ||
+          value === this.config.configKey + '.yml'
+        ) {
+          //
+        }
 
-      for (const strategy of strategies) {
-        if (strategy.is(value, this.getOptions())) {
-          let { name } = strategy.parse(value, this.getOptions())
-          let { configKey, appKey } = this.config
-          let formattedValue = strategy.format(value, this.getOptions())
+        // If url, fetch yml remotely
 
+        if (is.url(value)) {
+          const name = path.parse(value).name || ''
           if (name) {
-            let doc: y.Document<y.Node<any>> | undefined
-            let yml = strategy.load(formattedValue, this.getOptions())
-
-            if (u.isPromise(yml)) yml = await yml
-
-            doc = toDocument(yml)
-
-            if (configKey.includes(name)) {
-              this.loadRootConfig(doc)
-            } else if (appKey.includes(name)) {
-              this.loadAppConfig(doc)
-            } else {
-              if (isPageInArray(this.cadlEndpoint.preload, name) && preload) {
-                if (preload) {
-                  for (const item of this.cadlEndpoint.preload) {
-                    const yml = strategy.load(item, this.getOptions())
-                    const doc = toDocument(yml)
-                    this.loadPreload(name, doc)
-                  }
-                }
-              } else if (
-                isPageInArray(this.cadlEndpoint.pages, name) &&
-                pages
-              ) {
-                for (const item of this.cadlEndpoint.preload) {
-                  const yml = strategy.load(item, this.getOptions())
-                  const doc = toDocument(yml)
-                  this.loadPage(name, doc)
-                }
-              }
-            }
-          }
-
-          if (y.isMap(doc?.contents)) {
-            // const isRootConfig = doc === config
-            const isRootConfig = false
-            // const name = (
-            //   isRootConfig ? this.config.configKey : this.config.appKey
-            // ).replace(/_en|\.yml/i, '')
-
-            doc?.contents.items.forEach((pair) => {
-              const key = unwrap(pair.key) as string
-              const value = y.isNode(pair.value)
-                ? pair.value.toJSON()
-                : pair.value
-
-              if (isRootConfig) {
-                if (key === 'cadlBaseUrl') {
-                  this.config.baseUrl = value
-                } else if (key === 'cadlMain') {
-                  this.config.appKey = value
-                } else {
-                  this.config[key] = value
-                }
+            doc = await fetchYml(value, 'doc')
+            if (this.cadlEndpoint.pageExists(name)) {
+              this.root[name] = doc
+            } else if (this.cadlEndpoint.preloadExists(name)) {
+              if (y.isMap(doc.contents)) {
+                spreadToRoot(this.root, doc.contents)
               } else {
-                if (key === 'page') {
-                  this.cadlEndpoint.pages = value
-                } else {
-                  this.cadlEndpoint[key] = value
-                }
+                throw new Error(
+                  `Expected a YAMLMap for preload but received ${getNodeTypeLabel(
+                    doc.contents,
+                  )}`,
+                )
               }
-            })
+            } else {
+              throw new Error(
+                `The page name or preload item "${name}" does not exist in cadlEndpoint (Original value: ${value})`,
+              )
+            }
+          } else {
+            throw new Error(`${value} returned an empty value`)
           }
         }
+
+        // If yml is config, load the rest of the app by config -> cadlEndpoint -> preload -> page
+
+        // If yml is cadlEndpoint, load the rest of the app by cadlEndpoint -> preload -> page
+
+        // If yml is preload, load / spread keys
+
+        // If yml is page, load
+
+        // If directory, use loader.config.configKey to search for a directory that has it, and load the app using config -> cadlEndpoint -> preload -> page
+        else {
+          if (is.file(value) || value.includes('/')) {
+            try {
+              if (!path.isAbsolute(value)) value = path.resolve(value)
+              const { name } = path.parse(value)
+              if (name in this.root && !overwrite) return
+              const yml = await fsys.readFile(value, 'utf8')
+              const doc = toDocument(yml)
+              if (this.cadlEndpoint.preloadExists(name)) {
+                console.log('HELLO?')
+                console.log('HELLO?')
+                console.log('HELLO?')
+
+                spreadToRoot(this.root, doc)
+              } else {
+                this.root[name] = doc
+              }
+            } catch (error) {
+              const err =
+                error instanceof Error ? error : new Error(String(error))
+              if ('code' in err && err['code']) {
+                // File not found
+                throw err
+              }
+              console.error(err)
+            }
+          } else {
+            if (this.cadlEndpoint.preloadExists(value)) {
+              const url = this.cadlEndpoint.getURL(value)
+              const doc = await fetchYml(url, 'doc')
+              if (y.isMap(doc.contents)) {
+                spreadToRoot(this.root, doc.contents)
+              } else {
+                throw new Error(
+                  `Expected a YAMLMap for preload but received ${getNodeTypeLabel(
+                    doc.contents,
+                  )}`,
+                )
+              }
+            } else if (this.cadlEndpoint.pageExists(value)) {
+              const url = this.cadlEndpoint.getURL(value)
+              const name = trimPageName(value)
+              this.root[name] = await fetchYml(url, 'doc')
+            } else {
+              throw new Error(
+                `"${value}" could not be identified as a config, cadlEndpoint, preload, or page`,
+              )
+            }
+          }
+        }
+      }
+
+      // if (name) {
+      //   let doc: y.Document<y.Node<any>> | undefined
+      //   let yml = strategy.load(formattedValue, this.getOptions())
+
+      //   if (u.isPromise(yml)) yml = await yml
+
+      //   doc = toDocument(yml)
+
+      //   if (configKey.includes(name)) {
+      //     this.loadRootConfig(doc)
+      //   } else if (appKey.includes(name)) {
+      //     this.loadAppConfig(doc)
+      //   } else {
+      //     if (isPageInArray(this.cadlEndpoint.preload, name) && preload) {
+      //       if (preload) {
+      //         for (const item of this.cadlEndpoint.preload) {
+      //           const yml = strategy.load(item, this.getOptions())
+      //           const doc = toDocument(yml)
+      //           this.loadPreload(name, doc)
+      //         }
+      //       }
+      //     } else if (isPageInArray(this.cadlEndpoint.pages, name) && pages) {
+      //       for (const item of this.cadlEndpoint.preload) {
+      //         const yml = strategy.load(item, this.getOptions())
+      //         const doc = toDocument(yml)
+      //         this.loadPage(name, doc)
+      //       }
+      //     }
+      //   }
+      // }
+
+      if (y.isMap(doc?.contents)) {
+        // const isRootConfig = doc === config
+        const isRootConfig = false
+        // const name = (
+        //   isRootConfig ? this.config.configKey : this.config.appKey
+        // ).replace(/_en|\.yml/i, '')
+
+        doc?.contents.items.forEach((pair) => {
+          const key = unwrap(pair.key) as string
+          const value = y.isNode(pair.value) ? pair.value.toJSON() : pair.value
+
+          if (isRootConfig) {
+            if (key === 'cadlBaseUrl') {
+              this.config.baseUrl = value
+            } else if (key === 'cadlMain') {
+              this.config.appKey = value
+            } else {
+              this.config[key] = value
+            }
+          } else {
+            if (key === 'page') {
+              this.cadlEndpoint.pages = value
+            } else {
+              this.cadlEndpoint[key] = value
+            }
+          }
+        })
       }
 
       // if (url.pathname.endsWith('.yml')) {

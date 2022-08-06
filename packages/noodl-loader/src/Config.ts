@@ -6,7 +6,7 @@ class NoodlConfig {
     loadingLevel: 1,
     debug: '',
   }
-
+  rootConfigUrl = ''
   apiHost = ''
   apiPort = ''
   webApiHost = ''
@@ -22,10 +22,6 @@ class NoodlConfig {
   }
 
   version = null as string | null
-
-  build() {
-    return stringify(this.toJSON())
-  }
 
   getTimestamp() {
     let date = new Date()
@@ -59,6 +55,10 @@ class NoodlConfig {
       viewWidthHeightRatio: this.viewWidthHeightRatio,
       ...otherOptions,
     }
+  }
+
+  toString() {
+    return stringify(this.toJSON())
   }
 }
 
