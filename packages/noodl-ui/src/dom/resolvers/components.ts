@@ -376,8 +376,8 @@ const componentsResolver: t.Resolve.Config = {
           if (args.component.get(c.DATA_SRC)) {
             let result = args.component.get(c.DATA_SRC)
             if (result?.then){
-              result.then((res)=>{
-                let re = res.find((val) => !!val?.result)?.result
+              result.then((res:any)=>{
+                let re = res.find((val:any) => !!val?.result)?.result
                 re = re? resolveAssetUrl(re, nui.getAssetsUrl()): ''
                 setAttr('src', re)
                 setDataAttr('src', re)

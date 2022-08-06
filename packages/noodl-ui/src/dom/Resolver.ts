@@ -84,8 +84,13 @@ export default class NDOMResolver {
         v: any,
       ) => {
         if (/(innerHTML|innerText|textContent)/i.test(k)) {
-          // @ts-expect-error
           args.node[k] = v
+        }else if(v?.then){
+          v.then((res:any)=>{
+            let re = res.find((val:any) => !!val?.result)?.result
+            re = `${nui.getAssetsUrl()}/${re}`
+            args.node?.setAttribute?.(k, re)
+          })
         } else {
           args.node?.setAttribute?.(k, v)
         }
