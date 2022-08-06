@@ -201,6 +201,7 @@ export async function getGenerator({
           page: options?.page,
           viewport: options?.viewport,
         }
+
         console.log(imageUpdateComponentData)
 
         await fs.writeJson(

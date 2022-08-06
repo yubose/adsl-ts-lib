@@ -1,10 +1,10 @@
 {
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
   "dependencies": {
-    "noodl-action-chain": "^0.0.126",
-    "noodl-types": "^1.0.235",
+    "noodl-action-chain": "^0.0.127",
+    "noodl-types": "^1.0.236",
     "noodl-ui-test-utils": "^0.0.23",
-    "noodl-utils": "^0.0.108",
+    "noodl-utils": "^0.0.109",
     "signature_pad": "^4.0.7"
   },
   "description": "NOODL JavaScript library",
@@ -35,7 +35,7 @@
     "types": "tsc --declaration --declarationDir dist --emitDeclarationOnly"
   },
   "typings": "dist/index.d.ts",
-  "version": "0.1.146",
+  "version": "0.1.147",
   "devDependencies": {
     "@testing-library/dom": "^8.16.0",
     "@types/signature_pad": "^2.3.2"

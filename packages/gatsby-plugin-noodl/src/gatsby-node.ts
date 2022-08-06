@@ -20,7 +20,6 @@ import type {
   NodePluginArgs,
   SourceNodesArgs,
 } from 'gatsby'
-import { getGenerator } from './generator'
 import utils, { Metadata } from './utils'
 import * as t from './types'
 
@@ -694,7 +693,9 @@ export const sourceNodes = async function sourceNodes(
     pages,
     sdk,
     transform,
-  } = await getGenerator({
+  } = await (
+    await import('./generator')
+  ).getGenerator({
     configKey: _configKey,
     use: {
       config: _loader?.getInRoot?.(_configKey),

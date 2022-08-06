@@ -65,7 +65,7 @@ export declare class Metadata {
                 } | undefined;
             } | undefined;
         };
-        loglevel: "info" | "trace" | "debug" | "warn" | "error" | "silent" | undefined;
+        loglevel: "error" | "debug" | "info" | "silent" | "trace" | "warn" | undefined;
         paths: {
             output?: string | undefined;
             src?: string | undefined;
