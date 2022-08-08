@@ -180,7 +180,7 @@ componentResolver.setResolver(async (component, options, next) => {
             let listItem = createComponent(listItemBlueprint, page)
             listItem = component.createChild(listItem)
             listItem.edit({ index, [iteratorVar]: dataObject })
-            resolveComponents({
+            listItem = await resolveComponents({
               callback,
               components: listItem,
               context: {
