@@ -84,6 +84,7 @@ export default class NDOMResolver {
         v: any,
       ) => {
         if (/(innerHTML|innerText|textContent)/i.test(k)) {
+          //@ts-expect-error
           args.node[k] = v
         }else if(v?.then){
           v.then((res:any)=>{
