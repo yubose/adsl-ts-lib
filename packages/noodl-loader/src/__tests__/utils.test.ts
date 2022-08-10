@@ -1,7 +1,8 @@
+import y from 'yaml'
 import partial from 'lodash/partial'
-import { fs } from 'memfs'
+import { fs, vol } from 'memfs'
 import { expect } from 'chai'
-import { toNode } from '../utils/yml'
+import { stringify, toNode } from '../utils/yml'
 import { hasPlaceholder, listPlaceholders } from '../utils/parse'
 import { replacePlaceholder, replacePlaceholders } from '../utils/replace'
 import { mockPaths } from './helpers'
@@ -10,8 +11,11 @@ import _loadFiles from '../utils/load-files'
 
 const configKey = 'www'
 const loadFile = partial(_loadFile, { ...fs, readFile: fs.readFileSync } as any)
+const loadFiles = partial(_loadFiles, fs as any) as (
+  glob: string,
+) => Promise<any[]>
 
-describe.only(`utils`, () => {
+describe(`utils`, () => {
   describe(`loadFile`, () => {
     beforeEach(() => {
       mockPaths({
@@ -21,29 +25,64 @@ describe.only(`utils`, () => {
       })
     })
 
-    xit(`should load as doc`, async () => {
-      let doc = await loadFile(`generated/${configKey}/${configKey}.yml`, 'doc')
+    it(`should load as doc`, async () => {
+      const doc = await loadFile(
+        `generated/${configKey}/${configKey}.yml`,
+        'doc',
+      )
+      expect(doc).to.be.instanceOf(y.Document)
     })
 
-    xit(`should load as json`, async () => {
-      let json = await loadFile(
+    it(`should load as json`, async () => {
+      const json = await loadFile(
         `generated/${configKey}/${configKey}.yml`,
         'json',
       )
+      expect(json)
+        .to.be.an('object')
+        .to.have.property('cadlMain', 'cadlEndpoint.yml')
     })
 
-    xit(`should load as yml when no load type is provided`, async () => {
-      let yml = await loadFile(`generated/${configKey}/${configKey}.yml`)
+    it(`should load as yml when no load type is provided`, async () => {
+      const yml = (await loadFile(
+        `generated/${configKey}/${configKey}.yml`,
+      )) as string
+      expect(yml).to.be.a('string')
+      expect(y.parse(yml)).to.have.property('cadlMain', 'cadlEndpoint.yml')
     })
 
-    xit(`should load as yml when load type is "yml"`, async () => {
-      let yml = await loadFile(`generated/${configKey}/${configKey}.yml`, 'yml')
+    it(`should load as yml when load type is "yml"`, async () => {
+      const yml = (await loadFile(
+        `generated/${configKey}/${configKey}.yml`,
+        'yml',
+      )) as string
+      expect(yml).to.be.a('string')
+      expect(y.parse(yml)).to.have.property('cadlMain', 'cadlEndpoint.yml')
     })
   })
 
-  describe(`loadFiles`, () => {
-    xit(``, () => {
-      //
+  xdescribe(`loadFiles`, () => {
+    it(`should load files by glob`, async () => {
+      vol.reset()
+      vol.fromJSON({
+        'generated/topo/SignIn.yml': stringify({ SignIn: { components: [] } }),
+        'generated/topo/Dashboard.yml': stringify({
+          SignIn: { components: [] },
+        }),
+        'generated/topo/logo.jpg': stringify({ SignIn: { components: [] } }),
+        'generated/topo/favicon.ico': stringify({ SignIn: { components: [] } }),
+      })
+      const glob = 'generated/**/*.yml'
+      const matches = await loadFiles(fs, glob)
+      expect(matches).to.have.lengthOf(2)
+      expect(matches).to.include.members([
+        'generated/topo/Dashboard.yml',
+        'generated/topo/SignIn.yml',
+      ])
+      expect(matches).to.be.an('object')
+      expect(u.keys(matches)).to.have.lengthOf(2)
+      expect(u.keys(matches)).to.include.members(['Dashboard'])
+      expect(matches).to.have.property('')
     })
   })
 

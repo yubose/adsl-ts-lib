@@ -1,11 +1,28 @@
-// @ts-nocheck
-import { join as joinPath } from 'path'
-import { getFileStructure, getFileName, path } from 'noodl-file'
+/**
+ * @deprecated
+ */
+
 import fg from 'fast-glob'
-import { Document as YAMLDocument, isDocument, isMap, Scalar } from 'yaml'
-import { fp, is } from 'noodl-core'
+import fs from 'fs-extra'
+import { parse as parsePath } from 'path'
+import { is } from 'noodl-core'
 import loadFile from './load-file'
 import * as t from '../types'
+
+export interface LoadFilesOptions extends fg.Options {
+  as?: t.As
+}
+
+async function loadFiles(
+  fileSystem: Partial<typeof fs>,
+  glob: string,
+  options?: LoadFilesOptions,
+): Promise<any>
+
+async function loadFiles<As extends t.As = t.As>(
+  glob: string,
+  options?: LoadFilesOptions,
+): Promise<any>
 
 /**
  * Load files from dir and optionally provide a second argument as an options
@@ -22,180 +39,74 @@ import * as t from '../types'
  */
 
 /**
- * Load files into an array of strings as raw yml
+ * @param arg1
+ * @param arg2
  */
-function loadFiles<T extends 'yml', A extends 'list'>(
-  dir: string,
-  opts?: t.LoadFilesOptions<T, A>,
-): string[]
+async function loadFiles(
+  arg1: string | Partial<typeof fs>,
+  arg2?: string | fg.Options,
+  arg3?: LoadFilesOptions,
+) {
+  let _fsys: typeof fs | undefined
+  let _options: LoadFilesOptions | undefined
+  let _glob = ''
 
-/**
- * Load files into an array of objects
- */
-function loadFiles<T extends 'json', A extends 'list'>(
-  dir: string,
-  opts?: t.LoadFilesOptions<T, A>,
-): Record<string, any>[]
+  if (is.obj(arg1)) {
+    _fsys = arg1 as typeof fs
+    _glob = arg2 as string
+    _options = arg3
+  } else if (is.str(arg1)) {
+    _fsys = fs
+    _glob = arg1
+    _options = arg2 as LoadFilesOptions | undefined
+  }
 
-/**
- * Load files into an array of yaml documents
- */
-function loadFiles(
-  dir: string,
-  opts?: t.LoadFilesOptions<'doc', 'list'>,
-): YAMLDocument[]
+  try {
+    const { as, ...fgOptions } = _options || {}
 
-/**
- * Load files into an object literal where key is the name and the value is
- * their yml
- */
-function loadFiles(
-  dir: string,
-  opts?: t.LoadFilesOptions<'yml', 'object'>,
-): Record<string, string>
+    console.log({ _glob })
 
-/**
- * Load files into an object literal where key is the name and the value is a
- * JS object
- */
-function loadFiles(
-  dir: string,
-  opts?: t.LoadFilesOptions<'json', 'object'>,
-): Record<string, any>
+    const entryMatches = await fg(_glob, {
+      fs: _fsys,
+      ...fgOptions,
+      objectMode: true,
+    })
 
-/**
- * Load files into an object literal where key is the name and the value is a
- * yaml node
- */
-function loadFiles(
-  dir: string,
-  opts?: t.LoadFilesOptions<'doc', 'object'>,
-): Record<string, YAMLDocument>
-
-/**
- * Load files into a Map where key is the name and value is their yml
- */
-function loadFiles(
-  dir: string,
-  opts?: t.LoadFilesOptions<'yml', 'map'>,
-): Map<string, string>
-
-/**
- * Load files into a Map where key is the name and value is a JS object
- */
-function loadFiles(
-  dir: string,
-  opts?: t.LoadFilesOptions<'json', 'map'>,
-): Map<string, any>
-
-/**
- * Load files into a Map where key is the name and value is a yaml node
- */
-function loadFiles(
-  dir: string,
-  opts?: t.LoadFilesOptions<'doc', 'map'>,
-): Map<string, YAMLDocument>
-
-/**
- * Load files from dir and optionally a second argument as 'yml' (default) for an array of yml data
- */
-function loadFiles(dir: string, type?: 'yml' | undefined): string[]
-
-/**
- * Load files from dir and optionally a second argument as 'json' to receive
- * an array of objects
- */
-function loadFiles(dir: string, type: 'json'): Record<string, any>[]
-
-/**
- * Load files from dir and optionally a second argument as 'doc' to receive
- * an array of yaml nodes
- */
-function loadFiles(dir: string, type: 'doc'): YAMLDocument[]
-
-/**
- *
- * @param { string } args
- */
-function loadFiles<
-  LType extends t.LoadType = t.LoadType,
-  LFType extends t.LoadFilesAs = t.LoadFilesAs,
->(dir: string, opts: t.LoadFilesOptions<LType, LFType> | t.LoadType = 'yml') {
-  let ext = 'yml'
-  let type = 'yml'
-
-  if (is.str(dir)) {
-    opts === 'json' && (ext = 'json')
-
-    const glob = `**/*.${ext}`
-    const _path = path.normalize(path.resolve(joinPath(dir, glob)))
-
-    if (is.str(opts)) {
-      type = opts === 'json' ? 'json' : opts === 'doc' ? 'doc' : type
-      return fg
-        .sync(_path, { onlyFiles: true })
-        .map((filepath) => loadFile(filepath as string, type as any))
-    } else if (is.obj(opts)) {
-      type = opts.type ?? type
-      const includeExt = opts?.includeExt
-      const keysToSpread = opts.spread ? fp.toArr(opts.spread) : []
-
-      function getKey(metadata: any) {
-        return includeExt ? getFileName(metadata.filepath) : metadata.filename
+    const files = {} as Record<
+      string,
+      {
+        dir: string
+        ext: string
+        filename: string
+        filepath: string
+        name: string
+        data: any
       }
+    >
 
-      function listReducer(acc: any[] = [], filepath: string) {
-        return acc.concat(loadFile(filepath, type as any))
-      }
+    await Promise.all(
+      entryMatches.map(async (entry) => {
+        try {
+          const { dir, ext, name } = parsePath(entry.path)
 
-      function mapReducer(acc: Map<string, any>, filepath: string) {
-        const metadata = getFileStructure(filepath)
-        const key = getKey(metadata)
-        const data = loadFile(filepath, type as any)
-        isDocument(data) &&
-          data.has(key) &&
-          (data.contents = data.get(key) as any)
-        if (keysToSpread.includes(key)) {
-          if (isDocument(data) && isMap(data.contents)) {
-            for (const item of data.contents.items) {
-              const itemKey = item.key as Scalar<string>
-              acc.set(itemKey.value, item.value)
-            }
-          } else if (is.obj(data)) {
-            for (const [key, value] of Object.entries(data)) acc.set(key, value)
+          files[entry.path] = {
+            dir,
+            ext,
+            filename: entry.name,
+            filepath: entry.path,
+            name,
+            data: await loadFile(_fsys as any, entry.path, as),
           }
-        } else {
-          acc.set(key, data)
+        } catch (error) {
+          throw error instanceof Error ? error : new Error(String(error))
         }
-        return acc
-      }
+      }),
+    )
 
-      function objectReducer(acc: Record<string, any>, filepath: string) {
-        const metadata = getFileStructure(filepath)
-        const key = getKey(metadata)
-        let data = loadFile(filepath, type as any)
-        is.obj(data) && key in data && (data = data[key] as any)
-        if (keysToSpread.includes(key) && is.obj(data)) {
-          if (isDocument(data) && isMap(data.contents)) {
-            data.contents.items.forEach((pair) => {
-              acc[String(pair.key)] = pair.value
-            })
-          } else if (is.obj(data)) {
-            Object.assign(acc, data)
-          }
-        } else {
-          acc[key] = data
-        }
-        return acc
-      }
-
-      const items = fg.sync(_path, { onlyFiles: true })
-      if (opts.as === 'list') return items.reduce(listReducer, [])
-      if (opts.as === 'map') return items.reduce(mapReducer, new Map())
-      return items.reduce(objectReducer, {})
-    }
-  } else if (is.obj(dir)) {
-    //
+    return files
+  } catch (error) {
+    const err = error instanceof Error ? error : new Error(String(error))
+    throw err
   }
 }
 

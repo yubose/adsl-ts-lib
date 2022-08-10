@@ -1,9 +1,9 @@
 import * as u from '@jsmanifest/utils'
-// import { isDocument, isScalar, isPair, isMap, isSeq } from '../utils/yml'
+import { is } from 'noodl-core'
 import regex from '../internal/regex'
 import { _id, idKey } from '../constants'
 import type Strategy from '../loader/strategy'
-import type { Ext } from '../types'
+import type { Ext, FileSystemHost } from '../types'
 
 export function configKey(configKey: string, value: null | undefined | string) {
   if (!u.isStr(value) || !configKey) return false
@@ -13,6 +13,14 @@ export function configKey(configKey: string, value: null | undefined | string) {
 export function appKey(cadlMain: string, value: null | undefined | string) {
   if (!u.isStr(value) || !cadlMain) return false
   return cadlMain === value || cadlMain === `${value}.yml`
+}
+
+export function fileSystemHost(value: unknown): value is FileSystemHost {
+  return (
+    value !== null &&
+    typeof value === 'object' &&
+    value?.[idKey] === _id.fileSystemHost
+  )
 }
 
 export function typeOf(value: unknown) {

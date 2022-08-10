@@ -1,3 +1,4 @@
+import type fs from 'fs'
 import y from 'yaml'
 
 export type As = 'doc' | 'json' | 'yml'
@@ -13,6 +14,8 @@ export type BaseRootKey =
   | 'BasePage'
   | 'Config'
   | 'Global'
+
+export type Encoding = Extract<fs.EncodingOption, string>
 
 export namespace Ext {
   export type Image = 'bmp' | 'gif' | 'jpeg' | 'jpg' | 'png' | 'webp'

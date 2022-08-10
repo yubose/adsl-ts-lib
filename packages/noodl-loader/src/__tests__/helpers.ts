@@ -161,13 +161,6 @@ export function nockRequest(
     _response = parseAs('yml', pathnameOrResponse)
   }
 
-  console.log({
-    _baseURL,
-    _pathname,
-    _response,
-    endpoint: toEndpoint(_baseURL, _pathname),
-  })
-
   nock(_baseURL).get(_pathname).reply(200, parseAs('yml', _response))
 
   return toEndpoint(_baseURL, _pathname)
@@ -338,10 +331,7 @@ export function createMockEndpoints(
   let [configName, configYml] = extract(_configKey)
 
   if (!configYml) {
-    configYml = createConfig({
-      assetsUrl: _assetsUrl,
-      baseUrl: _baseUrl,
-    })
+    configYml = createConfig({ assetsUrl: _assetsUrl, baseUrl: _baseUrl })
   }
 
   const configJson = toJson(configYml)
@@ -441,14 +431,8 @@ export function mockPaths({
     const paths = {} as Record<string, any>
     const createPath = (n: string) => `${baseUrlProp}${ensureSuffix('.yml', n)}`
     u.entries(_endpoints).forEach(([endpoint, o]) => {
-      if (endpoint.endsWith(configKey + '.yml')) {
-        const filename = ensureSuffix('.yml', configKey)
-        const pathname = toPathname(filename)
-        const path = `${c.baseRemoteConfigUrl}${pathname}`
-        paths[path] = configYml
-      } else {
-        paths[createPath(o.filename)] = o.response || ''
-      }
+      if (endpoint.endsWith(configKey + '.yml')) nockConfigRequest(configKey)
+      else paths[createPath(o.filename)] = o.response || ''
     })
     return paths
   }

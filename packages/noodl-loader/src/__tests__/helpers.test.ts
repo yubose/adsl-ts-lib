@@ -169,7 +169,7 @@ describe(`helpers`, () => {
 
         expect(config)
           .to.be.an('object')
-          .to.have.property('assetsUrl', `${h.baseUrl}assets`)
+          .to.have.property('cadlBaseUrl', h.baseUrl)
         expect(cadlEndpoint).to.have.property('preload')
         expect(cadlEndpoint).to.have.property('page')
         expect(Dashboard)

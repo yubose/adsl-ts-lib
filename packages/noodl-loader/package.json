@@ -41,6 +41,7 @@
   },
   "version": "0.0.19",
   "dependencies": {
+    "axios": "^0.27.2",
     "invariant": "^2.2.4",
     "ramda": "^0.28.0"
   }

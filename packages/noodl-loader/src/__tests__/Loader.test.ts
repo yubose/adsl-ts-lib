@@ -17,14 +17,16 @@ import {
 import Loader from '../loader'
 import type { LoadType } from '../loader/loader-types'
 import * as c from '../constants'
+import * as t from '../types'
 
-let configKey = 'meetd2'
+const configKey = 'www'
 
 const getLoader = (configKey = 'meetd2') => {
   const loader = new Loader()
   loader.config.configKey = configKey
   loader.config.set('cadlBaseUrl', baseUrl)
   loader.config.set('cadlMain', 'cadlEndpoint.yml')
+  loader.use(fs as t.FileSystemHost)
   return loader
 }
 
@@ -45,15 +47,36 @@ afterEach(() => {
 xit(`ramda`, () => {
   const extractName = (arr) => arr[0]
   const result = R.either(extractName, R.identity)
-  console.log(result('www'))
 })
 
 describe(`Loader`, () => {
+  describe(`loadConfig`, () => {})
+
   describe(`load`, () => {
-    describe(`when loading the config object`, () => {
+    describe(`loadConfig`, () => {
+      it.only(`should load using the current configKey if argument is an options object`, async () => {
+        mockPaths({ configKey })
+        const loader = new Loader()
+        expect(loader.appKey).to.eq('')
+        await loader.loadConfig(configKey)
+        expect(loader.appKey).to.eq('cadlEndpoint.yml')
+      })
+
+      xit(`should load using the provided configKey and update the configKey on the instance`, () => {
+        //
+      })
+
       describe(`when mode !== 'file'`, () => {
+        xit(`should populate the Config instance`, async () => {
+          await loader.loadConfig('meetd2')
+        })
+
+        xit(`should set the appKey`, () => {
+          //
+        })
+
         it(`should load the whole app if given just the configKey`, async () => {
-          const mockResults = mockPaths({
+          mockPaths({
             type: 'url',
             configKey: ['meetd2', createConfig({ cadlBaseUrl: baseUrl })],
             preload: [['BaseCSS', { Style: { top: '0.2' } }]],
@@ -62,10 +85,15 @@ describe(`Loader`, () => {
               ['Dashboard', { components: [{ type: 'button', id: 'myBtn' }] }],
             ],
           })
-          console.log(mockResults)
-          console.log(nock.pendingMocks())
           await loader.load('meetd2')
           expect(loader.config.appKey).to.eq('cadlEndpoint.yml')
+          expect(loader.root).to.have.property('Style').to.be.an('object')
+          expect(loader.root)
+            .to.have.property('SignIn')
+            .to.be.instanceOf(y.Document)
+          expect(loader.root)
+            .to.have.property('Dashboard')
+            .to.be.instanceOf(y.Document)
         })
       })
 

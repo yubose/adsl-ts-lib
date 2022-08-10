@@ -23,6 +23,7 @@ export const idKey = `noodl-loader:id`
 
 export const _id = {
   extractor: Symbol.for(`noodl-loader:extractor`),
+  fileSystemHost: Symbol.for(`noodl-loader:file-system-host`),
   strategy: Symbol.for(`noodl-loader:strategy`),
   urlStrategy: Symbol.for(`noodl-loader:url-strategy`),
 } as const
