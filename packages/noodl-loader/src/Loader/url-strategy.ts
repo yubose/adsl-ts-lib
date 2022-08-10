@@ -4,7 +4,6 @@ import Strategy from './strategy'
 import { fetchYml } from '../utils/yml'
 import { url as isURL } from '../utils/is'
 import { _id, StrategyKind } from '../constants'
-import type { LoaderCommonOptions } from '../types'
 
 class UrlStrategy extends Strategy {
   #id: string
@@ -38,7 +37,7 @@ class UrlStrategy extends Strategy {
       ext = '',
       config,
       cadlEndpoint,
-    }: LoaderCommonOptions & { name?: string; ext?: string },
+    }: Record<string, any> & { name?: string; ext?: string },
   ) {
     let url: URL | undefined
 
@@ -66,7 +65,7 @@ class UrlStrategy extends Strategy {
     return url?.toString() ?? ''
   }
 
-  parse(value: URL | string, options: LoaderCommonOptions) {
+  parse(value: URL | string, options: any) {
     let url = new URL(value)
     let { base: filename, name, ext } = path.parse(url.href)
     if (ext.startsWith('.')) ext = ext.substring(1)

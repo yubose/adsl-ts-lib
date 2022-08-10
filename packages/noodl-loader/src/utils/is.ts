@@ -5,6 +5,16 @@ import { _id, idKey } from '../constants'
 import type Strategy from '../loader/strategy'
 import type { Ext } from '../types'
 
+export function configKey(configKey: string, value: null | undefined | string) {
+  if (!u.isStr(value) || !configKey) return false
+  return configKey === value || configKey === `${value}.yml`
+}
+
+export function appKey(cadlMain: string, value: null | undefined | string) {
+  if (!u.isStr(value) || !cadlMain) return false
+  return cadlMain === value || cadlMain === `${value}.yml`
+}
+
 export function typeOf(value: unknown) {
   if (Array.isArray(value)) return 'array'
   if (value === null) return 'null'
@@ -52,16 +62,18 @@ export function file<S extends string = string>(
 ): value is `${S}.${Ext.Image | Ext.Video}` {
   if (!u.isStr(value)) return false
   if (value.startsWith('file:')) return true
+  if (value.startsWith('http')) return false
   try {
     new URL(value) as any
     return false
   } catch (error) {}
   if (!value.includes('.') && !value.includes('/')) return false
   if (value.startsWith('/') && value.length > 1) return true
+  if (value.startsWith('./')) return true
   if (/\.(com|cn|co|de|dev|edu|gov|in|io|ly|me|net|org|uk|us)/i.test(value)) {
     return false
   }
-  return regex.file.test(value)
+  return /^[a-zA-Z]/i.test(value) || regex.file.test(value)
 }
 
 export function promise<V = any>(value: unknown): value is Promise<V> {

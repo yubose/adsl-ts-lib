@@ -21,7 +21,10 @@ describe(`createExtractor`, () => {
 
     beforeEach(() => {
       loader = new NoodlLoader()
-      loader.config.baseUrl = 'https://public.aitmed.com/cadl/www6.47/'
+      loader.config.set(
+        'cadlBaseUrl',
+        'https://public.aitmed.com/cadl/www6.47/',
+      )
       yml = `
       SignIn:
         components:
@@ -79,7 +82,7 @@ describe(`createExtractor`, () => {
     it(`should set the full url on props.url`, async () => {
       const assetsUrl = `https://public.aitmed.com/cadl/www6.47/assets/`
       loader.cadlEndpoint.baseUrl = 'https://public.aitmed.com/cadl/www6.47/'
-      loader.cadlEndpoint.assetsUrl = '${cadlBaseUrl}assets/'
+      loader.cadlEndpoint.set('assetsUrl', '${cadlBaseUrl}assets/')
       const { extract } = createExtractor()
       const results = await extract(
         toDocument(yml),
@@ -122,8 +125,8 @@ describe(`createExtractor`, () => {
     })
 
     it(`should extract all pages`, async () => {
-      loader.cadlEndpoint.preload = ['BaseCSS']
-      loader.cadlEndpoint.pages = ['SignIn', 'Dashboard', 'SignUp']
+      loader.cadlEndpoint.set('preload', ['BaseCSS'])
+      loader.cadlEndpoint.set('page', ['SignIn', 'Dashboard', 'SignUp'])
       const { extract } = createExtractor()
       const results = await extract(
         toDocument(yml),

@@ -4,7 +4,6 @@ import Strategy from './strategy'
 import loadFile from '../utils/load-file'
 import { file as isFile } from '../utils/is'
 import { _id, StrategyKind } from '../constants'
-import type { LoaderCommonOptions } from '../types'
 
 class FileStrategy extends Strategy {
   #id: string
@@ -33,7 +32,7 @@ class FileStrategy extends Strategy {
    */
   format(
     value: string,
-    options: LoaderCommonOptions & { name?: string; ext?: string },
+    options: Record<string, any> & { name?: string; ext?: string },
   ) {
     if (path.isAbsolute(value)) {
       return value
@@ -48,7 +47,7 @@ class FileStrategy extends Strategy {
     return path.resolve(cwd, value)
   }
 
-  parse(value: string, options: LoaderCommonOptions) {
+  parse(value: string, options: Record<string, any>) {
     let filepath = value
     let { base: filename, name, ext, dir } = path.parse(filepath)
     if (ext.startsWith('.')) ext = ext.substring(1)

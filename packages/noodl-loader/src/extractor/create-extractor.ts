@@ -136,7 +136,7 @@ function createExtractor() {
     }
 
     if (config) {
-      const baseUrl = config.baseUrl || ''
+      const baseUrl = config.get('cadlBaseUrl') || ''
       const assetsUrl = replacePlaceholders(cadlEndpoint?.assetsUrl || '', {
         cadlBaseUrl: baseUrl,
       })

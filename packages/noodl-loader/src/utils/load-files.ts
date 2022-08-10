@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { join as joinPath } from 'path'
 import { getFileStructure, getFileName, path } from 'noodl-file'
 import fg from 'fast-glob'

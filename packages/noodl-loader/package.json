@@ -2,6 +2,8 @@
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
   "description": "Loader for noodl applications",
   "devDependencies": {
+    "@types/invariant": "^2.2.35",
+    "@types/ramda": "^0.28.15",
     "memfs": "^3.4.7"
   },
   "directories": {
@@ -37,5 +39,9 @@
     "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" \"src/**/*.test.ts\"",
     "test:file": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json --file src/setupTests.ts -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\""
   },
-  "version": "0.0.19"
+  "version": "0.0.19",
+  "dependencies": {
+    "invariant": "^2.2.4",
+    "ramda": "^0.28.0"
+  }
 }

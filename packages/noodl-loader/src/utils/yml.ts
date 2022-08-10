@@ -15,6 +15,11 @@ export {
   visit,
 } from 'yaml'
 
+export function ensureYmlExt(value: string) {
+  if (!value.endsWith('.yml')) return `${value}.yml`
+  return value
+}
+
 /**
  * Fetches a yaml file using the url provided.
  * If "as" is "json", the result will be parsed and returned as json
@@ -39,13 +44,7 @@ export async function fetchYml(
   try {
     const isJson = as === 'json'
     const isDoc = as === 'doc'
-    const contentType = isJson ? 'application/json' : 'text/plain'
-    const { data: yml } = await axios.get(url, {
-      headers: {
-        Accept: contentType,
-        'Content-Type': contentType,
-      },
-    })
+    const yml = (await axios.get(url)).data
     return isJson ? y.parse(yml) : isDoc ? toDocument(yml) : yml
   } catch (error) {
     const err = error instanceof Error ? error : new Error(String(error))
@@ -117,8 +116,55 @@ export function parse<DataType extends 'map' | 'object'>(
   yml = '',
   opts?: y.DocumentOptions & y.ParseOptions & y.SchemaOptions,
 ): DataType extends 'map' ? y.Document.Parsed : Record<string, any> {
-  return dataType === 'map' ? y.parseDocument(yml, opts) : y.parse(yml, opts)
+  const options = {
+    logLevel: 'debug',
+    prettyErrors: true,
+    strict: false,
+    toStringDefaults: {
+      indent: 2,
+      singleQuote: true,
+    },
+    ...opts,
+  } as typeof opts
+
+  return dataType === 'map'
+    ? y.parseDocument(yml, options)
+    : y.parse(yml, options)
 }
+
+export function parseAs(value: unknown): string
+export function parseAs<As extends t.As>(as: As, value: unknown): t.ParsedAs<As>
+export function parseAs<As extends t.As>(
+  arg1: As | unknown,
+  arg2?: any,
+): t.ParsedAs<As> {
+  let as = 'yml' as t.As
+  let value: any
+
+  if (arg2) {
+    as = arg1 as As
+    value = arg2
+  } else {
+    value = arg1
+  }
+
+  if (Buffer.isBuffer(value)) {
+    value = value.toString('utf8')
+  }
+
+  switch (as) {
+    case 'doc':
+      return toDocument(value) as t.ParsedAs<As>
+    case 'json':
+      return y.parse(u.isStr(value) ? value : stringify(value))
+    default:
+      return (u.isStr(value) ? value : stringify(value)) as t.ParsedAs<As>
+  }
+}
+
+export const toDoc = (value: unknown) => parseAs('doc', value)
+export const toJson = (value: unknown) => parseAs('json', value)
+export const toYml = (value: unknown) => parseAs('yml', value)
 
 export function getScalars(
   node: unknown,
@@ -149,16 +195,26 @@ export function stringify<O extends Record<string, any> | y.Document>(
   opts?: ToStringOptions,
 ) {
   let result = ''
+  let options = {} as y.DocumentOptions &
+    y.SchemaOptions &
+    y.ParseOptions &
+    y.CreateNodeOptions &
+    y.ToStringOptions
+
+  options.collectionStyle = 'block'
+  options.indent = 2
+  options.logLevel = 'debug'
+  options.prettyErrors = true
 
   if (value) {
     if (y.isDocument(value)) {
       if (value.errors.length) {
-        result = y.stringify(value.errors)
+        result = y.stringify(value.errors, options)
       } else {
-        result = value.toString(opts)
+        result = value.toString(options)
       }
     } else {
-      result = y.stringify(value)
+      result = y.stringify(value, options)
     }
   }
 

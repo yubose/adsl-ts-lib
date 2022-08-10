@@ -1,3 +1,4 @@
+const u = require('@jsmanifest/utils')
 const {
   createExtractor,
   Loader,
@@ -19,20 +20,11 @@ const path = require('path')
     )
 
     const loader = new Loader()
+    loader.config.configKey = 'patd2'
 
-    const fileStrategy = new FileStrategy()
-    const urlStrategy = new UrlStrategy()
+    await loader.load('patd2')
 
-    // loader.use(new UrlStrategy())
-
-    await loader.load(
-      'packages/noodl-loader/src/__tests__/fixtures/meetd2.yml',
-      {
-        strategies: [fileStrategy, urlStrategy],
-      },
-    )
-
-    console.log(loader)
+    console.log(loader.root)
   } catch (error) {
     const err = error instanceof Error ? error : new Error(String(error))
     console.error(`[${u.yellow(err.name)}] ${u.red(err.message)}`)

@@ -34,10 +34,7 @@ function loadFile(filepath: string, type: 'doc'): YAMLDocument
  */
 function loadFile(filepath: string, type: 'json'): Record<string, any>
 
-function loadFile<T extends t.LoadType = t.LoadType>(
-  filepath: string,
-  type?: T,
-) {
+function loadFile<T extends t.As = t.As>(filepath: string, type?: T) {
   if (is.str(filepath)) {
     if (!isAbsolutePath(filepath)) {
       filepath = resolvePath(joinPath(process.cwd(), filepath))

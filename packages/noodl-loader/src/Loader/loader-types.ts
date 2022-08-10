@@ -13,16 +13,4 @@ export interface LoaderCommonOptions {
   root: Record<string, any>
 }
 
-export type LoadType = 'doc' | 'json' | 'yml'
-export type LoadFilesAs = 'list' | 'map' | 'object'
-
-export interface LoadFilesOptions<
-  LType extends LoadType = 'yml',
-  LFType extends LoadFilesAs = 'list',
-> {
-  as?: LFType
-  includeExt?: boolean
-  preload?: string | string[]
-  spread?: string | string[]
-  type?: LType
-}
+export type LoadType = 'file' | 'url'
