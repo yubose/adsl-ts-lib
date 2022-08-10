@@ -12,6 +12,7 @@ import {
   toPathname,
 } from '../utils/format'
 import { parseAs, toJson } from '../utils/yml'
+import FileSystemHost from '../file-system'
 import type Loader from '../loader'
 import * as t from '../types'
 import * as c from '../constants'
@@ -184,8 +185,8 @@ export function nockConfigRequest(
   if (u.isStr(arg)) {
     configKey = arg
     options.cadlBaseUrl = baseUrl
-  } else if (u.isObj(options)) {
-    const { configKey: _configKey, ...rest } = options
+  } else if (u.isObj(arg)) {
+    const { configKey: _configKey, ...rest } = arg
     configKey = toConfigKey(_configKey)
     u.merge(options, rest)
     if (!options.cadlBaseUrl) options.cadlBaseUrl = baseUrl
@@ -431,8 +432,9 @@ export function mockPaths({
     const paths = {} as Record<string, any>
     const createPath = (n: string) => `${baseUrlProp}${ensureSuffix('.yml', n)}`
     u.entries(_endpoints).forEach(([endpoint, o]) => {
-      if (endpoint.endsWith(configKey + '.yml')) nockConfigRequest(configKey)
-      else paths[createPath(o.filename)] = o.response || ''
+      if (endpoint.endsWith(configKey + '.yml')) {
+        nockConfigRequest({ configKey, ...y.parse(configYml) })
+      } else paths[createPath(o.filename)] = o.response || ''
     })
     return paths
   }
@@ -458,4 +460,65 @@ export function mockPaths({
   }
 
   return result
+}
+
+export class MockFileSystemHost extends FileSystemHost {
+  readdir(...args: Parameters<FileSystemHost['readdir']>): Promise<string[]> {
+    return new Promise((resolve, reject) => {
+      return fs.readdir(args[0], 'utf8', (err, data) => {
+        if (err) reject(err)
+        else resolve(data as string[])
+      })
+    })
+  }
+
+  readdirSync(...args: Parameters<FileSystemHost['readdirSync']>) {
+    return fs.readdirSync(args[0], 'utf8') as string[]
+  }
+
+  readFile(...args: Parameters<FileSystemHost['readFile']>) {
+    const opts = { encoding: 'utf8' }
+    if (args[1] && typeof args[1] === 'object') {
+      Object.assign(opts, args[1])
+    } else if (typeof args[1] === 'string') {
+      opts.encoding = args[1]
+    }
+    return fs.readFile(args[0], opts as any)
+  }
+
+  readFileSync(...args: Parameters<FileSystemHost['readFileSync']>): string {
+    return fs.readFileSync(...args) as string
+  }
+
+  writeFile(...args: Parameters<FileSystemHost['writeFile']>): Promise<void> {
+    return new Promise((resolve, reject) => {
+      return fs.writeFile(args[0], args[1], (err, data) => {
+        if (err) reject(err)
+        else resolve(data)
+      })
+    })
+  }
+
+  writeFileSync(...args: Parameters<FileSystemHost['writeFileSync']>) {
+    return fs.writeFileSync(args[0], args[1], (args[2] || 'utf8') as any)
+  }
+}
+
+/**
+ * Reads a file using the memfs module
+ *
+ * Filepaths are assumed to be proxied/mocked prior to this call via `vol.fromJSON({...})`
+ * @param path
+ * @param encoding
+ */
+export function readFile(
+  path: string,
+  encoding = 'utf8' as any,
+): Promise<string> {
+  return new Promise((resolve, reject) => {
+    return fs.readFile(path, encoding, (err, data) => {
+      if (err) reject(err)
+      else resolve(data as any)
+    })
+  })
 }

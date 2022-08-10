@@ -10,9 +10,11 @@ import {
   createConfig,
   createCadlEndpoint,
   getLoadFileOptions,
+  MockFileSystemHost,
   mockPaths,
   nockRequest,
   nockCadlEndpointRequest,
+  readFile,
 } from './helpers'
 import Loader from '../loader'
 import type { LoadType } from '../loader/loader-types'
@@ -20,13 +22,15 @@ import * as c from '../constants'
 import * as t from '../types'
 
 const configKey = 'www'
+let mockFs: MockFileSystemHost
 
 const getLoader = (configKey = 'meetd2') => {
+  mockFs = new MockFileSystemHost()
   const loader = new Loader()
   loader.config.configKey = configKey
   loader.config.set('cadlBaseUrl', baseUrl)
   loader.config.set('cadlMain', 'cadlEndpoint.yml')
-  loader.use(fs as t.FileSystemHost)
+  loader.use(mockFs)
   return loader
 }
 
@@ -37,7 +41,7 @@ before(() => {
 })
 
 beforeEach(() => {
-  loader = getLoader()
+  loader = getLoader(configKey)
 })
 
 afterEach(() => {
@@ -55,10 +59,16 @@ describe(`Loader`, () => {
   describe(`load`, () => {
     describe(`loadConfig`, () => {
       it.only(`should load using the current configKey if argument is an options object`, async () => {
-        mockPaths({ configKey })
+        const mockResults = mockPaths({ configKey, type: 'file' })
+        console.log(mockResults)
+
         const loader = new Loader()
+        loader.config.configKey = configKey
         expect(loader.appKey).to.eq('')
-        await loader.loadConfig(configKey)
+        await loader.loadConfig(configKey, {
+          dir: `generated/${configKey}`,
+          mode: 'file',
+        })
         expect(loader.appKey).to.eq('cadlEndpoint.yml')
       })
 

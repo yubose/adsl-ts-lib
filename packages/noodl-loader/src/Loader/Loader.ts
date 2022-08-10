@@ -1,8 +1,6 @@
 import * as u from '@jsmanifest/utils'
 import inv from 'invariant'
 import y from 'yaml'
-import { fp } from 'noodl-core'
-import type { EncodingOption } from 'fs'
 import fs from 'fs-extra'
 import path from 'path'
 import set from 'lodash/set'
@@ -32,33 +30,46 @@ import * as is from '../utils/is'
 import * as c from '../constants'
 import * as t from './loader-types'
 
-class LoaderFileSystemHost extends FileSystemHost {
-  readdir(...args: Parameters<FileSystemHost['readdir']>) {
-    return fs.readdir(...args)
-  }
+async function retrieve(
+  this: NoodlLoader,
+  options: {
+    baseUrl?: string
+    dir?: string
+    mode?: t.LoadType
+    value: unknown
+  },
+): Promise<any> {
+  try {
+    let { baseUrl = '', dir = '', mode, value } = options
 
-  readdirSync(...args: Parameters<FileSystemHost['readdirSync']>) {
-    return fs.readdirSync(...args)
-  }
-
-  readFile(...args: Parameters<FileSystemHost['readFile']>) {
-    const opts = { encoding: 'utf8' }
-    if (args[1] && typeof args[1] === 'object') {
-      fp.assign(opts, args[1])
-    } else if (typeof args[1] === 'string') {
-      opts.encoding = args[1]
+    if (typeof value === 'string') {
+      if (!mode) {
+        mode = is.url(value) ? 'url' : 'file'
+      }
+      switch (mode) {
+        case 'file': {
+          inv(is.file, `Cannot retrieve from invalid filepath "${value}"`)
+          return (await this.fs.readFile(
+            path.resolve(path.join(dir, value)),
+            'utf8',
+          )) as string
+        }
+        case 'url': {
+          inv(is.url, `Cannot retrieve from invalid URL "${value}"`)
+          let url = `${baseUrl}`
+          if (baseUrl.endsWith('/') && value.startsWith('/')) {
+            url = url.substring(0, url.length - 1)
+          }
+          url += value
+          return fetchYml(value)
+        }
+        default:
+          return value
+      }
     }
-    return fs.readFile(args[0], opts)
-  }
-
-  readFileSync(
-    ...args: Parameters<FileSystemHost['readFileSync']>
-  ): string | Buffer {
-    return fs.readFileSync(...args)
-  }
-
-  writeFile(...args: Parameters<FileSystemHost['writeFile']>) {
-    return fs.writeFile(...args)
+  } catch (error) {
+    const err = error instanceof Error ? error : new Error(String(error))
+    throw err
   }
 }
 
@@ -112,6 +123,10 @@ class NoodlLoader extends t.AbstractLoader {
 
   get configKey() {
     return this.config.configKey
+  }
+
+  get fs() {
+    return this.#fs
   }
 
   get root() {
@@ -216,7 +231,6 @@ class NoodlLoader extends t.AbstractLoader {
       try {
         const isConfigKey = type === 'config'
         const fn = isConfigKey ? this.loadConfig : this.loadCadlEndpoint
-        // @ts-expect-error
         await fn(
           yml,
           isConfigKey ? getLoadConfigOptions() : getLoadCadlEndpointOptions(),
@@ -379,7 +393,18 @@ class NoodlLoader extends t.AbstractLoader {
   ) {
     try {
       inv(Boolean(yml), `yml cannot be empty`)
+
+      if (is.configKey(this.configKey, yml)) {
+        yml = await retrieve.call(this, {
+          baseUrl: this.config.rootConfigUrl,
+          dir: options?.dir,
+          value: ensureSuffix('.yml', yml),
+        })
+      }
+
       const configObj = parseYml('object', yml)
+      console.log({ configObj })
+
       inv(
         u.isObj(configObj),
         `Expected an object for config but received ${typeOf(configObj)}`,
