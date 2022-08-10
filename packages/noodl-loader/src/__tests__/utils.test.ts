@@ -1,10 +1,47 @@
+import partial from 'lodash/partial'
+import { fs } from 'memfs'
 import { expect } from 'chai'
 import { toNode } from '../utils/yml'
 import { hasPlaceholder, listPlaceholders } from '../utils/parse'
 import { replacePlaceholder, replacePlaceholders } from '../utils/replace'
+import { mockPaths } from './helpers'
+import _loadFile from '../utils/load-file'
+import _loadFiles from '../utils/load-files'
 
-describe(`utils`, () => {
+const configKey = 'www'
+const loadFile = partial(_loadFile, { ...fs, readFile: fs.readFileSync } as any)
+
+describe.only(`utils`, () => {
   describe(`loadFile`, () => {
+    beforeEach(() => {
+      mockPaths({
+        configKey,
+        pages: ['SignIn'],
+        type: 'file',
+      })
+    })
+
+    xit(`should load as doc`, async () => {
+      let doc = await loadFile(`generated/${configKey}/${configKey}.yml`, 'doc')
+    })
+
+    xit(`should load as json`, async () => {
+      let json = await loadFile(
+        `generated/${configKey}/${configKey}.yml`,
+        'json',
+      )
+    })
+
+    xit(`should load as yml when no load type is provided`, async () => {
+      let yml = await loadFile(`generated/${configKey}/${configKey}.yml`)
+    })
+
+    xit(`should load as yml when load type is "yml"`, async () => {
+      let yml = await loadFile(`generated/${configKey}/${configKey}.yml`, 'yml')
+    })
+  })
+
+  describe(`loadFiles`, () => {
     xit(``, () => {
       //
     })

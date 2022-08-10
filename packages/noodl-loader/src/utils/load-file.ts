@@ -1,60 +1,82 @@
+import type { LiteralUnion } from 'type-fest'
 import * as fs from 'fs-extra'
+import * as u from '@jsmanifest/utils'
 import {
   isAbsolute as isAbsolutePath,
   join as joinPath,
   resolve as resolvePath,
 } from 'path'
 import { is } from 'noodl-core'
-import type { YAMLDocument } from '../internal/yaml'
-import {
-  parse as parseYmlToJson,
-  parseDocument as parseYmlToDoc,
-} from '../internal/yaml'
+import { parseAs } from './yml'
 import * as t from '../types'
 
 /**
- * Loads a file as a yaml string
+ * Loads a file as a yaml string, object literal, or yaml document
  * @param filepath
- * @param type
+ * @param as
  */
-function loadFile(filepath: string, type?: 'yml'): string
+function loadFile<As extends t.As = 'yml'>(
+  filepath: string,
+  as?: As,
+): Promise<t.ParsedAs<As>>
 
 /**
- * Loads a file as a yaml document
- * @link https://eemeli.org/yaml/#documents
+ * Loads a file as a yaml string, object literal, or yaml document using a custom fileSystem api
  * @param filepath
- * @param type
+ * @param as
  */
-function loadFile(filepath: string, type: 'doc'): YAMLDocument
+function loadFile<As extends t.As>(
+  fileSystem: Partial<typeof fs>,
+  filepath: string,
+  as?: As,
+): Promise<t.ParsedAs<As>>
 
 /**
- * Loads a file as json
- * @param filepath
- * @param type
+ * Loads a file as a yaml string, object literal, or yaml document
+ * @param arg1
+ * @param arg2
+ * @param arg3
  */
-function loadFile(filepath: string, type: 'json'): Record<string, any>
+async function loadFile<As extends t.As = t.As>(
+  arg1: string | Partial<typeof fs>,
+  arg2?: string,
+  arg3?: LiteralUnion<As, string>,
+) {
+  let _filepath = ''
+  let _fsys: typeof fs | undefined
+  let _as = 'yml' as t.As
 
-function loadFile<T extends t.As = t.As>(filepath: string, type?: T) {
-  if (is.str(filepath)) {
-    if (!isAbsolutePath(filepath)) {
-      filepath = resolvePath(joinPath(process.cwd(), filepath))
+  if (is.str(arg1)) {
+    if (!isAbsolutePath(arg1)) {
+      arg1 = resolvePath(joinPath(process.cwd(), arg1))
     }
 
-    if (fs.existsSync(filepath)) {
-      const yml = fs.readFileSync(filepath, 'utf8')
+    if (fs.existsSync(arg1)) {
+      _filepath = arg1
 
-      switch (type) {
-        case 'doc':
-          return parseYmlToDoc(yml)
-        case 'json':
-          return parseYmlToJson(yml)
-        default:
-          return fs.readFileSync(filepath, 'utf8')
+      if (arg2 === 'doc') {
+        _as = 'doc'
+      } else if (arg2 === 'json') {
+        _as = 'json'
       }
+    } else {
+      throw new Error(`The file at "${arg1}" does not exist`)
     }
+  } else if (u.isObj(arg1)) {
+    _fsys = arg1 as typeof fs
+    _filepath = arg2 || ''
+    _as = (arg3 || 'yml') as t.As
   }
 
-  return ''
+  let yml = ''
+
+  try {
+    yml = (await _fsys?.readFile(_filepath, 'utf8')) || ''
+  } catch (error) {
+    throw error instanceof Error ? error : new Error(String(error))
+  }
+
+  return parseAs(_as, yml)
 }
 
 export default loadFile

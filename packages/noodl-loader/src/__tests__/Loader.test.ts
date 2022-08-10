@@ -1,22 +1,17 @@
 import * as R from 'ramda'
 import * as u from '@jsmanifest/utils'
-import { config, expect } from 'chai'
+import { expect } from 'chai'
 import { fs, vol } from 'memfs'
-import set from 'lodash/set'
 import nock from 'nock'
 import y from 'yaml'
-import { defaultBaseUrl, getFixturePath, proxyPageYmls } from './test-utils'
-import { loadMockedFixtures } from './helpers'
 import { toDocument } from '../utils/yml'
 import {
-  assetsUrl,
   baseUrl,
   createConfig,
   createCadlEndpoint,
   getLoadFileOptions,
   mockPaths,
   nockRequest,
-  nockConfigRequest,
   nockCadlEndpointRequest,
 } from './helpers'
 import Loader from '../loader'
@@ -57,7 +52,7 @@ describe(`Loader`, () => {
   describe(`load`, () => {
     describe(`when loading the config object`, () => {
       describe(`when mode !== 'file'`, () => {
-        it.only(`should load the whole app if given just the configKey`, async () => {
+        it(`should load the whole app if given just the configKey`, async () => {
           const mockResults = mockPaths({
             type: 'url',
             configKey: ['meetd2', createConfig({ cadlBaseUrl: baseUrl })],
@@ -67,7 +62,6 @@ describe(`Loader`, () => {
               ['Dashboard', { components: [{ type: 'button', id: 'myBtn' }] }],
             ],
           })
-          nock.
           console.log(mockResults)
           console.log(nock.pendingMocks())
           await loader.load('meetd2')
@@ -321,12 +315,6 @@ describe(`Loader`, () => {
         ? `./generated/${configKey}/${configKey}.yml`
         : `${baseConfigUrl}/${configKey}.yml`
 
-      beforeEach(() => {
-        if (!isLoadFile) {
-          proxyPageYmls({ baseUrl: baseConfigUrl, names: configKey })
-        }
-      })
-
       describe(`when loading config props`, () => {
         it(`should load root config props`, async () => {
           const loader = new Loader()
@@ -466,7 +454,7 @@ describe(`Loader`, () => {
 
         const mockedResults = mockPaths({
           type: loadType as LoadType,
-          baseUrl: defaultBaseUrl,
+          baseUrl: baseUrl,
           configKey,
           preload: ['BasePage', 'BaseDataModel', ['BaseCSS', baseCssYml]],
           pages,
@@ -507,12 +495,12 @@ describe(`Loader`, () => {
         } else {
           nockRequest(c.baseRemoteConfigUrl, `${configKey}.yml`, createConfig())
           nockRequest(
-            defaultBaseUrl,
+            baseUrl,
             'cadlEndpoint.yml',
             createCadlEndpoint({ preload, pages }),
           )
-          preload.forEach((p) => nockRequest(defaultBaseUrl, `${p}.yml`, ''))
-          pages.forEach((p) => nockRequest(defaultBaseUrl, `${p}.yml`, ''))
+          preload.forEach((p) => nockRequest(baseUrl, `${p}.yml`, ''))
+          pages.forEach((p) => nockRequest(baseUrl, `${p}.yml`, ''))
         }
         const loadOptions =
           loadType === 'file' ? getLoadFileOptions() : undefined

@@ -67,7 +67,7 @@ async function loadConfig(
           )} from the file system without a directory provided`,
         )
         const fsys = options.fs || fs
-        const dirfiles = await fsys.readdir(options.dir, 'utf8')
+        const dirfiles = await fsys.readdir(options.dir || '', 'utf8')
         const cadlMainName = trimPageName(configObj.cadlMain)
         const filename = dirfiles.find((name) => name.includes(cadlMainName))
         const filepath = joinPaths(options.dir, filename)
@@ -161,7 +161,10 @@ async function loadCadlEndpoint(
           )
 
           const fsys = options.fs || fs
-          yml = await fsys.readFile(path.join(options.dir, preload), 'utf8')
+          yml = await fsys.readFile(
+            path.join(options.dir || '', preload),
+            'utf8',
+          )
         } else {
           const url = `${this.cadlEndpoint?.baseUrl}${preload}`
           yml = await fetchYml(url)
@@ -200,7 +203,7 @@ async function loadCadlEndpoint(
           )
 
           const fsys = options.fs || fs
-          yml = await fsys.readFile(path.join(options.dir, page), 'utf8')
+          yml = await fsys.readFile(path.join(options.dir || '', page), 'utf8')
         } else {
           const url = `${this.cadlEndpoint?.baseUrl}${page}`
           yml = await fetchYml(url)
@@ -391,7 +394,7 @@ class NoodlLoader extends t.AbstractLoader {
               doc.contents,
             )}`,
           )
-          spreadToRoot(this.root, doc.contents)
+          spreadToRoot(this.root, doc.contents as any)
         } else if (isPage) {
           this.root[name] = doc
         } else {
