@@ -2,6 +2,8 @@ import type { Encoding } from './types'
 import { _id, idKey } from './constants'
 
 abstract class FileSystemHost {
+  abstract existsSync(filepath: string): boolean
+
   abstract readdir(path: string, encoding?: Encoding): Promise<string[]>
 
   abstract readdirSync(path: string, encoding?: Encoding): string[]

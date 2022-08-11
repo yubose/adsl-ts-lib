@@ -16,6 +16,7 @@ import FileSystemHost from '../file-system'
 import type Loader from '../loader'
 import * as t from '../types'
 import * as c from '../constants'
+import { BufferEncodingOption } from 'fs-extra'
 
 export const baseUrl = 'http://127.0.0.1:3001/'
 export const assetsUrl = `${baseUrl}assets`
@@ -34,7 +35,7 @@ export type PageOption<As extends t.As> = string | PageNameYmlTuple<As>
 
 export type PageOptionResult = { name: string; yml: string }
 
-type CreateConfigProps = Record<LiteralUnion<t.KeyOfCadlEndpoint, string>, any>
+type CreateConfigProps = Record<LiteralUnion<t.KeyOfConfig, string>, any>
 
 export function createConfigUri(str: string) {
   return `${c.baseRemoteConfigUrl}/${ensureSuffix('.yml', str)}`
@@ -476,14 +477,19 @@ export class MockFileSystemHost extends FileSystemHost {
     return fs.readdirSync(args[0], 'utf8') as string[]
   }
 
-  readFile(...args: Parameters<FileSystemHost['readFile']>) {
-    const opts = { encoding: 'utf8' }
-    if (args[1] && typeof args[1] === 'object') {
-      Object.assign(opts, args[1])
-    } else if (typeof args[1] === 'string') {
-      opts.encoding = args[1]
-    }
-    return fs.readFile(args[0], opts as any)
+  readFile(...args: Parameters<FileSystemHost['readFile']>): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const opts = { encoding: 'utf8' as BufferEncoding }
+      if (args[1] && typeof args[1] === 'object') {
+        Object.assign(opts, args[1])
+      } else if (typeof args[1] === 'string') {
+        opts.encoding = args[1]
+      }
+      fs.readFile(args[0], { ...opts }, (err, data) => {
+        if (err) reject(err)
+        else resolve(data as string)
+      })
+    })
   }
 
   readFileSync(...args: Parameters<FileSystemHost['readFileSync']>): string {

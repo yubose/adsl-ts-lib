@@ -7,6 +7,10 @@ class LoaderFileSystemHost extends FileSystemHost {
     super()
   }
 
+  existsSync(filepath: string) {
+    return fs.existsSync(filepath)
+  }
+
   readdir(...args: Parameters<FileSystemHost['readdir']>) {
     return fs.readdir(...args)
   }

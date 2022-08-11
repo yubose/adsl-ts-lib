@@ -1,10 +1,9 @@
-import * as R from 'ramda'
 import * as u from '@jsmanifest/utils'
 import { expect } from 'chai'
-import { fs, vol } from 'memfs'
+import { vol } from 'memfs'
 import nock from 'nock'
 import y from 'yaml'
-import { toDocument } from '../utils/yml'
+import { fetchYml, parseAs, toDoc, toDocument, toJson } from '../utils/yml'
 import {
   baseUrl,
   createConfig,
@@ -14,337 +13,406 @@ import {
   mockPaths,
   nockRequest,
   nockCadlEndpointRequest,
-  readFile,
 } from './helpers'
-import Loader from '../loader'
+import Loader, { getYml } from '../loader'
+import loadFile from '../utils/load-file'
 import type { LoadType } from '../loader/loader-types'
 import * as c from '../constants'
 import * as t from '../types'
 
-const configKey = 'www'
-let mockFs: MockFileSystemHost
-
-const getLoader = (configKey = 'meetd2') => {
-  mockFs = new MockFileSystemHost()
-  const loader = new Loader()
-  loader.config.configKey = configKey
-  loader.config.set('cadlBaseUrl', baseUrl)
-  loader.config.set('cadlMain', 'cadlEndpoint.yml')
-  loader.use(mockFs)
-  return loader
-}
+let configKey = 'www'
+let mfs: MockFileSystemHost
 
 let loader: Loader
 
-before(() => {
-  process.stdout.write('\x1Bc')
-})
-
 beforeEach(() => {
-  loader = getLoader(configKey)
+  loader = getLoader()
 })
 
-afterEach(() => {
-  nock.cleanAll()
-})
+const getLoader = () => {
+  const loader = new Loader()
+  loader.config.configKey = configKey
+  loader.config.rootConfigUrl = c.baseRemoteConfigUrl
+  loader.config.set('cadlBaseUrl', baseUrl)
+  loader.config.set('cadlMain', 'cadlEndpoint.yml')
+  loader.use((mfs = new MockFileSystemHost()))
+  return loader
+}
 
-xit(`ramda`, () => {
-  const extractName = (arr) => arr[0]
-  const result = R.either(extractName, R.identity)
-})
+describe.only(`Loader`, () => {
+  describe(`loadConfig`, () => {
+    for (const { mode, value } of [
+      { value: configKey, mode: 'file' },
+      { value: configKey, mode: 'url' },
+      { value: configKey },
+    ]) {
+      if (!mode) {
+        const label = mode === 'file' ? 'file path' : 'url'
 
-describe(`Loader`, () => {
-  describe(`loadConfig`, () => {})
-
-  describe(`load`, () => {
-    describe(`loadConfig`, () => {
-      it.only(`should load using the current configKey if argument is an options object`, async () => {
-        const mockResults = mockPaths({ configKey, type: 'file' })
-        console.log(mockResults)
-
-        const loader = new Loader()
-        loader.config.configKey = configKey
-        expect(loader.appKey).to.eq('')
-        await loader.loadConfig(configKey, {
-          dir: `generated/${configKey}`,
-          mode: 'file',
-        })
-        expect(loader.appKey).to.eq('cadlEndpoint.yml')
-      })
-
-      xit(`should load using the provided configKey and update the configKey on the instance`, () => {
-        //
-      })
-
-      describe(`when mode !== 'file'`, () => {
-        xit(`should populate the Config instance`, async () => {
-          await loader.loadConfig('meetd2')
+        it(`should load the config by ${label} if config name is provided and mode is ${mode}`, async () => {
+          mockPaths({ configKey: value, type: mode as t.LoadType })
+          loader.cadlEndpoint = '' as any
+          const dir = `generated/${value}`
+          const loadType = mode as t.LoadType
+          await loader.loadConfig(value, { dir, mode: loadType })
+          expect(loader.appKey).to.eq('cadlEndpoint.yml')
         })
 
-        xit(`should set the appKey`, () => {
-          //
-        })
-
-        it(`should load the whole app if given just the configKey`, async () => {
-          mockPaths({
-            type: 'url',
-            configKey: ['meetd2', createConfig({ cadlBaseUrl: baseUrl })],
-            preload: [['BaseCSS', { Style: { top: '0.2' } }]],
-            pages: [
-              'SignIn',
-              ['Dashboard', { components: [{ type: 'button', id: 'myBtn' }] }],
-            ],
+        if (mode === 'file') {
+          it(`should throw if options.dir is empty`, async () => {
+            expect(loader.load).to.eventually.rejectWith(
+              /Directory not provided/i,
+            )
           })
-          await loader.load('meetd2')
-          expect(loader.config.appKey).to.eq('cadlEndpoint.yml')
-          expect(loader.root).to.have.property('Style').to.be.an('object')
-          expect(loader.root)
-            .to.have.property('SignIn')
-            .to.be.instanceOf(y.Document)
-          expect(loader.root)
-            .to.have.property('Dashboard')
-            .to.be.instanceOf(y.Document)
+        }
+      } else {
+        it(`should load the config by url if mode is missing and config name was provided`, async () => {
+          mockPaths({ configKey: value, type: 'url' })
+          loader.cadlEndpoint = '' as any
+          await loader.loadConfig(value)
+          expect(loader.appKey).to.eq('cadlEndpoint.yml')
         })
-      })
+      }
+    }
 
-      it(`should load the config using rootConfigUrl + configKey if mode !== 'file'`, async () => {
-        const { endpoint } = nockCadlEndpointRequest()
-        expect(loader.config.appKey).to.eq('')
-        await loader.load('meetd2')
-        expect(loader.config.appKey).to.eq('cadlEndpoint.yml')
-      })
+    it(`should load props on the Config instance`, async () => {
+      const assetsUrl = 'https://abc.com/assets'
+      const baseUrl = 'https://abc.com/'
 
-      it(`should load the config using dir + configKey if mode === 'file'`, async () => {
-        console.log(
-          mockPaths({
-            configKey: [configKey, createConfig({ apiHost: 'abc123' })],
-            preload: [['BaseCSS', { HelloStyle: {} }]],
+      mockPaths({
+        assetsUrl,
+        baseUrl,
+        configKey: [
+          configKey,
+          createConfig({
+            apiHost: 'topo.aitmed.io',
+            apiPort: '993',
+            cadlBaseUrl: baseUrl,
+            webApiHost: 'webApiHost123',
+            appApiHost: 'appApiHost123',
           }),
-        )
-
-        expect(loader.config.get('apiHost')).to.be.undefined
-        await loader.load('meetd2', getLoadFileOptions())
-        expect(loader.config.get('apiHost')).to.eq('abc123')
+        ],
+        preload: ['BasePage', ['BaseCSS', { Style: { top: '0.1' } }]],
+        pages: ['SignIn', ['Dashboard', { components: [] }]],
+        type: 'url',
       })
 
-      it(`should load the config by filepath when given the config key and if mode === 'file' and directory is provided`, async () => {
-        nockRequest(
-          baseUrl,
-          'cadlEndpoint.yml',
-          createCadlEndpoint({ preload: [], pages: [] }),
-        )
-        expect(loader.config.appKey).to.eq('')
-        await loader.load('meetd2')
-        expect(loader.config.appKey).to.eq('cadlEndpoint.yml')
+      const loader = new Loader()
+
+      expect(loader.config.appKey).to.eq('')
+      expect(loader.config.get('apiHost')).to.be.undefined
+      expect(loader.config.get('apiPort')).to.be.undefined
+      expect(loader.config.get('cadlBaseUrl')).to.be.undefined
+      expect(loader.config.get('timestamp')).to.be.undefined
+
+      loader.config.configKey = configKey
+
+      await loader.loadConfig(configKey, {
+        dir: `generated/${configKey}`,
+        fs: new MockFileSystemHost(),
+        mode: 'file',
       })
 
-      for (const loadType of ['file'] as LoadType[]) {
-        xit(
-          `should proceed to load cadlEndpoint when loading config by ` +
-            loadType ===
-            ''
-            ? 'name'
-            : loadType,
-          async () => {
-            const configKey = loader.config.configKey
-            loader.config.set('cadlBaseUrl', baseUrl)
-            const preload = ['BaseCSS', 'BasePage']
-            const pages = ['SignIn', 'Dashboard']
+      expect(loader.config.appKey).to.eq('cadlEndpoint.yml')
+      expect(loader.config.get('apiHost')).to.eq('topo.aitmed.io')
+      expect(loader.config.get('apiPort')).to.eq('993')
+      expect(loader.config.get('webApiHost')).to.eq('webApiHost123')
+      expect(loader.config.get('appApiHost')).to.eq('appApiHost123')
+      expect(loader.config.get('cadlBaseUrl')).to.eq(baseUrl)
+      expect(loader.config.get('cadlMain')).to.eq('cadlEndpoint.yml')
+    })
+  })
 
-            mockPaths({
-              type: loadType,
+  describe(`loadCadlEndpoint`, () => {
+    for (const mode of ['file', 'url'] as const) {
+      for (const label of ['yml', 'a yaml doc', 'json']) {
+        describe(`when providing ${label}`, () => {
+          const assetsUrl = 'https://abc.com/assets'
+          const baseUrl = 'https://abc.com/'
+          const isUrl = mode === 'url'
+          let endpoint = ''
+          let yml = ''
+
+          beforeEach(() => {
+            const mockResult = mockPaths({
+              assetsUrl,
               baseUrl,
-              configKey: [configKey, createConfig()],
-              preload,
-              pages,
+              configKey,
+              preload: ['BasePage', ['BaseCSS', { Style: { top: '0.1' } }]],
+              pages: ['SignIn', ['Dashboard', { components: [] }]],
+              type: mode,
             })
 
+            endpoint = u
+              .keys(mockResult[isUrl ? 'endpoints' : 'paths'])
+              .find((endpoint) =>
+                endpoint.includes('cadlEndpoint.yml'),
+              ) as string
+
+            yml = mockResult[isUrl ? 'endpoints' : 'paths']?.[endpoint]
+          })
+
+          it(`should load the props on the CadlEndpoint instance`, async () => {
+            expect(loader.cadlEndpoint.get('assetsUrl')).to.be.undefined
+            expect(loader.cadlEndpoint.get('baseUrl')).to.be.undefined
+            expect(loader.cadlEndpoint.get('fileSuffix')).to.be.undefined
+            expect(loader.cadlEndpoint.get('languageSuffix')).to.be.undefined
+
+            const value = parseAs(
+              label.includes('doc')
+                ? 'doc'
+                : label.includes('json')
+                ? 'json'
+                : 'yml',
+              yml,
+            )
+
+            const cadlEndpoint = loader.cadlEndpoint
+
+            expect(cadlEndpoint.assetsUrl).to.eq('')
+            expect(cadlEndpoint.baseUrl).to.eq('')
+            expect(cadlEndpoint.startPage).to.eq('')
+            expect(cadlEndpoint.get('preload')).to.be.undefined
+            expect(cadlEndpoint.get('page')).to.be.undefined
             expect(loader.cadlEndpoint.getPreload()).to.have.lengthOf(0)
             expect(loader.cadlEndpoint.getPages()).to.have.lengthOf(0)
 
-            await loader.load(
-              loadType === 'file'
-                ? `generated/${configKey}/${configKey}.yml`
-                : configKey,
-              loadType === 'file' ? getLoadFileOptions() : undefined,
-            )
+            await loader.loadCadlEndpoint(value, {
+              dir: `generated/${configKey}`,
+              fs: new MockFileSystemHost(),
+              mode,
+            })
 
-            expect(loader.cadlEndpoint.getPreload()).to.include.members([
-              'BaseCSS',
+            expect(loader.cadlEndpoint.assetsUrl).to.eq(assetsUrl)
+            expect(loader.cadlEndpoint.baseUrl).to.eq(baseUrl)
+            expect(loader.config.appKey).to.eq('cadlEndpoint.yml')
+            expect(loader.cadlEndpoint.getPreload()).to.include.all.members([
               'BasePage',
+              'BaseCSS',
             ])
-
-            expect(loader.cadlEndpoint.getPages()).to.include.members([
+            expect(loader.cadlEndpoint.getPages()).to.include.all.members([
               'SignIn',
               'Dashboard',
             ])
-          },
-        )
+            expect(cadlEndpoint.get('preload')).to.be.an('array')
+            expect(cadlEndpoint.get('page')).to.be.an('array')
+          })
+        })
       }
-    })
+    }
+  })
 
-    describe(`when loading preload`, () => {
-      // it(`should not proceed to load preload if includePreload === false`, async () => {
-      //   nockRequest(
-      //     baseUrl,
-      //     'cadlEndpoint.yml',
-      //     createCadlEndpoint({ preload: ['BaseCSS', 'BasePage'] }),
-      //   )
-      //   nockRequest(
-      //     baseUrl,
-      //     'BaseCSS.yml',
-      //     y.stringify({
-      //       Style: { top: '0.2' },
-      //       HeaderStyle: { marginTop: 'auto', shadow: 'true' },
-      //     }),
-      //   )
-      //   nockRequest(
-      //     baseUrl,
-      //     'BasePage.yml',
-      //     y.stringify({
-      //       pageName: 'BasePage',
-      //       BaseButton: { text: 'submit' },
-      //       BaseHeader: null,
-      //       ButtonCancel: { '.BaseButton': null, text: 'cancel' },
-      //     }),
-      //   )
-      //   expect(loader.root).not.to.have.property('Style')
-      //   expect(loader.root).not.to.have.property('HeaderStyle')
-      //   expect(loader.root).not.to.have.property('pageName')
-      //   expect(loader.root).not.to.have.property('BaseButton')
-      //   expect(loader.root).not.to.have.property('BaseHeader')
-      //   expect(loader.root).not.to.have.property('ButtonCancel')
-      //   await loader.load('meetd2')
-      //   expect(loader.root).to.have.property('Style')
-      //   expect(loader.root).to.have.property('HeaderStyle')
-      //   expect(loader.root).to.have.property('pageName')
-      //   expect(loader.root).to.have.property('BaseButton')
-      //   expect(loader.root).to.have.property('BaseHeader')
-      //   expect(loader.root).to.have.property('ButtonCancel')
-      // })
-      // it(`should not proceed to load pages if includePages === false`, async () => {
-      //   nockRequest(
-      //     baseUrl,
-      //     'cadlEndpoint.yml',
-      //     createCadlEndpoint({ pages: ['SignIn', 'Dashboard'] }),
-      //   )
-      //   nockRequest(
-      //     baseUrl,
-      //     'SignIn.yml',
-      //     y.stringify({ SignIn: { components: [] } }),
-      //   )
-      //   nockRequest(
-      //     baseUrl,
-      //     'Dashboard.yml',
-      //     y.stringify({
-      //       Dashboard: { components: [{ type: 'button', text: 'Submit' }] },
-      //     }),
-      //   )
-      //   expect(loader.root).not.to.have.property('SignIn')
-      //   expect(loader.root).not.to.have.property('Dashboard')
-      //   await loader.load('meetd2')
-      //   expect(loader.root).to.have.property('SignIn')
-      //   expect(loader.root).to.have.property('Dashboard')
-      // })
-    })
-
-    describe(`when string is a value from preload list`, () => {
-      it(`should spread the preload item to root from name`, async () => {
-        const loader = new Loader()
-        const yml = y.stringify({
-          Style: { top: '0.1' },
-          HeaderStyle: { color: '0x033000' },
+  describe(`load`, () => {
+    describe(`when given a name from preload`, () => {
+      it.only(`should load from remote url using cadlEndpoint's baseUrl when options.mode !== 'file'`, async () => {
+        mockPaths({
+          configKey,
+          preload: ['BasePage', ['BaseCSS', { Style: { top: '0.1' } }]],
+          type: 'url',
         })
-        nockRequest(`https://google.com/`, 'BaseCSS.yml', yml)
-        loader.cadlEndpoint.getPreload().push('BaseCSS')
-        loader.cadlEndpoint.set('baseUrl', 'https://google.com/')
-        expect(loader.root).not.to.have.property('Style')
-        expect(loader.root).not.to.have.property('HeaderStyle')
-        await loader.load('BaseCSS')
         expect(loader.root).to.have.property('Style')
-        expect(loader.root).to.have.property('HeaderStyle')
-        expect(loader.root).to.have.property('HeaderStyle')
-        expect(loader.root.Style).to.be.instanceOf(y.YAMLMap)
-        expect(loader.root.HeaderStyle).to.be.instanceOf(y.YAMLMap)
+        expect(loader.root).not.to.have.property('BaseCSS')
+        expect(loader.root).not.to.have.property('BasePage')
       })
 
-      it(`should spread the preload item to root from url`, async () => {
-        const loader = new Loader()
-        const yml = y.stringify({
-          Style: { top: '0.1' },
-          HeaderStyle: { color: '0x033000' },
-        })
-        nockRequest(`https://google.com/`, 'BaseCSS.yml', yml)
-        loader.cadlEndpoint.getPreload().push('BaseCSS')
-        loader.cadlEndpoint.set('baseUrl', 'https://google.com/')
-        expect(loader.root).not.to.have.property('Style')
-        expect(loader.root).not.to.have.property('HeaderStyle')
-        await loader.load('https://google.com/BaseCSS.yml')
-        expect(loader.root).to.have.property('Style')
-        expect(loader.root).to.have.property('HeaderStyle')
-        expect(loader.root).to.have.property('HeaderStyle')
-        expect(loader.root.Style).to.be.instanceOf(y.YAMLMap)
-        expect(loader.root.HeaderStyle).to.be.instanceOf(y.YAMLMap)
+      xit(`should load from file system using options.dir when options.mode === 'file'`, () => {
+        //
       })
 
-      it(`should spread the preload item to root from file path`, async () => {
-        vol.fromJSON({
-          './generated/meetd2/BaseCSS.yml': y.stringify({
-            Style: { top: '0.1' },
-            HeaderStyle: { color: '0x033000' },
-          }),
-        })
-        const loader = new Loader()
-        loader.cadlEndpoint.getPreload().push('BaseCSS')
-        expect(loader.root).not.to.have.property('Style')
-        expect(loader.root).not.to.have.property('HeaderStyle')
-        await loader.load(
-          './generated/meetd2/BaseCSS.yml',
-          getLoadFileOptions(),
-        )
-        expect(loader.root).to.have.property('Style')
-        expect(loader.root).to.have.property('HeaderStyle')
-        expect(loader.root.Style).to.be.instanceOf(y.YAMLMap)
-        expect(loader.root.HeaderStyle).to.be.instanceOf(y.YAMLMap)
+      xit(`should throw when options.dir is empty when options.mode === 'file'`, () => {
+        //
+      })
+
+      xit(`should spread the props to root by default`, async () => {
+        //
+      })
+
+      xit(`should not spread the props if options.spread === false`, () => {
+        //
       })
     })
 
-    describe(`when string is a value from page list`, () => {
-      it(`should load the page to root from page name`, async () => {
-        nockRequest(`https://google.com/`, 'SignIn.yml', 'SignIn:\n')
-        const loader = new Loader()
-        loader.cadlEndpoint.getPages().push('SignIn')
-        loader.cadlEndpoint.set('baseUrl', 'https://google.com/')
-        expect(loader.root).not.to.have.property('SignIn')
-        await loader.load('SignIn')
-        expect(loader.root).to.have.property('SignIn')
-        expect(loader.root.SignIn).to.be.instanceOf(y.Document)
+    describe(`when given a page from page list`, () => {
+      xit(`should set the page name as its key in the root`, async () => {
+        //
       })
 
-      it(`should load the page to root from page url`, async () => {
-        nockRequest(`https://google.com/`, 'SignIn.yml', 'SignIn:\n')
-        const loader = new Loader()
-        loader.cadlEndpoint.getPages().push('SignIn')
-        loader.cadlEndpoint.set('baseUrl', 'https://google.com/')
-        expect(loader.root).not.to.have.property('SignIn')
-        await loader.load('https://google.com/SignIn.yml')
-        expect(loader.root).to.have.property('SignIn')
-        expect(loader.root.SignIn).to.be.instanceOf(y.Document)
+      xit(`should set each page as a yaml document`, () => {
+        //
       })
 
-      it(`should load the page to root from filepath`, async () => {
-        const loader = new Loader()
-        loader.cadlEndpoint.getPages().push('SignIn')
-        expect(loader.root).not.to.have.property('SignIn')
-        await loader.load('./generated/meetd2/SignIn.yml', getLoadFileOptions())
-        expect(loader.root).to.have.property('SignIn')
-        expect(loader.root.SignIn).to.be.instanceOf(y.Document)
+      xit(`should load from remote url using cadlEndpoint's baseUrl when options.mode !== 'file'`, () => {
+        //
+      })
+
+      xit(`should load from file system using options.dir when options.mode === 'file'`, () => {
+        //
+      })
+
+      xit(`should throw when options.dir is empty when options.mode === 'file'`, () => {
+        //
       })
     })
   })
 
+  describe(`when loading preload`, () => {
+    // it(`should not proceed to load preload if includePreload === false`, async () => {
+    //   nockRequest(
+    //     baseUrl,
+    //     'cadlEndpoint.yml',
+    //     createCadlEndpoint({ preload: ['BaseCSS', 'BasePage'] }),
+    //   )
+    //   nockRequest(
+    //     baseUrl,
+    //     'BaseCSS.yml',
+    //     y.stringify({
+    //       Style: { top: '0.2' },
+    //       HeaderStyle: { marginTop: 'auto', shadow: 'true' },
+    //     }),
+    //   )
+    //   nockRequest(
+    //     baseUrl,
+    //     'BasePage.yml',
+    //     y.stringify({
+    //       pageName: 'BasePage',
+    //       BaseButton: { text: 'submit' },
+    //       BaseHeader: null,
+    //       ButtonCancel: { '.BaseButton': null, text: 'cancel' },
+    //     }),
+    //   )
+    //   expect(loader.root).not.to.have.property('Style')
+    //   expect(loader.root).not.to.have.property('HeaderStyle')
+    //   expect(loader.root).not.to.have.property('pageName')
+    //   expect(loader.root).not.to.have.property('BaseButton')
+    //   expect(loader.root).not.to.have.property('BaseHeader')
+    //   expect(loader.root).not.to.have.property('ButtonCancel')
+    //   await loader.load('meetd2')
+    //   expect(loader.root).to.have.property('Style')
+    //   expect(loader.root).to.have.property('HeaderStyle')
+    //   expect(loader.root).to.have.property('pageName')
+    //   expect(loader.root).to.have.property('BaseButton')
+    //   expect(loader.root).to.have.property('BaseHeader')
+    //   expect(loader.root).to.have.property('ButtonCancel')
+    // })
+    // it(`should not proceed to load pages if includePages === false`, async () => {
+    //   nockRequest(
+    //     baseUrl,
+    //     'cadlEndpoint.yml',
+    //     createCadlEndpoint({ pages: ['SignIn', 'Dashboard'] }),
+    //   )
+    //   nockRequest(
+    //     baseUrl,
+    //     'SignIn.yml',
+    //     y.stringify({ SignIn: { components: [] } }),
+    //   )
+    //   nockRequest(
+    //     baseUrl,
+    //     'Dashboard.yml',
+    //     y.stringify({
+    //       Dashboard: { components: [{ type: 'button', text: 'Submit' }] },
+    //     }),
+    //   )
+    //   expect(loader.root).not.to.have.property('SignIn')
+    //   expect(loader.root).not.to.have.property('Dashboard')
+    //   await loader.load('meetd2')
+    //   expect(loader.root).to.have.property('SignIn')
+    //   expect(loader.root).to.have.property('Dashboard')
+    // })
+  })
+
+  xdescribe(`when string is a value from preload list`, () => {
+    it(`should spread the preload item to root from name`, async () => {
+      const loader = new Loader()
+      const yml = y.stringify({
+        Style: { top: '0.1' },
+        HeaderStyle: { color: '0x033000' },
+      })
+      nockRequest(`https://google.com/`, 'BaseCSS.yml', yml)
+      loader.cadlEndpoint.getPreload().push('BaseCSS')
+      loader.cadlEndpoint.set('baseUrl', 'https://google.com/')
+      expect(loader.root).not.to.have.property('Style')
+      expect(loader.root).not.to.have.property('HeaderStyle')
+      await loader.load('BaseCSS')
+      expect(loader.root).to.have.property('Style')
+      expect(loader.root).to.have.property('HeaderStyle')
+      expect(loader.root).to.have.property('HeaderStyle')
+      expect(loader.root.Style).to.be.instanceOf(y.YAMLMap)
+      expect(loader.root.HeaderStyle).to.be.instanceOf(y.YAMLMap)
+    })
+
+    it(`should spread the preload item to root from url`, async () => {
+      const loader = new Loader()
+      const yml = y.stringify({
+        Style: { top: '0.1' },
+        HeaderStyle: { color: '0x033000' },
+      })
+      nockRequest(`https://google.com/`, 'BaseCSS.yml', yml)
+      loader.cadlEndpoint.getPreload().push('BaseCSS')
+      loader.cadlEndpoint.set('baseUrl', 'https://google.com/')
+      expect(loader.root).not.to.have.property('Style')
+      expect(loader.root).not.to.have.property('HeaderStyle')
+      await loader.load('https://google.com/BaseCSS.yml')
+      expect(loader.root).to.have.property('Style')
+      expect(loader.root).to.have.property('HeaderStyle')
+      expect(loader.root).to.have.property('HeaderStyle')
+      expect(loader.root.Style).to.be.instanceOf(y.YAMLMap)
+      expect(loader.root.HeaderStyle).to.be.instanceOf(y.YAMLMap)
+    })
+
+    it(`should spread the preload item to root from file path`, async () => {
+      vol.fromJSON({
+        './generated/meetd2/BaseCSS.yml': y.stringify({
+          Style: { top: '0.1' },
+          HeaderStyle: { color: '0x033000' },
+        }),
+      })
+      const loader = new Loader()
+      loader.cadlEndpoint.getPreload().push('BaseCSS')
+      expect(loader.root).not.to.have.property('Style')
+      expect(loader.root).not.to.have.property('HeaderStyle')
+      await loader.load('./generated/meetd2/BaseCSS.yml', getLoadFileOptions())
+      expect(loader.root).to.have.property('Style')
+      expect(loader.root).to.have.property('HeaderStyle')
+      expect(loader.root.Style).to.be.instanceOf(y.YAMLMap)
+      expect(loader.root.HeaderStyle).to.be.instanceOf(y.YAMLMap)
+    })
+  })
+
+  xdescribe(`when string is a value from page list`, () => {
+    it(`should load the page to root from page name`, async () => {
+      nockRequest(`https://google.com/`, 'SignIn.yml', 'SignIn:\n')
+      const loader = new Loader()
+      loader.cadlEndpoint.getPages().push('SignIn')
+      loader.cadlEndpoint.set('baseUrl', 'https://google.com/')
+      expect(loader.root).not.to.have.property('SignIn')
+      await loader.load('SignIn')
+      expect(loader.root).to.have.property('SignIn')
+      expect(loader.root.SignIn).to.be.instanceOf(y.Document)
+    })
+
+    it(`should load the page to root from page url`, async () => {
+      nockRequest(`https://google.com/`, 'SignIn.yml', 'SignIn:\n')
+      const loader = new Loader()
+      loader.cadlEndpoint.getPages().push('SignIn')
+      loader.cadlEndpoint.set('baseUrl', 'https://google.com/')
+      expect(loader.root).not.to.have.property('SignIn')
+      await loader.load('https://google.com/SignIn.yml')
+      expect(loader.root).to.have.property('SignIn')
+      expect(loader.root.SignIn).to.be.instanceOf(y.Document)
+    })
+
+    it(`should load the page to root from filepath`, async () => {
+      const loader = new Loader()
+      loader.cadlEndpoint.getPages().push('SignIn')
+      expect(loader.root).not.to.have.property('SignIn')
+      await loader.load('./generated/meetd2/SignIn.yml', getLoadFileOptions())
+      expect(loader.root).to.have.property('SignIn')
+      expect(loader.root.SignIn).to.be.instanceOf(y.Document)
+    })
+  })
+
   for (const loadType of ['url', 'file']) {
-    describe(`when loading by ${loadType}`, () => {
+    xdescribe(`when loading by ${loadType}`, () => {
       const isLoadFile = loadType === 'file'
       const baseConfigUrl = 'https://public.aitmed.com/config'
       const baseAppUrl = `http://127.0.0.1:3001/`
@@ -353,7 +421,7 @@ describe(`Loader`, () => {
         ? `./generated/${configKey}/${configKey}.yml`
         : `${baseConfigUrl}/${configKey}.yml`
 
-      describe(`when loading config props`, () => {
+      xdescribe(`when loading config props`, () => {
         it(`should load root config props`, async () => {
           const loader = new Loader()
           loader.config.configKey = configKey

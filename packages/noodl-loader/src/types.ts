@@ -2,6 +2,7 @@ import type fs from 'fs'
 import y from 'yaml'
 
 export type As = 'doc' | 'json' | 'yml'
+export type LoadType = 'file' | 'url'
 export type ParsedAs<A extends As = 'yml'> = A extends 'doc'
   ? y.Document<y.Node<any>>
   : A extends 'json'

@@ -8,6 +8,7 @@ import {
 } from 'path'
 import { is } from 'noodl-core'
 import { parseAs } from './yml'
+import type FileSystemHost from '../file-system'
 import * as t from '../types'
 
 /**
@@ -26,7 +27,7 @@ function loadFile<As extends t.As = 'yml'>(
  * @param as
  */
 function loadFile<As extends t.As>(
-  fileSystem: Partial<typeof fs>,
+  fileSystem: FileSystemHost,
   filepath: string,
   as?: As,
 ): Promise<t.ParsedAs<As>>
@@ -38,7 +39,7 @@ function loadFile<As extends t.As>(
  * @param arg3
  */
 async function loadFile<As extends t.As = t.As>(
-  arg1: string | Partial<typeof fs>,
+  arg1: string | FileSystemHost,
   arg2?: string,
   arg3?: LiteralUnion<As, string>,
 ) {
