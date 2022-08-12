@@ -35,5 +35,15 @@ describe(`Config`, () => {
     xit(`should return an object with all placeholders replaced with their values if no args were passedi n`, () => {
       //
     })
+
+    it(`should resolve cadlBaseUrl`, () => {
+      config.set('apiHost', 'albh2.aitmed.io')
+      config.set('apiPort', '443')
+      config.set('cadlMain', 'cadlEndpoint.yml')
+      config.set('cadlBaseUrl', 'http://${apiHost}:${apiPort}/')
+      expect(config.resolve(config.baseUrl)).to.eq(
+        'http://albh2.aitmed.io:443/',
+      )
+    })
   })
 })

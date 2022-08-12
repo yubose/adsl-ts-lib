@@ -1,6 +1,7 @@
 import * as u from '@jsmanifest/utils'
+import * as R from 'ramda'
 import inv from 'invariant'
-import y from 'yaml'
+import y, { isPair } from 'yaml'
 import fs from 'fs-extra'
 import path from 'path'
 import set from 'lodash/set'
@@ -12,8 +13,9 @@ import NoodlCadlEndpoint from '../cadlendpoint'
 import typeOf from '../utils/type-of'
 import {
   fetchYml,
-  getNodeTypeLabel,
   isDocument,
+  isMap,
+  isNode,
   parse as parseYml,
   parseAs,
   stringify,
@@ -25,6 +27,7 @@ import {
   ensureSuffix,
   joinPaths,
   endpoint as toEndpoint,
+  toObject,
   toPathname,
 } from '../utils/format'
 import { replacePlaceholders } from '../utils/replace'
@@ -35,25 +38,27 @@ import * as is from '../utils/is'
 import * as c from '../constants'
 import * as t from './loader-types'
 
-export interface LoadConfigOptions {
+export type LoadConfigOptions = {
   dir?: string
   fs?: FileSystemHost
   mode?: 'file' | 'url'
   onCadlEndpointError?: (error: Error) => void
   root?: Record<string, any>
+} & Record<string, any>
+
+export interface GetYmlFnOptions {
+  config?: NoodlConfig
+  cadlEndpoint?: NoodlCadlEndpoint
+  dir?: string
+  fs?: FileSystemHost
+  mode?: t.LoadType
+  value: unknown
 }
 
-export async function getYml(
-  this: NoodlLoader,
-  options: {
-    baseUrl?: string
-    dir?: string
-    mode?: t.LoadType
-    value: unknown
-  },
-): Promise<any> {
+export async function getYml(options: GetYmlFnOptions): Promise<any> {
   try {
-    let { baseUrl = '', dir = '', mode, value } = options
+    let { config, cadlEndpoint, dir = '', fs: _fs, mode, value } = options
+
     let yml = ''
 
     if (coreIs.obj(value)) {
@@ -66,36 +71,32 @@ export async function getYml(
     let _value = yml
 
     if (!mode) {
-      const isConfigKey = is.configKey(this.configKey, _value)
-      const isPreload = this.cadlEndpoint.preloadExists(_value)
-      const isPage = this.cadlEndpoint.pageExists(_value)
+      const isAppKey = is.appKey(config?.appKey || '', _value)
+      const isConfigKey = is.configKey(config?.configKey || '', _value)
+      const isPreload = cadlEndpoint?.preloadExists(_value)
+      const isPage = cadlEndpoint?.pageExists(_value)
       const isUrl = is.url(_value)
 
       mode = isUrl || isConfigKey || isPreload || isPage ? 'url' : 'file'
 
-      if (isConfigKey || isPreload || isPage) {
+      if (isAppKey || isConfigKey || isPreload || isPage) {
         const baseUrl = isConfigKey ? c.baseRemoteConfigUrl : options?.baseUrl
         const pathname = `/${ensureSuffix('.yml', _value)}`
-        _value = toEndpoint(baseUrl as string, pathname)
-        console.log({ _value, baseUrl })
+        _value = `${baseUrl}`
       }
     }
+
     switch (mode) {
       case 'file': {
         inv(!!options.dir, `Cannot load "${value}". Directory not provided`)
         inv(is.file, `Cannot retrieve from invalid filepath "${_value}"`)
-        return (await this.fs.readFile(
+        return (await _fs?.readFile(
           path.resolve(path.join(dir, _value)),
           'utf8',
         )) as string
       }
       case 'url': {
-        inv(is.url(_value), `Cannot retrieve from invalid URL "${_value}"`)
-        let url = `${baseUrl}`
-        if (baseUrl.endsWith('/') && _value.startsWith('/')) {
-          url = url.substring(0, url.length - 1)
-        }
-        url += _value
+        inv(is.url(_value), `"${_value}" must be a valid url`)
         return fetchYml(_value)
       }
       default:
@@ -147,6 +148,7 @@ class NoodlLoader extends t.AbstractLoader {
     }
     this.config = this.#root.Config as NoodlConfig
     this.config.rootConfigUrl = c.baseRemoteConfigUrl
+    this.config.set('web', { cadlVersion: { stable: null, test: null } })
     this.cadlEndpoint = new NoodlCadlEndpoint()
     this.#extractor = createExtractor()
   }
@@ -185,7 +187,6 @@ class NoodlLoader extends t.AbstractLoader {
     return {
       config: this.config,
       cadlEndpoint: this.cadlEndpoint,
-      root: this.root,
       ...other,
     }
   }
@@ -227,8 +228,8 @@ class NoodlLoader extends t.AbstractLoader {
     }
 
     if (is.configKey(this.configKey, value)) {
-      const yml = await getYml.call(this, {
-        baseUrl: c.baseRemoteConfigUrl,
+      const yml = await getYml({
+        ...this.getOptions(),
         dir: options?.dir,
         mode: options?.mode,
         value: create.configUri(value),
@@ -252,13 +253,14 @@ class NoodlLoader extends t.AbstractLoader {
       }
     } else if (is.appKey(this.appKey, value)) {
       await this.loadCadlEndpoint(
-        await getYml.call(this, {
-          baseUrl: this.config.resolve(
-            this.config.get('cadlBaseUrl'),
-          ) as string,
+        await getYml({
+          ...this.getOptions(),
           dir: options?.dir,
           mode: options?.mode,
-          value,
+          value: toEndpoint(
+            this.config.resolve(this.config.baseUrl) as string,
+            value,
+          ),
         }),
         options,
       )
@@ -282,11 +284,14 @@ class NoodlLoader extends t.AbstractLoader {
     ) {
       await handlePreloadOrPage(
         value,
-        await getYml.call(this, {
-          baseUrl: this.config.resolve(this.cadlEndpoint.baseUrl) as string,
+        await getYml({
+          ...this.getOptions(),
           dir: options?.dir,
           mode: options?.mode,
-          value,
+          value: toEndpoint(
+            this.config.resolve(this.cadlEndpoint.baseUrl) as string,
+            value,
+          ),
         }),
       )
     } else if (is.url(value)) {
@@ -301,10 +306,13 @@ class NoodlLoader extends t.AbstractLoader {
       inv(Boolean(yml), `yml cannot be empty`)
 
       if (is.configKey(this.configKey, yml)) {
-        yml = await getYml.call(this, {
-          baseUrl: this.config.rootConfigUrl,
+        yml = await getYml({
+          ...this.getOptions(),
           dir,
-          value: yml,
+          value: toEndpoint(
+            this.config.rootConfigUrl,
+            ensureSuffix('.yml', yml),
+          ),
         })
       }
 
@@ -316,55 +324,6 @@ class NoodlLoader extends t.AbstractLoader {
       )
 
       u.entries(configJson).forEach(([k, v]) => this.config.set(k, v))
-
-      // if (configJson.cadlMain) {
-      //   let yml = ''
-
-      //   if (options?.mode === 'file') {
-      //     inv(
-      //       !!options.dir,
-      //       `Cannot load ${quoteIfEmptyStr(
-      //         configJson.cadlMain,
-      //       )} from the file system without a directory provided`,
-      //     )
-      //     const fsys = options.fs || fs
-      //     const dirfiles = await fsys.readdir(options.dir || '', 'utf8')
-      //     const cadlMainName = trimPageName(configJson.cadlMain)
-      //     const filename = dirfiles.find((name) => name.includes(cadlMainName))
-      //     const filepath = joinPaths(options.dir, filename)
-      //     yml = await fsys.readFile(filepath, 'utf8')
-      //   } else {
-      //     const url = `${configJson.cadlBaseUrl || ''}${configJson.cadlMain}`
-
-      //     inv(
-      //       configJson.cadlBaseUrl,
-      //       `Base URL is empty. Cannot load ${quoteIfEmptyStr(
-      //         configJson.cadlMain,
-      //       )} without a valid base url. Received: ${quoteIfEmptyStr(
-      //         configJson.cadlBaseUrl,
-      //       )}`,
-      //     )
-      //     inv(
-      //       is.url(url),
-      //       `Attempted to load ${quoteIfEmptyStr(
-      //         configJson.cadlMain,
-      //       )} but the URL constructed is not a valid URL. Received: ${quoteIfEmptyStr(
-      //         url,
-      //       )}`,
-      //     )
-
-      //     yml = await fetchYml(url)
-      //   }
-
-      //   await this.loadCadlEndpoint(yml, options)
-      // } else {
-      //   const err = new Error(
-      //     `cadlEndpoint could not be fetched. cadlMain is empty or missing`,
-      //   )
-      //   console.error(err)
-      //   options?.onCadlEndpointError?.(err)
-      //   throw err
-      // }
     } catch (error) {
       throw error instanceof Error ? error : new Error(String(error))
     }
@@ -383,142 +342,152 @@ class NoodlLoader extends t.AbstractLoader {
       includePreload?: boolean
       includePages?: boolean
       mode?: 'file' | 'url'
-      root?: Record<string, any>
     },
   ) {
-    let _yml = ''
+    let _appKey = ''
+    let _baseUrl = this.config.resolve(this.cadlEndpoint.baseUrl) as string
+    let _props = {} as Record<string, any>
 
-    if (coreIs.obj(arg1)) {
-      if (y.isNode(arg1) || y.isPair(arg1) || y.isDocument(arg1)) {
-        //
-      } else {
-        let appKey = this.appKey || this.config.get('cadlMain')
+    console.log({ _baseUrl })
 
-        inv(
-          !!appKey,
-          `Config must be loaded containing the app key (cadlMain) if no arguments are provided`,
-        )
+    if (!arguments.length) {
+      _appKey = this.appKey || this.config.get('cadlMain')
 
-        if (this.appKey !== appKey || this.config.get('cadlMain') !== appKey) {
-          this.config.set('cadlMain', appKey)
-        }
+      inv(
+        !!_appKey,
+        `Config must be loaded containing the app key (cadlMain) if no arguments are provided`,
+      )
 
-        appKey = ensureSuffix('.yml', appKey)
-
-        const mode = arg1.dir ? 'file' : ('url' as t.LoadType)
-
-        if (mode === 'file') {
-          inv(
-            !!arg1.dir,
-            `Directory is required when loading cadlEndpoint and mode === 'file'`,
-          )
-          const filepath = path.join(arg1.dir, appKey)
-          _yml = (await this.#fs.readFile(filepath, 'utf8')) as string
-        } else {
-          const baseUrl = this.config.resolve(this.cadlEndpoint.baseUrl)
-          _yml = await fetchYml(baseUrl as string)
-        }
+      if (this.appKey !== _appKey || this.config.get('cadlMain') !== _appKey) {
+        this.config.set('cadlMain', _appKey)
       }
-    } else if (coreIs.str(arg1)) {
-      //
+
+      const options = {} as GetYmlFnOptions
+      options.mode = 'url'
+      options.value = toEndpoint(_baseUrl, _appKey)
+      fp.assign(_props, parseAs('json', await getYml(options)))
     } else {
-      //
+      if (coreIs.obj(arg1)) {
+        if (isNode(arg1) || isPair(arg1) || isDocument(arg1)) {
+          let node: any = arg1
+
+          if (isDocument(node)) node = node.contents
+          if (isMap(node)) {
+            node.items.forEach((pair) => {
+              _props[String(pair.key)] = isNode(pair.value)
+                ? pair.value.toJSON()
+                : pair.value
+            })
+          }
+        } else {
+          let filename = ensureSuffix('.yml', this.appKey)
+          let mode = arg1.dir ? 'file' : ('url' as t.LoadType)
+
+          if (mode === 'file') {
+            inv(
+              !!arg1.dir,
+              `Directory is required when loading cadlEndpoint and mode === 'file'`,
+            )
+            const filepath = path.join(arg1.dir, filename)
+            const yml = await loadFile(filepath)
+            fp.assign(_props, parseAs('json', yml))
+          } else {
+            const url = toEndpoint(_baseUrl, filename)
+            const yml = await getYml({ mode, value: url })
+            fp.assign(_props, parseAs('json', yml))
+          }
+        }
+      } else if (coreIs.str(arg1)) {
+        fp.assign(_props, parseAs('json', arg1))
+      } else {
+        console.error(new Error(`REMINDER: CONTINUE THIS IMPLEMENTATION`))
+      }
     }
 
-    const options = ({} as typeof arg2) || {}
-    const value = parseAs('json', _yml)
-
-    try {
-      if (coreIs.obj(arg2)) Object.assign(options, arg2)
-
-      const replacePlaceholder = (str: string) =>
-        replacePlaceholders(str, this?.config?.toJSON())
-
-      if (u.isObj(value)) {
-        for (let [key, val] of u.entries(value)) {
-          if (key === 'preload') {
-            this.cadlEndpoint.getPreload().push(...val)
-          } else if (key === 'page' || key === 'pages') {
-            this.cadlEndpoint.getPages().push(...val)
-          } else {
-            this.cadlEndpoint?.set?.(key, replacePlaceholder(val))
-          }
+    if (coreIs.obj(_props)) {
+      for (let [key, val] of fp.entries(_props)) {
+        if (key === 'preload') {
+          this.cadlEndpoint.getPreload().push(...val)
+        } else if (key === 'page' || key === 'pages') {
+          this.cadlEndpoint.getPages().push(...val)
+        } else {
+          const configProps = this.config.toJSON()
+          this.cadlEndpoint?.set?.(key, replacePlaceholders(val, configProps))
         }
       }
-
-      if (options?.includePreload) {
-        for (let preload of this.cadlEndpoint?.getPreload() || []) {
-          preload = ensureSuffix('.yml', preload)
-
-          let isLoadFile = options.mode === 'file'
-          let yml = ''
-          let name = trimPageName(preload)
-
-          if (isLoadFile) {
-            inv(
-              options.dir,
-              `Cannot load preload items without a directory provided when mode === 'file'`,
-            )
-
-            const fsys = options.fs || fs
-            yml = (await fsys.readFile(
-              path.join(options.dir || '', preload),
-              'utf8',
-            )) as string
-          } else {
-            const url = `${this.cadlEndpoint?.baseUrl}${preload}`
-            yml = await fetchYml(url)
-          }
-
-          const doc = parseYml('map', yml)
-
-          if (y.isMap(doc.contents)) {
-            spreadToRoot(
-              (options?.root || {}) as NoodlLoader['root'],
-              doc.contents,
-            )
-          } else {
-            set(options, `root.${name}`, doc)
-          }
-        }
-      }
-
-      if (options?.includePages) {
-        inv(
-          !u.isUnd(options.root),
-          `Root object must be provided when loading cadlEndpoint and includePages === true`,
-        )
-
-        for (let page of this.cadlEndpoint?.getPages() || []) {
-          const name = page
-          page = ensureSuffix('.yml', page)
-
-          let isLoadFile = options.mode === 'file'
-          let yml = ''
-
-          if (isLoadFile) {
-            inv(
-              options.dir,
-              `Cannot load pages without a directory provided when mode === 'file'`,
-            )
-
-            const fsys = options.fs || fs
-            yml = (await fsys.readFile(
-              path.join(options.dir || '', page),
-              'utf8',
-            )) as string
-          } else {
-            const url = `${this.cadlEndpoint?.baseUrl}${page}`
-            yml = await fetchYml(url)
-          }
-
-          const doc = parseYml('map', yml)
-          set(options, `root.${name}`, doc)
-        }
-      }
-    } catch (error) {
-      throw error instanceof Error ? error : new Error(String(error))
     }
+
+    // if (_options?.includePreload) {
+    //   for (let preload of this.cadlEndpoint?.getPreload() || []) {
+    //     preload = ensureSuffix('.yml', preload)
+
+    //     let isLoadFile = _options.mode === 'file'
+    //     let yml = ''
+    //     let name = trimPageName(preload)
+
+    //     if (isLoadFile) {
+    //       inv(
+    //         _options.dir,
+    //         `Cannot load preload items without a directory provided when mode === 'file'`,
+    //       )
+
+    //       const fsys = _options.fs || fs
+
+    //       yml = (await fsys.readFile(
+    //         path.join(_options.dir || '', preload),
+    //         'utf8',
+    //       )) as string
+    //     } else {
+    //       const url = `${this.cadlEndpoint?.baseUrl}${preload}`
+    //       yml = await fetchYml(url)
+    //     }
+
+    //     const doc = parseYml('map', yml)
+
+    //     if (y.isMap(doc.contents)) {
+    //       spreadToRoot(
+    //         (_options?.root || {}) as NoodlLoader['root'],
+    //         doc.contents,
+    //       )
+    //     } else {
+    //       set(_options, `root.${name}`, doc)
+    //     }
+    //   }
+    // }
+
+    // if (_options?.includePages) {
+    //   inv(
+    //     !u.isUnd(_options.root),
+    //     `Root object must be provided when loading cadlEndpoint and includePages === true`,
+    //   )
+
+    //   for (let page of this.cadlEndpoint?.getPages() || []) {
+    //     const name = page
+    //     page = ensureSuffix('.yml', page)
+
+    //     let isLoadFile = _options.mode === 'file'
+    //     let yml = ''
+
+    //     if (isLoadFile) {
+    //       inv(
+    //         _options.dir,
+    //         `Cannot load pages without a directory provided when mode === 'file'`,
+    //       )
+
+    //       const fsys = _options.fs || fs
+    //       yml = (await fsys.readFile(
+    //         path.join(_options.dir || '', page),
+    //         'utf8',
+    //       )) as string
+    //     } else {
+    //       const url = `${this.cadlEndpoint?.baseUrl}${page}`
+    //       yml = await fetchYml(url)
+    //     }
+
+    //     const doc = parseYml('map', yml)
+    //     set(_options, `root.${name}`, doc)
+    //   }
+    // }
   }
 
   use(value: FileSystemHost) {

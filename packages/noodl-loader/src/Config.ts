@@ -30,6 +30,10 @@ class NoodlConfig extends KeyValueCache<LiteralUnion<KeyOfRootConfig, string>> {
     return this.toJSON()
   }
 
+  get baseUrl() {
+    return (this.get('cadlBaseUrl') || '') as string
+  }
+
   getTimestamp() {
     let date = new Date()
     let dateStr = ''
@@ -60,6 +64,18 @@ class NoodlConfig extends KeyValueCache<LiteralUnion<KeyOfRootConfig, string>> {
     arg2: DeviceType | { deviceType?: DeviceType; env?: Env } = {},
     arg3?: any,
   ) {
+    if (!arguments.length) {
+      const props = this.toJSON()
+      const values = {
+        cadlBaseUrl: this.get('cadlBaseUrl'),
+        cadlVersion: this.resolve('version', u.isStr(arg2) ? arg2 : 'web'),
+      } as Record<string, any>
+
+      if (this['designSuffix']) values.designSuffix = this['designSuffix']
+
+      return replacePlaceholders(props, this)
+    }
+
     if (arg1) {
       if (arg1 === 'version') {
         if (u.isStr(arg2)) {
@@ -76,19 +92,9 @@ class NoodlConfig extends KeyValueCache<LiteralUnion<KeyOfRootConfig, string>> {
       if (u.isStr(arg1)) {
         return replacePlaceholders(arg1, this.toJSON())
       }
-
-      return arg1
     }
 
-    const props = this.toJSON()
-    const values = {
-      cadlBaseUrl: this.get('cadlBaseUrl'),
-      cadlVersion: this.resolve('version', u.isStr(arg2) ? arg2 : 'web'),
-    } as Record<string, any>
-
-    if (this['designSuffix']) values.designSuffix = this['designSuffix']
-
-    return replacePlaceholders(props, this)
+    return arg1
   }
 
   override set(

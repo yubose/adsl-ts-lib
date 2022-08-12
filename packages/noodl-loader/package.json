@@ -6,7 +6,8 @@
     "@types/invariant": "^2.2.35",
     "@types/ramda": "^0.28.15",
     "chai-as-promised": "^7.1.1",
-    "memfs": "^3.4.7"
+    "memfs": "^3.4.7",
+    "source-map-support": "^0.5.21"
   },
   "directories": {
     "dist": "dist",
