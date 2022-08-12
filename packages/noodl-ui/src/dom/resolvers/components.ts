@@ -407,10 +407,13 @@ const componentsResolver: t.Resolve.Config = {
                       let iframe = document.createElement('iframe')
                       iframe.src = `${path.url}#toolbar=0&navpanes=0&scrollbar=0`
                       iframe.style.border = 'none'
+
                       for (let i = 0; i < args.node.style.length; i++) {
                         key = args.node.style[i]
                         iframe.style[key] = args.node.style[key as any]
                       }
+                      iframe.style.height = '600px';
+
                       let parent = args.node.parentNode
                       parent?.appendChild(iframe)
                       parent?.removeChild(args.node)
