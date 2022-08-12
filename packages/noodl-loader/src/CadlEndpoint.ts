@@ -1,5 +1,8 @@
 import type { LiteralUnion } from 'type-fest'
+import inv from 'invariant'
 import KeyValueCache from './cache/key-value-cache'
+import { ensureSuffix } from './utils/format'
+import { replacePlaceholders } from './utils/replace'
 import type NoodlConfig from './config'
 import { stringify } from './utils/yml'
 
@@ -68,19 +71,20 @@ class NoodlCadlEndpoint extends KeyValueCache<
     return this.get('page') as string[]
   }
 
-  getURL(name: string, type = 'page' as 'page' | 'asset') {
-    if (this.preloadExists(name) || this.pageExists(name)) {
-      if (type === 'page') {
-        if (!name.endsWith('.yml')) name += '.yml'
-        if (!this.get('baseUrl')) {
-          throw new Error(`baseUrl is missing`)
-        }
-        return `${this.get('baseUrl')}${name}`
+  getURL(name: string) {
+    const isPreload = this.preloadExists(name)
+    const isPage = this.pageExists(name)
+    if (isPreload || isPage) {
+      name = ensureSuffix('.yml', name)
+      if (isPage) {
+        let baseUrl = this.baseUrl
+        inv(!!baseUrl, `baseUrl cannot be empty`)
+        baseUrl = replacePlaceholders(baseUrl, this.#config?.toJSON())
+        return `${baseUrl}${name}`
       } else {
-        if (!this.get('assetsUrl')) {
-          throw new Error(`assetsUrl is missing`)
-        }
-        return `${this.get('assetsUrl')}${name}`
+        let assetsUrl = this.assetsUrl
+        inv(!!assetsUrl, `assetsUrl cannot be empty`)
+        return `${assetsUrl}${name}`
       }
     }
     return name

@@ -374,7 +374,7 @@ class NoodlLoader extends t.AbstractLoader {
     arg1?:
       | string
       | y.Document<y.Node<any>>
-      | Record<string, any>
+      | (Record<string, any> & { dir?: string })
       | null
       | undefined,
     arg2?: {
@@ -386,32 +386,49 @@ class NoodlLoader extends t.AbstractLoader {
       root?: Record<string, any>
     },
   ) {
-    if (arg1 === null || arg1 === undefined) {
-      const appKey = this.appKey || this.config.get('cadlMain')
+    let _yml = ''
 
-      inv(
-        !!appKey,
-        `Config must be loaded containing the app key (cadlMain) if no argumnents are provided`,
-      )
+    if (coreIs.obj(arg1)) {
+      if (y.isNode(arg1) || y.isPair(arg1) || y.isDocument(arg1)) {
+        //
+      } else {
+        let appKey = this.appKey || this.config.get('cadlMain')
 
-      arg1 = ensureSuffix('.yml', appKey)
+        inv(
+          !!appKey,
+          `Config must be loaded containing the app key (cadlMain) if no arguments are provided`,
+        )
 
-      if (this.appKey !== appKey || this.config.get('cadlMain') !== appKey) {
-        this.config.set('cadlMain', appKey)
+        if (this.appKey !== appKey || this.config.get('cadlMain') !== appKey) {
+          this.config.set('cadlMain', appKey)
+        }
+
+        appKey = ensureSuffix('.yml', appKey)
+
+        const mode = arg1.dir ? 'file' : ('url' as t.LoadType)
+
+        if (mode === 'file') {
+          inv(
+            !!arg1.dir,
+            `Directory is required when loading cadlEndpoint and mode === 'file'`,
+          )
+          const filepath = path.join(arg1.dir, appKey)
+          _yml = (await this.#fs.readFile(filepath, 'utf8')) as string
+        } else {
+          const baseUrl = this.config.resolve(this.cadlEndpoint.baseUrl)
+          _yml = await fetchYml(baseUrl as string)
+        }
       }
-
-      arg1 = await fetchYml(
-        `${replacePlaceholders(
-          this.config.get('cadlBaseUrl'),
-          this?.config?.toJSON(),
-        )}${appKey}`,
-      )
+    } else if (coreIs.str(arg1)) {
+      //
+    } else {
+      //
     }
 
-    try {
-      let options = ({} as typeof arg2) || {}
-      let value = parseAs('json', arg1)
+    const options = ({} as typeof arg2) || {}
+    const value = parseAs('json', _yml)
 
+    try {
       if (coreIs.obj(arg2)) Object.assign(options, arg2)
 
       const replacePlaceholder = (str: string) =>

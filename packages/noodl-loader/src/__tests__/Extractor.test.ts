@@ -1,6 +1,6 @@
 import * as u from '@jsmanifest/utils'
 import { expect } from 'chai'
-import NoodlLoader from '../Loader'
+import NoodlLoader from '../loaderr'
 import { toDocument } from '../utils/yml'
 import { createExtractor } from '../extractor'
 import * as c from '../constants'
