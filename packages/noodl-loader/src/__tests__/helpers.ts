@@ -13,7 +13,7 @@ import {
 } from '../utils/format'
 import { parseAs, toJson } from '../utils/yml'
 import FileSystemHost from '../file-system'
-import type Loader from '../loaderr'
+import type Loader from '../loader'
 import * as t from '../types'
 import * as c from '../constants'
 import { BufferEncodingOption } from 'fs-extra'

@@ -15,9 +15,9 @@ import {
   nockCadlEndpointRequest,
   assetsUrl,
 } from './helpers'
-import Loader, { getYml } from '../loaderr'
+import Loader, { getYml } from '../loader'
 import loadFile from '../utils/load-file'
-import type { LoadType } from '../loaderr/loader-types'
+import type { LoadType } from '../loader/loader-types'
 import * as c from '../constants'
 import * as t from '../types'
 

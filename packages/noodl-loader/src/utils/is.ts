@@ -2,7 +2,7 @@ import * as u from '@jsmanifest/utils'
 import { is } from 'noodl-core'
 import regex from '../internal/regex'
 import { _id, idKey } from '../constants'
-import type Strategy from '../loaderr/strategy'
+import type Strategy from '../loader/strategy'
 import type { Ext, FileSystemHost } from '../types'
 
 export function configKey(configKey: string, value: null | undefined | string) {
