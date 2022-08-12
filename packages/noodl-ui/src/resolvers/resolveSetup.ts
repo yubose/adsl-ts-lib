@@ -116,6 +116,7 @@ setupResolver.setResolver(
             trigger = prop.trigger
           } else {
             // datasetKey = trigger = prop
+            trigger = prop
           }
 
           if (is.folds.emit(original[trigger])) {

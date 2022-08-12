@@ -165,26 +165,56 @@ componentResolver.setResolver(async (component, options, next) => {
 
       if (u.isArr(dataObjects)) {
         const numDataObjects = dataObjects.length
+        let newDataObjects:any = []
         for (let index = 0; index < numDataObjects; index++) {
-          const dataObject = dataObjects[index]
-          const ctx = { index, iteratorVar, dataObject }
-          let listItem = createComponent(listItemBlueprint, page)
-          listItem = component.createChild(listItem)
-          listItem.edit({ index, [iteratorVar]: dataObject })
-          listItem = await resolveComponents({
-            callback,
-            components: listItem,
-            context: {
-              ...context,
-              ...ctx,
-              path: context?.path
-                ? context.path.concat('children', index)
-                : ['children', index],
-            },
-            on: options.on,
-            page,
+          newDataObjects.push({
+            index,
+            data: dataObjects[index],
           })
         }
+        await Promise.all(
+          newDataObjects.map(async(item:any)=>{
+            const index = item['index']
+            const dataObject = item['data']
+            const ctx = { index, iteratorVar, dataObject }
+            let listItem = createComponent(listItemBlueprint, page)
+            listItem = component.createChild(listItem)
+            listItem.edit({ index, [iteratorVar]: dataObject })
+            listItem = await resolveComponents({
+              callback,
+              components: listItem,
+              context: {
+                ...context,
+                ...ctx,
+                path: context?.path
+                  ? context.path.concat('children', index)
+                  : ['children', index],
+              },
+              on: options.on,
+              page,
+            })
+          })
+        )
+        // for (let index = 0; index < numDataObjects; index++) {
+        //   const dataObject = dataObjects[index]
+        //   const ctx = { index, iteratorVar, dataObject }
+        //   let listItem = createComponent(listItemBlueprint, page)
+        //   listItem = component.createChild(listItem)
+        //   listItem.edit({ index, [iteratorVar]: dataObject })
+        //   listItem = await resolveComponents({
+        //     callback,
+        //     components: listItem,
+        //     context: {
+        //       ...context,
+        //       ...ctx,
+        //       path: context?.path
+        //         ? context.path.concat('children', index)
+        //         : ['children', index],
+        //     },
+        //     on: options.on,
+        //     page,
+        //   })
+        // }
       }
     }
 

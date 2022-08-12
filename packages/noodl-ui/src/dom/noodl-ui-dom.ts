@@ -29,7 +29,7 @@ import attributeResolvers from './resolvers/attributes'
 import componentResolvers from './resolvers/components'
 import cache from '../_cache'
 import nui from '../noodl-ui'
-import { findParent, findIteratorVar } from '../utils/noodl'
+import { findParent, findIteratorVar, resolveAssetUrl } from '../utils/noodl'
 import Resolver from './Resolver'
 import { _isIframeEl, _syncPages, _TEST_ } from './utils'
 import * as c from '../constants'
@@ -542,8 +542,17 @@ class NDOM extends NDOMInternal {
             if (Identify.folds.emit(component.blueprint?.path)) {
               try {
                 node = await createAsyncImageElement(container as HTMLElement)
-                node &&
-                  ((node as HTMLImageElement).src = component.get(c.DATA_SRC))
+                const result = component.get(c.DATA_SRC)
+                if(result?.then){
+                  result.then((res:any)=>{
+                    let re = res.find((val:any) => !!val?.result)?.result
+                    re = `${nui.getAssetsUrl()}/${re}`
+                    node && ((node as HTMLImageElement).src = re)
+                  })
+                }else{
+                  node && ((node as HTMLImageElement).src = result)
+                }
+                
               } catch (error) {
                 console.error(error)
               }
@@ -553,7 +562,17 @@ class NDOM extends NDOMInternal {
           } finally {
             if (!node) {
               node = document.createElement('img')
-              ;(node as HTMLImageElement).src = component.get(c.DATA_SRC)
+              const result = component.get(c.DATA_SRC)
+                if(result?.then){
+                  result.then((res:any)=>{
+                    let re = res.find((val:any) => !!val?.result)?.result
+                    re = re? resolveAssetUrl(re, nui.getAssetsUrl()): ''
+                    ;(node as HTMLImageElement).src = re
+                  })
+                }else{
+                  ;((node as HTMLImageElement).src = result)
+                }
+              
             }
           }
         } else if (Identify.component.page(component)) {

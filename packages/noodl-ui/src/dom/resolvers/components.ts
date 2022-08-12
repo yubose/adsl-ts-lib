@@ -23,7 +23,7 @@ import cache from '../../_cache'
 import EmitAction from '../../actions/EmitAction'
 import { formatColor } from '../../utils/common'
 import isComponent from '../../utils/isComponent'
-import { publish } from '../../utils/noodl'
+import { publish, resolveAssetUrl } from '../../utils/noodl'
 import type NDOM from '../noodl-ui-dom'
 import type NDOMPage from '../Page'
 import type { ComponentPage } from '../factory/componentFactory'
@@ -374,8 +374,18 @@ const componentsResolver: t.Resolve.Config = {
             }
           }
           if (args.component.get(c.DATA_SRC)) {
-            setAttr('src', args.component.get(c.DATA_SRC))
-            setDataAttr('src', args.component.get(c.DATA_SRC))
+            let result = args.component.get(c.DATA_SRC)
+            if (result?.then){
+              result.then((res:any)=>{
+                let re = res.find((val:any) => !!val?.result)?.result
+                re = re? resolveAssetUrl(re, nui.getAssetsUrl()): ''
+                setAttr('src', re)
+                setDataAttr('src', re)
+              })
+            }else{
+              setAttr('src', result)
+              setDataAttr('src', result)
+            }
           } else {
           }
           args.component.on('path', (result: string) => {
