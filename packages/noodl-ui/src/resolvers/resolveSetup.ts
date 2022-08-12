@@ -9,6 +9,7 @@ import * as i from '../utils/internal'
 import * as t from '../types'
 
 export const emitHooks = [
+  'style',
   'path',
   'placeholder',
   { trigger: 'dataValue', datasetKey: 'value' },
