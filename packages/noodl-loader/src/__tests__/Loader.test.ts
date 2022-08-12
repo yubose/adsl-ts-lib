@@ -13,6 +13,7 @@ import {
   mockPaths,
   nockRequest,
   nockCadlEndpointRequest,
+  assetsUrl,
 } from './helpers'
 import Loader, { getYml } from '../loader'
 import loadFile from '../utils/load-file'
@@ -60,7 +61,7 @@ describe.only(`Loader`, () => {
 
         if (mode === 'file') {
           it(`should throw if options.dir is empty`, async () => {
-            expect(loader.load).to.eventually.rejectWith(
+            expect(loader.load).to.eventually.nobe.rejectedWith(
               /Directory not provided/i,
             )
           })
@@ -200,23 +201,64 @@ describe.only(`Loader`, () => {
         })
       }
     }
+
+    it(`should load from remote URL if no arguments are provided`, async () => {
+      mockPaths({
+        configKey,
+        preload: ['BasePage', ['BaseCSS', { Style: { top: '0.1' } }]],
+        type: 'url',
+      })
+      await loader.loadConfig(configKey)
+      await loader.loadCadlEndpoint()
+      const { cadlEndpoint } = loader
+      expect(cadlEndpoint).to.have.property('assetsUrl', assetsUrl)
+      expect(cadlEndpoint).to.have.property('baseUrl', baseUrl)
+      expect(cadlEndpoint)
+        .to.have.property('preload')
+        .to.be.an('array')
+        .to.include.all.members(['BasePage', 'BaseCSS'])
+      expect(cadlEndpoint).to.have.property('page').to.be.an('array')
+    })
   })
 
   describe(`load`, () => {
     describe(`when given a name from preload`, () => {
-      it.only(`should load from remote url using cadlEndpoint's baseUrl when options.mode !== 'file'`, async () => {
+      it(`should load from remote url using cadlEndpoint's baseUrl when options.mode !== 'file'`, async () => {
         mockPaths({
           configKey,
           preload: ['BasePage', ['BaseCSS', { Style: { top: '0.1' } }]],
           type: 'url',
         })
+        await loader.loadConfig(configKey)
+        await loader.loadCadlEndpoint()
+        await loader.load('BaseCSS')
+        await loader.load('BasePage')
         expect(loader.root).to.have.property('Style')
+        expect(loader.root.Style).to.be.instanceOf(y.YAMLMap)
+        expect(loader.root.Style.get('top')).to.eq('0.1')
         expect(loader.root).not.to.have.property('BaseCSS')
         expect(loader.root).not.to.have.property('BasePage')
       })
 
-      xit(`should load from file system using options.dir when options.mode === 'file'`, () => {
-        //
+      it.only(`should load from file system using options.dir when options.mode === 'file'`, async () => {
+        mockPaths({
+          configKey,
+          preload: ['BasePage', ['BaseCSS', { Style: { top: '0.1' } }]],
+          type: 'file',
+        })
+        const loadOpts = {
+          dir: `generated/${configKey}`,
+          mode: 'file',
+        } as const
+        await loader.loadConfig(configKey)
+        await loader.loadCadlEndpoint()
+        await loader.load('BaseCSS', loadOpts)
+        await loader.load('BasePage', loadOpts)
+        expect(loader.root).to.have.property('Style')
+        expect(loader.root.Style).to.be.instanceOf(y.YAMLMap)
+        expect(loader.root.Style.get('top')).to.eq('0.1')
+        expect(loader.root).not.to.have.property('BaseCSS')
+        expect(loader.root).not.to.have.property('BasePage')
       })
 
       xit(`should throw when options.dir is empty when options.mode === 'file'`, () => {

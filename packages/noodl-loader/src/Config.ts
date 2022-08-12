@@ -73,6 +73,10 @@ class NoodlConfig extends KeyValueCache<LiteralUnion<KeyOfRootConfig, string>> {
         }
       }
 
+      if (u.isStr(arg1)) {
+        return replacePlaceholders(arg1, this.toJSON())
+      }
+
       return arg1
     }
 
