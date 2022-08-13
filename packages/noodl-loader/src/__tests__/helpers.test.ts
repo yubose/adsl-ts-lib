@@ -1,14 +1,9 @@
 import y from 'yaml'
 import { expect } from 'chai'
 import { fs } from 'memfs'
-import nock from 'nock'
 import { fetchYml, toJson } from '../utils/yml'
 import * as h from './helpers'
 import * as c from '../constants'
-
-afterEach(() => {
-  nock.cleanAll()
-})
 
 describe(`helpers`, () => {
   describe(`createConfig`, () => {

@@ -1,4 +1,4 @@
-import * as R from 'ramda'
+import * as R from 'rambda'
 import * as u from '@jsmanifest/utils'
 import * as c from '../constants'
 import * as t from '../types'

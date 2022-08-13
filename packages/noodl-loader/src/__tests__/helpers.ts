@@ -11,12 +11,12 @@ import {
   endpoint as toEndpoint,
   toPathname,
 } from '../utils/format'
+import * as is from '../utils/is'
 import { parseAs, toJson } from '../utils/yml'
 import FileSystemHost from '../file-system'
 import type Loader from '../loader'
 import * as t from '../types'
 import * as c from '../constants'
-import { BufferEncodingOption } from 'fs-extra'
 
 export const baseUrl = 'http://127.0.0.1:3001/'
 export const assetsUrl = `${baseUrl}assets`
@@ -137,7 +137,6 @@ export function getLoadFileOptions(options?: Partial<LoadFileProps>) {
     dir: dir || `generated/meetd2`,
     fs: {
       ...fs,
-      ...options?.fs,
       readFile: fs.readFileSync,
       readdir: fs.readdirSync,
     },
@@ -164,8 +163,8 @@ export function nockRequest(
   }
 
   nock(_baseURL).get(_pathname).reply(200, parseAs('yml', _response))
-
-  return toEndpoint(_baseURL, _pathname)
+  const endpoint = toEndpoint(_baseURL, _pathname)
+  return endpoint
 }
 
 type NockConfigRequestProps = Record<
@@ -382,6 +381,7 @@ export function mockPaths({
 }: {
   baseUrl?: string
   assetsUrl?: string
+
   configKey?: PageOption<t.As>
   preload?: PageOption<t.As> | PageOption<t.As>[]
   pages?: PageOption<t.As> | PageOption<t.As>[]

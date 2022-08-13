@@ -1,3 +1,4 @@
+import { vol } from 'memfs'
 import chai from 'chai'
 import sinonChai from 'sinon-chai'
 import chaiAsPromised from 'chai-as-promised'
@@ -12,4 +13,5 @@ before(() => {
 
 afterEach(() => {
   nock.cleanAll()
+  vol.reset()
 })

@@ -1,18 +1,33 @@
 import * as u from '@jsmanifest/utils'
-import { is } from 'noodl-core'
+import { fp, is } from 'noodl-core'
 import regex from '../internal/regex'
 import { _id, idKey } from '../constants'
+import type FileSystemHost from '../file-system'
 import type Strategy from '../loader/strategy'
-import type { Ext, FileSystemHost } from '../types'
+import type { Ext } from '../types'
 
-export function configKey(configKey: string, value: null | undefined | string) {
-  if (!u.isStr(value) || !configKey) return false
-  return configKey === value || configKey === `${value}.yml`
-}
-
-export function appKey(cadlMain: string, value: null | undefined | string) {
-  if (!u.isStr(value) || !cadlMain) return false
-  return cadlMain === value || cadlMain === `${value}.yml`
+/**
+ * Returns true if two names are equivalent when comparing for existence in lists with/without the `.yml` extension
+ *
+ * @example
+ * ```js
+ * isEqualFileKey('www', 'www.yml') // true
+ * isEqualFileKey('www', 'www') // true
+ * isEqualFileKey('.yml', '') // true
+ * isEqualFileKey('', '') // true
+ * isEqualFileKey('www', 'wwww.yml') // false
+ * isEqualFileKey('www', 'www.ymll') // false
+ * isEqualFileKey('www', 'wwww') // false
+ * isEqualFileKey('www', '') // false
+ * isEqualFileKey('www.yml', '') // false
+ * ```
+ */
+export function equalFileKey(v1: unknown, v2: unknown) {
+  if (!is.str(v1) || !is.str(v2)) return false
+  if (v1 === v2) return true
+  if (!v1.endsWith('.yml')) v1 += '.yml'
+  if (!v2.endsWith('.yml')) v2 += '.yml'
+  return v1.replace(/_en/, '') === v2.replace(/_en/, '')
 }
 
 export function fileSystemHost(value: unknown): value is FileSystemHost {

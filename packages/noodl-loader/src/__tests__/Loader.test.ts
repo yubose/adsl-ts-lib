@@ -14,8 +14,9 @@ import {
   nockRequest,
   nockCadlEndpointRequest,
   assetsUrl,
+  nockConfigRequest,
 } from './helpers'
-import Loader, { getYml } from '../loader'
+import Loader, { LoadConfigOptions, getYml } from '../loader'
 import loadFile from '../utils/load-file'
 import type { LoadType } from '../loader/loader-types'
 import * as c from '../constants'
@@ -40,7 +41,7 @@ const getLoader = () => {
   return loader
 }
 
-describe.only(`Loader`, () => {
+describe(`Loader`, () => {
   describe(`loadConfig`, () => {
     for (const { mode, value } of [
       { value: configKey, mode: 'file' },
@@ -53,8 +54,7 @@ describe.only(`Loader`, () => {
         it(`should load the config by ${label} if config name is provided and mode is ${mode}`, async () => {
           mockPaths({ configKey: value, type: mode as t.LoadType })
           const dir = `generated/${value}`
-          const loadType = mode as t.LoadType
-          await loader.loadConfig(value, { dir, mode: loadType })
+          await loader.loadConfig(value, { dir })
           expect(loader.appKey).to.eq('cadlEndpoint.yml')
         })
 
@@ -78,7 +78,7 @@ describe.only(`Loader`, () => {
       const assetsUrl = 'https://abc.com/assets'
       const baseUrl = 'https://abc.com/'
 
-      mockPaths({
+      const mockResults = mockPaths({
         assetsUrl,
         baseUrl,
         configKey: [
@@ -118,14 +118,14 @@ describe.only(`Loader`, () => {
     })
   })
 
-  describe.only(`loadCadlEndpoint`, () => {
-    for (const mode of ['file', 'url'] as const) {
-      for (const loadType of ['yml', 'doc', 'json']) {
-        const label = loadType === 'doc' ? 'a yaml doc' : loadType
+  describe(`loadCadlEndpoint`, () => {
+    for (const loadType of ['yml', 'doc', 'json']) {
+      const assetsUrl = 'https://abc.com/assets'
+      const baseUrl = 'https://abc.com/'
+      const label = loadType === 'doc' ? 'a yaml doc' : loadType
 
-        describe(`when providing ${label}`, () => {
-          const assetsUrl = 'https://abc.com/assets'
-          const baseUrl = 'https://abc.com/'
+      describe(`when providing ${label}`, () => {
+        for (const mode of ['file', 'url'] as const) {
           const isUrl = mode === 'url'
           let endpoint = ''
           let yml = ''
@@ -147,6 +147,18 @@ describe.only(`Loader`, () => {
               ) as string
 
             yml = mockResult[isUrl ? 'endpoints' : 'paths']?.[endpoint]
+
+            nockCadlEndpointRequest({
+              assetsUrl,
+              baseUrl,
+              preload: ['BasePage', 'BaseCSS'],
+              pages: ['SignIn', 'Dashboard'],
+            })
+          })
+
+          afterEach(() => {
+            nock.cleanAll()
+            vol.reset()
           })
 
           it(`should load the props on the CadlEndpoint instance`, async () => {
@@ -174,49 +186,51 @@ describe.only(`Loader`, () => {
             expect(loader.cadlEndpoint.getPreload()).to.have.lengthOf(0)
             expect(loader.cadlEndpoint.getPages()).to.have.lengthOf(0)
 
-            console.log(nock.pendingMocks())
-
-            await loader.loadCadlEndpoint(value, {
-              dir: `generated/${configKey}`,
-              fs: new MockFileSystemHost(),
+            const loadOptions = {
               mode,
-            })
+            } as LoadConfigOptions
 
-            // expect(loader.cadlEndpoint.assetsUrl).to.eq(assetsUrl)
-            // expect(loader.cadlEndpoint.baseUrl).to.eq(baseUrl)
-            // expect(loader.config.appKey).to.eq('cadlEndpoint.yml')
-            // expect(loader.cadlEndpoint.getPreload()).to.include.all.members([
-            //   'BasePage',
-            //   'BaseCSS',
-            // ])
-            // expect(loader.cadlEndpoint.getPages()).to.include.all.members([
-            //   'SignIn',
-            //   'Dashboard',
-            // ])
-            // expect(cadlEndpoint.get('preload')).to.be.an('array')
-            // expect(cadlEndpoint.get('page')).to.be.an('array')
+            if (mode === 'file') {
+              loadOptions.dir = `generated/${configKey}`
+              loadOptions.fs = new MockFileSystemHost()
+            }
+
+            await loader.loadCadlEndpoint(value, loadOptions)
+
+            expect(loader.cadlEndpoint.assetsUrl).to.eq(assetsUrl)
+            expect(loader.cadlEndpoint.baseUrl).to.eq(baseUrl)
+            expect(loader.config.appKey).to.eq('cadlEndpoint.yml')
+            expect(loader.cadlEndpoint.getPreload()).to.include.all.members([
+              'BasePage',
+              'BaseCSS',
+            ])
+            expect(loader.cadlEndpoint.getPages()).to.include.all.members([
+              'SignIn',
+              'Dashboard',
+            ])
+            expect(cadlEndpoint.get('preload')).to.be.an('array')
+            expect(cadlEndpoint.get('page')).to.be.an('array')
           })
+        }
+
+        it(`should load from remote URL if no arguments are provided`, async () => {
+          mockPaths({
+            configKey,
+            preload: ['BasePage', ['BaseCSS', { Style: { top: '0.1' } }]],
+            type: 'url',
+          })
+          await loader.loadConfig(configKey)
+          await loader.loadCadlEndpoint()
+          const cadlEndpoint = loader.cadlEndpoint
+          expect(cadlEndpoint).to.have.property('assetsUrl', assetsUrl)
+          expect(cadlEndpoint).to.have.property('baseUrl', baseUrl)
+          expect(cadlEndpoint.getPreload()).to.include.all.members([
+            'BasePage',
+            'BaseCSS',
+          ])
         })
-      }
-    }
-
-    it(`should load from remote URL if no arguments are provided`, async () => {
-      mockPaths({
-        configKey,
-        preload: ['BasePage', ['BaseCSS', { Style: { top: '0.1' } }]],
-        type: 'url',
       })
-      await loader.loadConfig(configKey)
-      await loader.loadCadlEndpoint()
-      const { cadlEndpoint } = loader
-
-      expect(cadlEndpoint).to.have.property('assetsUrl', assetsUrl)
-      expect(cadlEndpoint).to.have.property('baseUrl', baseUrl)
-      expect(cadlEndpoint.getPreload()).to.include.all.members([
-        'BasePage',
-        'BaseCSS',
-      ])
-    })
+    }
   })
 
   describe(`load`, () => {
@@ -227,6 +241,7 @@ describe.only(`Loader`, () => {
           preload: ['BasePage', ['BaseCSS', { Style: { top: '0.1' } }]],
           type: 'url',
         })
+
         await loader.loadConfig(configKey)
         await loader.loadCadlEndpoint()
         await loader.load('BaseCSS')
@@ -238,27 +253,27 @@ describe.only(`Loader`, () => {
         expect(loader.root).not.to.have.property('BasePage')
       })
 
-      it.skip(`should load from file system using options.dir when options.mode === 'file'`, async () => {
-        const mockResults = mockPaths({
+      it(`should load from file system using options.dir when options.mode === 'file'`, async () => {
+        mockPaths({
           configKey,
           preload: ['BasePage', ['BaseCSS', { Style: { top: '0.1' } }]],
           type: 'file',
         })
-        console.log(mockResults)
 
         const loadOpts = {
           dir: `generated/${configKey}`,
           mode: 'file',
         } as const
-        await loader.loadConfig(configKey)
-        await loader.loadCadlEndpoint()
-        // await loader.load('BaseCSS', loadOpts)
-        // await loader.load('BasePage', loadOpts)
-        // expect(loader.root).to.have.property('Style')
-        // expect(loader.root.Style).to.be.instanceOf(y.YAMLMap)
-        // expect(loader.root.Style.get('top')).to.eq('0.1')
-        // expect(loader.root).not.to.have.property('BaseCSS')
-        // expect(loader.root).not.to.have.property('BasePage')
+
+        await loader.loadConfig(configKey, loadOpts)
+        await loader.loadCadlEndpoint({ ...loadOpts })
+        await loader.load('BaseCSS', loadOpts)
+        await loader.load('BasePage', loadOpts)
+        expect(loader.root).to.have.property('Style')
+        expect(loader.root.Style).to.be.instanceOf(y.YAMLMap)
+        expect(loader.root.Style.get('top')).to.eq('0.1')
+        expect(loader.root).not.to.have.property('BaseCSS')
+        expect(loader.root).not.to.have.property('BasePage')
       })
 
       xit(`should throw when options.dir is empty when options.mode === 'file'`, () => {
@@ -608,8 +623,6 @@ describe.only(`Loader`, () => {
           pages,
         })
 
-        console.dir({ mockedResults }, { depth: Infinity })
-
         const loadOptions = isLoadFile ? getLoadFileOptions() : undefined
         const loader = new Loader()
         loader.config.configKey = configKey
@@ -700,7 +713,6 @@ SignIn:
             extractors: [{ name: 'images', extractor: imageExtractor }],
           },
         })
-        console.log(extractedImages)
       })
     })
   }

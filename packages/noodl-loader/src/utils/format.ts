@@ -26,8 +26,8 @@ export function ensureSuffix(suffix: string, value = '') {
   return value
 }
 
-export function endpoint(...paths: string[]) {
-  let current = [...paths]
+export function endpoint(path1: string, path2: string) {
+  let current = [path1, path2]
   let endpoint = ''
 
   while (current.length) {
