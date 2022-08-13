@@ -141,7 +141,7 @@ export function parseAs<As extends t.As>(
   let as = 'yml' as t.As
   let value: any
 
-  if (arg2) {
+  if (arg2 != undefined) {
     as = arg1 as As
     value = arg2
   } else {
@@ -230,7 +230,7 @@ export function toDocument(
   value: Record<string, any> | string,
   opts?: y.DocumentOptions & y.ParseOptions & y.SchemaOptions,
 ) {
-  if (value) {
+  if (value != undefined) {
     return y.parseDocument(
       typeof value === 'string' ? value : y.stringify(value),
       opts,

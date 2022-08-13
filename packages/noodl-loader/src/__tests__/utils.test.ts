@@ -61,31 +61,6 @@ describe(`utils`, () => {
     })
   })
 
-  xdescribe(`loadFiles`, () => {
-    it(`should load files by glob`, async () => {
-      vol.reset()
-      vol.fromJSON({
-        'generated/topo/SignIn.yml': stringify({ SignIn: { components: [] } }),
-        'generated/topo/Dashboard.yml': stringify({
-          SignIn: { components: [] },
-        }),
-        'generated/topo/logo.jpg': stringify({ SignIn: { components: [] } }),
-        'generated/topo/favicon.ico': stringify({ SignIn: { components: [] } }),
-      })
-      const glob = 'generated/**/*.yml'
-      const matches = await loadFiles(fs, glob)
-      expect(matches).to.have.lengthOf(2)
-      expect(matches).to.include.members([
-        'generated/topo/Dashboard.yml',
-        'generated/topo/SignIn.yml',
-      ])
-      expect(matches).to.be.an('object')
-      expect(u.keys(matches)).to.have.lengthOf(2)
-      expect(u.keys(matches)).to.include.members(['Dashboard'])
-      expect(matches).to.have.property('')
-    })
-  })
-
   it(`should return true if a string has one or more placeholders`, () => {
     const str = '${cadlBaseUrl}assets/${designSuffix} . ${abc}'
     expect(hasPlaceholder(str)).to.be.true

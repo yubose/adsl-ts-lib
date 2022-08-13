@@ -1,4 +1,4 @@
-import * as u from '@jsmanifest/utils'
+import { fp, is } from 'noodl-core'
 import type { LiteralUnion } from 'type-fest'
 import type { DeviceType, Env } from 'noodl-types'
 import { stringify } from './utils/yml'
@@ -48,40 +48,56 @@ class NoodlConfig extends KeyValueCache<LiteralUnion<KeyOfRootConfig, string>> {
     return dateStr
   }
 
+  resolve(): any
+
   resolve(
     key: LiteralUnion<'version', string>,
     deviceType: DeviceType,
     env?: Env,
-  ): string | number
+  ): any
 
   resolve(
     key: LiteralUnion<KeyOfRootConfig, string>,
     deviceType?: DeviceType,
-  ): string | number
+  ): any
 
   resolve(
-    arg1: LiteralUnion<KeyOfRootConfig | 'version', string>,
+    arg1?: LiteralUnion<KeyOfRootConfig | 'version', string>,
     arg2: DeviceType | { deviceType?: DeviceType; env?: Env } = {},
     arg3?: any,
   ) {
     if (!arguments.length) {
       const props = this.toJSON()
+
       const values = {
+        apiHost: this.get('apiHost'),
+        apiPort: this.get('apiPort'),
         cadlBaseUrl: this.get('cadlBaseUrl'),
-        cadlVersion: this.resolve('version', u.isStr(arg2) ? arg2 : 'web'),
+        cadlVersion: this.resolve('version', 'web'),
       } as Record<string, any>
 
-      if (this['designSuffix']) values.designSuffix = this['designSuffix']
+      if (this.has('designSuffix')) {
+        values.designSuffix = this.get('designSuffix')
+      }
 
-      return replacePlaceholders(props, this)
+      console.log({ values })
+
+      for (const [key, value] of fp.entries(props)) {
+        if (is.str(value) && this.has(value)) {
+          props[key] = this.get(value)
+        }
+      }
+
+      return replacePlaceholders(props, values)
     }
 
     if (arg1) {
       if (arg1 === 'version') {
-        if (u.isStr(arg2)) {
+        if (is.str(arg2)) {
           if (!this.get(arg2)) {
             throw new Error(`Device type "${arg2}" was not set on the config`)
           }
+
           const env = arg3 || 'stable'
           return this.get(arg2)?.cadlVersion?.[env]
         } else {
@@ -89,7 +105,7 @@ class NoodlConfig extends KeyValueCache<LiteralUnion<KeyOfRootConfig, string>> {
         }
       }
 
-      if (u.isStr(arg1)) {
+      if (is.str(arg1)) {
         return replacePlaceholders(arg1, this.toJSON())
       }
     }
@@ -117,12 +133,10 @@ class NoodlConfig extends KeyValueCache<LiteralUnion<KeyOfRootConfig, string>> {
 
   override set(key: LiteralUnion<KeyOfRootConfig, string>, value: any) {
     if (['web', 'ios', 'android'].includes(key)) {
-      if (u.isObj(value)) {
+      if (is.obj(value)) {
         super.set(key, {
-          cadlVersion: {
-            ...this.get(key)?.cadlVersion,
-            ...value,
-          },
+          ...this.get(key)?.cadlVersion,
+          ...value,
         })
       } else {
         super.set(key, value)

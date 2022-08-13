@@ -66,6 +66,11 @@ export function quoteIfEmptyStr(value: any) {
   return value === '' ? "''" : value
 }
 
+export function removeSuffix(suffix: string, value = '') {
+  if (value.endsWith?.(suffix)) value = value.substring(0, value.length)
+  return value
+}
+
 export function toObject(value: unknown): Record<string, any> {
   const props = {} as Record<string, any>
 

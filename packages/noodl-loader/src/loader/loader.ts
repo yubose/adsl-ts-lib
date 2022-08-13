@@ -23,6 +23,7 @@ import {
   quoteIfEmptyStr,
   ensureSuffix,
   endpoint as toEndpoint,
+  removeSuffix,
 } from '../utils/format'
 import { replacePlaceholders } from '../utils/replace'
 import FileSystemHost from '../file-system'
@@ -189,10 +190,16 @@ class NoodlLoader extends t.AbstractLoader {
       onCadlEndpointError?: (error: Error) => void
       includePreload?: boolean
       includePages?: boolean
+      spread?: boolean
     } = {},
   ) {
     let dir = options?.dir
     let mode = options?.mode || 'url'
+    let spread = true
+
+    if (coreIs.bool(options?.spread)) {
+      spread = options?.spread as boolean
+    }
 
     if (mode === 'file') {
       inv(!!dir, `Directory is required when mode === 'file'`)
@@ -200,13 +207,13 @@ class NoodlLoader extends t.AbstractLoader {
 
     const handlePreloadOrPage = async (name: string, yml: string) => {
       try {
-        console.log(`[handlePreloadOrPage] `, { name, yml })
-
         const isPreload = this.cadlEndpoint.preloadExists(name)
         const isPage = this.cadlEndpoint.pageExists(name)
         const doc = parseAs('doc', yml)
+
         if (isPreload) {
-          spreadToRoot(this.root, doc.contents as any)
+          if (spread) spreadToRoot(this.root, doc.contents as any)
+          else this.root[removeSuffix('.yml', name)] = doc.contents as any
         } else if (isPage) {
           this.root[name] = doc
         } else {
@@ -280,7 +287,7 @@ class NoodlLoader extends t.AbstractLoader {
       const filename = ensureSuffix('.yml', value)
       const endpoint =
         mode === 'file'
-          ? path.join(dir, filename)
+          ? path.join(dir || '', filename)
           : toEndpoint(
               this.config.resolve(
                 this.cadlEndpoint.baseUrl || this.config.baseUrl,
