@@ -80,8 +80,6 @@ class NoodlConfig extends KeyValueCache<LiteralUnion<KeyOfRootConfig, string>> {
         values.designSuffix = this.get('designSuffix')
       }
 
-      console.log({ values })
-
       for (const [key, value] of fp.entries(props)) {
         if (is.str(value) && this.has(value)) {
           props[key] = this.get(value)

@@ -1,7 +1,7 @@
 import type { LiteralUnion } from 'type-fest'
 import * as u from '@jsmanifest/utils'
 import axios from 'axios'
-import y, { isDocument, isPair } from 'yaml'
+import y, { isPair } from 'yaml'
 import type { ToStringOptions } from 'yaml'
 import * as t from '../types'
 

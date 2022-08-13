@@ -1,15 +1,6 @@
-import type { LiteralUnion } from 'type-fest'
 import path from 'path'
 import { fp, is } from 'noodl-core'
-import {
-  getNodeTypeLabel,
-  isScalar,
-  isPair,
-  isMap,
-  isSeq,
-  merge,
-  unwrap,
-} from './yml'
+import { isScalar, isPair, isMap, isSeq, merge, unwrap } from './yml'
 
 export function configKey(value: string | null | undefined) {
   if (!is.str(value)) return String(value)

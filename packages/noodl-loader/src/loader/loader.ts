@@ -27,7 +27,7 @@ import {
 } from '../utils/format'
 import { replacePlaceholders } from '../utils/replace'
 import FileSystemHost from '../file-system'
-import type { As, YAMLNode } from '../types'
+import type { YAMLNode } from '../types'
 import * as is from '../utils/is'
 import * as c from '../constants'
 import * as t from './loader-types'
@@ -361,10 +361,10 @@ class NoodlLoader extends t.AbstractLoader {
     },
   ) {
     let _appKey = ''
+    let _props = {} as Record<string, any>
     let _baseUrl = this.config.resolve(
       this.cadlEndpoint.baseUrl || this.config.baseUrl,
     ) as string
-    let _props = {} as Record<string, any>
 
     if (!arguments.length) {
       _appKey = this.appKey || this.config.get('cadlMain')
@@ -436,77 +436,15 @@ class NoodlLoader extends t.AbstractLoader {
       }
     }
 
-    // if (_options?.includePreload) {
-    //   for (let preload of this.cadlEndpoint?.getPreload() || []) {
-    //     preload = ensureSuffix('.yml', preload)
+    const handlePreloadOrPage = (type: 'preload' | 'page') => {
+      const names =
+        this.cadlEndpoint[type === 'preload' ? 'getPreload' : 'getPages']() ||
+        []
+      return Promise.all(names.map((name) => this.load(name, arg2)))
+    }
 
-    //     let isLoadFile = _options.mode === 'file'
-    //     let yml = ''
-    //     let name = trimPageName(preload)
-
-    //     if (isLoadFile) {
-    //       inv(
-    //         _options.dir,
-    //         `Cannot load preload items without a directory provided when mode === 'file'`,
-    //       )
-
-    //       const fsys = _options.fs || fs
-
-    //       yml = (await fsys.readFile(
-    //         path.join(_options.dir || '', preload),
-    //         'utf8',
-    //       )) as string
-    //     } else {
-    //       const url = `${this.cadlEndpoint?.baseUrl}${preload}`
-    //       yml = await fetchYml(url)
-    //     }
-
-    //     const doc = parseYml('map', yml)
-
-    //     if (y.isMap(doc.contents)) {
-    //       spreadToRoot(
-    //         (_options?.root || {}) as NoodlLoader['root'],
-    //         doc.contents,
-    //       )
-    //     } else {
-    //       set(_options, `root.${name}`, doc)
-    //     }
-    //   }
-    // }
-
-    // if (_options?.includePages) {
-    //   inv(
-    //     !u.isUnd(_options.root),
-    //     `Root object must be provided when loading cadlEndpoint and includePages === true`,
-    //   )
-
-    //   for (let page of this.cadlEndpoint?.getPages() || []) {
-    //     const name = page
-    //     page = ensureSuffix('.yml', page)
-
-    //     let isLoadFile = _options.mode === 'file'
-    //     let yml = ''
-
-    //     if (isLoadFile) {
-    //       inv(
-    //         _options.dir,
-    //         `Cannot load pages without a directory provided when mode === 'file'`,
-    //       )
-
-    //       const fsys = _options.fs || fs
-    //       yml = (await fsys.readFile(
-    //         path.join(_options.dir || '', page),
-    //         'utf8',
-    //       )) as string
-    //     } else {
-    //       const url = `${this.cadlEndpoint?.baseUrl}${page}`
-    //       yml = await fetchYml(url)
-    //     }
-
-    //     const doc = parseYml('map', yml)
-    //     set(_options, `root.${name}`, doc)
-    //   }
-    // }
+    if (arg2?.includePreload) await handlePreloadOrPage('preload')
+    if (arg2?.includePages) await handlePreloadOrPage('page')
   }
 
   use(value: FileSystemHost) {

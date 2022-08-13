@@ -3,7 +3,8 @@
   "dependencies": {
     "axios": "^0.27.2",
     "invariant": "^2.2.4",
-    "rambda": "^7.2.1"
+    "rambda": "^7.2.1",
+    "type-fest": "^2.18.0"
   },
   "description": "Loader for noodl applications",
   "devDependencies": {

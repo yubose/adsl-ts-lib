@@ -9,7 +9,7 @@ class KeyValueCache<Keys = string> {
   }
 
   has(key: string) {
-    return this.#data.has(key)
+    return this.#data.has(key as any)
   }
 
   get(key?: LiteralUnion<Keys, string>): any

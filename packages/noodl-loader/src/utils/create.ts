@@ -1,7 +1,5 @@
 import * as R from 'rambda'
-import * as u from '@jsmanifest/utils'
 import * as c from '../constants'
-import * as t from '../types'
 
 export const withBaseURL = R.curryN(2, (baseURL: string, value = '') => {
   if (baseURL.endsWith('/') && value.startsWith('/')) {

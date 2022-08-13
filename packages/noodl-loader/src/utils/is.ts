@@ -1,5 +1,5 @@
 import * as u from '@jsmanifest/utils'
-import { fp, is } from 'noodl-core'
+import { is } from 'noodl-core'
 import regex from '../internal/regex'
 import { _id, idKey } from '../constants'
 import type FileSystemHost from '../file-system'

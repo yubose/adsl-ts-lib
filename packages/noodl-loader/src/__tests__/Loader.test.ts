@@ -1,24 +1,15 @@
 import * as u from '@jsmanifest/utils'
 import { expect } from 'chai'
-import { vol } from 'memfs'
-import nock from 'nock'
 import y from 'yaml'
-import { fetchYml, parseAs, toDoc, toDocument, toJson } from '../utils/yml'
+import { parseAs } from '../utils/yml'
 import {
   baseUrl,
   createConfig,
-  createCadlEndpoint,
-  getLoadFileOptions,
   MockFileSystemHost,
   mockPaths,
-  nockRequest,
   nockCadlEndpointRequest,
-  assetsUrl,
-  nockConfigRequest,
 } from './helpers'
-import Loader, { LoadConfigOptions, getYml } from '../loader'
-import loadFile from '../utils/load-file'
-import type { LoadType } from '../loader/loader-types'
+import Loader, { LoadConfigOptions } from '../loader'
 import * as c from '../constants'
 import * as t from '../types'
 
