@@ -1,3 +1,4 @@
+//
 import * as u from '@jsmanifest/utils'
 import inv from 'invariant'
 import y, { isPair } from 'yaml'
