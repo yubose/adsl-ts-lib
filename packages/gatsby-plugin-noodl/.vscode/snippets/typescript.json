@@ -1,0 +1,10 @@
+{
+  "fp": {
+    "body": "import { fp } from 'noodl-core'",
+    "prefix": "fp"
+  },
+  "is": {
+    "body": "import { is } from 'noodl-core'",
+    "prefix": "is"
+  }
+}

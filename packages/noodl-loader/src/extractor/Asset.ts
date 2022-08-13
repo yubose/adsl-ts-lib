@@ -1,5 +1,5 @@
 import type { LiteralUnion } from 'type-fest'
-import type { ExtractAssetPreset } from './extractorTypes'
+import type { ExtractAssetPreset } from './extractor-types'
 
 class Asset<O extends Record<string, any> = Record<string, any>> {
   #id = ''

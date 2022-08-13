@@ -1,5 +1,6 @@
 import y from 'yaml'
 import * as nt from 'noodl-types'
+import regex from '../internal/regex'
 
 export function builtInFn(value: y.YAMLMap<nt.BuiltInEvalReference<string>>) {
   const key = value.items[0].key?.toString?.() || ''
@@ -31,4 +32,14 @@ export function noodlKey(value: unknown) {
 
 export function noodlValue() {
   //
+}
+
+export function listPlaceholders(str: string) {
+  return (str.match(new RegExp(regex.placeholder.source, 'g')) || []).map(
+    (placeholder) => placeholder.replace(/\$|{|}/g, ''),
+  )
+}
+
+export function hasPlaceholder(str: string) {
+  return regex.placeholder.test(str)
 }

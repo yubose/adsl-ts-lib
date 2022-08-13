@@ -57,12 +57,12 @@ class NoodlLoader<
 
   [Symbol.for('nodejs.util.inspect.custom')]() {
     return {
-      appKey: this.appKey,
+      appKey: this.equalFileKey,
       appConfigUrl: this.appConfigUrl,
       assetsUrl: this.assetsUrl,
       baseUrl: this.baseUrl,
       cbs: this.cbs,
-      configKey: this.configKey,
+      configKey: this.equalFileKey,
       configVersion: this.configVersion,
       dataType: this.dataType,
       deviceType: this.deviceType,
@@ -99,14 +99,16 @@ class NoodlLoader<
     const dataType = options.dataType === 'object' ? 'object' : 'map'
     const defaultKeys = ['Global']
 
-    this.configKey = configKey
+    this.equalFileKey = configKey
     this.dataType = dataType as DataType
     this.env = options.env || this.env
     this.options = shallowMerge(this.options, options)
     this.log.level = options.loglevel || this.options.loglevel
     this.log.debug(`Options`, this.options)
     this.log.debug(
-      `Instantiating with config: ${this.configKey || '<no config received>'}`,
+      `Instantiating with config: ${
+        this.equalFileKey || '<no config received>'
+      }`,
     )
 
     this.log.debug(
@@ -173,13 +175,13 @@ class NoodlLoader<
     requestOptions?: AxiosRequestConfig
     spread?: string[] | string
   } = {}) {
-    if (!this.configKey) {
+    if (!this.equalFileKey) {
       throw new Error(
         `Cannot initiate the aggregator without setting a config key first`,
       )
     }
 
-    this.log.info(`Using app key ${this.appKey}`)
+    this.log.info(`Using app key ${this.equalFileKey}`)
     this.log.info(`Using device type ${this.deviceType}`)
     this.log.info(`Using eCOS environment: ${this.env}`)
 
@@ -205,7 +207,7 @@ class NoodlLoader<
 
   #getRemoteConfigUrl = () => {
     return `https://${c.defaultConfigHostname}/config/${withYmlExt(
-      this.configKey,
+      this.equalFileKey,
     )}`
   }
 
@@ -218,9 +220,9 @@ class NoodlLoader<
       .replace(/(_en|~\/)/gi, '')
 
   #getRootConfig = () =>
-    (this.getInRoot(this.configKey) ||
+    (this.getInRoot(this.equalFileKey) ||
       this.getInRoot(
-        this.fs.ensureExt(this.configKey, 'yml'),
+        this.fs.ensureExt(this.equalFileKey, 'yml'),
       )) as DataType extends 'map' ? y.Document.Parsed : RootConfig
 
   #replaceNoodlPlaceholders = (str = '') => {
@@ -235,7 +237,7 @@ class NoodlLoader<
 
   get appConfigUrl() {
     return this.#replaceNoodlPlaceholders(
-      `${this.baseUrl}${this.fs.ensureExt(this.appKey, 'yml')}`,
+      `${this.baseUrl}${this.fs.ensureExt(this.equalFileKey, 'yml')}`,
     )
   }
 
@@ -277,7 +279,7 @@ class NoodlLoader<
       ]) || '') as string
     }
     if (!this.#configVersion) {
-      const rootConfig = this.getInRoot(this.configKey)
+      const rootConfig = this.getInRoot(this.equalFileKey)
       if (rootConfig) {
         const path = [this.deviceType, 'cadlVersion', this.env]
         if (this.dataType === 'map') return rootConfig.getIn(path)
@@ -296,7 +298,7 @@ class NoodlLoader<
   }
 
   get pageNames() {
-    let appConfig = this.getInRoot(this.appKey) as y.Document
+    let appConfig = this.getInRoot(this.equalFileKey) as y.Document
     let preloadPages = this.getIn(appConfig, 'preload') || []
     let pages = this.getIn(appConfig, 'page') || []
     if (y.isSeq(preloadPages)) preloadPages = preloadPages.toJSON()
@@ -315,7 +317,7 @@ class NoodlLoader<
   }
 
   async extractAssets() {
-    if (!this.configKey) throw new Error(`No configKey was set`)
+    if (!this.equalFileKey) throw new Error(`No configKey was set`)
     let remoteAssetsUrl = this.assetsUrl
 
     if (
@@ -336,7 +338,7 @@ class NoodlLoader<
         assets.push(
           getLinkStructure(assetPath, {
             prefix: remoteAssetsUrl,
-            config: this.configKey,
+            config: this.equalFileKey,
           }),
         )
       }
@@ -383,7 +385,7 @@ class NoodlLoader<
     return get(obj, key)
   }
 
-  getConfigVersion(document_ = this.getInRoot(this.configKey)): string {
+  getConfigVersion(document_ = this.getInRoot(this.equalFileKey)): string {
     return this.getIn(document_, [this.deviceType, 'cadlVersion', this.env])
   }
 
@@ -438,7 +440,7 @@ class NoodlLoader<
           docOptions?: y.DocumentOptions & y.ParseOptions & y.SchemaOptions
           config?: string
           requestOptions?: AxiosRequestConfig
-        } = this.configKey,
+        } = this.equalFileKey,
     customConfigUrl?: string,
     requestOptionsProp?: AxiosRequestConfig,
   ) {
@@ -466,13 +468,13 @@ class NoodlLoader<
         'config' in options ||
         'requestOptions' in options
       ) {
-        options?.config && (this.configKey = options.config)
+        options?.config && (this.equalFileKey = options.config)
         options?.requestOptions && (requestOptions = options.requestOptions)
         docOptions = options.docOptions
         const dir = options.dir || ''
         const configFilePath = path.join(
           dir,
-          this.fs.ensureExt(this.configKey, 'yml'),
+          this.fs.ensureExt(this.equalFileKey, 'yml'),
         )
         if (existsSync(configFilePath)) {
           this.log.debug(`Loading root config from: ${configFilePath}`)
@@ -480,7 +482,7 @@ class NoodlLoader<
           configDocument = parseYml(this.dataType, configYml, docOptions)
         } else {
           if (!dir) {
-            this.log.debug(`Fetching config ${this.configKey} remotely`)
+            this.log.debug(`Fetching config ${this.equalFileKey} remotely`)
           } else {
             this.log.error(
               `Tried to load root config from ${configFilePath} but the location does not exist`,
@@ -493,11 +495,11 @@ class NoodlLoader<
         configDocument = options as any
       }
     } else if (is.str(options)) {
-      this.configKey = options
+      this.equalFileKey = options
       this.log.debug(`Fetching config ${options} remotely`)
     }
 
-    if (!this.configKey) {
+    if (!this.equalFileKey) {
       throw new Error(
         `Cannot retrieve the root config because a config key was not passed in or set`,
       )
@@ -511,7 +513,9 @@ class NoodlLoader<
 
     const configUrl =
       customConfigUrl ||
-      `https://${c.defaultConfigHostname}/config/${withYmlExt(this.configKey)}`
+      `https://${c.defaultConfigHostname}/config/${withYmlExt(
+        this.equalFileKey,
+      )}`
 
     // TODO - Merge this implmenetation (temp. hardcoded here)
     try {
@@ -527,7 +531,7 @@ class NoodlLoader<
     if (!configYml || !configDocument) {
       this.log.info(`Config URL: ${configUrl}`)
       this.emit(c.rootConfigIsBeingRetrieved, {
-        configKey: this.configKey,
+        configKey: this.equalFileKey,
         configUrl,
       })
       const { data: yml } = await this.#fetch(configUrl, requestOptions)
@@ -541,8 +545,8 @@ class NoodlLoader<
       configYml = yml
     }
 
-    this.setInRoot(this.configKey, configDocument)
-    this.log.debug(`Root key ${this.configKey} set`)
+    this.setInRoot(this.equalFileKey, configDocument)
+    this.log.debug(`Root key ${this.equalFileKey} set`)
     this.emit(c.rootConfigRetrieved, {
       rootConfig: configDocument as DataType extends 'map'
         ? y.Document
@@ -617,7 +621,7 @@ class NoodlLoader<
     fallback?: () => Promise<string> | string
     requestOptions?: AxiosRequestConfig
   } = {}) {
-    if (!this.getInRoot(this.configKey)) {
+    if (!this.getInRoot(this.equalFileKey)) {
       throw new Error(
         'Cannot initiate app config without retrieving the root config',
       )
@@ -632,7 +636,7 @@ class NoodlLoader<
 
     if (dir) {
       const appConfigFilePath = path.resolve(
-        path.join(dir, this.fs.ensureExt(this.appKey, 'yml')),
+        path.join(dir, this.fs.ensureExt(this.equalFileKey, 'yml')),
       )
       if (existsSync(appConfigFilePath)) {
         this.log.debug(`Loading app config from: ${appConfigFilePath}`)
@@ -656,7 +660,7 @@ class NoodlLoader<
     if (!appConfigYml || !appConfigDocument) {
       this.log.debug(`Retrieving app config remotely`)
       this.emit(c.appConfigIsBeingRetrieved, {
-        appKey: this.appKey,
+        appKey: this.equalFileKey,
         rootConfig: this.#getRootConfig(),
         url: this.appConfigUrl,
       })
@@ -680,7 +684,7 @@ class NoodlLoader<
     appConfigDocument = parseYml(this.dataType, appConfigYml, docOptions)
 
     this.emit(c.appConfigRetrieved, {
-      appKey: this.appKey,
+      appKey: this.equalFileKey,
       appConfig: appConfigDocument as DataType extends 'map'
         ? y.Document.Parsed
         : AppConfig,
@@ -690,17 +694,17 @@ class NoodlLoader<
     })
 
     if (appConfigYml) {
-      this.setInRoot(this.appKey, appConfigDocument)
+      this.setInRoot(this.equalFileKey, appConfigDocument)
       this.log.debug(
         `Loaded app config as a y ${
           this.dataType === 'map' ? 'doc' : 'object'
-        } on root key: ${this.appKey}`,
+        } on root key: ${this.equalFileKey}`,
       )
     } else {
       this.log.error(`Attempted to load app config but it was empty or invalid`)
     }
     this.emit(c.appConfigParsed, {
-      name: this.appKey,
+      name: this.equalFileKey,
       appConfig: appConfigDocument as DataType extends 'map'
         ? y.Document
         : AppConfig,
@@ -919,7 +923,7 @@ class NoodlLoader<
             `[${red(error.name)}]: Could not find page ${name || ''}`,
           )
           this.emit(c.appPageNotFound, {
-            appKey: this.appKey,
+            appKey: this.equalFileKey,
             pageName: name,
             error,
           })
@@ -949,7 +953,10 @@ class NoodlLoader<
   } = {}) {
     const spreadKeys = fp.toArr(spread)
     const preloadPages = [] as string[]
-    const seq = this.getIn(this.getInRoot(this.appKey) as y.Document, 'preload')
+    const seq = this.getIn(
+      this.getInRoot(this.equalFileKey) as y.Document,
+      'preload',
+    )
 
     this.log.debug(
       `Loading preload pages in ${
@@ -1012,7 +1019,7 @@ class NoodlLoader<
     spread?: OrArray<string>
   } = {}) {
     const pages = [] as string[]
-    const nodes = this.getIn(this.getInRoot(this.appKey), 'page')
+    const nodes = this.getIn(this.getInRoot(this.equalFileKey), 'page')
 
     this.log.debug(
       `Loading pages in ${this.dataType === 'map' ? 'doc' : 'object'} format`,
