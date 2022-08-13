@@ -47,5 +47,5 @@
     "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" \"src/**/*.test.ts\" --file src/__tests__/setup.ts",
     "test:file": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json --file src/setupTests.ts -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" --file src/__tests__/setup.ts"
   },
-  "version": "0.0.22"
+  "version": "0.0.23"
 }
