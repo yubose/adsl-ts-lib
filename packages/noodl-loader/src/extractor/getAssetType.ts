@@ -1,23 +1,24 @@
 import * as is from '../utils/is'
+import { AssetType } from '../constants'
 
 function getAssetType(value: string | null | undefined) {
-  if (typeof value !== 'string') return 'unknown'
+  if (typeof value !== 'string') return AssetType.Unknown
   if (is.image(value)) {
-    return 'image'
+    return AssetType.Image
   } else if (is.script(value)) {
-    return 'script'
+    return AssetType.Script
   } else if (is.video(value)) {
-    return 'video'
+    return AssetType.Video
   } else if (is.text(value)) {
-    return 'text'
+    return AssetType.Text
   } else if (
     value.endsWith('pdf') ||
     value.endsWith('json') ||
     value.endsWith('doc')
   ) {
-    return 'document'
+    return AssetType.Document
   } else {
-    return 'text'
+    return AssetType.Text
   }
 }
 

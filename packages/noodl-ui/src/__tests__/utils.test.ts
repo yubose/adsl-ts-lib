@@ -1,5 +1,3 @@
-// @ts-nocheck
-import * as u from '@jsmanifest/utils'
 import sinon from 'sinon'
 import { expect } from 'chai'
 import { waitFor } from '@testing-library/dom'
@@ -11,9 +9,6 @@ import Viewport from '../Viewport'
 import isPage from '../utils/isPage'
 import isViewport from '../utils/isViewport'
 import log from '../utils/log'
-import * as c from '../constants'
-import * as s from '../utils/style'
-import * as t from '../types'
 
 /** REMINDER: Total components created should be 9 for this func */
 const getResolvedListComponentPreset = async () =>
@@ -197,27 +192,27 @@ describe(`resolveAssetUrl`, () => {
   })
 })
 
-describe(`styles`, () => {
-  const tests = {
-    vw: {
-      vpSize: 1024,
-      values: [],
-    },
-    vh: {
-      vpSize: 768,
-      get values() {
-        return [
-          ['0vh', 0],
-          ['1vh', 7.68],
-          ['0.3vh', 2.3],
-          ['1.15vh', 8.83],
-          ['3.4vh', 26.11],
-          ['4vh', 30.72],
-        ]
-      },
-    },
-  }
-})
+// describe(`styles`, () => {
+//   const tests = {
+//     vw: {
+//       vpSize: 1024,
+//       values: [],
+//     },
+//     vh: {
+//       vpSize: 768,
+//       get values() {
+//         return [
+//           ['0vh', 0],
+//           ['1vh', 7.68],
+//           ['0.3vh', 2.3],
+//           ['1.15vh', 8.83],
+//           ['3.4vh', 26.11],
+//           ['4vh', 30.72],
+//         ]
+//       },
+//     },
+//   }
+// })
 
 for (const [name, fn, Construct] of [
   ['isPage', isPage, NUIPage],

@@ -9,6 +9,7 @@ import * as i from '../utils/internal'
 import * as t from '../types'
 
 export const emitHooks = [
+  'style',
   'path',
   'placeholder',
   { trigger: 'dataValue', datasetKey: 'value' },
@@ -116,6 +117,7 @@ setupResolver.setResolver(
             trigger = prop.trigger
           } else {
             // datasetKey = trigger = prop
+            trigger = prop
           }
 
           if (is.folds.emit(original[trigger])) {

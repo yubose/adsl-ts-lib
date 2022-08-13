@@ -14,7 +14,7 @@ export const lib = {
     'dataValue',
     'path',
     'validateField',
-    'LoadStyle',
+    'style',
     'placeholder',
     'postMessage',
     'dataOption',

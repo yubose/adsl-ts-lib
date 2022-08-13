@@ -11,9 +11,8 @@ const get_1 = tslib_1.__importDefault(require("lodash/get"));
 const set_1 = tslib_1.__importDefault(require("lodash/set"));
 const path_1 = tslib_1.__importDefault(require("path"));
 const noodl_1 = require("noodl");
-const yaml_1 = tslib_1.__importDefault(require("yaml"));
-const generator_1 = require("./generator");
-const utils_1 = tslib_1.__importDefault(require("./utils"));
+const y = tslib_1.__importStar(require("yaml"));
+const utils_1 = tslib_1.__importStar(require("./utils"));
 const DEFAULT_CONFIG = 'aitmed';
 const DEFAULT_DEVICE_TYPE = 'web';
 const DEFAULT_ECOS_ENV = 'stable';
@@ -30,6 +29,7 @@ const LOGLEVELS = ['trace', 'debug', 'info', 'warn', 'error', 'silent'];
 const { cyan, yellow, red, newline } = u;
 const { debug, info, warn } = loglevel_1.default;
 let _sdkCache;
+let _meta = new utils_1.Metadata();
 let _loader;
 let _appKey = '';
 let _assetsUrl = '';
@@ -71,6 +71,13 @@ let resolvedAssetsDir = '';
 let resolvedConfigsDir = '';
 let resolvedAppConfigFile = '';
 let resolvedOutputNamespacedWithConfig = '';
+const insertFetchedToMeta = (url) => {
+    const currentFetchedURLs = _meta.get('fetched') || [];
+    if (!currentFetchedURLs.includes(url)) {
+        currentFetchedURLs.push(url);
+        _meta.set('fetched', currentFetchedURLs);
+    }
+};
 const withoutCwd = (s) => {
     if (u.isObj(s)) {
         return u
@@ -131,14 +138,12 @@ const reset = () => {
     resolvedOutputNamespacedWithConfig = '';
 };
 exports.reset = reset;
+//
 /**
  * https://www.gatsbyjs.com/docs/node-apis/
  */
 const onPreInit = (_, pluginOpts) => {
     _.reporter.setVerbose(true);
-    _.reporter.info('onPreInit START');
-    loglevel_1.default.debug('onPreInit START');
-    console.log('onPreInit START');
     newline();
     const loglevel = pluginOpts === null || pluginOpts === void 0 ? void 0 : pluginOpts.loglevel;
     if (loglevel &&
@@ -146,23 +151,32 @@ const onPreInit = (_, pluginOpts) => {
         LOGLEVELS.includes(loglevel)) {
         loglevel_1.default.setLevel(loglevel);
         _dump.loglevel = loglevel;
+        _meta.set('loglevel', loglevel);
+    }
+    if (pluginOpts.metadata && pluginOpts.metadata instanceof utils_1.Metadata) {
+        _meta = pluginOpts.metadata;
     }
     for (const key of u.keys(_paths)) {
         if (pluginOpts[key]) {
-            pluginOpts[key] = pluginOpts[key];
-            _dump.paths[key] = pluginOpts[key];
+            pluginOpts[key] = u.unixify(pluginOpts[key]);
+            _dump.paths[key] = u.unixify(_dump.paths[key]);
         }
     }
-    loglevel_1.default.debug('onPreInit END');
 };
 exports.onPreInit = onPreInit;
 const onPluginInit = function onPluginInit(args, pluginOpts = {}) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
     return tslib_1.__awaiter(this, void 0, void 0, function* () {
-        loglevel_1.default.debug('onPluginInit START');
         _paths.output = ((_a = pluginOpts.paths) === null || _a === void 0 ? void 0 : _a.output) || DEFAULT_OUTPUT_PATH;
         _paths.src = ((_b = pluginOpts.paths) === null || _b === void 0 ? void 0 : _b.src) || DEFAULT_SRC_PATH;
         _paths.template = require.resolve(((_c = pluginOpts.paths) === null || _c === void 0 ? void 0 : _c.template) || DEFAULT_TEMPLATE_PATH);
+        _meta.set('paths', Object.assign(Object.assign({}, _meta.get('paths')), { output: ((_d = pluginOpts.paths) === null || _d === void 0 ? void 0 : _d.output) || DEFAULT_OUTPUT_PATH, src: ((_e = pluginOpts.paths) === null || _e === void 0 ? void 0 : _e.src) || DEFAULT_SRC_PATH, template: require.resolve(((_f = pluginOpts.paths) === null || _f === void 0 ? void 0 : _f.template) || DEFAULT_TEMPLATE_PATH) }));
+        _meta.set('cacheDirectory', args.cache.directory);
+        _meta.set('cwd', pluginOpts.cwd || process.cwd());
+        _meta.set('configKey', pluginOpts.config || DEFAULT_CONFIG);
+        _meta.set('configUrl', utils_1.default.ensureExt(`${BASE_CONFIG_URL}${_configKey}`, 'yml'));
+        _meta.set('deviceType', pluginOpts.deviceType || DEFAULT_DEVICE_TYPE);
+        _meta.set('ecosEnv', pluginOpts.ecosEnv || DEFAULT_ECOS_ENV);
         _cacheDir = args.cache.directory;
         _cwd = pluginOpts.cwd || process.cwd();
         _configKey = pluginOpts.config || DEFAULT_CONFIG;
@@ -177,13 +191,18 @@ const onPluginInit = function onPluginInit(args, pluginOpts = {}) {
         debug(`Ecos environment: ${yellow(_ecosEnv)}`);
         debug(`Log level set to: ${yellow(_loglevel)}`);
         debug(`Template path: ${yellow(_paths.template)}`);
+        _meta.set('paths', Object.assign(Object.assign({}, _meta.get('paths')), { app: {
+                assetsDir: u.unixify(path_1.default.join(resolvedOutputNamespacedWithConfig, 'assets')),
+                config: u.unixify(path_1.default.join(resolvedOutputNamespacedWithConfig, utils_1.default.ensureExt(_configKey, 'yml'))),
+                dir: u.unixify(utils_1.default.getConfigDir(_configKey)),
+            } }));
         resolvedOutputNamespacedWithConfig = u.unixify(utils_1.default.getConfigDir(_configKey));
         resolvedAssetsDir = u.unixify(path_1.default.join(resolvedOutputNamespacedWithConfig, 'assets'));
         resolvedConfigsDir = u.unixify(path_1.default.join(resolvedOutputNamespacedWithConfig, utils_1.default.ensureExt(_configKey, 'yml')));
         debug(`Resolved outputNamespacedWithConfig: ${yellow(resolvedOutputNamespacedWithConfig)}`);
         debug(`Resolved assetsDir: ${yellow(resolvedAssetsDir)}`);
         debug(`Resolved configFile: ${yellow(resolvedConfigsDir)}`);
-        if ((_d = pluginOpts.paths) === null || _d === void 0 ? void 0 : _d.output) {
+        if ((_g = pluginOpts.paths) === null || _g === void 0 ? void 0 : _g.output) {
             if (!fs_extra_1.default.existsSync(_paths.output)) {
                 yield fs_extra_1.default.ensureDir(_paths.output);
                 debug(`Created output directory at ${yellow(_paths.output)}`);
@@ -204,37 +223,57 @@ const onPluginInit = function onPluginInit(args, pluginOpts = {}) {
             debug(`Fetching config from ${yellow(url)}`);
             const yml = yield utils_1.default.fetchYml(url);
             yield fs_extra_1.default.writeFile(resolvedConfigsDir, yml);
+            insertFetchedToMeta(url);
         }
-        const rootConfig = yaml_1.default.parse(yield fs_extra_1.default.readFile(resolvedConfigsDir, 'utf8'));
+        const rootConfig = y.parse(yield fs_extra_1.default.readFile(resolvedConfigsDir, 'utf8'));
         _appKey = (rootConfig === null || rootConfig === void 0 ? void 0 : rootConfig.cadlMain) || '';
+        _meta.set('appKey', (rootConfig === null || rootConfig === void 0 ? void 0 : rootConfig.cadlMain) || '');
         if (!rootConfig) {
             throw new Error(`Could not load a config file both locally and remotely`);
         }
         resolvedAppConfigFile = u.unixify(path_1.default.join(resolvedOutputNamespacedWithConfig, _appKey));
-        _loader = new noodl_1.Loader({
-            config: _configKey,
-            dataType: 'object',
-            deviceType: _deviceType,
-            // TODO - This option is not working
-            env: _ecosEnv,
-            loglevel: _loglevel || 'verbose',
-            version: pluginOpts.version || 'latest',
-        });
+        _meta.set('paths', Object.assign(Object.assign({}, _meta.get('paths')), { app: Object.assign(Object.assign({}, (_h = _meta.get('paths')) === null || _h === void 0 ? void 0 : _h.app), { cadlEndpoint: resolvedAppConfigFile }) }));
+        const loaderSettings = {
+            appConfigUrl: '',
+            options: {
+                config: _configKey,
+                dataType: 'object',
+                deviceType: _deviceType,
+                // TODO - This option is not working
+                env: _ecosEnv,
+                loglevel: _loglevel || 'verbose',
+                version: pluginOpts.version || 'latest',
+            },
+            loadRootConfigOptions: {
+                dir: resolvedOutputNamespacedWithConfig,
+                config: _configKey,
+            },
+            loadAppConfigOptions: {
+                dir: '',
+                fallback: {
+                    type: '',
+                    appConfigUrl: '',
+                    appDir: '',
+                    filename: '',
+                },
+            },
+        };
+        _loader = new noodl_1.Loader(loaderSettings.options);
         _loader.env = _ecosEnv;
-        yield _loader.loadRootConfig({
-            dir: resolvedOutputNamespacedWithConfig,
-            config: _configKey,
-        });
+        _meta.set('loader', loaderSettings);
+        yield _loader.loadRootConfig(loaderSettings.loadRootConfigOptions);
+        loaderSettings.appConfigUrl = _loader.appConfigUrl;
         debug(`Loaded root config. Loading app config using key: ${yellow(_appKey)} at ${yellow(_loader.appConfigUrl)}`);
         const appConfigYml = yield utils_1.default.fetchYml(_loader.appConfigUrl);
-        _pages.json[_appKey] = yaml_1.default.parse(appConfigYml);
+        _pages.json[_appKey] = y.parse(appConfigYml);
+        insertFetchedToMeta(_loader.appConfigUrl);
         if (!fs_extra_1.default.existsSync(resolvedAppConfigFile)) {
             yield fs_extra_1.default.writeFile(resolvedAppConfigFile, appConfigYml, 'utf8');
             debug(`Saved app config to ${yellow(resolvedAppConfigFile)}`);
         }
         for (const key of ['preload', 'page']) {
             const _path_ = `${_appKey}.${key}`;
-            if (!u.isArr((_e = _pages.json[_appKey]) === null || _e === void 0 ? void 0 : _e[key])) {
+            if (!u.isArr((_j = _pages.json[_appKey]) === null || _j === void 0 ? void 0 : _j[key])) {
                 (0, set_1.default)(_pages.json, _path_, []);
             }
             const keysList = key === 'preload' ? _preloadKeys : _pageKeys;
@@ -250,13 +289,21 @@ const onPluginInit = function onPluginInit(args, pluginOpts = {}) {
                 loglevel_1.default.error(msg);
                 process.exit(0);
             }
-            if (!_loader.hasInRoot(_appKey)) {
-                yield _loader.loadAppConfig({
-                    dir: filesDir,
-                    // eslint-disable-next-line
-                    fallback: () => utils_1.default.downloadFile(loglevel_1.default, appConfigUrl, utils_1.default.ensureExt(_appKey, 'yml'), resolvedOutputNamespacedWithConfig),
-                });
-            }
+        }
+        if (!_loader.hasInRoot(_appKey)) {
+            const filename = utils_1.default.ensureExt(_appKey, 'yml');
+            yield _loader.loadAppConfig({
+                dir: filesDir,
+                // eslint-disable-next-line
+                fallback: () => utils_1.default.downloadFile(loglevel_1.default, appConfigUrl, filename, resolvedOutputNamespacedWithConfig),
+            });
+            loaderSettings.loadAppConfigOptions.dir = filesDir;
+            loaderSettings.loadAppConfigOptions.fallback = {
+                type: 'download',
+                appConfigUrl,
+                appDir: resolvedOutputNamespacedWithConfig,
+                filename,
+            };
         }
         debug(`Checking directory for page files`);
         const getPageUrl = (s) => _loader.appConfigUrl.replace('cadlEndpoint.yml', utils_1.default.ensureExt(s.includes('_en') ? s.concat('_en') : s, 'yml'));
@@ -264,6 +311,7 @@ const onPluginInit = function onPluginInit(args, pluginOpts = {}) {
         const filesList = yield fs_extra_1.default.readdir(filesDir);
         const expectedFilesRegex = new RegExp(regexStr);
         debug(`Constructed regular expression: ${yellow(regexStr)}`);
+        _meta.set('existingFilesInAppDirectory', filesList);
         for (const filename of filesList) {
             const name = utils_1.default.removeExt(filename, 'yml');
             const filepath = path_1.default.join(filesDir, filename);
@@ -278,9 +326,10 @@ const onPluginInit = function onPluginInit(args, pluginOpts = {}) {
                             const pageUrl = getPageUrl(name);
                             debug(`Downloading missing page ${yellow(pageUrl)}`);
                             yield utils_1.default.downloadFile(loglevel_1.default, pageUrl, filename, filesDir);
+                            insertFetchedToMeta(pageUrl);
                         }
                         const pageYml = (0, noodl_1.loadFile)(filepath);
-                        const pageObject = yaml_1.default.parse(pageYml);
+                        const pageObject = y.parse(pageYml);
                         _pages.json[name] = pageObject;
                         debug(`Loaded ${yellow(name)}`);
                     }
@@ -302,9 +351,10 @@ const onPluginInit = function onPluginInit(args, pluginOpts = {}) {
         };
         /** @type { { pageName: string; filename: string; filepath: string }[] } */
         const appKey = utils_1.default.removeExt(rootConfig.cadlMain, 'yml');
-        const allYmlPageNames = ((_h = (_g = (_f = _loader.root[appKey]) === null || _f === void 0 ? void 0 : _f.preload) === null || _g === void 0 ? void 0 : _g.concat) === null || _h === void 0 ? void 0 : _h.call(_g, (_j = _loader.root[appKey]) === null || _j === void 0 ? void 0 : _j.page)) || [];
+        const allYmlPageNames = ((_m = (_l = (_k = _loader.root[appKey]) === null || _k === void 0 ? void 0 : _k.preload) === null || _l === void 0 ? void 0 : _l.concat) === null || _m === void 0 ? void 0 : _m.call(_l, (_o = _loader.root[appKey]) === null || _o === void 0 ? void 0 : _o.page)) || [];
         allYmlPageNames.forEach((name) => {
             const filename = `${name}_en.yml`;
+            // const filename = `${name}.yml`
             const filepath = path_1.default.join(resolvedOutputNamespacedWithConfig, filename);
             if (!fs_extra_1.default.existsSync(filepath)) {
                 _missingFiles.pages[name] = { filename, filepath, name };
@@ -331,7 +381,8 @@ const onPluginInit = function onPluginInit(args, pluginOpts = {}) {
                     utils_1.default
                         .downloadFile(loglevel_1.default, url, filename, resolvedOutputNamespacedWithConfig)
                         .then((yml) => {
-                        loadTo_pages_(name, yaml_1.default.parse(yml));
+                        loadTo_pages_(name, y.parse(yml));
+                        insertFetchedToMeta(url);
                         resolve();
                     });
                 }
@@ -344,6 +395,7 @@ const onPluginInit = function onPluginInit(args, pluginOpts = {}) {
         let assets;
         try {
             assets = yield _loader.extractAssets();
+            _meta.set('extractedAssets', assets);
         }
         catch (error) {
             const err = error instanceof Error ? error : new Error(String(error));
@@ -371,7 +423,7 @@ const onPluginInit = function onPluginInit(args, pluginOpts = {}) {
         const isAssetSaved = (filepath = '') => _savedAssets.includes(filepath);
         const isAssetLogged = (url = '') => _loggedAssets.includes(url);
         yield Promise.all((assets === null || assets === void 0 ? void 0 : assets.map((asset) => tslib_1.__awaiter(this, void 0, void 0, function* () {
-            var _k;
+            var _p;
             const filename = `${asset.raw}`;
             const assetFilePath = path_1.default.join(resolvedAssetsDir, filename);
             if (fs_extra_1.default.existsSync(assetFilePath))
@@ -396,14 +448,16 @@ const onPluginInit = function onPluginInit(args, pluginOpts = {}) {
                         info(`Downloading ${yellow(filename)} to ${yellow(assetFilePath)}`);
                     }
                     yield utils_1.default.downloadFile(loglevel_1.default, url, filename, resolvedAssetsDir);
-                    if (!isAssetSaved(assetFilePath))
+                    if (!isAssetSaved(assetFilePath)) {
                         _savedAssets.push(assetFilePath);
+                        insertFetchedToMeta(url);
+                    }
                 }
             }
             catch (error) {
                 const err = error instanceof Error ? error : new Error(String(error));
                 if ('response' in err) {
-                    if (((_k = err['response']) === null || _k === void 0 ? void 0 : _k.status) === 404) {
+                    if (((_p = err['response']) === null || _p === void 0 ? void 0 : _p.status) === 404) {
                         const logMsg = `The asset "${asset.url}" `;
                         warn(logMsg + `returned a ${red(`404 Not Found`)} error`);
                     }
@@ -413,14 +467,12 @@ const onPluginInit = function onPluginInit(args, pluginOpts = {}) {
                 }
             }
         }))) || []);
-        loglevel_1.default.debug('onPluginInit END');
     });
 };
 exports.onPluginInit = onPluginInit;
 const sourceNodes = function sourceNodes(args, pluginOpts) {
     var _a, _b, _c, _d, _e, _f;
     return tslib_1.__awaiter(this, void 0, void 0, function* () {
-        loglevel_1.default.debug('sourceNodes');
         const { cache, actions, createContentDigest, createNodeId } = args;
         const { createNode } = actions;
         const { viewport = {
@@ -428,8 +480,8 @@ const sourceNodes = function sourceNodes(args, pluginOpts) {
             height: DEFAULT_VIEWPORT_HEIGHT,
         }, } = pluginOpts;
         _viewport = viewport;
-        console.log('running getGenerator');
-        const { cache: sdkCache, page, pages, sdk, transform, } = yield (0, generator_1.getGenerator)({
+        _meta.set('viewport', u.pick(viewport, ['width', 'height']));
+        const { cache: sdkCache, page, pages, sdk, transform, } = yield (yield Promise.resolve().then(() => tslib_1.__importStar(require('./generator')))).getGenerator({
             configKey: _configKey,
             use: {
                 config: (_a = _loader === null || _loader === void 0 ? void 0 : _loader.getInRoot) === null || _a === void 0 ? void 0 : _a.call(_loader, _configKey),
@@ -447,11 +499,15 @@ const sourceNodes = function sourceNodes(args, pluginOpts) {
                 viewport,
             },
         });
-        loglevel_1.default.debug('ran getGenerator');
         _assetsUrl = sdk.assetsUrl;
         _baseUrl = sdk.baseUrl;
         _sdkCache = sdkCache;
         _startPage = (sdk.cadlEndpoint || {}).startPage;
+        _meta.set('sdk', {
+            assetsUrl: sdk.assetsUrl,
+            baseUrl: sdk.baseUrl,
+            cadlEndpoint: sdk.cadlEndpoint,
+        });
         page.viewport.width = viewport.width;
         page.viewport.height = viewport.height;
         /**
@@ -544,7 +600,9 @@ const sourceNodes = function sourceNodes(args, pluginOpts) {
             });
         }
         const cacheDir = cache.directory;
-        console.log(pages);
+        // const getMetaPathsObject = () =>
+        //   (_meta.get('paths') || {}) as Record<string, any>
+        // const metaAppPaths = getMetaPathsObject()
         /**
          * Create GraphQL nodes for app pages so they can be queried in the client side
          */
@@ -554,6 +612,9 @@ const sourceNodes = function sourceNodes(args, pluginOpts) {
             const pageCacheDir = path_1.default.join(cacheDir, 'generated', name);
             const cachedComponentsFilePath = path_1.default.join(pageCacheDir, 'components.json');
             const pathToCachedPageContextFile = path_1.default.join(pageCacheDir, 'context.json');
+            // metaPaths.pageCacheDirectory = pageCacheDir
+            // metaPaths.pageComponentsCacheDirectory = cachedComponentsFilePath
+            // metaPaths.pageContextFile = pathToCachedPageContextFile
             _cacheFiles[name] = pageCacheDir;
             let components;
             let retrieveType = '';
@@ -661,6 +722,7 @@ const createPages = function (args, pluginOpts) {
           nodes {
             name
             content
+            slug
           }
         }
       }
@@ -717,7 +779,7 @@ function onCreatePage(opts) {
         if (page.path === '/') {
             const oldPage = u.assign({}, page);
             const pageName = _startPage;
-            const slug = `/${pageName}/`;
+            const slug = `/${pageName}/index.html`;
             page.context = {
                 assetsUrl: _assetsUrl,
                 baseUrl: _baseUrl,

@@ -20,8 +20,7 @@ import type {
   NodePluginArgs,
   SourceNodesArgs,
 } from 'gatsby'
-import { getGenerator } from './generator'
-import utils from './utils'
+import utils, { Metadata } from './utils'
 import * as t from './types'
 
 const DEFAULT_CONFIG = 'aitmed'
@@ -43,6 +42,7 @@ const { cyan, yellow, red, newline } = u
 const { debug, info, warn } = log
 
 let _sdkCache: typeof sdkCache
+let _meta = new Metadata()
 
 let _loader: Loader<any, any>
 
@@ -93,6 +93,14 @@ let resolvedAssetsDir = ''
 let resolvedConfigsDir = ''
 let resolvedAppConfigFile = ''
 let resolvedOutputNamespacedWithConfig = ''
+
+const insertFetchedToMeta = (url: string) => {
+  const currentFetchedURLs = _meta.get('fetched') || []
+  if (!currentFetchedURLs.includes(url)) {
+    currentFetchedURLs.push(url)
+    _meta.set('fetched', currentFetchedURLs)
+  }
+}
 
 const withoutCwd = (s: string | Record<string, any>): any => {
   if (u.isObj(s)) {
@@ -189,6 +197,8 @@ export const reset = () => {
   resolvedOutputNamespacedWithConfig = ''
 }
 
+//
+
 /**
  * https://www.gatsbyjs.com/docs/node-apis/
  */
@@ -197,9 +207,7 @@ export const onPreInit = (
   pluginOpts: t.GatsbyNoodlPluginOptions,
 ) => {
   _.reporter.setVerbose(true)
-  _.reporter.info('onPreInit START')
-  log.debug('onPreInit START')
-  console.log('onPreInit START')
+
   newline()
 
   const loglevel = pluginOpts?.loglevel
@@ -211,27 +219,49 @@ export const onPreInit = (
   ) {
     log.setLevel(loglevel)
     _dump.loglevel = loglevel
+    _meta.set('loglevel', loglevel)
+  }
+
+  if (pluginOpts.metadata && pluginOpts.metadata instanceof Metadata) {
+    _meta = pluginOpts.metadata
   }
 
   for (const key of u.keys(_paths)) {
     if (pluginOpts[key]) {
-      pluginOpts[key] = pluginOpts[key]
-      _dump.paths[key] = pluginOpts[key]
+      pluginOpts[key] = u.unixify(pluginOpts[key])
+      _dump.paths[key] = u.unixify(_dump.paths[key])
     }
   }
-  log.debug('onPreInit END')
 }
 
 export const onPluginInit = async function onPluginInit(
   args: NodePluginArgs,
   pluginOpts = {} as t.GatsbyNoodlPluginOptions,
 ) {
-  log.debug('onPluginInit START')
   _paths.output = pluginOpts.paths?.output || DEFAULT_OUTPUT_PATH
   _paths.src = pluginOpts.paths?.src || DEFAULT_SRC_PATH
   _paths.template = require.resolve(
     pluginOpts.paths?.template || DEFAULT_TEMPLATE_PATH,
   )
+
+  _meta.set('paths', {
+    ..._meta.get('paths'),
+    output: pluginOpts.paths?.output || DEFAULT_OUTPUT_PATH,
+    src: pluginOpts.paths?.src || DEFAULT_SRC_PATH,
+    template: require.resolve(
+      pluginOpts.paths?.template || DEFAULT_TEMPLATE_PATH,
+    ),
+  })
+
+  _meta.set('cacheDirectory', args.cache.directory)
+  _meta.set('cwd', pluginOpts.cwd || process.cwd())
+  _meta.set('configKey', pluginOpts.config || DEFAULT_CONFIG)
+  _meta.set(
+    'configUrl',
+    utils.ensureExt(`${BASE_CONFIG_URL}${_configKey}`, 'yml'),
+  )
+  _meta.set('deviceType', pluginOpts.deviceType || DEFAULT_DEVICE_TYPE)
+  _meta.set('ecosEnv', pluginOpts.ecosEnv || DEFAULT_ECOS_ENV)
 
   _cacheDir = args.cache.directory
   _cwd = pluginOpts.cwd || process.cwd()
@@ -248,6 +278,22 @@ export const onPluginInit = async function onPluginInit(
   debug(`Ecos environment: ${yellow(_ecosEnv)}`)
   debug(`Log level set to: ${yellow(_loglevel)}`)
   debug(`Template path: ${yellow(_paths.template)}`)
+
+  _meta.set('paths', {
+    ..._meta.get('paths'),
+    app: {
+      assetsDir: u.unixify(
+        path.join(resolvedOutputNamespacedWithConfig, 'assets'),
+      ),
+      config: u.unixify(
+        path.join(
+          resolvedOutputNamespacedWithConfig,
+          utils.ensureExt(_configKey, 'yml'),
+        ),
+      ),
+      dir: u.unixify(utils.getConfigDir(_configKey)),
+    },
+  })
 
   resolvedOutputNamespacedWithConfig = u.unixify(utils.getConfigDir(_configKey))
   resolvedAssetsDir = u.unixify(
@@ -303,11 +349,13 @@ export const onPluginInit = async function onPluginInit(
 
     const yml = await utils.fetchYml(url)
     await fs.writeFile(resolvedConfigsDir, yml)
+    insertFetchedToMeta(url)
   }
 
   const rootConfig = y.parse(await fs.readFile(resolvedConfigsDir, 'utf8'))
 
   _appKey = rootConfig?.cadlMain || ''
+  _meta.set('appKey', rootConfig?.cadlMain || '')
 
   if (!rootConfig) {
     throw new Error(`Could not load a config file both locally and remotely`)
@@ -317,22 +365,48 @@ export const onPluginInit = async function onPluginInit(
     path.join(resolvedOutputNamespacedWithConfig, _appKey),
   )
 
-  _loader = new Loader({
-    config: _configKey,
-    dataType: 'object',
-    deviceType: _deviceType,
-    // TODO - This option is not working
-    env: _ecosEnv,
-    loglevel: (_loglevel as any) || 'verbose',
-    version: pluginOpts.version || 'latest',
+  _meta.set('paths', {
+    ..._meta.get('paths'),
+    app: {
+      ..._meta.get('paths')?.app,
+      cadlEndpoint: resolvedAppConfigFile,
+    },
   })
 
+  const loaderSettings = {
+    appConfigUrl: '',
+    options: {
+      config: _configKey,
+      dataType: 'object',
+      deviceType: _deviceType,
+      // TODO - This option is not working
+      env: _ecosEnv,
+      loglevel: (_loglevel as any) || 'verbose',
+      version: pluginOpts.version || 'latest',
+    } as const,
+    loadRootConfigOptions: {
+      dir: resolvedOutputNamespacedWithConfig,
+      config: _configKey,
+    },
+    loadAppConfigOptions: {
+      dir: '',
+      fallback: {
+        type: '',
+        appConfigUrl: '',
+        appDir: '',
+        filename: '',
+      },
+    },
+  }
+
+  _loader = new Loader(loaderSettings.options)
   _loader.env = _ecosEnv
 
-  await _loader.loadRootConfig({
-    dir: resolvedOutputNamespacedWithConfig,
-    config: _configKey,
-  })
+  _meta.set('loader', loaderSettings)
+
+  await _loader.loadRootConfig(loaderSettings.loadRootConfigOptions)
+
+  loaderSettings.appConfigUrl = _loader.appConfigUrl
 
   debug(
     `Loaded root config. Loading app config using key: ${yellow(
@@ -342,6 +416,7 @@ export const onPluginInit = async function onPluginInit(
 
   const appConfigYml = await utils.fetchYml(_loader.appConfigUrl)
   _pages.json[_appKey] = y.parse(appConfigYml)
+  insertFetchedToMeta(_loader.appConfigUrl)
 
   if (!fs.existsSync(resolvedAppConfigFile)) {
     await fs.writeFile(resolvedAppConfigFile, appConfigYml, 'utf8')
@@ -370,19 +445,27 @@ export const onPluginInit = async function onPluginInit(
       log.error(msg)
       process.exit(0)
     }
+  }
 
-    if (!_loader.hasInRoot(_appKey)) {
-      await _loader.loadAppConfig({
-        dir: filesDir,
-        // eslint-disable-next-line
-        fallback: () =>
-          utils.downloadFile(
-            log as any,
-            appConfigUrl,
-            utils.ensureExt(_appKey, 'yml'),
-            resolvedOutputNamespacedWithConfig,
-          ),
-      })
+  if (!_loader.hasInRoot(_appKey)) {
+    const filename = utils.ensureExt(_appKey, 'yml')
+    await _loader.loadAppConfig({
+      dir: filesDir,
+      // eslint-disable-next-line
+      fallback: () =>
+        utils.downloadFile(
+          log as any,
+          appConfigUrl,
+          filename,
+          resolvedOutputNamespacedWithConfig,
+        ),
+    })
+    loaderSettings.loadAppConfigOptions.dir = filesDir
+    loaderSettings.loadAppConfigOptions.fallback = {
+      type: 'download',
+      appConfigUrl,
+      appDir: resolvedOutputNamespacedWithConfig,
+      filename,
     }
   }
 
@@ -400,6 +483,8 @@ export const onPluginInit = async function onPluginInit(
 
   debug(`Constructed regular expression: ${yellow(regexStr)}`)
 
+  _meta.set('existingFilesInAppDirectory', filesList)
+
   for (const filename of filesList) {
     const name = utils.removeExt(filename, 'yml')
     const filepath = path.join(filesDir, filename)
@@ -415,6 +500,7 @@ export const onPluginInit = async function onPluginInit(
             const pageUrl = getPageUrl(name)
             debug(`Downloading missing page ${yellow(pageUrl)}`)
             await utils.downloadFile(log as any, pageUrl, filename, filesDir)
+            insertFetchedToMeta(pageUrl)
           }
 
           const pageYml = loadFile(filepath)
@@ -449,6 +535,7 @@ export const onPluginInit = async function onPluginInit(
 
   allYmlPageNames.forEach((name: string) => {
     const filename = `${name}_en.yml`
+    // const filename = `${name}.yml`
     const filepath = path.join(resolvedOutputNamespacedWithConfig, filename)
     if (!fs.existsSync(filepath)) {
       _missingFiles.pages[name] = { filename, filepath, name }
@@ -485,6 +572,7 @@ export const onPluginInit = async function onPluginInit(
             )
             .then((yml) => {
               loadTo_pages_(name, y.parse(yml))
+              insertFetchedToMeta(url)
               resolve()
             })
         } catch (error) {
@@ -499,6 +587,7 @@ export const onPluginInit = async function onPluginInit(
 
   try {
     assets = await _loader.extractAssets()
+    _meta.set('extractedAssets', assets)
   } catch (error) {
     const err = error instanceof Error ? error : new Error(String(error))
     log.error(
@@ -561,7 +650,10 @@ export const onPluginInit = async function onPluginInit(
             info(`Downloading ${yellow(filename)} to ${yellow(assetFilePath)}`)
           }
           await utils.downloadFile(log as any, url, filename, resolvedAssetsDir)
-          if (!isAssetSaved(assetFilePath)) _savedAssets.push(assetFilePath)
+          if (!isAssetSaved(assetFilePath)) {
+            _savedAssets.push(assetFilePath)
+            insertFetchedToMeta(url)
+          }
         }
       } catch (error) {
         const err = error instanceof Error ? error : new Error(String(error))
@@ -576,14 +668,12 @@ export const onPluginInit = async function onPluginInit(
       }
     }) || [],
   )
-  log.debug('onPluginInit END')
 }
 
 export const sourceNodes = async function sourceNodes(
   args: SourceNodesArgs,
   pluginOpts: t.GatsbyNoodlPluginOptions,
 ) {
-  log.debug('sourceNodes')
   const { cache, actions, createContentDigest, createNodeId } = args
   const { createNode } = actions
   const {
@@ -595,7 +685,7 @@ export const sourceNodes = async function sourceNodes(
 
   _viewport = viewport
 
-  console.log('running getGenerator')
+  _meta.set('viewport', u.pick(viewport, ['width', 'height']))
 
   const {
     cache: sdkCache,
@@ -603,7 +693,9 @@ export const sourceNodes = async function sourceNodes(
     pages,
     sdk,
     transform,
-  } = await getGenerator({
+  } = await (
+    await import('./generator')
+  ).getGenerator({
     configKey: _configKey,
     use: {
       config: _loader?.getInRoot?.(_configKey),
@@ -622,12 +714,16 @@ export const sourceNodes = async function sourceNodes(
     },
   })
 
-  log.debug('ran getGenerator')
-
   _assetsUrl = sdk.assetsUrl
   _baseUrl = sdk.baseUrl
   _sdkCache = sdkCache
   _startPage = (sdk.cadlEndpoint || {}).startPage
+
+  _meta.set('sdk', {
+    assetsUrl: sdk.assetsUrl,
+    baseUrl: sdk.baseUrl,
+    cadlEndpoint: sdk.cadlEndpoint,
+  })
 
   page.viewport.width = viewport.width
   page.viewport.height = viewport.height
@@ -728,7 +824,10 @@ export const sourceNodes = async function sourceNodes(
 
   const cacheDir = cache.directory
 
-  console.log(pages)
+  // const getMetaPathsObject = () =>
+  //   (_meta.get('paths') || {}) as Record<string, any>
+
+  // const metaAppPaths = getMetaPathsObject()
 
   /**
    * Create GraphQL nodes for app pages so they can be queried in the client side
@@ -740,6 +839,10 @@ export const sourceNodes = async function sourceNodes(
     const pageCacheDir = path.join(cacheDir, 'generated', name)
     const cachedComponentsFilePath = path.join(pageCacheDir, 'components.json')
     const pathToCachedPageContextFile = path.join(pageCacheDir, 'context.json')
+
+    // metaPaths.pageCacheDirectory = pageCacheDir
+    // metaPaths.pageComponentsCacheDirectory = cachedComponentsFilePath
+    // metaPaths.pageContextFile = pathToCachedPageContextFile
 
     _cacheFiles[name] = pageCacheDir
 
@@ -870,6 +973,7 @@ export const createPages = async function (
         nodes: {
           name: string
           content: string
+          slug: string
         }[]
       }
     }>(`
@@ -878,6 +982,7 @@ export const createPages = async function (
           nodes {
             name
             content
+            slug
           }
         }
       }

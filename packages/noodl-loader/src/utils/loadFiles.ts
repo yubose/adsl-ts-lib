@@ -3,7 +3,6 @@ import { getFileStructure, getFileName, path } from 'noodl-file'
 import fg from 'fast-glob'
 import { Document as YAMLDocument, isDocument, isMap, Scalar } from 'yaml'
 import { fp, is } from 'noodl-core'
-import type { IFileStructure } from '../../../file/src/FileStructure'
 import loadFile from './loadFile'
 import * as t from '../types'
 
@@ -140,8 +139,7 @@ function loadFiles<
       const includeExt = opts?.includeExt
       const keysToSpread = opts.spread ? fp.toArr(opts.spread) : []
 
-      function getKey(metadata: IFileStructure) {
-        // @ts-expect-error
+      function getKey(metadata: any) {
         return includeExt ? getFileName(metadata.filepath) : metadata.filename
       }
 
@@ -153,7 +151,9 @@ function loadFiles<
         const metadata = getFileStructure(filepath)
         const key = getKey(metadata)
         const data = loadFile(filepath, type as any)
-        isDocument(data) && data.has(key) && (data.contents = data.get(key))
+        isDocument(data) &&
+          data.has(key) &&
+          (data.contents = data.get(key) as any)
         if (keysToSpread.includes(key)) {
           if (isDocument(data) && isMap(data.contents)) {
             for (const item of data.contents.items) {

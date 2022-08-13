@@ -1,92 +1,111 @@
-import path from 'path'
 import { expect } from 'chai'
-import { getFileStructure, getLinkStructure } from 'noodl-file'
-import nock from 'nock'
-import sinon from 'sinon'
+import { toNode } from '../utils/yml'
+import { replacePlaceholder, replacePlaceholders } from '../utils/replace'
 
-describe.skip(`utils`, () => {
-  describe(`fileSystem`, () => {
-    describe(`mapFilesToNoodlCollections`, () => {
-      it.skip(`should map filepaths to noodl collections`, () => {
-        const results = mapFilesToNoodlCollections(
-          'admind3',
-          path.join(process.cwd(), '../../generated/admind3'),
-          {
-            includeWithPages: ['MenuBar'],
-          },
-        )
-      })
-    })
-  })
-
-  describe(`getFileStructure`, () => {
-    const filepath =
-      '/Users/christ/ecos/aitmed/ecos/v1beta1/EcosAPI/ce-request.json'
-
-    describe(filepath, () => {
-      const result = getFileStructure(filepath)
-
-      it(`should set the ext to .mk4`, () => {
-        expect(result).to.have.property('ext', '.json')
-      })
-
-      it(`should set filename to ce-request`, () => {
-        expect(result).to.have.property('filename', 'ce-request')
-      })
-
-      it(`should set filepath to ${filepath}`, () => {
-        expect(result).to.have.property('filepath', filepath)
-      })
-
-      it(`should set dir to /Users/christ/ecos/aitmed/ecos/v1beta1/EcosAPI`, () => {
-        expect(result).to.have.property(
-          'dir',
-          `/Users/christ/ecos/aitmed/ecos/v1beta1/EcosAPI`,
-        )
-      })
-
-      it(`should set group to document`, () => {
-        expect(result).to.have.property('group', 'document')
-      })
-
-      it(`should set the rootDir`, () => {
-        expect(result).to.have.property('rootDir', '/')
-      })
-    })
-  })
-
-  describe(`getLinkStructure`, () => {
-    const theDarkKnightMkv = 'http://www.google.com/movies/TheDarkKnight.mkv'
-
-    describe(theDarkKnightMkv, () => {
-      const result = getLinkStructure(theDarkKnightMkv)
-
-      it(`should set the ext to .mk4`, () => {
-        expect(result).to.have.property('ext', '.mkv')
-      })
-
-      it(`should set filename to TheDarkKnight`, () => {
-        expect(result).to.have.property('filename', 'TheDarkKnight')
-      })
-
-      it(`should set isRemote to true`, () => {
-        expect(result).to.have.property('isRemote')
-        expect(result.isRemote).to.be.true
-      })
-
-      it(`should set url to ${theDarkKnightMkv}`, () => {
-        expect(result).to.have.property('url', theDarkKnightMkv)
-      })
-
-      it(`should set group to video`, () => {
-        expect(result).to.have.property('group', 'video')
-      })
-    })
-  })
-
+describe(`utils`, () => {
   describe(`loadFile`, () => {
     xit(``, () => {
       //
+    })
+  })
+
+  describe(`replacePlaceholder`, () => {
+    it(`should replace \${cadlBaseUrl}`, () => {
+      const cadlVersion = 'abc123.41'
+      const result = replacePlaceholder(
+        '${cadlVersion}',
+        cadlVersion,
+        'https://public.aitmed.com/cadl/www${cadlVersion}${designSuffix}/',
+      )
+      expect(result).to.eq(
+        `https://public.aitmed.com/cadl/www${cadlVersion}\${designSuffix}/`,
+      )
+    })
+  })
+
+  describe(`replacePlaceholders`, () => {
+    describe(`when given an object of values`, () => {
+      it(`should replace all placeholders from object literals`, () => {
+        const apiHost = 'albh2.aitmed.io'
+        const cadlBaseUrl =
+          'https://public.aitmed.com/cadl/wwwv4.18/_${apiHost}'
+        const cadlVersion = 'epic'
+        const obj = {
+          hello: [
+            {
+              greeting1: 'Hi!',
+              greeting2:
+                'https://public.aitmed.com/cadl/www${cadlVersion}${designSuffix}/',
+            },
+          ],
+          age: 13,
+          views: {
+            modern: 'classic ${cadlBaseUrl}',
+            food: cadlBaseUrl,
+            zeus: 'google ${width}..=-  ',
+            atheus: '${height}',
+            list: [{ child1: 'bob' }, { child2: '${apiHost}' }],
+          },
+        }
+        replacePlaceholders(obj, {
+          apiHost,
+          cadlVersion,
+          cadlBaseUrl,
+          width: '10px',
+          height: '10px',
+        })
+        expect(obj.hello[0].greeting2).to.eq(
+          `https://public.aitmed.com/cadl/www${cadlVersion}\${designSuffix}/`,
+        )
+        expect(obj.views.food).to.eq(
+          `https://public.aitmed.com/cadl/wwwv4.18/_${apiHost}`,
+        )
+        expect(obj.views.zeus).to.eq('google 10px..=-  ')
+        expect(obj.views.atheus).to.eq('10px')
+        expect(obj.views.list[1].child2).to.eq(apiHost)
+      })
+
+      it(`should replace all placeholders from YAML nodes`, () => {
+        const apiHost = 'albh2.aitmed.io'
+        const cadlBaseUrl =
+          'https://public.aitmed.com/cadl/wwwv4.18/_${apiHost}'
+        const cadlVersion = 'epic'
+        const node = toNode({
+          hello: [
+            {
+              greeting1: 'Hi!',
+              greeting2:
+                'https://public.aitmed.com/cadl/www${cadlVersion}${designSuffix}/',
+            },
+          ],
+          age: 13,
+          views: {
+            modern: 'classic ${cadlBaseUrl}',
+            food: cadlBaseUrl,
+            zeus: 'google ${width}..=-  ',
+            atheus: '${height}',
+            mortal: 'i.i  ${width}${height}  ',
+            list: [{ child1: 'bob' }, { child2: '${apiHost}' }],
+          },
+        })
+        replacePlaceholders(node, {
+          apiHost,
+          cadlVersion,
+          cadlBaseUrl,
+          width: '10px',
+          height: '11px',
+        })
+        expect(node.getIn(['hello', 0, 'greeting2'], false)).to.eq(
+          'https://public.aitmed.com/cadl/wwwepic${designSuffix}/',
+        )
+        expect(node.getIn(['views', 'food'], false)).to.eq(
+          `https://public.aitmed.com/cadl/wwwv4.18/_${apiHost}`,
+        )
+        expect(node.getIn(['views', 'zeus'], false)).to.eq('google 10px..=-  ')
+        expect(node.getIn(['views', 'atheus'], false)).to.eq('11px')
+        expect(node.getIn(['views', 'mortal'], false)).to.eq('i.i  10px11px  ')
+        expect(node.getIn(['views', 'list', 1, 'child2'], false)).to.eq(apiHost)
+      })
     })
   })
 })

@@ -4,7 +4,6 @@ import { expect } from 'chai'
 import mfs from 'mock-fs'
 import nock from 'nock'
 import { defaultBaseUrl, getFixturePath, proxyPageYmls } from './test-utils'
-import { ExtractImage, ExtractScript, ExtractYaml } from '../extractor'
 import Loader from '../Loader'
 import { toDocument } from '../utils/yml'
 import * as c from '../constants'
@@ -44,7 +43,7 @@ afterEach(() => {
 
 describe.only(`Loader`, () => {
   for (const loadType of ['url', 'file']) {
-    describe(`when loading by file path`, () => {
+    describe.only(`when loading by ${loadType}`, () => {
       const getPath = (str: string) =>
         isLoadFile ? getFixturePath(str) : `${baseAppUrl}${str}`
 
@@ -58,7 +57,7 @@ describe.only(`Loader`, () => {
 
       beforeEach(() => {
         if (!isLoadFile) {
-          proxyPageYmls({ baseUrl: baseConfigUrl, names: `${configKey}.yml` })
+          proxyPageYmls({ baseUrl: baseConfigUrl, names: configKey })
         }
       })
 
@@ -155,7 +154,7 @@ describe.only(`Loader`, () => {
       })
     })
 
-    describe.only(`when extracting assets`, () => {
+    describe(`when extracting assets`, () => {
       it(`should be able to extract all image assets`, () => {
         const loader = new Loader()
         loader.use(new ExtractImage())

@@ -2,13 +2,8 @@ import * as u from '@jsmanifest/utils'
 // import { isDocument, isScalar, isPair, isMap, isSeq } from '../utils/yml'
 import regex from '../internal/regex'
 import { _id, idKey } from '../constants'
-import type { Extractor } from '../extractor'
 import type Strategy from '../Loader/Strategy'
 import type { Ext } from '../types'
-
-export function extractor(value: unknown): value is Extractor {
-  return u.isObj(value) && value[idKey] === _id.extractor
-}
 
 export function typeOf(value: unknown) {
   if (Array.isArray(value)) return 'array'
@@ -17,9 +12,21 @@ export function typeOf(value: unknown) {
 }
 
 export function image<S extends string = string>(
-  value: string,
+  value: unknown,
 ): value is `${S}.${Ext.Image}` {
-  return regex.image.test(value)
+  return u.isStr(value) && regex.image.test(value)
+}
+
+export function json<S extends string = string>(
+  value: string,
+): value is `${S}.${Ext.Json}` {
+  return /\.json/i.test(value)
+}
+
+export function pdf<S extends string = string>(
+  value: string,
+): value is `${S}.${Ext.Pdf}` {
+  return /\.pdf/i.test(value)
 }
 
 export function script<S extends string = string>(
@@ -41,15 +48,19 @@ export function video<S extends string = string>(
 }
 
 export function file<S extends string = string>(
-  value: string,
+  value: unknown,
 ): value is `${S}.${Ext.Image | Ext.Video}` {
-  if (typeof value !== 'string') return false
+  if (!u.isStr(value)) return false
   if (value.startsWith('file:')) return true
   try {
     new URL(value) as any
     return false
   } catch (error) {}
   if (!value.includes('.') && !value.includes('/')) return false
+  if (value.startsWith('/') && value.length > 1) return true
+  if (/\.(com|cn|co|de|dev|edu|gov|in|io|ly|me|net|org|uk|us)/i.test(value)) {
+    return false
+  }
   return regex.file.test(value)
 }
 
