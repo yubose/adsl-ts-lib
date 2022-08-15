@@ -1,5 +1,5 @@
 import y from 'yaml'
-import type { ExtractFn } from '../extractorTypes'
+import type { ExtractFn } from '../extractor-types'
 import { ExtractType } from '../../constants'
 
 const extractVideos: ExtractFn = (

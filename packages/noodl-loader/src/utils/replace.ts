@@ -61,7 +61,7 @@ export function replacePlaceholders<
     objs = objsOrValues as O | O[]
     values = valuesProp
   } else {
-    rx = regex.templateLiteralPlaceholder
+    rx = regex.placeholder
     objs = regexOrObjs
     values = objsOrValues
   }

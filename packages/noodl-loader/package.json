@@ -1,6 +1,19 @@
 {
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "invariant": "^2.2.4",
+    "rambda": "^7.2.1",
+    "type-fest": "^2.18.0"
+  },
   "description": "Loader for noodl applications",
+  "devDependencies": {
+    "@types/chai-as-promised": "^7.1.5",
+    "@types/invariant": "^2.2.35",
+    "chai-as-promised": "^7.1.1",
+    "memfs": "^3.4.7",
+    "source-map-support": "^0.5.21"
+  },
   "directories": {
     "dist": "dist",
     "test": "__tests__"
@@ -8,6 +21,7 @@
   "files": [
     "dist"
   ],
+  "gitHead": "8d25fcb1c7079abb8c5afaf063fb945f2eace127",
   "homepage": "",
   "keywords": [
     "noodl",
@@ -30,9 +44,8 @@
   "scripts": {
     "build": "tsc",
     "start": "tsc -w",
-    "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" \"src/**/*.test.ts\"",
-    "test:file": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json --file src/setupTests.ts -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\""
+    "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" \"src/**/*.test.ts\" --file src/__tests__/setup.ts",
+    "test:file": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json --file src/setupTests.ts -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" --file src/__tests__/setup.ts"
   },
-  "version": "0.0.20",
-  "gitHead": "8d25fcb1c7079abb8c5afaf063fb945f2eace127"
+  "version": "0.0.23"
 }

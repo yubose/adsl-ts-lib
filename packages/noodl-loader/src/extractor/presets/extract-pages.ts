@@ -1,4 +1,4 @@
-import type { ExtractFn } from '../extractorTypes'
+import type { ExtractFn } from '../extractor-types'
 import { ExtractType } from '../../constants'
 
 const extractPages: ExtractFn = (
@@ -30,8 +30,8 @@ const extractPages: ExtractFn = (
   }
 
   if (cadlEndpoint) {
-    if (cadlEndpoint.preload) preload.push(...cadlEndpoint.preload)
-    if (cadlEndpoint.pages) pages.push(...cadlEndpoint.pages)
+    preload.push(...cadlEndpoint.getPreload())
+    pages.push(...cadlEndpoint.getPages())
   }
 
   for (const page of pages) {
@@ -39,7 +39,7 @@ const extractPages: ExtractFn = (
       ? page.substring(0, page.length - 4)
       : page
     const filename = `${name}.yml`
-    const url = `${config?.baseUrl}${filename}`
+    const url = `${config?.get('cadlBaseUrl')}${filename}`
     createAsset({
       type: ExtractType.Page,
       id: filename,
