@@ -35,7 +35,7 @@
     "types": "tsc --declaration --declarationDir dist --emitDeclarationOnly"
   },
   "typings": "dist/index.d.ts",
-  "version": "0.1.155",
+  "version": "0.1.156",
   "devDependencies": {
     "@testing-library/dom": "^8.16.0",
     "@types/signature_pad": "^2.3.2"
