@@ -511,6 +511,9 @@ componentResolver.setResolver(async (component, options, next) => {
                 item.text = u.isObj(dataObject)
                   ? get(dataObject, item?.datKey)
                   : dataObject
+                item.text = item.text === item?.dataKey?
+                            itemText?itemText:"": item.text
+                
               }
             }
             let componentObject = {

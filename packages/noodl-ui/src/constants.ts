@@ -106,6 +106,7 @@ export const trigger = {
   DATA_KEY: 'dataKey',
   DATA_VALUE: 'dataValue',
   PATH: 'path',
+  STYLE: 'style',
   PLACEHOLDER: 'placeholder',
   POST_MESSAGE: 'postMessage',
   REGISTER: 'register',
