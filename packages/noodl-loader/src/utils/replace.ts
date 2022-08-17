@@ -1,9 +1,10 @@
-import * as u from '@jsmanifest/utils'
+import { fp, is as coreIs } from 'noodl-core'
 import curry from 'lodash/curry'
 import type { Pair } from 'yaml'
 import { isNode, isScalar, isPair, isMap, isSeq, isDocument } from './yml'
 import regex from '../internal/regex'
 import type { YAMLNode } from '../types'
+
 /**
  * @example
  * ```js
@@ -70,11 +71,11 @@ export function replacePlaceholders<
 
   const isReplaceable = (value: unknown) => {
     if (!value) return false
-    if (u.isStr(value) && rx.test(value)) return true
-    if (u.isArr(value) || u.isObj(value)) return true
+    if (coreIs.str(value) && rx.test(value)) return true
+    if (coreIs.arr(value) || coreIs.obj(value)) return true
     if (isNode(value)) {
       if (isScalar(value)) {
-        return u.isStr(value.value) && rx.test(value.value)
+        return coreIs.str(value.value) && rx.test(value.value)
       }
       return true
     }
@@ -82,7 +83,7 @@ export function replacePlaceholders<
   }
 
   const replaceString = (str: string, obj: Record<string, any>) => {
-    for (const [key, value] of u.entries(obj)) {
+    for (const [key, value] of fp.entries(obj)) {
       const placeholder = '$' + '{' + key + '}'
       if (str.includes(placeholder)) {
         str = str.replace(placeholder, value)
@@ -91,12 +92,12 @@ export function replacePlaceholders<
     return str
   }
 
-  if (u.isStr(objs)) {
+  if (coreIs.str(objs)) {
     if (rx.test(objs)) return replaceString(objs, values)
     return objs
   }
 
-  if (u.isArr(objs)) {
+  if (coreIs.arr(objs)) {
     objs.forEach((obj, index) => {
       if (objs) objs[index] = replacePlaceholders(rx, obj, values)
     })
@@ -134,11 +135,11 @@ export function replacePlaceholders<
     return objs
   }
 
-  if (u.isObj(objs)) {
-    for (const [key, value] of u.entries(objs)) {
+  if (coreIs.obj(objs)) {
+    for (const [key, value] of fp.entries(objs)) {
       if (isReplaceable(value)) {
         objs[key] = replacePlaceholders(rx, value, values)
-      } else if (u.isArr(value)) {
+      } else if (coreIs.arr(value)) {
         value.forEach((v, i) => {
           if (isReplaceable(v)) {
             value[i] = replacePlaceholders(rx, v, values)

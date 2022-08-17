@@ -1,4 +1,4 @@
-import * as u from '@jsmanifest/utils'
+import { fp, is as coreIs } from 'noodl-core'
 import { expect } from 'chai'
 import NoodlLoader from '../loader'
 import { toDocument } from '../utils/yml'
@@ -15,7 +15,7 @@ describe(`createExtractor`, () => {
         Parameters<ReturnType<typeof createExtractor>['extract']>[1]
       >,
     ) => ({
-      ...u.pick(loader, ['config', 'cadlEndpoint', 'root']),
+      ...fp.pick(loader, ['config', 'cadlEndpoint', 'root']),
       ...opts,
     })
 
@@ -76,7 +76,7 @@ describe(`createExtractor`, () => {
       expect(results).to.have.property(
         'https://public.aitmed.com/cadl/www6.47/assets/green.svg',
       )
-      expect(u.keys(results)).to.have.lengthOf(4)
+      expect(Object.keys(results)).to.have.lengthOf(4)
     })
 
     it(`should set the full url on props.url`, async () => {
@@ -132,7 +132,7 @@ describe(`createExtractor`, () => {
         toDocument(yml),
         getOptions({ as: 'object', include: 'pages' }),
       )
-      const filenames = u.keys(results as Record<string, any>)
+      const filenames = Object.keys(results as Record<string, any>)
       expect(filenames).to.have.lengthOf(3)
       filenames.forEach((filename) => {
         const obj = results[filename]

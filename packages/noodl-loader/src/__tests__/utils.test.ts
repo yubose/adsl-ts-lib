@@ -2,18 +2,14 @@ import y from 'yaml'
 import partial from 'lodash/partial'
 import { fs, vol } from 'memfs'
 import { expect } from 'chai'
-import { stringify, toNode } from '../utils/yml'
+import { toNode } from '../utils/yml'
 import { hasPlaceholder, listPlaceholders } from '../utils/parse'
 import { replacePlaceholder, replacePlaceholders } from '../utils/replace'
 import { mockPaths } from './helpers'
 import _loadFile from '../utils/load-file'
-import _loadFiles from '../utils/load-files'
 
 const configKey = 'www'
 const loadFile = partial(_loadFile, { ...fs, readFile: fs.readFileSync } as any)
-const loadFiles = partial(_loadFiles, fs as any) as (
-  glob: string,
-) => Promise<any[]>
 
 describe(`utils`, () => {
   describe(`loadFile`, () => {

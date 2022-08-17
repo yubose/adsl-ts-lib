@@ -1,8 +1,8 @@
 import type { LiteralUnion } from 'type-fest'
 import y from 'yaml'
 import set from 'lodash/set'
-import * as u from '@jsmanifest/utils'
 import { fs, vol } from 'memfs'
+import { fp, is as coreIs } from 'noodl-core'
 import path from 'path'
 import nock from 'nock'
 import {
@@ -11,7 +11,8 @@ import {
   endpoint as toEndpoint,
   toPathname,
 } from '../utils/format'
-import * as is from '../utils/is'
+import { hasPlaceholder, getPlaceholderValues } from '../utils/parse'
+import { replacePlaceholders } from '../utils/replace'
 import { parseAs, toJson } from '../utils/yml'
 import FileSystemHost from '../file-system'
 import type Loader from '../loader'
@@ -53,16 +54,14 @@ export function createConfig(
   arg2?: Partial<CreateConfigProps>,
 ) {
   let as = 'yml' as t.As
-  let props = {} as CreateConfigProps
+  let props = {} as Partial<CreateConfigProps>
 
-  if (u.isStr(arg1)) {
+  if (coreIs.str(arg1)) {
     as = arg1
-    u.assign(props, arg2)
-  } else {
-    u.assign(props, arg1)
-  }
+    if (coreIs.obj(arg2)) fp.assign(props, arg2)
+  } else if (coreIs.obj(arg1)) fp.assign(props, arg1)
 
-  const config = {
+  return parseAs(as, {
     apiHost: '',
     apiPort: '',
     webApiHost: null,
@@ -73,13 +72,12 @@ export function createConfig(
     timestamp: null,
     myBaseUrl: '',
     fileSuffix: null,
-  }
-
-  return parseAs(as, { ...config, ...props })
+    ...props,
+  })
 }
 
 type CreateCadlEndpointProps = Record<
-  LiteralUnion<t.KeyOfCadlEndpoint, string>,
+  LiteralUnion<t.KeyOfCadlEndpoint | 'placeholders', string>,
   any
 >
 
@@ -98,12 +96,15 @@ export function createCadlEndpoint(
 ) {
   let as = 'yml' as t.As
   let props = {} as CreateCadlEndpointProps
+  let placeholders = {}
 
-  if (u.isStr(arg1)) {
+  if (coreIs.str(arg1)) {
     as = arg1
-    u.assign(props, arg2)
+    fp.assign(props, arg2)
   } else {
-    u.assign(props, arg1)
+    const { placeholders: _placeholders = {}, ...rest } = arg1 || {}
+    fp.assign(props, rest)
+    fp.assign(placeholders, _placeholders)
   }
 
   const cadlEndpoint = {
@@ -113,16 +114,18 @@ export function createCadlEndpoint(
     page: [],
   }
 
-  for (const [key, value] of u.entries(props)) {
+  for (const [key, value] of fp.entries(props)) {
     if (key === 'pages') {
       // @ts-expect-error
       cadlEndpoint.page.push(...value)
     } else {
-      cadlEndpoint[key] = value
+      cadlEndpoint[key] = coreIs.str(value)
+        ? replacePlaceholders(value, placeholders)
+        : value
     }
   }
 
-  u.assign(props, cadlEndpoint)
+  fp.assign(props, cadlEndpoint)
 
   return parseAs(as, props)
 }
@@ -134,7 +137,7 @@ export function getLoadFileOptions(options?: Partial<LoadFileProps>) {
   return {
     mode: 'file',
     ...options,
-    dir: dir || `generated/meetd2`,
+    dir: dir || `generated/${configKey}`,
     fs: {
       ...fs,
       readFile: fs.readFileSync,
@@ -162,7 +165,13 @@ export function nockRequest(
     _response = parseAs('yml', pathnameOrResponse)
   }
 
-  nock(_baseURL).get(_pathname).reply(200, parseAs('yml', _response))
+  nock(_baseURL)
+    .get(
+      new RegExp(
+        _pathname.startsWith('/') ? _pathname.substring(1) : _pathname,
+      ),
+    )
+    .reply(200, parseAs('yml', _response))
   const endpoint = toEndpoint(_baseURL, _pathname)
   return endpoint
 }
@@ -182,13 +191,13 @@ export function nockConfigRequest(
   let configKey = ''
   let options = {} as NockConfigRequestProps
 
-  if (u.isStr(arg)) {
+  if (coreIs.str(arg)) {
     configKey = arg
     options.cadlBaseUrl = baseUrl
-  } else if (u.isObj(arg)) {
+  } else if (coreIs.obj(arg)) {
     const { configKey: _configKey, ...rest } = arg
     configKey = toConfigKey(_configKey)
-    u.merge(options, rest)
+    fp.merge(options, rest)
     if (!options.cadlBaseUrl) options.cadlBaseUrl = baseUrl
   }
 
@@ -234,17 +243,17 @@ export function nockCadlEndpointRequest(
 
   let filename = 'cadlEndpoint.yml'
 
-  if (u.isArr(arg1)) {
+  if (coreIs.arr(arg1)) {
     if (arg1.length) {
-      _options.preload.push(...u.array(arg1))
+      _options.preload.push(...fp.toArr(arg1))
     }
     if (arg2) {
-      _options.page.push(...u.array(arg2))
+      _options.page.push(...fp.toArr(arg2))
     }
-  } else if (u.isObj(arg1)) {
-    for (const [key, value] of u.entries(arg1)) {
+  } else if (coreIs.obj(arg1)) {
+    for (const [key, value] of fp.entries(arg1)) {
       if (key === 'pages') {
-        _options.page = u.array(value)
+        _options.page = fp.toArr(value)
       } else {
         _options[key] = value
       }
@@ -271,27 +280,32 @@ export function createMockEndpoints(
   options: {
     baseUrl?: string
     assetsUrl?: string
+    cadlMain?: string
     configKey?: PageOption<t.As>
     preload?: PageOption<t.As> | PageOption<t.As>[]
     pages?: PageOption<t.As> | PageOption<t.As>[]
+    placeholders?: Record<string, any>
+    startPage?: string
   } = {},
 ) {
   const _baseUrl = options.baseUrl || baseUrl
   const _assetsUrl = options.assetsUrl || `${_baseUrl}assets`
   const _configKey = options.configKey || configKey
+  const _appKey = options.cadlMain || 'cadlEndpoint.yml'
   const _preload = options.preload || []
   const _pages = options.pages || []
+  const _placeholders = options.placeholders || {}
 
   const extract = <As extends t.As = 'yml'>(
     value: undefined | PageOption<As> | PageOption<As>,
     as?: As,
   ): PageNameYmlTuple<As> => {
-    if (u.isStr(value))
+    if (coreIs.str(value))
       return [
         value,
         as === 'json' ? {} : as === 'doc' ? null : '',
       ] as PageNameYmlTuple<As>
-    if (u.isArr(value)) {
+    if (coreIs.arr(value)) {
       return [
         value[0] as string,
         parseAs(as || 'yml', value[1]),
@@ -314,8 +328,12 @@ export function createMockEndpoints(
     filename: string,
     response: any = '',
   ) => {
-    if (!u.isArr(path)) path = path.split('.')
-    const endpoint = toEndpoint(path.join('.'), toPathname(filename))
+    if (!coreIs.arr(path)) path = path.split('.')
+    let endpoint = toEndpoint(path.join('.'), toPathname(filename))
+    if (hasPlaceholder(endpoint)) {
+      const values = getPlaceholderValues(endpoint, _placeholders)
+      endpoint = replacePlaceholders(endpoint, values)
+    }
     const result = { endpoint, filename, response }
     endpoints[endpoint] = result
     return result
@@ -332,7 +350,7 @@ export function createMockEndpoints(
   let [configName, configYml] = extract(_configKey)
 
   if (!configYml) {
-    configYml = createConfig({ assetsUrl: _assetsUrl, baseUrl: _baseUrl })
+    configYml = createConfig({ cadlMain: _appKey, cadlBaseUrl: _baseUrl })
   }
 
   const configJson = toJson(configYml)
@@ -343,15 +361,15 @@ export function createMockEndpoints(
     [_preload, preloadNames],
     [_pages, pageNames],
   ] as const) {
-    if (u.isArr(value) && !value.length) continue
-    u.array(value).forEach((val) => {
+    if (coreIs.arr(value) && !value.length) continue
+    fp.toArr(value).forEach((val) => {
       const [name, yml] = extract(val)
       list.push(name)
       createYmlEndpoint(_baseUrl, name, yml)
     })
   }
 
-  const startPage = pageNames[0] || ''
+  const startPage = options.startPage || pageNames[0] || ''
 
   createYmlEndpoint(c.baseRemoteConfigUrl, configName, configYml)
 
@@ -372,19 +390,24 @@ export function createMockEndpoints(
 }
 
 export function mockPaths({
+  appKey = 'cadlEndpoint.yml',
   baseUrl: baseUrlProp = baseUrl,
   assetsUrl: assetsUrlProp = assetsUrl,
   configKey: configKeyProp = configKey,
+  placeholders,
   preload = [],
   pages = [],
+  startPage,
   type = 'url',
 }: {
+  appKey?: string
   baseUrl?: string
   assetsUrl?: string
-
   configKey?: PageOption<t.As>
   preload?: PageOption<t.As> | PageOption<t.As>[]
   pages?: PageOption<t.As> | PageOption<t.As>[]
+  placeholders?: Record<string, any>
+  startPage?: string
   type?: 'file' | 'url'
 }) {
   const { name: configKey, yml: configYml = '' } = extract(configKeyProp)
@@ -392,9 +415,12 @@ export function mockPaths({
   const endpoints = createMockEndpoints({
     assetsUrl: assetsUrlProp,
     baseUrl: baseUrlProp,
-    configKey,
+    cadlMain: appKey,
+    configKey: configKeyProp,
     preload,
     pages,
+    placeholders,
+    startPage,
   })
 
   function extract(item: undefined | PageOption<t.As> | PageOption<t.As>[]): {
@@ -407,9 +433,9 @@ export function mockPaths({
     const setName = (n: any) => (name = n)
     const setYml = (_y: any) => (yml = _y)
 
-    if (u.isStr(item)) {
+    if (coreIs.str(item)) {
       setName(item)
-    } else if (u.isArr(item)) {
+    } else if (coreIs.arr(item)) {
       setName(item[0])
       setYml(parseAs('yml', item[1]))
     } else {
@@ -420,22 +446,21 @@ export function mockPaths({
   }
 
   function getMockedFileLoadingPaths(_endpoints: typeof endpoints) {
-    const configKey = configKeyProp
     const paths = {} as Record<string, any>
-    const prefix = `generated/${configKey}`
-    const createPath = (n: string) => path.join(prefix, ensureSuffix('.yml', n))
+    const dir = `generated/${configKey}`
+    const createPath = (n: string) => path.join(dir, ensureSuffix('.yml', n))
     const setPath = (n: string, yml = '') => set(paths, [createPath(n)], yml)
-    u.entries(_endpoints).forEach(([_, o]) => setPath(o.filename, o.response))
+    fp.entries(_endpoints).forEach(([_, o]) => setPath(o.filename, o.response))
     return paths
   }
 
   function getMockedUrlEndpoints(_endpoints: typeof endpoints) {
     const paths = {} as Record<string, any>
-    const createPath = (n: string) => `${baseUrlProp}${ensureSuffix('.yml', n)}`
-    u.entries(_endpoints).forEach(([endpoint, o]) => {
+    const createPath = (n: string) => ensureSuffix('.yml', n)
+    fp.entries(_endpoints).forEach(([endpoint, o]) => {
       if (endpoint.endsWith(configKey + '.yml')) {
         nockConfigRequest({ configKey, ...y.parse(configYml) })
-      } else paths[createPath(o.filename)] = o.response || ''
+      } else paths[createPath(o.endpoint)] = o.response || ''
     })
     return paths
   }
@@ -451,10 +476,10 @@ export function mockPaths({
   if (type === 'file') {
     vol.fromJSON((result.paths = getMockedFileLoadingPaths(endpoints)))
   } else {
-    u.entries((result.endpoints = getMockedUrlEndpoints(endpoints))).forEach(
+    fp.entries((result.endpoints = getMockedUrlEndpoints(endpoints))).forEach(
       ([endpoint, response]) => {
         const pathname = endpoint.substring(endpoint.lastIndexOf('/'))
-        const baseUrl = endpoint.replace(pathname || '', '')
+        const baseUrl = replacePlaceholders(baseUrlProp, placeholders)
         nockRequest(baseUrl, pathname, response)
       },
     )

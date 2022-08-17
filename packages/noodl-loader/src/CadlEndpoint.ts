@@ -87,6 +87,11 @@ class NoodlCadlEndpoint extends KeyValueCache<
         inv(!!assetsUrl, `assetsUrl cannot be empty`)
         url = `${assetsUrl}${name}`
       }
+    } else {
+      let baseUrl = this.baseUrl
+      inv(!!baseUrl, `baseUrl cannot be empty`)
+      baseUrl = replacePlaceholders(baseUrl, this.#config?.toJSON())
+      url = `${baseUrl}cadlEndpoint.yml`
     }
     console.log(`[cadlEndpoint] Returning url via getURL: ${url}`)
 

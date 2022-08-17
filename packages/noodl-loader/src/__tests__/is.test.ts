@@ -1,4 +1,4 @@
-import * as u from '@jsmanifest/utils'
+import { fp, is as coreIs } from 'noodl-core'
 import { expect } from 'chai'
 import * as is from '../utils/is'
 
@@ -20,7 +20,7 @@ describe(`is`, () => {
       file: false,
     }
 
-    u.entries(tests).forEach(([str, expectedResult]) => {
+    fp.entries(tests).forEach(([str, expectedResult]) => {
       it(`should return ${expectedResult} for ${str}`, () => {
         const result = is.file(str)
         expect(result).to.eq(expectedResult)
@@ -45,7 +45,7 @@ describe(`is`, () => {
       file: false,
     }
 
-    u.entries(tests).forEach(([str, expectedResult]) => {
+    fp.entries(tests).forEach(([str, expectedResult]) => {
       it(`should return ${expectedResult} for ${str}`, () => {
         const result = is.url(str)
         expect(result).to.eq(expectedResult)

@@ -1,5 +1,5 @@
+import { fp, is as coreIs } from 'noodl-core'
 import type { LiteralUnion } from 'type-fest'
-import * as u from '@jsmanifest/utils'
 import axios from 'axios'
 import y, { isPair } from 'yaml'
 import type { ToStringOptions } from 'yaml'
@@ -100,7 +100,7 @@ export function merge(node: unknown, value: unknown) {
     } else if (y.isPair(value)) {
       node.value = value.value
     }
-  } else if (u.isObj(node)) {
+  } else if (coreIs.obj(node)) {
     if (y.isDocument(value) && y.isMap(value.contents)) {
       value = value.contents
     }
@@ -156,9 +156,9 @@ export function parseAs<As extends t.As>(
     case 'doc':
       return toDocument(value) as t.ParsedAs<As>
     case 'json':
-      return y.parse(u.isStr(value) ? value : stringify(value))
+      return y.parse(coreIs.str(value) ? value : stringify(value))
     default:
-      return (u.isStr(value) ? value : stringify(value)) as t.ParsedAs<As>
+      return (coreIs.str(value) ? value : stringify(value)) as t.ParsedAs<As>
   }
 }
 
@@ -266,13 +266,13 @@ export function toNode(value: unknown) {
       if (value === null) {
         return new y.Scalar(null)
       }
-      if (u.isArr(value)) {
+      if (coreIs.arr(value)) {
         const seq = new y.YAMLSeq()
         value.forEach((v) => seq.items.push(toNode(v)))
         return seq
-      } else if (u.isObj(value)) {
+      } else if (coreIs.obj(value)) {
         const map = new y.YAMLMap()
-        u.entries(value).forEach(([k, v]) => map.set(k, toNode(v)))
+        fp.entries(value).forEach(([k, v]) => map.set(k, toNode(v)))
         return map
       }
 

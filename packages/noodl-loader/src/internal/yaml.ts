@@ -1,4 +1,4 @@
-import * as u from '@jsmanifest/utils'
+import { is as coreIs } from 'noodl-core'
 import {
   Document as YAMLDocument,
   Pair,
@@ -59,7 +59,7 @@ export function toDocument(
 }
 
 export function getKeys<V = any>(value: V): string[] {
-  if (u.isArr(value)) {
+  if (coreIs.arr(value)) {
     return value.map((val) => {
       if (isNode(val)) {
         if (isScalar(val)) return val.toString()

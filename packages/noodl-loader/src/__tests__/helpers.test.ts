@@ -14,12 +14,28 @@ describe(`helpers`, () => {
       )
     })
 
-    it(`should return yml if "as" is "yml" or was not given`, () => {
+    it(`should return yml if type is "yml" or was not given`, () => {
       expect(h.createConfig()).to.be.a('string')
     })
 
-    it(`should return a YAML Document if "as" is "doc"`, () => {
+    it(`should return a YAML Document if type is "doc"`, () => {
       expect(h.createConfig('doc')).to.be.instanceOf(y.Document)
+    })
+
+    it(`should overwrite the cadlMain if given`, () => {
+      expect(h.createConfig('json', { cadlMain: 'abc.yml' })).to.have.property(
+        'cadlMain',
+        'abc.yml',
+      )
+    })
+  })
+
+  describe(`createConfigUri`, () => {
+    it(`should append the pathname and return the full config uri`, () => {
+      expect(h.createConfigUri('www')).to.eq(c.baseRemoteConfigUrl + '/www.yml')
+      expect(h.createConfigUri('www.yml')).to.eq(
+        c.baseRemoteConfigUrl + '/www.yml',
+      )
     })
   })
 
@@ -128,7 +144,7 @@ describe(`helpers`, () => {
         const Dashboard = toJson(fs.readFileSync(`${prefix}/Dashboard.yml`))
         expect(config)
           .to.be.an('object')
-          .to.have.property('assetsUrl', `${h.baseUrl}assets`)
+          .to.have.property('cadlBaseUrl', h.baseUrl)
         expect(cadlEndpoint).to.have.property('preload')
         expect(cadlEndpoint).to.have.property('page')
         expect(Dashboard)
@@ -173,6 +189,35 @@ describe(`helpers`, () => {
           .to.eq('true')
         expect(BaseMessage).to.deep.eq({ Message: {} })
       })
+    })
+
+    it(`should parse through placeholders`, async () => {
+      const configKey = 'www'
+      const cadlVersion = 0.33
+      const appKey = 'myCadlEndpoint.yml'
+      const apiHost = 'abc.aitmed.io'
+      const apiPort = 500
+      const baseUrl = `http://127.0.0.1:3001/cadl/${configKey}${cadlVersion}/`
+      const preload = ['BasePage', 'BaseCSS']
+      const pages = ['SignIn', 'Dashboard']
+      const mockResults = h.mockPaths({
+        assetsUrl: `\${cadlBaseUrl}assets`,
+        baseUrl: `http://127.0.0.1:3001/cadl/${configKey}\${cadlVersion}/`,
+        configKey: [
+          configKey,
+          h.createConfig({ apiHost, apiPort, cadlMain: appKey }),
+        ],
+        preload: [preload[0], [preload[1], { Style: { top: '0.1' } }]],
+        pages: [pages[0], [pages[1], { components: [] }]],
+        placeholders: {
+          cadlVersion,
+        },
+        type: 'url',
+      })
+      for (const endpoint of Object.keys(mockResults.endpoints || {})) {
+        const pathname = endpoint.substring(endpoint.lastIndexOf('/') + 1)
+        expect(endpoint).to.eq(`${baseUrl}${pathname}`)
+      }
     })
   })
 
@@ -226,17 +271,20 @@ describe(`helpers`, () => {
     })
 
     it(`should proxy cadlEndpoint yml with the object`, async () => {
-      const { endpoint } = h.nockCadlEndpointRequest({
-        assetsUrl: 'abc123',
-        baseUrl: 'fff',
+      const assetsUrl = 'http://fff.com/assets/'
+      const baseUrl = 'http://fff.com/'
+      h.mockPaths({
+        assetsUrl,
+        baseUrl,
+        configKey: 'www',
         preload: ['BaseCSS'],
-        page: ['SignIn', 'AiTmedContact'],
+        pages: ['SignIn', 'AiTmedContact'],
       })
-      const result = await fetchYml(endpoint)
+      const result = await fetchYml(`${baseUrl}cadlEndpoint.yml`)
       const cadlEndpoint = y.parse(result)
       expect(cadlEndpoint).to.be.an('object')
-      expect(cadlEndpoint).to.have.property('assetsUrl', 'abc123')
-      expect(cadlEndpoint).to.have.property('baseUrl', 'fff')
+      expect(cadlEndpoint).to.have.property('assetsUrl', assetsUrl)
+      expect(cadlEndpoint).to.have.property('baseUrl', baseUrl)
       expect(cadlEndpoint)
         .to.have.property('preload')
         .to.include.members(['BaseCSS'])

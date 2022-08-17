@@ -1,10 +1,8 @@
-//
-import * as u from '@jsmanifest/utils'
+import { fp, is as coreIs } from 'noodl-core'
 import inv from 'invariant'
 import y, { isPair } from 'yaml'
 import fs from 'fs-extra'
 import path from 'path'
-import { fp, is as coreIs } from 'noodl-core'
 import { createExtractor } from '../extractor'
 import loadFile from '../utils/load-file'
 import NoodlConfig from '../config'
@@ -27,11 +25,13 @@ import {
   removeSuffix,
 } from '../utils/format'
 import { replacePlaceholders } from '../utils/replace'
+import { trimPageName } from '../utils/trim'
 import FileSystemHost from '../file-system'
 import type { YAMLNode } from '../types'
 import * as is from '../utils/is'
 import * as c from '../constants'
 import * as t from './loader-types'
+import { LiteralUnion } from 'type-fest'
 
 export type LoadConfigOptions = {
   dir?: string
@@ -108,12 +108,22 @@ function spreadToRoot(root: NoodlLoader['root'], node: y.Document | y.YAMLMap) {
 
 class NoodlLoader extends t.AbstractLoader {
   #extractor: ReturnType<typeof createExtractor>
+  #state = {
+    /**
+     * If languageSuffix is set, fetches to cadlMain/preload/pages will have the language code (taken from config) attached between the file name and extension.
+     * @example
+     * ```js
+     * // When the languageSuffix is set to 'en"
+     * const endpoint = 'https://public.aitmed.com/cadl/patd0.7d/BaseCSS_en.yml
+     * ```
+     */
+    languageSuffix: '',
+  }
   #fs: FileSystemHost
   #root: {
     Config: NoodlConfig | null
     Global: Record<string, YAMLNode>
   } & { [key: string]: any }
-
   config: NoodlConfig
   cadlEndpoint: NoodlCadlEndpoint;
 
@@ -121,7 +131,7 @@ class NoodlLoader extends t.AbstractLoader {
     return {
       config: this.config.toJSON(),
       cadlEndpoint: this.cadlEndpoint.toJSON(),
-      rootKeys: u.keys(this.#root),
+      rootKeys: Object.keys(this.#root),
     }
   }
 
@@ -155,6 +165,54 @@ class NoodlLoader extends t.AbstractLoader {
     return this.#root
   }
 
+  createURL(
+    arg1: LiteralUnion<'config' | 'cadlEndpoint' | 'page', string>,
+    arg2?: string,
+  ): string {
+    let type = 'page'
+    let pathname = ''
+
+    const withLanguageSuffix = (str: string) => {
+      str = trimPageName(str)
+      const { languageSuffix = '' } = this.getState()
+      if (languageSuffix) str += `_${languageSuffix}`
+      return ensureSuffix('.yml', str)
+    }
+
+    if (['config', 'cadlEndpoint', 'page'].some((s) => arg1 === s)) {
+      type = arg1
+      if (arg1 === 'config') {
+        pathname = ensureSuffix('.yml', this.configKey)
+      } else if (arg1 === 'cadlEndpoint') {
+        pathname = ensureSuffix('.yml', this.appKey)
+      } else {
+        pathname = withLanguageSuffix(arg2 as string)
+      }
+    } else {
+      if (is.equalFileKey(this.configKey, arg1)) {
+        return this.createURL('config', arg1)
+      } else if (is.equalFileKey(this.appKey, arg1)) {
+        return this.createURL('cadlEndpoint', arg1)
+      } else {
+        return this.createURL('page', arg1)
+      }
+    }
+
+    switch (type) {
+      case 'config':
+        return `${this.config.rootConfigUrl}/${pathname}`
+      case 'cadlEndpoint':
+        return `${this.config.resolve(
+          this.cadlEndpoint.baseUrl || this.config.baseUrl,
+        )}${pathname}`
+      default: {
+        return `${this.config.resolve(
+          this.cadlEndpoint.baseUrl || this.config.baseUrl,
+        )}${pathname}`
+      }
+    }
+  }
+
   extract(
     node: Parameters<ReturnType<typeof createExtractor>['extract']>[0],
     options: Omit<
@@ -174,8 +232,13 @@ class NoodlLoader extends t.AbstractLoader {
       config: this.config,
       cadlEndpoint: this.cadlEndpoint,
       fs: this.fs,
+      languageSuffix: this.getState().languageSuffix,
       ...other,
     }
+  }
+
+  getState() {
+    return this.#state
   }
 
   /**
@@ -187,20 +250,23 @@ class NoodlLoader extends t.AbstractLoader {
     options: {
       dir?: string
       mode?: 'url' | 'file'
-      overwrite?: boolean
-      onCadlEndpointError?: (error: Error) => void
       includePreload?: boolean
       includePages?: boolean
       spread?: boolean
     } = {},
-  ) {
-    let dir = options?.dir
-    let mode = options?.mode || 'url'
-    let spread = true
-
-    if (coreIs.bool(options?.spread)) {
-      spread = options?.spread as boolean
+  ): Promise<void> {
+    if (!arguments.length) {
+      inv(!!this.configKey, `Cannot load without a configKey`)
+      return void (await this.load(this.config.configKey))
     }
+
+    const {
+      dir,
+      includePreload = true,
+      includePages = true,
+      mode = 'url',
+      spread = true,
+    } = options
 
     if (mode === 'file') {
       inv(!!dir, `Directory is required when mode === 'file'`)
@@ -229,86 +295,78 @@ class NoodlLoader extends t.AbstractLoader {
       }
     }
 
+    const loadPreloadOrPages = (names: string[]) =>
+      Promise.all(names.map((name) => this.load(name, options)))
+
     if (is.equalFileKey(this.configKey, value)) {
-      const yml = await getYml({
+      const configYml = await getYml({
         ...this.getOptions(),
-        dir: options?.dir,
-        mode: options?.mode,
-        value: create.configUri(value),
+        dir,
+        mode,
+        value:
+          mode === 'file'
+            ? path.join(dir as string, ensureSuffix('.yml', value))
+            : create.configUri(value),
       })
 
-      await this.loadConfig(yml, options)
+      await this.loadConfig(configYml, options)
       await this.load(this.appKey, options)
 
-      if (options?.includePreload) {
-        await Promise.all(
-          this.cadlEndpoint
-            .getPreload()
-            .map((preload) => this.load(preload, options)),
-        )
+      if (includePreload) {
+        await loadPreloadOrPages(this.cadlEndpoint.getPreload())
       }
 
-      if (options?.includePages) {
-        await Promise.all(
-          this.cadlEndpoint.getPages().map((page) => this.load(page, options)),
-        )
+      if (includePages) {
+        await loadPreloadOrPages(this.cadlEndpoint.getPages())
       }
     } else if (is.equalFileKey(this.appKey, value)) {
       await this.loadCadlEndpoint(
         await getYml({
           ...this.getOptions(),
-          dir: options?.dir,
-          mode: options?.mode,
-          value: toEndpoint(
-            this.config.resolve(this.config.baseUrl) as string,
-            value,
-          ),
+          dir,
+          mode,
+          value:
+            mode === 'file'
+              ? path.join(dir as string, ensureSuffix('.yml', this.appKey))
+              : this.createURL(value),
         }),
-        options,
+        { ...this.getOptions(), dir, mode },
       )
-
-      if (options?.includePreload) {
-        await Promise.all(
-          this.cadlEndpoint
-            .getPreload()
-            .map((preload) => this.load(preload, options)),
-        )
-      }
-
-      if (options?.includePages) {
-        await Promise.all(
-          this.cadlEndpoint.getPages().map((page) => this.load(page, options)),
-        )
-      }
     } else if (
       this.cadlEndpoint.preloadExists(value) ||
       this.cadlEndpoint.pageExists(value)
     ) {
       const name = value
       const filename = ensureSuffix('.yml', value)
-      const endpoint =
+
+      let endpoint =
         mode === 'file'
           ? path.join(dir || '', filename)
-          : toEndpoint(
-              this.config.resolve(
-                this.cadlEndpoint.baseUrl || this.config.baseUrl,
-              ) as string,
-              filename,
-            )
+          : this.createURL(filename)
+
+      let { languageSuffix = '' } = this.getState()
+
+      if (languageSuffix) languageSuffix = `_${languageSuffix}`
+      endpoint = ensureSuffix(
+        '.yml',
+        ensureSuffix(languageSuffix, trimPageName(endpoint)),
+      )
 
       await handlePreloadOrPage(
         name,
-        await getYml({
-          ...this.getOptions(),
-          dir,
-          mode,
-          value: endpoint,
-        }),
+        await getYml({ ...this.getOptions(), dir, mode, value: endpoint }),
       )
     } else if (is.url(value)) {
-      //
+      const { name } = path.parse(value)
+      if (
+        [this.configKey, this.appKey].some((key) => is.equalFileKey(key, name))
+      ) {
+        await this.load(name, options)
+      } else {
+        await handlePreloadOrPage(name, await fetchYml(value))
+      }
     } else if (is.file(value)) {
-      //
+      await this.load(path.parse(value).name, { ...options, mode: 'file' })
     }
   }
 
@@ -328,7 +386,7 @@ class NoodlLoader extends t.AbstractLoader {
           value = path.join(dir, pathname)
         } else {
           if (!mode) mode = 'url'
-          value = toEndpoint(this.config.rootConfigUrl, pathname)
+          value = this.createURL('config', pathname)
         }
         yml = await getYml({ ...this.getOptions(), mode, value })
       }
@@ -336,11 +394,11 @@ class NoodlLoader extends t.AbstractLoader {
       const configJson = parseYml('object', yml)
 
       inv(
-        u.isObj(configJson),
+        coreIs.obj(configJson),
         `Expected an object for config but received ${typeOf(configJson)}`,
       )
 
-      u.entries(configJson).forEach(([k, v]) => this.config.set(k, v))
+      fp.entries(configJson).forEach(([k, v]) => this.config.set(k, v))
     } catch (error) {
       throw error instanceof Error ? error : new Error(String(error))
     }
@@ -356,8 +414,6 @@ class NoodlLoader extends t.AbstractLoader {
     arg2?: {
       dir?: string
       fs?: FileSystemHost
-      includePreload?: boolean
-      includePages?: boolean
       mode?: 'file' | 'url'
     },
   ) {
@@ -424,28 +480,16 @@ class NoodlLoader extends t.AbstractLoader {
       }
     }
 
-    if (coreIs.obj(_props)) {
-      for (let [key, val] of fp.entries(_props)) {
-        if (key === 'preload') {
-          this.cadlEndpoint.getPreload().push(...val)
-        } else if (key === 'page' || key === 'pages') {
-          this.cadlEndpoint.getPages().push(...val)
-        } else {
-          const configProps = this.config.toJSON()
-          this.cadlEndpoint?.set?.(key, replacePlaceholders(val, configProps))
-        }
+    for (let [key, val] of fp.entries(_props)) {
+      if (key === 'preload') {
+        this.cadlEndpoint.getPreload().push(...val)
+      } else if (key === 'page' || key === 'pages') {
+        this.cadlEndpoint.getPages().push(...val)
+      } else {
+        const configProps = this.config.toJSON()
+        this.cadlEndpoint?.set?.(key, replacePlaceholders(val, configProps))
       }
     }
-
-    const handlePreloadOrPage = (type: 'preload' | 'page') => {
-      const names =
-        this.cadlEndpoint[type === 'preload' ? 'getPreload' : 'getPages']() ||
-        []
-      return Promise.all(names.map((name) => this.load(name, arg2)))
-    }
-
-    if (arg2?.includePreload) await handlePreloadOrPage('preload')
-    if (arg2?.includePages) await handlePreloadOrPage('page')
   }
 
   use(value: FileSystemHost) {

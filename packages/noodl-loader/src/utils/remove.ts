@@ -1,7 +1,7 @@
-import * as u from '@jsmanifest/utils'
+import { is as coreIs } from 'noodl-core'
 
 export function removeExt(value: string) {
-  if (!u.isStr(value)) return value
+  if (!coreIs.str(value)) return value
   if (value.includes('.')) {
     return value.substring(0, value.lastIndexOf('.'))
   }

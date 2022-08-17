@@ -133,7 +133,7 @@ export function merge<O = any>(value: O, ...rest: any[]): any {
     rest.forEach((o) => {
       if (obj(o)) {
         Object.entries(o).forEach(([k, v]) => {
-          o[k] = obj(v) ? merge(o[k], v) : v
+          value[k] = obj(v) ? merge(value[k], v) : v
         })
       }
     })

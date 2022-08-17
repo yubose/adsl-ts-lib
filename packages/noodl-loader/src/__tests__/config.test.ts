@@ -15,7 +15,6 @@ describe(`Config`, () => {
   })
 
   it(`should return an object of all the key/values`, () => {
-    expect(config.toJSON()).to.have.all.keys('cadlMain', 'timestamp')
     const result = config
       .set('apiHost', 'abc')
       .set('apiPort', 443)

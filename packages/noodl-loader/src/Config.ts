@@ -92,10 +92,6 @@ class NoodlConfig extends KeyValueCache<LiteralUnion<KeyOfRootConfig, string>> {
     if (arg1) {
       if (arg1 === 'version') {
         if (is.str(arg2)) {
-          if (!this.get(arg2)) {
-            throw new Error(`Device type "${arg2}" was not set on the config`)
-          }
-
           const env = arg3 || 'stable'
           return this.get(arg2)?.cadlVersion?.[env]
         } else {
@@ -149,6 +145,7 @@ class NoodlConfig extends KeyValueCache<LiteralUnion<KeyOfRootConfig, string>> {
   toJSON() {
     return {
       cadlMain: this.appKey,
+      cadlVersion: this.resolve('version', 'web'),
       timestamp: this.getTimestamp(),
       ...this.get(),
     }

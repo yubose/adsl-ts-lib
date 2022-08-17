@@ -1,9 +1,8 @@
-import * as u from '@jsmanifest/utils'
+import { is as coreIs } from 'noodl-core'
 import { is } from 'noodl-core'
 import regex from '../internal/regex'
 import { _id, idKey } from '../constants'
 import type FileSystemHost from '../file-system'
-import type Strategy from '../loader/strategy'
 import type { Ext } from '../types'
 
 /**
@@ -47,7 +46,7 @@ export function typeOf(value: unknown) {
 export function image<S extends string = string>(
   value: unknown,
 ): value is `${S}.${Ext.Image}` {
-  return u.isStr(value) && regex.image.test(value)
+  return coreIs.str(value) && regex.image.test(value)
 }
 
 export function json<S extends string = string>(
@@ -83,7 +82,7 @@ export function video<S extends string = string>(
 export function file<S extends string = string>(
   value: unknown,
 ): value is `${S}.${Ext.Image | Ext.Video}` {
-  if (!u.isStr(value)) return false
+  if (!coreIs.str(value)) return false
   if (value.startsWith('file:')) return true
   if (value.startsWith('http')) return false
   try {
@@ -103,12 +102,6 @@ export function promise<V = any>(value: unknown): value is Promise<V> {
   return value !== null && typeof value === 'object' && 'then' in value
 }
 
-export function strategy(value: unknown): value is Strategy {
-  return (
-    value != null && typeof value === 'object' && value[idKey] === _id.strategy
-  )
-}
-
 export function stringInArray(arr: any[], value: unknown) {
   if (Array.isArray(arr) && typeof value === 'string') {
     return arr.some((item) => item === value)
@@ -117,7 +110,7 @@ export function stringInArray(arr: any[], value: unknown) {
 }
 
 export function yaml(value: unknown): value is `${string}.yml` {
-  if (!u.isStr(value)) return false
+  if (!coreIs.str(value)) return false
   return value.endsWith('.yml')
 }
 

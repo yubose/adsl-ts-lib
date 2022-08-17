@@ -1,4 +1,4 @@
-import * as u from '@jsmanifest/utils'
+import { fp, is as coreIs } from 'noodl-core'
 import { visitAsync } from 'yaml'
 import Asset from './asset'
 import extractDocuments from './presets/extract-documents'
@@ -53,12 +53,12 @@ function createExtractor() {
       }
     }
 
-    const use = [...u.array(useProp)] as (
+    const use = [...fp.toArr(useProp)] as (
       | t.ExtractFn
       | { extract: t.ExtractFn; once?: boolean }
     )[]
 
-    for (const preset of u.array(include)) {
+    for (const preset of fp.toArr(include)) {
       if (preset === 'any') {
         use.length = 0
         use.push(
@@ -102,17 +102,17 @@ function createExtractor() {
     ) => {
       const asset = propsOrType instanceof Asset ? propsOrType : new Asset()
 
-      if (u.isStr(propsOrType)) {
+      if (coreIs.str(propsOrType)) {
         asset.type = propsOrType
       } else if (propsOrType instanceof Asset) {
         //
-      } else if (u.isObj(propsOrType)) {
+      } else if (coreIs.obj(propsOrType)) {
         if (propsOrType.id) asset.setId(propsOrType.id)
         if (propsOrType.type) asset.type = propsOrType.type
-        if (u.isObj(propsOrType.props)) asset.merge(propsOrType.props)
+        if (coreIs.obj(propsOrType.props)) asset.merge(propsOrType.props)
       }
 
-      if (u.isObj(props)) {
+      if (coreIs.obj(props)) {
         asset.merge(props)
       }
 
@@ -145,13 +145,13 @@ function createExtractor() {
     }
 
     await visitAsync(value, async (key, node, path) => {
-      for (const fnOrObject of u.array(use)) {
+      for (const fnOrObject of fp.toArr(use)) {
         let fn: t.ExtractFn | undefined
         let obj: { once?: boolean } | undefined
 
-        if (u.isFnc(fnOrObject)) {
+        if (coreIs.fnc(fnOrObject)) {
           fn = fnOrObject
-        } else if (u.isObj(fnOrObject)) {
+        } else if (coreIs.obj(fnOrObject)) {
           const { extract, ...opts } = fnOrObject
           fn = extract
           obj = { ...opts }
@@ -159,7 +159,7 @@ function createExtractor() {
 
         let result = fn?.(key, node, path, extractFnOptions) as unknown
 
-        if (u.isPromise(result)) result = (await result) as any
+        if (coreIs.promise(result)) result = (await result) as any
 
         if (obj?.once) {
           use.splice(use.indexOf(fnOrObject), 1)

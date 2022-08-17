@@ -1,6 +1,5 @@
 import type { LiteralUnion } from 'type-fest'
 import * as fs from 'fs-extra'
-import * as u from '@jsmanifest/utils'
 import {
   isAbsolute as isAbsolutePath,
   join as joinPath,
@@ -63,7 +62,7 @@ async function loadFile<As extends t.As = t.As>(
     } else {
       throw new Error(`The file at "${arg1}" does not exist`)
     }
-  } else if (u.isObj(arg1)) {
+  } else if (is.obj(arg1)) {
     _fsys = arg1 as typeof fs
     _filepath = arg2 || ''
     _as = (arg3 || 'yml') as t.As

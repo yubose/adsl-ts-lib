@@ -1,5 +1,3 @@
 export { default } from './loader'
-export { default as FileStrategy } from './file-strategy'
-export { default as UrlStrategy } from './url-strategy'
 export * from './loader'
 export * from './loader-utils'
