@@ -1,5 +1,4 @@
 import y from 'yaml'
-import { fp, is as coreIs } from 'noodl-core'
 import * as nt from 'noodl-types'
 import regex from '../internal/regex'
 

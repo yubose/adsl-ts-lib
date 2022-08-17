@@ -1,4 +1,4 @@
-import type fs from 'fs'
+import type * as fs from 'fs'
 import y from 'yaml'
 
 export type As = 'doc' | 'json' | 'yml'

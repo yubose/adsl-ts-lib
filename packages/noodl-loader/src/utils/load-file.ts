@@ -1,5 +1,5 @@
 import type { LiteralUnion } from 'type-fest'
-import * as fs from 'fs-extra'
+import { existsSync } from 'fs'
 import {
   isAbsolute as isAbsolutePath,
   join as joinPath,
@@ -43,7 +43,7 @@ async function loadFile<As extends t.As = t.As>(
   arg3?: LiteralUnion<As, string>,
 ) {
   let _filepath = ''
-  let _fsys: typeof fs | undefined
+  let _fsys: FileSystemHost | undefined
   let _as = 'yml' as t.As
 
   if (is.str(arg1)) {
@@ -51,7 +51,7 @@ async function loadFile<As extends t.As = t.As>(
       arg1 = resolvePath(joinPath(process.cwd(), arg1))
     }
 
-    if (fs.existsSync(arg1)) {
+    if (existsSync(arg1)) {
       _filepath = arg1
 
       if (arg2 === 'doc') {
@@ -63,7 +63,7 @@ async function loadFile<As extends t.As = t.As>(
       throw new Error(`The file at "${arg1}" does not exist`)
     }
   } else if (is.obj(arg1)) {
-    _fsys = arg1 as typeof fs
+    _fsys = arg1 as FileSystemHost
     _filepath = arg2 || ''
     _as = (arg3 || 'yml') as t.As
   }
@@ -71,7 +71,7 @@ async function loadFile<As extends t.As = t.As>(
   let yml = ''
 
   try {
-    yml = (await _fsys?.readFile(_filepath, 'utf8')) || ''
+    yml = ((await _fsys?.readFile(_filepath, 'utf8')) as string) || ''
   } catch (error) {
     throw error instanceof Error ? error : new Error(String(error))
   }

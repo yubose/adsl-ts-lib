@@ -1,5 +1,13 @@
 import { fp } from 'noodl-core'
-import fs from 'fs-extra'
+import {
+  existsSync,
+  readdir,
+  readdirSync,
+  readFile,
+  readFileSync,
+  writeFile,
+  writeFileSync,
+} from 'fs'
 import FileSystemHost from '../file-system'
 
 class LoaderFileSystemHost extends FileSystemHost {
@@ -8,39 +16,62 @@ class LoaderFileSystemHost extends FileSystemHost {
   }
 
   existsSync(filepath: string) {
-    return fs.existsSync(filepath)
+    return existsSync(filepath)
   }
 
-  readdir(...args: Parameters<FileSystemHost['readdir']>) {
-    return fs.readdir(...args)
+  readdir(...args: Parameters<FileSystemHost['readdir']>): Promise<string[]> {
+    return new Promise((resolve, reject) => {
+      readdir(...args, (err, files) => {
+        if (err) reject(err)
+        else resolve(files)
+      })
+    })
   }
 
   readdirSync(...args: Parameters<FileSystemHost['readdirSync']>) {
-    return fs.readdirSync(...args)
+    return readdirSync(...args)
   }
 
-  readFile(...args: Parameters<FileSystemHost['readFile']>) {
-    const opts = { encoding: 'utf8' }
-    if (args[1] && typeof args[1] === 'object') {
-      fp.assign(opts, args[1])
-    } else if (typeof args[1] === 'string') {
-      opts.encoding = args[1]
-    }
-    return fs.readFile(args[0], opts)
+  readFile(
+    ...args: Parameters<FileSystemHost['readFile']>
+  ): Promise<string | Buffer> {
+    return new Promise((resolve, reject) => {
+      const opts = { encoding: 'utf8' } as any
+      if (args[1] && typeof args[1] === 'object') {
+        fp.assign(opts, args[1])
+      } else if (typeof args[1] === 'string') {
+        opts.encoding = args[1]
+      }
+      readFile(args[0], opts, (err, file) => {
+        if (err) reject(err)
+        else resolve(file)
+      })
+    })
   }
 
   readFileSync(
     ...args: Parameters<FileSystemHost['readFileSync']>
   ): string | Buffer {
-    return fs.readFileSync(...args)
+    return readFileSync(...args)
   }
 
-  writeFile(...args: Parameters<FileSystemHost['writeFile']>) {
-    return fs.writeFile(...args)
+  writeFile(...args: Parameters<FileSystemHost['writeFile']>): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const opts = { encoding: 'utf8' } as any
+
+      if (typeof args[2] === 'string') {
+        opts.encoding = args[2]
+      }
+
+      writeFile(args[0], args[1], opts, (err) => {
+        if (err) reject(err)
+        else resolve()
+      })
+    })
   }
 
   writeFileSync(...args: Parameters<FileSystemHost['writeFileSync']>) {
-    return fs.writeFileSync(...args)
+    return writeFileSync(...args)
   }
 }
 

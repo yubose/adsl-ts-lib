@@ -9,6 +9,7 @@ import {
   mockPaths,
   nockCadlEndpointRequest,
 } from './helpers'
+import { fetchYml } from '../utils/yml'
 import Loader, { LoadConfigOptions } from '../loader'
 import * as c from '../constants'
 import * as t from '../types'
@@ -101,22 +102,20 @@ describe(`Loader`, () => {
       mockPaths({
         assetsUrl,
         baseUrl,
-        configKey: [
-          configKey,
-          createConfig({
-            apiHost: 'topo.aitmed.io',
-            apiPort: '993',
-            cadlBaseUrl: baseUrl,
-            webApiHost: 'webApiHost123',
-            appApiHost: 'appApiHost123',
-          }),
-        ],
+        configKey: createConfig(configKey, {
+          apiHost: 'topo.aitmed.io',
+          apiPort: '993',
+          cadlBaseUrl: baseUrl,
+          webApiHost: 'webApiHost123',
+          appApiHost: 'appApiHost123',
+        }),
         preload: ['BasePage', ['BaseCSS', { Style: { top: '0.1' } }]],
         pages: ['SignIn', ['Dashboard', { components: [] }]],
-        type: 'url',
+        type: 'file',
       })
 
       const loader = new Loader()
+      loader.use(new MockFileSystemHost())
 
       expect(loader.config.appKey).to.eq('')
       expect(loader.config.get('apiHost')).to.be.undefined
@@ -126,7 +125,10 @@ describe(`Loader`, () => {
 
       loader.config.configKey = configKey
 
-      await loader.loadConfig(configKey, { dir: `generated/${configKey}` })
+      await loader.loadConfig(configKey, {
+        dir: `generated/${configKey}`,
+        mode: 'file',
+      })
 
       expect(loader.config.appKey).to.eq('cadlEndpoint.yml')
       expect(loader.config.get('apiHost')).to.eq('topo.aitmed.io')
@@ -266,7 +268,7 @@ describe(`Loader`, () => {
       it(`should default to using the currently set configKey`, async () => {
         const configKey = 'www'
         const cadlVersion = 0.33
-        const appKey = 'myCadlEndpoint.yml'
+        const appKey = 'cadlEndpoint.yml'
         const preload = ['BasePage', 'BaseCSS']
         const pages = ['SignIn', 'Dashboard']
         mockPaths({
@@ -293,13 +295,15 @@ describe(`Loader`, () => {
       it(`should load cadlEndpoint, preload, and all pages by url by default`, async () => {
         const configKey = 'www'
         const cadlVersion = 0.33
-        const appKey = 'myCadlEndpoint.yml'
+        const appKey = 'cadlEndpoint.yml'
+        const baseUrl = `http://127.0.0.1:3001/cadl/${configKey}\${cadlVersion}/`
         const preload = ['BasePage', 'BaseCSS']
         const pages = ['SignIn', 'Dashboard']
         mockPaths({
+          appKey,
           assetsUrl: `\${cadlBaseUrl}assets`,
-          baseUrl: `http://127.0.0.1:3001/cadl/${configKey}\${cadlVersion}/`,
-          configKey: [configKey, createConfig({ cadlMain: appKey })],
+          baseUrl,
+          configKey,
           preload: [preload[0], [preload[1], { Style: { top: '0.1' } }]],
           pages: [pages[0], [pages[1], { components: [] }]],
           placeholders: { cadlVersion },
@@ -307,6 +311,7 @@ describe(`Loader`, () => {
         })
 
         loader.config.configKey = configKey
+
         await loader.load(configKey)
 
         expect(loader.appKey).to.eq(appKey)
@@ -511,7 +516,7 @@ describe(`Loader`, () => {
       })
     })
 
-    describe.only(`when given a file path`, () => {
+    describe(`when given a file path`, () => {
       it(`[load] should reload everything if it is a config file path`, async () => {
         mockPaths({
           configKey: [
@@ -537,7 +542,7 @@ describe(`Loader`, () => {
         expect(loader.root).to.have.property('Dashboard')
       })
 
-      it.only(`[loadConfig] should only load the config`, async () => {
+      it.skip(`[loadConfig] should only load the config`, async () => {
         mockPaths({
           configKey: [configKey, createConfig({ cadlMain: 'abc.yml' })],
           preload: [['BaseCSS', { Style: {} }]],

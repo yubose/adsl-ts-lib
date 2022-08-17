@@ -1,5 +1,5 @@
 import { fp, is as coreIs } from 'noodl-core'
-import curry from 'lodash/curry'
+import * as R from 'rambda'
 import type { Pair } from 'yaml'
 import { isNode, isScalar, isPair, isMap, isSeq, isDocument } from './yml'
 import regex from '../internal/regex'
@@ -17,7 +17,7 @@ import type { YAMLNode } from '../types'
  * console.log(result) // Result: 'https://public.aitmed.com/cadl/wwwabc123.41${designSuffix}/'
  * ```
  */
-export const replacePlaceholder = curry(
+export const replacePlaceholder = R.curry(
   (key: string, value: any, str: string) => {
     return str.replace(key, value)
   },

@@ -42,6 +42,13 @@ export function createConfigUri(str: string) {
   return `${c.baseRemoteConfigUrl}/${ensureSuffix('.yml', str)}`
 }
 
+export function createConfig(
+  configKey: string,
+  options?: Partial<CreateConfigProps>,
+): {
+  configKey: string
+} & t.ParsedAs<'json'>
+
 export function createConfig<As extends t.As>(
   as: As,
   options?: Partial<CreateConfigProps>,
@@ -50,16 +57,29 @@ export function createConfig<As extends t.As>(
 export function createConfig(options?: Partial<CreateConfigProps>): string
 
 export function createConfig(
-  arg1?: t.As | Partial<CreateConfigProps>,
+  arg1?: LiteralUnion<t.As, string> | Partial<CreateConfigProps>,
   arg2?: Partial<CreateConfigProps>,
 ) {
   let as = 'yml' as t.As
   let props = {} as Partial<CreateConfigProps>
+  let configKey = null as null | string
 
   if (coreIs.str(arg1)) {
-    as = arg1
-    if (coreIs.obj(arg2)) fp.assign(props, arg2)
-  } else if (coreIs.obj(arg1)) fp.assign(props, arg1)
+    if (['doc', 'json', 'yml'].some((_as) => _as === arg1)) {
+      as = arg1 as t.As
+    } else {
+      as = 'json'
+      configKey = arg1
+    }
+
+    if (coreIs.obj(arg2)) {
+      fp.assign(props, arg2)
+    }
+  } else if (coreIs.obj(arg1)) {
+    fp.assign(props, arg1)
+  }
+
+  if (configKey) props.configKey = configKey
 
   return parseAs(as, {
     apiHost: '',
@@ -363,7 +383,7 @@ export function createMockEndpoints(
   ] as const) {
     if (coreIs.arr(value) && !value.length) continue
     fp.toArr(value).forEach((val) => {
-      const [name, yml] = extract(val)
+      const [name, yml] = extract(val as any)
       list.push(name)
       createYmlEndpoint(_baseUrl, name, yml)
     })
@@ -389,34 +409,54 @@ export function createMockEndpoints(
   return endpoints
 }
 
-export function mockPaths({
-  appKey = 'cadlEndpoint.yml',
-  baseUrl: baseUrlProp = baseUrl,
-  assetsUrl: assetsUrlProp = assetsUrl,
-  configKey: configKeyProp = configKey,
-  placeholders,
-  preload = [],
-  pages = [],
-  startPage,
-  type = 'url',
-}: {
+export interface MockPathsOptions {
   appKey?: string
   baseUrl?: string
   assetsUrl?: string
-  configKey?: PageOption<t.As>
+  configKey?: PageOption<t.As> | ({ configKey: string } & Record<string, any>)
   preload?: PageOption<t.As> | PageOption<t.As>[]
   pages?: PageOption<t.As> | PageOption<t.As>[]
   placeholders?: Record<string, any>
   startPage?: string
   type?: 'file' | 'url'
-}) {
-  const { name: configKey, yml: configYml = '' } = extract(configKeyProp)
+}
+
+// TODO - Implement using cadlMain from configYml as appKey if options.appKey is not used
+export function mockPaths(options: MockPathsOptions) {
+  let configKey = '' as PageOption<t.As>
+  let configProps: any
+
+  if (!coreIs.arr(options?.configKey) && coreIs.obj(options?.configKey)) {
+    const { configKey: newConfigKey, ...rest } = options?.configKey
+    configKey = newConfigKey
+    configProps = rest
+  } else {
+    configKey = options?.configKey as PageOption<t.As>
+  }
+
+  let appKey = options?.appKey
+
+  let { name: configName, yml: configYml = '' } = extract(
+    configProps && configKey ? [configKey, configProps] : configKey,
+  )
+
+  configKey = configName
+
+  const {
+    baseUrl: baseUrlProp = baseUrl,
+    assetsUrl: assetsUrlProp = assetsUrl,
+    placeholders,
+    preload = [],
+    pages = [],
+    startPage,
+    type = 'url',
+  } = options
 
   const endpoints = createMockEndpoints({
     assetsUrl: assetsUrlProp,
     baseUrl: baseUrlProp,
     cadlMain: appKey,
-    configKey: configKeyProp,
+    configKey: [configKey, configYml],
     preload,
     pages,
     placeholders,
@@ -448,7 +488,8 @@ export function mockPaths({
   function getMockedFileLoadingPaths(_endpoints: typeof endpoints) {
     const paths = {} as Record<string, any>
     const dir = `generated/${configKey}`
-    const createPath = (n: string) => path.join(dir, ensureSuffix('.yml', n))
+    const createPath = (n: string) =>
+      path.join(dir, ensureSuffix('.yml', n)).replace(/\\/g, '/')
     const setPath = (n: string, yml = '') => set(paths, [createPath(n)], yml)
     fp.entries(_endpoints).forEach(([_, o]) => setPath(o.filename, o.response))
     return paths
@@ -489,6 +530,9 @@ export function mockPaths({
 }
 
 export class MockFileSystemHost extends FileSystemHost {
+  existsSync(filepath: string): boolean {
+    return fs.existsSync(filepath)
+  }
   readdir(...args: Parameters<FileSystemHost['readdir']>): Promise<string[]> {
     return new Promise((resolve, reject) => {
       return fs.readdir(args[0], 'utf8', (err, data) => {

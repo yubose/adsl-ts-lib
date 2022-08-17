@@ -1,7 +1,7 @@
+import type { LiteralUnion } from 'type-fest'
 import { fp, is as coreIs } from 'noodl-core'
 import inv from 'invariant'
 import y, { isPair } from 'yaml'
-import fs from 'fs-extra'
 import path from 'path'
 import { createExtractor } from '../extractor'
 import loadFile from '../utils/load-file'
@@ -27,11 +27,11 @@ import {
 import { replacePlaceholders } from '../utils/replace'
 import { trimPageName } from '../utils/trim'
 import FileSystemHost from '../file-system'
+import LoaderFileSystemHost from './loader-file-system'
 import type { YAMLNode } from '../types'
 import * as is from '../utils/is'
 import * as c from '../constants'
 import * as t from './loader-types'
-import { LiteralUnion } from 'type-fest'
 
 export type LoadConfigOptions = {
   dir?: string
@@ -137,7 +137,7 @@ class NoodlLoader extends t.AbstractLoader {
 
   constructor() {
     super()
-    this.#fs = fs as FileSystemHost
+    this.#fs = new LoaderFileSystemHost()
     this.#root = {
       Config: new NoodlConfig(),
       Global: {} as Record<string, YAMLNode>,
