@@ -3,8 +3,8 @@
   "dependencies": {
     "axios": "^0.27.2",
     "invariant": "^2.2.4",
-    "noodl-core": "^0.1.36",
-    "noodl-types": "^1.0.242",
+    "noodl-core": "^0.1.37",
+    "noodl-types": "^1.0.243",
     "rambda": "^7.2.1",
     "type-fest": "^2.18.0",
     "yaml": "^2.1.1"
@@ -57,5 +57,5 @@
     "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" \"src/**/*.test.ts\" --file src/__tests__/setup.ts",
     "test:file": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json --file src/setupTests.ts -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" --file src/__tests__/setup.ts"
   },
-  "version": "0.0.25"
+  "version": "0.0.26"
 }
