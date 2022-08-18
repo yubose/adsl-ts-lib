@@ -1,12 +1,76 @@
+import y from 'yaml'
+import partial from 'lodash/partial'
+import { fs, vol } from 'memfs'
 import { expect } from 'chai'
 import { toNode } from '../utils/yml'
+import { hasPlaceholder, listPlaceholders } from '../utils/parse'
 import { replacePlaceholder, replacePlaceholders } from '../utils/replace'
+import { mockPaths } from './helpers'
+import _loadFile from '../utils/load-file'
+
+const configKey = 'www'
+const loadFile = partial(_loadFile, { ...fs, readFile: fs.readFileSync } as any)
 
 describe(`utils`, () => {
   describe(`loadFile`, () => {
-    xit(``, () => {
-      //
+    beforeEach(() => {
+      mockPaths({
+        configKey,
+        pages: ['SignIn'],
+        type: 'file',
+      })
     })
+
+    it(`should load as doc`, async () => {
+      const doc = await loadFile(
+        `generated/${configKey}/${configKey}.yml`,
+        'doc',
+      )
+      expect(doc).to.be.instanceOf(y.Document)
+    })
+
+    it(`should load as json`, async () => {
+      const json = await loadFile(
+        `generated/${configKey}/${configKey}.yml`,
+        'json',
+      )
+      expect(json)
+        .to.be.an('object')
+        .to.have.property('cadlMain', 'cadlEndpoint.yml')
+    })
+
+    it(`should load as yml when no load type is provided`, async () => {
+      const yml = (await loadFile(
+        `generated/${configKey}/${configKey}.yml`,
+      )) as string
+      expect(yml).to.be.a('string')
+      expect(y.parse(yml)).to.have.property('cadlMain', 'cadlEndpoint.yml')
+    })
+
+    it(`should load as yml when load type is "yml"`, async () => {
+      const yml = (await loadFile(
+        `generated/${configKey}/${configKey}.yml`,
+        'yml',
+      )) as string
+      expect(yml).to.be.a('string')
+      expect(y.parse(yml)).to.have.property('cadlMain', 'cadlEndpoint.yml')
+    })
+  })
+
+  it(`should return true if a string has one or more placeholders`, () => {
+    const str = '${cadlBaseUrl}assets/${designSuffix} . ${abc}'
+    expect(hasPlaceholder(str)).to.be.true
+  })
+
+  it(`should return all the placeholders available`, () => {
+    const str = '${cadlBaseUrl}assets/${designSuffix} . ${abc}'
+    const placeholders = listPlaceholders(str)
+    expect(placeholders).to.have.lengthOf(3)
+    expect(placeholders).to.have.all.members([
+      'cadlBaseUrl',
+      'designSuffix',
+      'abc',
+    ])
   })
 
   describe(`replacePlaceholder`, () => {

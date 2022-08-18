@@ -511,6 +511,9 @@ componentResolver.setResolver(async (component, options, next) => {
                 item.text = u.isObj(dataObject)
                   ? get(dataObject, item?.datKey)
                   : dataObject
+                item.text = item.text === item?.dataKey?
+                            itemText?itemText:"": item.text
+                
               }
             }
             let componentObject = {
@@ -640,20 +643,6 @@ componentResolver.setResolver(async (component, options, next) => {
       }
     }
 
-    if (original?.style?.emit) {
-      const emitAction = original.style.emit
-      const actionChain = createActionChain('LoadStyle', [
-        { emit: emitAction, actionType: 'emit' },
-      ])
-      on?.actionChain && actionChain.use(on.actionChain)
-      const result = await actionChain.execute()
-      const status = result?.[0]?.result
-      if (u.isObj(status)) {
-        for (const k of Object.keys(status)) {
-          original.style[k] = status[k]
-        }
-      }
-    }
     /* -------------------------------------------------------
       ---- CHILDREN
     -------------------------------------------------------- */

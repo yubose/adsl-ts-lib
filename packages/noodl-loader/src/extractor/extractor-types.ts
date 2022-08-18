@@ -1,7 +1,7 @@
 import type { LiteralUnion } from 'type-fest'
-import type NoodlLoader from '../Loader'
+import type NoodlLoader from '../loader'
 import type y from 'yaml'
-import type Asset from './Asset'
+import type Asset from './asset'
 import { ExtractType } from '../constants'
 
 export type ExtractAssetPreset =
