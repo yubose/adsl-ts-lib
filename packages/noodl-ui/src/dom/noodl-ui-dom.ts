@@ -448,7 +448,7 @@ class NDOM extends NDOMInternal {
    * resolves its children hieararchy until there are none left
    * @param { Component } props
    */
-  async draw<Context = any>(
+  async draw<Context extends Record<string, any> = any>(
     component: t.NuiComponent.Instance,
     container?: t.NDOMElement | null,
     pageProp?: NDOMPage,
@@ -472,7 +472,7 @@ class NDOM extends NDOMInternal {
     let hooks = options?.on
     let node: t.NDOMElement | null = null
     let page: NDOMPage = pageProp || this.page
-
+    let count = +(component.get("lazyCount")) as number;
     if (hooks) {
       const currentHooks = this.renderState.options.hooks
       hooks.actionChain && (currentHooks.actionChain = hooks.actionChain)
@@ -518,8 +518,8 @@ class NDOM extends NDOMInternal {
         }
       }
     }
-
     try {
+      
       if (component) {
         if (_isPluginComponent(component)) {
           // We will delegate the role of the node creation to the consumer (only enabled for plugin components for now)
@@ -533,7 +533,8 @@ class NDOM extends NDOMInternal {
             page,
             resolvers: this.resolvers,
           })
-          return node
+
+          return node;
         } else if (Identify.component.image(component)) {
           if (this.#createElementBinding) {
             node = this.#createElementBinding(component) as HTMLElement
@@ -584,28 +585,29 @@ class NDOM extends NDOMInternal {
           node = document.createElement(getElementTag(component))
           componentPage.replaceNode(node as HTMLIFrameElement)
         } else {
-          node = this.#createElementBinding?.(component) || null
-          node && (node['isElementBinding'] = true)
-          !node && (node = document.createElement(getElementTag(component)))
+          if(container?.tagName === "UL"&&(+(component.get("lazyCount")))>0){
+            node = container;
+          }else{
+            node = this.#createElementBinding?.(component) || null
+            node && (node['isElementBinding'] = true)
+            !node && (node = document.createElement(getElementTag(component)))
+          }
         }
-
         if (component.has?.('global')) {
           handleDrawGlobalComponent.call(this, node, component, page)
         }
-
         if (component.type === 'register') {
           const onEvent = component.get('onEvent')
           this.global.register.set(onEvent, component)
         }
       }
-
       if (node) {
         const parent = component.has?.('global')
           ? document.body
           : container || document.body
-
-        // NOTE: This needs to stay above the code below or the children will
-        // not be able to access their parent during the resolver calls
+          // console.log(count,"kkkk")
+          // NOTE: This needs to stay above the code below or the children will
+          // not be able to access their parent during the resolver calls
         if (!parent.contains(node)) {
           if (u.isObj(options) && u.isNum(options.nodeIndex)) {
             parent.insertBefore(node, parent.children.item(options.nodeIndex))
@@ -613,11 +615,9 @@ class NDOM extends NDOMInternal {
             parent.appendChild(node)
           }
         }
-
         if (Identify.component.page(component)) {
           const pagePath = component.get('path')
           const childrenPage = this.findPage(pagePath)
-
           await this.#R.run({
             on: hooks,
             ndom: this,
@@ -635,6 +635,7 @@ class NDOM extends NDOMInternal {
             page,
             resolvers: this.resolvers,
           })
+
           /**
            * Creating a document fragment and appending children to them is a
            * minor improvement in first contentful paint on initial loading
@@ -642,21 +643,32 @@ class NDOM extends NDOMInternal {
            */
           let childrenContainer = Identify.component.list(component)
             ? document.createDocumentFragment()
-            : node
-
-          for (const child of component.children) {
-            const childNode = (await this.draw(child, node, page, {
-              ...options,
-              on: hooks,
-            })) as HTMLElement
-            childNode && childrenContainer?.appendChild(childNode)
-          }
-
+            : node; 
+            let i:number =0;
+            if(Identify.component.list(component)&&(+(component.get("lazyCount")))>0){
+              let newCount = component.children.length%count;
+              i = newCount!==0?component.children.length-newCount:component.children.length-count
+              for(i ;i<component.children.length;i++){
+                const childNode = (await this.draw(component.children[i], node, page, {
+                  ...options,
+                  on: hooks,
+                })) as HTMLElement
+                  childNode && childrenContainer?.appendChild(childNode)
+              }
+            }else{
+              for (const child of component.children) {
+                const childNode = (await this.draw(child, node, page, {
+                  ...options,
+                  on: hooks,
+                })) as HTMLElement
+                childNode && childrenContainer?.appendChild(childNode)
+              }
+            }
           if (
             childrenContainer.nodeType ===
             childrenContainer.DOCUMENT_FRAGMENT_NODE
           ) {
-            node.appendChild(childrenContainer)
+              node.appendChild(childrenContainer)
           }
           childrenContainer = null as any
         }
@@ -670,10 +682,8 @@ class NDOM extends NDOMInternal {
         delete this.renderState.draw.loading[page.id]
       }
     }
-
-    return node || null
+    return node|| null
   }
-
   async redraw<C extends t.NuiComponent.Instance>(
     node: t.NDOMElement | null, // ex: li (dom node)
     component: C, // ex: listItem (component instance)
@@ -720,6 +730,7 @@ class NDOM extends NDOMInternal {
           component.blueprint,
           page?.getNuiPage?.(),
         )
+        // console.log(component.blueprint,page?.getNuiPage?.(),component,"kkkkk");
 
         if (parent) {
           newComponent.setParent(parent)
@@ -728,6 +739,7 @@ class NDOM extends NDOMInternal {
         if (index) {
           newComponent.edit({ index })
         }
+        // console.log(component.get("lazyCount"),newComponent,component,"kkkkk");
 
         this.removeComponent(component)
         newComponent = await nui.resolveComponents?.({
@@ -738,27 +750,37 @@ class NDOM extends NDOMInternal {
           on: options?.on || this.renderState.options.hooks,
         })
       }
-
       if (node) {
         if (newComponent) {
-          let parentNode = node.parentNode
-          let currentIndex = getNodeIndex(node)
-          // @ts-expect-error
-          let newNode = await this.draw(newComponent, parentNode, page, {
-            ...options,
-            on: options?.on || this.renderState.options.hooks,
-            context,
-            nodeIndex: currentIndex,
-          })
-          if (parentNode) {
+          if(component.get("lazyCount")){
+            let newNode = await this.draw(newComponent, node, page, {
+              ...options,
+              on: options?.on || this.renderState.options.hooks,
+              context,
+              nodeIndex: getNodeIndex(node),
+            })
+              node = newNode;
+          }else{
+            let parentNode = node.parentNode
+            let currentIndex = getNodeIndex(node)
             // @ts-expect-error
-            parentNode.replaceChild(newNode, node)
-          } else {
-            node?.remove?.()
+            let newNode = await this.draw(newComponent, parentNode, page, {
+              ...options,
+              on: options?.on || this.renderState.options.hooks,
+              context,
+              nodeIndex: currentIndex,
+            })
+            if (parentNode) {
+              // @ts-expect-error
+              parentNode.replaceChild(newNode, node)
+            } else {
+              node?.remove?.()
+            }
+            node = newNode  as HTMLElement
+            newNode = null
+            parentNode = null
           }
-          node = newNode
-          newNode = null
-          parentNode = null
+          
         }
       }
     } catch (error) {
