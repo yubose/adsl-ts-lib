@@ -665,7 +665,21 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
           isLocalOption ? root[pageName] : root,
           datapath,
         )
-      } else if (originalKey === 'videoOption') {
+      } else if (originalKey === 'placeholder') {
+        // @ts-expect-error
+        let datapath = nu.toDataPath(nu.trimReference(originalValue))
+        let isLocalOption = is.localKey(datapath.join('.'))
+        // Note: This is here for fallback reasons.
+        // dataKey should never be a reference in the noodl
+        if (is.reference(originalValue)) {
+          isLocalOption = is.localReference(originalValue)
+        }
+
+        props['data-placeholder'] = get(
+          isLocalOption ? root[pageName] : root,
+          datapath,
+        )
+      }else if (originalKey === 'videoOption') {
         // @ts-expect-error
         let datapath = nu.toDataPath(nu.trimReference(originalValue))
         let isLocalOption = is.localKey(datapath.join('.'))
