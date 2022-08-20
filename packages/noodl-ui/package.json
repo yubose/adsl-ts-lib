@@ -32,10 +32,11 @@
     "start": "concurrently \"rollup -c -w --environment BUILD:development\" \"npm run types\"",
     "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --file src/setupTests.ts --extensions ts --watch --watch-files \"src/**/*.ts\" \"src/**/*.test.ts\" --ignore \"src/__tests__/dom/**/*\"",
     "test:file": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json --file src/setupTests.ts -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\"",
-    "types": "tsc --declaration --declarationDir dist --emitDeclarationOnly"
+    "types": "tsc --declaration --declarationDir dist --emitDeclarationOnly",
+    "watch": "cross-env NODE_ENV=development NODE_OPTIONS=\"--stack-trace-limit=10000\" rollup -c -w"
   },
   "typings": "dist/index.d.ts",
-  "version": "0.1.159",
+  "version": "0.1.160",
   "devDependencies": {
     "@testing-library/dom": "^8.16.0",
     "@types/signature_pad": "^2.3.2"

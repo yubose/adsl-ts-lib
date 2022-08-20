@@ -67,28 +67,25 @@ function attachUserEvents<N extends t.NDOMElement>(
           cancelable: false,
         })
         node.addEventListener('scroll', (...args) => {
+
           let viewHeight =
             node.clientHeight || document.documentElement.clientHeight
           let contentHeight =
             node.scrollHeight || document.documentElement.scrollHeight //内容高度
           let scrollTop = node.scrollTop || document.documentElement.scrollTop
-          if (contentHeight - viewHeight - scrollTop === 0) {
+          if (Math.floor(contentHeight - viewHeight - scrollTop) < 3) {
             //到达底部0px时,加载新内容
             node.dispatchEvent(event)
           }
         })
-        node.addEventListener('onLazyLoading', (...args) => {
-          // console.log('GGGG', node.scrollTop)
+        const executeFun  = (...args:any)=>{
           setTimeout(() => {
             // @ts-expect-error
-            ;(component.get?.(eventType) as t.NUIActionChain)?.execute?.(
-              ...args,
-            )
+            component.get?.(eventType)?.execute?.(...args);
+            node.removeEventListener("onLazyLoading",executeFun);
           })
-        })
-        // window.setTimeout(()=>{
-        //   node.scrollTop = node.scrollHeight - 1000;
-        // })
+        }
+        node.addEventListener('onLazyLoading', executeFun)
         return
       }
       node.addEventListener(normalizeEventName(eventType), (...args) =>
