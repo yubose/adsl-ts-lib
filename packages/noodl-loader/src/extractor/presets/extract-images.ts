@@ -13,14 +13,14 @@ const extractAssets: ExtractFn = (
     node.has('path') &&
     node.get('type', false) === 'image'
   ) {
-    const value = node.get('path', false) as string
+    const value = (node.get('path', false) as string) || ''
     createAsset({
       type: ExtractType.Asset,
       id: value,
       props: {
         type: 'image',
         path: value,
-        url: value.startsWith('http') ? value : `${assetsUrl}${value}`,
+        url: value.startsWith?.('http') ? value : `${assetsUrl}${value}`,
       },
     })
   }
