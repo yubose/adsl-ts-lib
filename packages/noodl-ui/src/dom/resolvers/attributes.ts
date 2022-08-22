@@ -62,35 +62,41 @@ function attachUserEvents<N extends t.NDOMElement>(
        * root object gets their data values updated.
        */
       if (eventType === 'onLazyLoading') {
-        let event: Event = new Event('onLazyLoading', {
+        let event: Event|null = new Event('onLazyLoading', {
           bubbles: true,
           cancelable: false,
         })
-        node.addEventListener('scroll', (...args) => {
+        const executeScroll = () => {
 
           let viewHeight =
             node.clientHeight || document.documentElement.clientHeight
           let contentHeight =
             node.scrollHeight || document.documentElement.scrollHeight //内容高度
           let scrollTop = node.scrollTop || document.documentElement.scrollTop
-          if (Math.floor(contentHeight - viewHeight - scrollTop) < 3) {
+          if (Math.floor(contentHeight - viewHeight - scrollTop) <= 1) {
             //到达底部0px时,加载新内容
-            node.dispatchEvent(event)
+            node.dispatchEvent(event as Event);
+            node.removeEventListener("scroll",executeScroll);
+            node.removeEventListener("onLazyLoading",executeFun);
           }
-        })
+        }
         const executeFun  = (...args:any)=>{
           setTimeout(() => {
             // @ts-expect-error
-            component.get?.(eventType)?.execute?.(...args);
+            component.get?.(eventType)?.execute?.(...args);            
+            node.removeEventListener("scroll",executeScroll);
             node.removeEventListener("onLazyLoading",executeFun);
           })
         }
+        node.addEventListener('scroll', executeScroll)
         node.addEventListener('onLazyLoading', executeFun)
         return
-      }
+      }else{
       node.addEventListener(normalizeEventName(eventType), (...args) =>
         setTimeout(() => component.get?.(eventType)?.execute?.(...args)),
       )
+      }
+
     }
   })
 }
