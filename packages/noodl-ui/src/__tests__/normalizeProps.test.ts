@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { expect } from 'chai'
 import { waitFor } from '@testing-library/dom'
 import sinon from 'sinon'
@@ -21,7 +20,7 @@ import { presets } from '../constants'
 const parse = (comp: any, opts?: Parameters<typeof normalizeProps>[2]) =>
   normalizeProps({}, comp, { viewport: { width: 375, height: 667 }, ...opts })
 
-describe('normalizeProps', () => {
+describe.only('normalizeProps', () => {
   describe(`dataKey`, () => {
     it(`[textField] should set value on data-value`, () => {
       const opts = {
@@ -515,7 +514,7 @@ describe('normalizeProps', () => {
       })
     })
 
-    describe(`Visibility`, () => {
+    describe.skip(`Visibility`, () => {
       it('should turn visibility to hidden if "isHidden" is true', () => {
         expect(
           parse(ui.image({ style: { isHidden: true } })).style,

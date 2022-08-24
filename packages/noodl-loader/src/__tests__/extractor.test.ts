@@ -1,19 +1,80 @@
-import { fp, is as coreIs } from 'noodl-core'
+import { fp } from 'noodl-core'
 import { expect } from 'chai'
 import NoodlLoader from '../loader'
 import { toDocument } from '../utils/yml'
 import { createExtractor } from '../extractor'
+import { mockPaths, MockFileSystemHost, ui } from './helpers'
 import * as c from '../constants'
 
-describe(`createExtractor`, () => {
+const configKey = 'www'
+
+describe.only(`createExtractor`, () => {
+  describe(`default presets`, () => {
+    it.only(`[extractImages] should extract all images`, async () => {
+      mockPaths({
+        configKey,
+        preload: [['BasePage', { MyImage: ui.image('abc.png') }]],
+        pages: [
+          [
+            'SignIn',
+            {
+              avatar: 'avatar.png',
+              components: [
+                ui.view({
+                  children: [
+                    ui.image('111.gif'),
+                    ui.scrollView({
+                      children: [
+                        ui.list({
+                          listObject: [
+                            { color: 'red.png', fruits: [{ main: 'apple' }] },
+                            { color: 'blue.svg', fruits: [{ main: 'banana' }] },
+                          ],
+                          children: [
+                            ui.listItem({
+                              itemObject: '',
+                              children: [ui.image('itemObject.color')],
+                            }),
+                          ],
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+              ],
+            },
+          ],
+        ],
+      })
+
+      const loader = new NoodlLoader()
+      loader.use(new MockFileSystemHost()).setConfigKey(configKey)
+      await loader.load()
+      const results = {} as Record<string, any>
+
+      for (const [name, node] of loader) {
+        const images = await loader.extract(node, {
+          include: ['images'],
+        })
+        for (const [key, value] of fp.entries(images)) results[key] = value
+      }
+
+      console.log(results)
+
+      for (const filename of ['avatar.png', 'red.png', '111.gif', 'blue.svg']) {
+        expect(results).to.have.property(
+          loader.cadlEndpoint.createAssetURL(filename),
+        )
+      }
+    })
+  })
+
   describe(`when extracting assets`, () => {
     let loader: NoodlLoader
     let yml = ''
 
     const getOptions = (
-      opts: Partial<
-        Parameters<ReturnType<typeof createExtractor>['extract']>[1]
-      >,
+      opts: Partial<Parameters<ReturnType<typeof createExtractor>>[1]>,
     ) => ({
       ...fp.pick(loader, ['config', 'cadlEndpoint', 'root']),
       ...opts,
@@ -62,7 +123,7 @@ describe(`createExtractor`, () => {
     })
 
     it(`should extract all image assets using the "images" preset`, async () => {
-      const { extract } = createExtractor()
+      const extract = createExtractor()
       const results = await extract(
         toDocument(yml),
         getOptions({
@@ -83,7 +144,7 @@ describe(`createExtractor`, () => {
       const assetsUrl = `https://public.aitmed.com/cadl/www6.47/assets/`
       loader.cadlEndpoint.baseUrl = 'https://public.aitmed.com/cadl/www6.47/'
       loader.cadlEndpoint.set('assetsUrl', '${cadlBaseUrl}assets/')
-      const { extract } = createExtractor()
+      const extract = createExtractor()
       const results = await extract(
         toDocument(yml),
         getOptions({ as: 'object', include: 'images' }),
@@ -103,7 +164,7 @@ describe(`createExtractor`, () => {
     })
 
     it(`should extract all pdf and json assets`, async () => {
-      const { extract } = createExtractor()
+      const extract = createExtractor()
       const results = await extract(
         toDocument(yml),
         getOptions({ as: 'object', include: 'documents' }),
@@ -114,7 +175,7 @@ describe(`createExtractor`, () => {
     })
 
     it(`should extract all script assets`, async () => {
-      const { extract } = createExtractor()
+      const extract = createExtractor()
       const results = await extract(
         toDocument(yml),
         getOptions({ as: 'object', include: 'scripts' }),
@@ -127,7 +188,7 @@ describe(`createExtractor`, () => {
     it(`should extract all pages`, async () => {
       loader.cadlEndpoint.set('preload', ['BaseCSS'])
       loader.cadlEndpoint.set('page', ['SignIn', 'Dashboard', 'SignUp'])
-      const { extract } = createExtractor()
+      const extract = createExtractor()
       const results = await extract(
         toDocument(yml),
         getOptions({ as: 'object', include: 'pages' }),

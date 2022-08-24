@@ -765,6 +765,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
         getHelpers({ rootKey: isLocal ? pageName : undefined }),
       )
     }
+
     is.isBooleanTrue(isHiddenValue) && (props.style.visibility = 'hidden')
 
     if (is.isBoolean(blueprint?.required)) {

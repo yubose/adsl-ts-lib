@@ -9,9 +9,15 @@ const path = require('path')
 ;(async () => {
   try {
     const loader = new Loader()
-    loader.getState().languageSuffix = 'en'
-    loader.config.configKey = 'testpage'
-    await loader.load()
+    loader.setConfigKey('meetd2')
+    loader.setFileLanguageSuffix('en')
+    await loader.load('meetd2', {
+      dir: path.join(
+        process.cwd(),
+        'packages/noodl-loader/src/__tests__/fixtures',
+      ),
+      mode: 'file',
+    })
     console.log(loader)
   } catch (error) {
     const err = error instanceof Error ? error : new Error(String(error))

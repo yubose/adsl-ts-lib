@@ -23,7 +23,7 @@ export interface ExtractFn<N = unknown> {
 }
 
 export interface ExtractFnOptions
-  extends Partial<Pick<NoodlLoader, 'config' | 'cadlEndpoint' | 'root'>> {
+  extends Partial<Pick<NoodlLoader, 'config' | 'cadlEndpoint'>> {
   assets: Asset[]
   assetsUrl?: string
   baseUrl?: string

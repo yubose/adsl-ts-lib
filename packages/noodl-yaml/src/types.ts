@@ -90,17 +90,23 @@ export type BuiltInEvalFn<S extends string = string> = y.YAMLMap<
   y.YAMLMap<'dataIn' | 'dataOut', any>
 >
 
-export type Component<Type extends string = string> = y.YAMLMap<'type', Type>
+export type Component<Type extends string = string> = y.YAMLMap<
+  'type' | 'style' | 'children',
+  Type
+>
+
+export type Emit = y.YAMLMap<'emit', y.YAMLMap<'dataKey' | 'actions'>>
 
 export type Goto = y.YAMLMap<
   'goto',
   y.YAMLMap<'dataIn' | 'destination'> | string
 >
 
-export type If = y.YAMLMap<'if', IfNode>
+export type If<Cond = unknown, Truthy = unknown, Falsey = unknown> = y.YAMLMap<
+  'if',
+  y.YAMLSeq<[Cond, Truthy, Falsey]>
+>
 
-export type IfNode = y.YAMLSeq<[unknown, unknown, unknown]>
-
-export type ReferenceNode = y.Scalar<ReferenceString>
+export type Reference = y.Scalar<ReferenceString>
 
 export type NoodlNode<N = unknown> = N | y.Scalar<ReferenceString>

@@ -25,8 +25,8 @@ describe(`transformers`, () => {
     })
 
     xit(`should return the truthy value if cond is truthy`, () => {
-      const doc = new y.Document({ if: [true, {}, []] })
-      const ifNode = (doc.contents as y.YAMLMap).get('if') as If
+      const doc = new y.Document<y.YAMLMap<'if'>>({ if: [true, {}, []] })
+      const ifNode = doc.contents?.get('if') as If
       const expectedResult = ifNode.get(1) as y.YAMLSeq
       const result = transformIf(ifNode)
       expect(result).to.eq(expectedResult.get(1))

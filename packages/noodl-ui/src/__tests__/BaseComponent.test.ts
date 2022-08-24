@@ -1,20 +1,20 @@
 // @ts-nocheck
+import * as u from '@jsmanifest/utils'
 import * as mock from 'noodl-ui-test-utils'
 import { expect } from 'chai'
-import { coolGold, italic, magenta } from 'noodl-common'
 import sinon from 'sinon'
 import Component from '../Component'
 import createComponent from '../utils/createComponent'
 
-describe(coolGold(`BaseComponent`), () => {
-  describe(italic(`Instantiating`), () => {
+describe(u.yellow(`BaseComponent`), () => {
+  describe(u.italic(`Instantiating`), () => {
     it(`should have an assigned in`, () => {
       expect(new Component(mock.getListComponent())).to.have.property('id').to
         .exist
     })
   })
 
-  describe(italic(`blueprint`), () => {
+  describe(u.italic(`blueprint`), () => {
     it(`should be able to access the original component by blueprint`, () => {
       const component = mock.getListComponent()
       expect(new Component(component))
@@ -23,7 +23,7 @@ describe(coolGold(`BaseComponent`), () => {
     })
   })
 
-  describe(italic(`edit`), () => {
+  describe(u.italic(`edit`), () => {
     describe(`function`, () => {
       it(`should merge the returned object to the component`, () => {
         const component = new Component(mock.getLabelComponent())
@@ -85,7 +85,7 @@ describe(coolGold(`BaseComponent`), () => {
 
       it(
         `should reset the style object to an empty object if given a key ` +
-          `"style" and an explicit value of ${magenta(null)}`,
+          `"style" and an explicit value of ${u.magenta(null)}`,
         () => {
           const component = new Component(
             mock.getLabelComponent({
@@ -110,7 +110,7 @@ describe(coolGold(`BaseComponent`), () => {
       })
     })
 
-    describe(italic(`style`), () => {
+    describe(u.italic(`style`), () => {
       it(
         `should instantiate an empty object when retrieving styles and styles ` +
           `is not an object that is not an object`,
@@ -121,7 +121,7 @@ describe(coolGold(`BaseComponent`), () => {
       )
     })
 
-    describe(italic(`children`), () => {
+    describe(u.italic(`children`), () => {
       it(
         `should save the child in its children that can be received by c` +
           `alling its children getter`,
@@ -135,7 +135,7 @@ describe(coolGold(`BaseComponent`), () => {
         },
       )
 
-      describe(italic(`removeChild`), () => {
+      describe(u.italic(`removeChild`), () => {
         it('should remove the child from its children', () => {
           const component = new Component({ type: 'label' })
           const list = component.createChild(createComponent('list'))
@@ -233,7 +233,7 @@ describe(coolGold(`BaseComponent`), () => {
     })
   })
 
-  describe(italic(`toJSON`), () => {
+  describe(u.italic(`toJSON`), () => {
     it(`should also run toJSON on all of its children`, () => {
       const spies = [] as sinon.SinonSpy[]
       const component = new Component(mock.getListComponent())

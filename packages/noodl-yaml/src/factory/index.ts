@@ -1,3 +1,4 @@
+export { default } from './factory'
+export { default as factory } from './factory'
 export { default as BuiltInFn } from './builtIn'
-export * as factory from './factory'
-export * from './factory'
+export * from './tokens'

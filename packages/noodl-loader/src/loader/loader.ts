@@ -28,6 +28,7 @@ import { replacePlaceholders } from '../utils/replace'
 import { trimPageName } from '../utils/trim'
 import FileSystemHost from '../file-system'
 import LoaderFileSystemHost from './loader-file-system'
+import type { ExtractOptions } from '../extractor'
 import type { YAMLNode } from '../types'
 import * as is from '../utils/is'
 import * as c from '../constants'
@@ -127,6 +128,22 @@ class NoodlLoader extends t.AbstractLoader {
   config: NoodlConfig
   cadlEndpoint: NoodlCadlEndpoint;
 
+  [Symbol.iterator](): Iterator<[name: string, node: any], any, any> {
+    const entries = fp.entries(this.root).reverse()
+    return {
+      next() {
+        return {
+          get value() {
+            return entries.pop()
+          },
+          get done() {
+            return !entries.length as true
+          },
+        }
+      },
+    }
+  }
+
   [Symbol.for('nodejs.util.inspect.custom')]() {
     return {
       config: this.config.toJSON(),
@@ -146,7 +163,7 @@ class NoodlLoader extends t.AbstractLoader {
     this.config.rootConfigUrl = c.baseRemoteConfigUrl
     this.config.set('web', { cadlVersion: { stable: null, test: null } })
     this.cadlEndpoint = new NoodlCadlEndpoint()
-    this.#extractor = createExtractor()
+    this.#extractor = createExtractor(this)
   }
 
   get appKey() {
@@ -155,10 +172,6 @@ class NoodlLoader extends t.AbstractLoader {
 
   get configKey() {
     return this.config.configKey
-  }
-
-  get fs() {
-    return this.#fs
   }
 
   get root() {
@@ -213,25 +226,34 @@ class NoodlLoader extends t.AbstractLoader {
     }
   }
 
-  extract(
-    node: Parameters<ReturnType<typeof createExtractor>['extract']>[0],
-    options: Omit<
-      Parameters<ReturnType<typeof createExtractor>['extract']>[1],
-      'config' | 'cadlEndpoint'
-    >,
+  extract<As extends 'array' | 'object' = 'object'>(
+    node: Parameters<ReturnType<typeof createExtractor>>[0],
+    options?: ExtractOptions<As>,
   ) {
-    return this.#extractor.extract(node, {
-      ...options,
-      config: this.config,
-      cadlEndpoint: this.cadlEndpoint,
-    })
+    return this.#extractor(node, options)
   }
 
-  getOptions<O extends Record<string, any> = Record<string, any>>(other?: O) {
+  reduce(
+    callback: (
+      acc: any,
+      arg: [name: string, node: any],
+      index: number,
+      root: NoodlLoader['root'],
+    ) => any,
+    initialValue: any = undefined,
+  ) {
+    return fp.entries(this.root).reduce((acc, [name, node], index) => {
+      return callback(acc, [name, node], index, this.root)
+    }, initialValue)
+  }
+
+  getLoadOptions<O extends Record<string, any> = Record<string, any>>(
+    other?: O,
+  ) {
     return {
       config: this.config,
       cadlEndpoint: this.cadlEndpoint,
-      fs: this.fs,
+      fs: this.#fs,
       languageSuffix: this.getState().languageSuffix,
       ...other,
     }
@@ -246,7 +268,7 @@ class NoodlLoader extends t.AbstractLoader {
    * @param options
    */
   async load(
-    value: string,
+    value: string = '',
     options: {
       dir?: string
       mode?: 'url' | 'file'
@@ -300,7 +322,7 @@ class NoodlLoader extends t.AbstractLoader {
 
     if (is.equalFileKey(this.configKey, value)) {
       const configYml = await getYml({
-        ...this.getOptions(),
+        ...this.getLoadOptions(),
         dir,
         mode,
         value:
@@ -322,7 +344,7 @@ class NoodlLoader extends t.AbstractLoader {
     } else if (is.equalFileKey(this.appKey, value)) {
       await this.loadCadlEndpoint(
         await getYml({
-          ...this.getOptions(),
+          ...this.getLoadOptions(),
           dir,
           mode,
           value:
@@ -330,7 +352,7 @@ class NoodlLoader extends t.AbstractLoader {
               ? path.join(dir as string, ensureSuffix('.yml', this.appKey))
               : this.createURL(value),
         }),
-        { ...this.getOptions(), dir, mode },
+        { ...this.getLoadOptions(), dir, mode },
       )
     } else if (
       this.cadlEndpoint.preloadExists(value) ||
@@ -354,7 +376,7 @@ class NoodlLoader extends t.AbstractLoader {
 
       await handlePreloadOrPage(
         name,
-        await getYml({ ...this.getOptions(), dir, mode, value: endpoint }),
+        await getYml({ ...this.getLoadOptions(), dir, mode, value: endpoint }),
       )
     } else if (is.url(value)) {
       const { name } = path.parse(value)
@@ -388,7 +410,7 @@ class NoodlLoader extends t.AbstractLoader {
           if (!mode) mode = 'url'
           value = this.createURL('config', pathname)
         }
-        yml = await getYml({ ...this.getOptions(), mode, value })
+        yml = await getYml({ ...this.getLoadOptions(), mode, value })
       }
 
       const configJson = parseYml('object', yml)
@@ -465,7 +487,7 @@ class NoodlLoader extends t.AbstractLoader {
             )
 
             const filepath = path.join(dir, filename)
-            const yml = await loadFile(this.fs, filepath)
+            const yml = await loadFile(this.#fs, filepath)
             fp.assign(_props, parseAs('json', yml))
           } else {
             const url = toEndpoint(_baseUrl, filename)
@@ -490,6 +512,21 @@ class NoodlLoader extends t.AbstractLoader {
         this.cadlEndpoint?.set?.(key, replacePlaceholders(val, configProps))
       }
     }
+  }
+
+  setAppKey(appKey: string) {
+    this.config.appKey = appKey
+    return this
+  }
+
+  setConfigKey(configKey: string) {
+    this.config.configKey = configKey
+    return this
+  }
+
+  setFileLanguageSuffix(languageSuffix: string) {
+    this.getState().languageSuffix = languageSuffix
+    return this
   }
 
   use(value: FileSystemHost) {

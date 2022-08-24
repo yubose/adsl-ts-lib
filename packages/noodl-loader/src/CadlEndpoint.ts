@@ -1,7 +1,7 @@
 import type { LiteralUnion } from 'type-fest'
 import inv from 'invariant'
 import KeyValueCache from './cache/key-value-cache'
-import { ensureSuffix } from './utils/format'
+import { ensureSuffix, endpoint as toEndpoint } from './utils/format'
 import { replacePlaceholders } from './utils/replace'
 import type NoodlConfig from './config'
 import { stringify } from './utils/yml'
@@ -47,6 +47,10 @@ class NoodlCadlEndpoint extends KeyValueCache<
 
   get startPage() {
     return (this.get('startPage') || '') as string
+  }
+
+  createAssetURL(filename: string) {
+    return toEndpoint(this.assetsUrl, filename)
   }
 
   preloadExists(value: string) {
