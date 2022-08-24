@@ -11,41 +11,54 @@ import getYamlNodeKind from './getYamlNodeKind'
 import { Kind } from '../constants'
 
 export interface GetOptions {
+  root?: Record<string, any>
   rootKey?: string
 }
 
 function get(
   node: unknown,
   key: (number | string)[] | y.Scalar | number | string,
-  { rootKey = '' }: GetOptions = {},
+  arg3?: boolean | GetOptions,
 ): any {
+  let keepScalar = true
   let originalKey = key
+  let options = {} as GetOptions
+  let root
+  let rootKey = ''
 
-  if (y.isScalar(key) && typeof key.value === 'string') {
+  if (coreIs.obj(arg3)) {
+    if (arg3.root) root = arg3.root
+    if (arg3.rootKey) rootKey = arg3.rootKey
+  } else if (coreIs.bool(arg3)) {
+    keepScalar = arg3 as boolean
+  }
+
+  if (y.isScalar(key) && coreIs.str(key.value)) {
     key = key.value
   }
 
-  if (typeof key === 'string') {
+  if (coreIs.str(key)) {
     if (coreIs.reference(key)) {
       const { paths, isLocalRef } = getRefProps(key)
+      const isRootKey = !isLocalRef
+      const isSameRootKey = paths[0] === rootKey
 
-      if (!isLocalRef && paths[0] !== rootKey) {
+      // Update the root key to support recursive lookups
+      if (isRootKey && !isSameRootKey) {
         rootKey = paths[0] as string
         key = `${rootKey}.${key}`
       }
-
-      key = trimReference(key)
     } else {
       //
     }
   }
 
-  key = toPath(key as string)
+  key = toPath(trimReference(key as string))
 
   if (node instanceof Map) {
     const nextKey = key.shift()
     const nextValue = node.get(nextKey)
-    if (key.length) return get(nextValue, key)
+    if (key.length) return get(nextValue, key, options)
     return nextValue
   }
 

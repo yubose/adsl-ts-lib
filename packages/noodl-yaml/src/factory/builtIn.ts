@@ -1,7 +1,7 @@
 import y from 'yaml'
 import type { LiteralUnion } from 'type-fest'
 import type { ReferenceString } from 'noodl-types'
-import * as factory from './factory'
+import * as factory from './tokens'
 
 export type BuiltInFnObject<K extends string = string> = Record<
   `=.builtIn.${K}`,

@@ -3,6 +3,7 @@ import y from 'yaml'
 import set from 'lodash/set'
 import { fs, vol } from 'memfs'
 import { fp, is as coreIs } from 'noodl-core'
+import { actionFactory, componentFactory } from 'noodl-ui-test-utils'
 import path from 'path'
 import nock from 'nock'
 import {
@@ -22,6 +23,7 @@ import * as c from '../constants'
 export const baseUrl = 'http://127.0.0.1:3001/'
 export const assetsUrl = `${baseUrl}assets`
 export const configKey = 'meetd2'
+export const ui = { ...actionFactory, ...componentFactory } as const
 
 export type PageNameYmlTuple<As extends t.As> = [
   name: string,

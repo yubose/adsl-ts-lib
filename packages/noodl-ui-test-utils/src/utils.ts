@@ -1,4 +1,5 @@
 import curry from 'lodash/curry'
+import * as u from '@jsmanifest/utils'
 import type {
   ActionObject,
   ComponentObject,
@@ -6,7 +7,6 @@ import type {
   UncommonActionObjectProps,
   UncommonComponentObjectProps,
 } from 'noodl-types'
-import * as u from '@jsmanifest/utils'
 
 export type ActionProps<C extends Partial<ActionObject> = ActionObject> =
   Partial<UncommonActionObjectProps> & C
@@ -66,11 +66,12 @@ export function createComponentObject<
   }
 }
 
-export function mergeObject<
-  O extends Record<string, any> = Record<string, any>,
->(obj: Record<string, any>, props?: Record<string, any>): Record<string, any> {
+export function mergeObject(
+  obj: Record<string, any>,
+  props?: Record<string, any>,
+): Record<string, any> {
   if (u.isObj(props)) {
-    u.entries(props).forEach(([k, v]) => obj.createProperty(k, v))
+    u.entries(props).forEach(([k, v]) => (obj[k] = v))
   }
   return obj
 }
@@ -84,12 +85,12 @@ export function mergeKeyValOrObj<
   otherProps?: any,
 ): Record<string, any> {
   if (u.isObj(keyOrObj)) {
-    u.entries(keyOrObj).forEach(([k, v]) => obj.createProperty(k, v))
+    u.entries(keyOrObj).forEach(([k, v]) => (obj[k] = v))
   } else if (u.isStr(keyOrObj)) {
     obj.createProperty(keyOrObj, value)
   }
   if (u.isObj(otherProps)) {
-    u.entries(otherProps).forEach(([k, v]) => obj.createProperty(k, v))
+    u.entries(otherProps).forEach(([k, v]) => (obj[k] = v))
   }
   return obj
 }

@@ -17,32 +17,25 @@ export interface CreateExtractorOptions {
   //
 }
 
-function createExtractor() {
+export interface ExtractOptions<As extends 'array' | 'object'> {
+  as?: As
+  include?: t.ExtractAssetPreset | t.ExtractAssetPreset[] | 'any'
+  prepare?: (
+    state: Record<string, any>,
+  ) => Record<string, any> | undefined | void
+  use?:
+    | t.ExtractFn
+    | { extract: t.ExtractFn; once?: boolean }
+    | (t.ExtractFn | { extract: t.ExtractFn; once?: boolean })[]
+}
+
+function createExtractor(loader: NoodlLoader) {
   const { BREAK, REMOVE, SKIP } = visit
 
-  async function extract<As extends 'array' | 'object' = 'array'>(
+  async function extract<As extends 'array' | 'object' = 'object'>(
     value: YAMLNode,
-    {
-      // @ts-expect-error
-      as = 'array',
-      config,
-      cadlEndpoint,
-      include,
-      prepareState,
-      root,
-      use: useProp = [],
-    }: Partial<Pick<NoodlLoader, 'cadlEndpoint' | 'config' | 'root'>> & {
-      as?: As
-      include?: t.ExtractAssetPreset | t.ExtractAssetPreset[] | 'any'
-      prepareState?: (
-        state: Record<string, any>,
-      ) => Record<string, any> | undefined | void
-      use?:
-        | t.ExtractFn
-        | { extract: t.ExtractFn; once?: boolean }
-        | (t.ExtractFn | { extract: t.ExtractFn; once?: boolean })[]
-    } = {},
-  ): Promise<t.ExtractReturnValue<As>> {
+    { as, include, prepare, use: useProp = [] }: ExtractOptions<As> = {},
+  ): Promise<As extends 'array' ? Asset[] : Record<string, Asset>> {
     if (isPair(value)) {
       if (isNode(value.value)) {
         value = value.value
@@ -85,8 +78,8 @@ function createExtractor() {
     let state = { assets: [], assetIds: [] } as t.ExtractFnOptions['state']
     let assets = [] as Asset[]
 
-    if (prepareState) {
-      const updatedState = prepareState(state)
+    if (prepare) {
+      const updatedState = prepare(state)
       if (updatedState) state = { ...state, ...updatedState }
     }
 
@@ -112,9 +105,7 @@ function createExtractor() {
         if (coreIs.obj(propsOrType.props)) asset.merge(propsOrType.props)
       }
 
-      if (coreIs.obj(props)) {
-        asset.merge(props)
-      }
+      if (coreIs.obj(props)) asset.merge(props)
 
       const assetId = asset.getId()
 
@@ -128,24 +119,25 @@ function createExtractor() {
 
     const extractFnOptions: t.ExtractFnOptions = {
       assets,
-      config,
-      cadlEndpoint,
+      config: loader.config,
+      cadlEndpoint: loader.cadlEndpoint,
       control,
       createAsset,
       state,
     }
 
-    if (config) {
-      const baseUrl = config.get('cadlBaseUrl') || ''
-      const assetsUrl = replacePlaceholders(cadlEndpoint?.assetsUrl || '', {
-        cadlBaseUrl: baseUrl,
-      })
+    if (loader.config) {
+      const baseUrl = loader.config.get('cadlBaseUrl') || ''
+      const assetsUrl = replacePlaceholders(
+        loader.cadlEndpoint?.assetsUrl || '',
+        { cadlBaseUrl: baseUrl },
+      )
       extractFnOptions.baseUrl = baseUrl
       extractFnOptions.assetsUrl = assetsUrl
     }
 
     await visitAsync(value, async (key, node, path) => {
-      for (const fnOrObject of fp.toArr(use)) {
+      for (const fnOrObject of use) {
         let fn: t.ExtractFn | undefined
         let obj: { once?: boolean } | undefined
 
@@ -160,10 +152,7 @@ function createExtractor() {
         let result = fn?.(key, node, path, extractFnOptions) as unknown
 
         if (coreIs.promise(result)) result = (await result) as any
-
-        if (obj?.once) {
-          use.splice(use.indexOf(fnOrObject), 1)
-        }
+        if (obj?.once) use.splice(use.indexOf(fnOrObject), 1)
 
         if (result === BREAK) {
           return BREAK
@@ -179,13 +168,9 @@ function createExtractor() {
       }
     })
 
-    if (as === 'object') {
+    if (as !== 'array') {
       const mapping = {} as Record<string, Asset>
-
-      for (const asset of assets) {
-        mapping[asset.getId()] = asset
-      }
-
+      for (const asset of assets) mapping[asset.getId()] = asset
       return mapping as t.ExtractReturnValue<As>
     }
 
@@ -199,9 +184,7 @@ function createExtractor() {
     value: c._id.extractor,
   })
 
-  return {
-    extract,
-  }
+  return extract
 }
 
 export default createExtractor

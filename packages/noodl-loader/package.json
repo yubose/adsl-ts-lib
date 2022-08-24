@@ -12,6 +12,7 @@
     "@types/invariant": "^2.2.35",
     "chai-as-promised": "^7.1.1",
     "memfs": "^3.4.7",
+    "noodl-ui-test-utils": "*",
     "source-map-support": "^0.5.21"
   },
   "directories": {
