@@ -30,6 +30,7 @@ import type { ComponentPage } from '../factory/componentFactory'
 import { _isLinkEl, _isIframeEl, _isScriptEl, _isStyleEl } from '../utils'
 import * as t from '../../types'
 import * as c from '../../constants'
+import { isEmpty } from 'lodash'
 
 const componentsResolver: t.Resolve.Config = {
   name: `[noodl-ui-dom] components`,
@@ -460,12 +461,16 @@ const componentsResolver: t.Resolve.Config = {
                   setAttr('innerHTML', content)
                 })
               } else {
+              console.log(args.component.get(c.DATA_VALUE),"kknnnkk")
+
+              if(!isEmpty(datavalue)){
                 let content = String(datavalue)
                 content =
                   content.indexOf('\n') !== -1
                     ? content.replace(/\n/g, '<br>')
                     : content
                 setAttr('innerHTML', content)
+              }
               }
             } else if (text) {
               setAttr('innerHTML', String(text))
