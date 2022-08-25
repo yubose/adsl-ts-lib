@@ -461,8 +461,6 @@ const componentsResolver: t.Resolve.Config = {
                   setAttr('innerHTML', content)
                 })
               } else {
-              console.log(args.component.get(c.DATA_VALUE),"kknnnkk")
-
               if(!isEmpty(datavalue)){
                 let content = String(datavalue)
                 content =
