@@ -3,6 +3,8 @@ export const _symbol = {
   root: Symbol('DocRoot'),
 } as const
 
+export enum EmitCode {}
+
 export enum Kind {
   Unknown = 0,
   Scalar = 1,
