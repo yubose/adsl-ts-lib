@@ -29,3 +29,15 @@ diagnostics.run().then((results) => {
   console.log(results)
 })
 ```
+
+## Notes
+
+- emitter consumes meta objects
+- producer produces meta objects
+  - reference meta objects
+    - sub references
+      - await references
+      - eval references
+      - merge references
+- resolver encapsulates emitter, producer
+- loader wraps resolver
