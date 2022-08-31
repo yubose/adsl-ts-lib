@@ -3,6 +3,8 @@ export const _symbol = {
   root: Symbol('DocRoot'),
 } as const
 
+export enum EmitCode {}
+
 export enum Kind {
   Unknown = 0,
   Scalar = 1,
@@ -52,11 +54,34 @@ export enum IfItemKind {
   Falsey = 3,
 }
 
+export enum Meta {
+  Unknown = 'Unknown',
+  Base = 'Base',
+  Reference = 'Reference',
+}
+
+export enum MetaKind {
+  Unknown = 'Unknown',
+  AwaitReference = 'AwaitReference',
+  EvalReference = 'EvalReference',
+  MergeReference = 'MergeReference',
+  TraverseReference = 'TraverseReference',
+  TildeReference = 'TildeReference',
+}
+
 export enum ProcessWriteType {
   Unknown = 10100,
   LocalMerge = 10101,
   RootMerge = 10102,
   AtMerge = 10103,
+}
+
+export enum ReferenceInstruction {
+  Return = 'Return',
+  LocalMerge = 'LocalMerge',
+  RootMerge = 'RootMerge',
+  Evaluate = 'Evaluate',
+  Await = 'Await',
 }
 
 export enum VisitorHistoryStatus {

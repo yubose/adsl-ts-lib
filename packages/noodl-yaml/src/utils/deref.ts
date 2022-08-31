@@ -22,7 +22,7 @@ const enum ActionType {
 export interface DerefOptions {
   depth?: number
   node: y.Scalar<string> | string
-  root?: ARoot | DocRoot
+  root?: ARoot | DocRoot | Record<string, any>
   rootKey?: y.Scalar | string
   subscribe?: {
     onUpdate?: (prevState: any, nextState: any) => void
@@ -62,7 +62,8 @@ function createDerefReducer(
         const { isLocalRef, paths, ref: initiator } = refProps
 
         if (isLocalRef && rootKey) paths.unshift(rootKey)
-        _result = get(root?.value, paths[0] as string, { rootKey })
+        const rootObject = is.root(root) ? root.value : root
+        _result = get(rootObject, paths[0] as string, { rootKey })
 
         const nextResults = state.results.concat({
           depth: action.depth,

@@ -8,10 +8,12 @@ const defaultParseOptions: ParseOptions = {
   prettyErrors: true,
 }
 
+export const isCollection = y.isCollection
 export const isScalar = y.isScalar
 export const isPair = y.isPair
 export const isMap = y.isMap
 export const isSeq = y.isSeq
+export const isNode = y.isNode
 
 export function toDoc(yml: string, opts?: ParseOptions) {
   const parseOptions: typeof opts = { ...defaultParseOptions, ...opts }

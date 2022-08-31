@@ -1,5 +1,5 @@
 import y from 'yaml'
-import { fp } from 'noodl-core'
+import { fp, is as coreIs, trimReference } from 'noodl-core'
 import createNode from './createNode'
 import is from './is'
 import getYamlNodeKind from './getYamlNodeKind'
@@ -37,6 +37,7 @@ function set(
           return void ((node as y.Scalar).value = value)
         }
       }
+    } else if (coreIs.obj(node)) {
     }
   }
 }

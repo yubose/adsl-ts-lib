@@ -5,10 +5,10 @@ import * as t from '../types'
 
 function factory() {
   return {
-    createIf(...args: Parameters<typeof createIf>) {
+    if(...args: Parameters<typeof createIf>) {
       return createIf(...args)
     },
-    createEmit(...args: Parameters<typeof createEmit>) {
+    emit(...args: Parameters<typeof createEmit>) {
       return createEmit(...args)
     },
   }
