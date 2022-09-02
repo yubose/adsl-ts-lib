@@ -89,6 +89,9 @@ export const Identify = (function () {
       updateObject: identifyObj<t.UpdateActionObject>(
         (v) => v.actionType === 'updateObject',
       ),
+      scanCamera: identifyObj<t.ScanCameraActionObject>(
+        (v) => v.actionType === 'scanCamera',
+      ),
     },
     actionChain(v: unknown) {
       return (
