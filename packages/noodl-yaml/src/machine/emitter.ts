@@ -68,23 +68,42 @@ function handleRef(
 export function createEmitter({
   produce = createProducer(),
 }: { produce?: Produce } = {}) {
-  function set(key: string | number, value: any, opts: t.ResolveOptions) {
-    if (is.str(key)) {
-      let datapath = key
+  const set: t.Emit.SetFn = (...args: any[]) => {
+    let _obj: any
+    let _key: string | number | undefined
+    let _value: any
+    let _opts: t.ResolveOptions | undefined
 
-      if (is.reference(key)) {
-        datapath = trimReference(key)
+    if (is.obj(args[0])) {
+      const { obj, key, value, ...options } = args[0] || {}
+      _obj = obj
+      _key = key
+      _value = value
+      _opts = options
+    } else {
+      _obj = args[0]
+      _key = args[1]
+      _value = args[2]
+      _opts = args[3]
+    }
 
-        if (is.localReference(key)) {
-          let rootKey = opts?.page || ''
-          let root = opts?.root || {}
+    if (is.str(_key)) {
+      let path = _key
 
-          if (rootKey && !datapath.startsWith(rootKey)) {
-            datapath = `${rootKey}.${datapath}`
+      if (is.reference(_key)) {
+        path = trimReference(_key)
+
+        if (is.localReference(_key)) {
+          let rootKey = _opts?.page || ''
+          let root = _opts?.root || {}
+
+          if (rootKey && !path.startsWith(rootKey)) {
+            path = `${rootKey}.${path}`
           }
 
-          fp.set(root, datapath)
+          fp.set(root, path)
         }
+      } else {
       }
     }
   }
