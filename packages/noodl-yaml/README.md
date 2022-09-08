@@ -41,3 +41,19 @@ diagnostics.run().then((results) => {
       - merge references
 - resolver encapsulates emitter, producer
 - loader wraps resolver
+
+### Action chain triggerers
+
+- default: save/use/carry (any)
+
+  - determine data type
+
+- if (object)
+- emit (object)
+- action objects (object)
+- goto (object/string)
+- continue (string)
+- retrieve (string)
+- ..${string}@: ${string} (object)
+- set/replace (object)
+- abort (string)

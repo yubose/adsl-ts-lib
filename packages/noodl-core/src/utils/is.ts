@@ -195,6 +195,12 @@ export function fnc<
 }
 
 /** @internal */
+export function index(value: unknown) {
+  if (num(value)) return true
+  return !Number.isNaN(Number(value))
+}
+
+/** @internal */
 export function nil(v: any) {
   return v === null || und(v)
 }

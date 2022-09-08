@@ -7,8 +7,10 @@ import createNode from '../utils/createNode'
 import is from '../utils/is'
 import { toYml } from '../utils/yaml'
 import { factory } from '../factory'
+import { ActionChain } from '../machine/action-chain'
 import { createProducer, createEmitter } from '../machine'
 import { resolve as _resolve } from './resolve'
+import { Key } from '../machine/key'
 import get from '../utils/get'
 import has from '../utils/has'
 import unwrap from '../utils/unwrap'
@@ -19,10 +21,25 @@ const { Meta, MetaKind } = c
 const produce = createProducer()
 const emitter = createEmitter({ produce })
 
-describe.only(`machine`, () => {
+describe(`ActionChain`, () => {
+  it(``, () => {
+    const ac = new ActionChain()
+    const cursor = new Cursor()
+    const tape = new Tape(cursor)
+  })
+})
+
+describe(`machine`, () => {
+  describe.only(`Key`, () => {
+    it(``, () => {
+      const key1 = new Key()
+      console.log(key1)
+    })
+  })
+
   describe(`emitter`, () => {
     describe(`when emitting await references`, () => {
-      it.only(`should use the second argument as the value and set it on the key in the first argument`, () => {
+      it.skip(`should use the second argument as the value and set it on the key in the first argument`, () => {
         const root = { SignIn: {} }
         emitter('.SignIn.food@', 'chicken', { root })
         expect(root)
@@ -30,9 +47,9 @@ describe.only(`machine`, () => {
           .to.have.property('food', 'chicken')
       })
 
-      it(`should resolve the referenced and use it as the value`, () => {
-        const root = { SignIn: { src: 'abc.gif', avatar: '...src' } }
-        const emitted = emitter('.SignIn.url@', { root })
+      it.skip(`should resolve the reference and use it as the value`, () => {
+        const root = { SignIn: { src: 'abc.gif', avatar: '..src' } }
+        const emitted = emitter('.SignIn.url@', '.SignIn.avatar', { root })
         console.log({ root, emitted })
         expect(root.SignIn).to.have.property('url', 'abc.gif')
       })

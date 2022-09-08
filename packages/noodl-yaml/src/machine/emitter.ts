@@ -68,27 +68,6 @@ function handleRef(
 export function createEmitter({
   produce = createProducer(),
 }: { produce?: Produce } = {}) {
-  function set(key: string | number, value: any, opts: t.ResolveOptions) {
-    if (is.str(key)) {
-      let datapath = key
-
-      if (is.reference(key)) {
-        datapath = trimReference(key)
-
-        if (is.localReference(key)) {
-          let rootKey = opts?.page || ''
-          let root = opts?.root || {}
-
-          if (rootKey && !datapath.startsWith(rootKey)) {
-            datapath = `${rootKey}.${datapath}`
-          }
-
-          fp.set(root, datapath)
-        }
-      }
-    }
-  }
-
   function emitter(
     awaitRef: `${string}@`,
     value: any,

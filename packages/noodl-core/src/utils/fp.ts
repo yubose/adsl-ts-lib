@@ -254,6 +254,16 @@ export function toArr<V>(v: V) {
   return (Array.isArray(v) ? v : [v]) as V extends any[] ? V : V[]
 }
 
+/**
+ * Converts the value to a number, or NaN
+ * @param v value
+ * @returns Value as a number or NaN
+ */
+export function toIndex(v: unknown): number {
+  if (typeof v === 'number') return v
+  return Number(v)
+}
+
 function toFixed(value: number, fixNum?: number) {
   return num(fixNum) ? value.toFixed(fixNum) : value
 }

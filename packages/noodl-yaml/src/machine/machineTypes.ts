@@ -1,6 +1,10 @@
 import type { RootConfig, AppConfig } from 'noodl-types'
 import * as c from '../constants'
 
+export namespace ActionToken {
+  //
+}
+
 export namespace Emit {
   interface BaseResolution {
     action: string
