@@ -13,6 +13,17 @@ export namespace Emit {
   export interface AwaitReferenceResolution extends BaseResolution {
     //
   }
+
+  export interface SetFn {
+    (
+      options: {
+        obj?: any
+        key?: string | number
+        value?: any
+      } & ResolveOptions,
+    ): void
+    (obj: any, key: string | number, value: any, opts?: ResolveOptions): void
+  }
 }
 
 export interface MetaObject {
