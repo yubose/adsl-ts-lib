@@ -3,8 +3,8 @@
   "dependencies": {
     "axios": "^0.27.2",
     "invariant": "^2.2.4",
-    "noodl-core": "^0.1.40",
-    "noodl-types": "^1.0.246",
+    "noodl-core": "^0.1.41",
+    "noodl-types": "^1.0.247",
     "rambda": "^7.2.1",
     "type-fest": "^2.18.0",
     "yaml": "^2.1.1"
@@ -20,7 +20,7 @@
     "chai-as-promised": "^7.1.1",
     "memfs": "^3.4.7",
     "mocha": "^10.0.0",
-    "noodl-ui-test-utils": "^0.0.41",
+    "noodl-ui-test-utils": "^0.0.42",
     "sinon-chai": "^3.7.0",
     "source-map-support": "^0.5.21",
     "ts-mocha": "^10.0.0"
@@ -58,5 +58,5 @@
     "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" \"src/**/*.test.ts\" --file src/__tests__/setup.ts",
     "test:file": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json --file src/setupTests.ts -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" --file src/__tests__/setup.ts"
   },
-  "version": "0.0.30"
+  "version": "0.0.31"
 }
