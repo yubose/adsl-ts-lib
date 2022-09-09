@@ -752,7 +752,7 @@ class NDOM extends NDOMInternal {
       }
       if (node) {
         if (newComponent) {
-          if(component.get("lazyCount")){
+          if(component.get("lazyCount")>0){
             let newNode = await this.draw(newComponent, node, page, {
               ...options,
               on: options?.on || this.renderState.options.hooks,
@@ -780,7 +780,7 @@ class NDOM extends NDOMInternal {
             newNode = null
             parentNode = null
           }
-          
+
         }
       }
     } catch (error) {
