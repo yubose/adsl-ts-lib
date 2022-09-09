@@ -318,3 +318,10 @@ export interface GetLocationAddressActionObject
 export interface UpdateActionObject
   extends ActionObject,
     Pick<UncommonActionObjectProps, 'dataObject' | 'dataKey'> {}
+export interface ScanCameraActionObject
+  extends ActionObject,
+      Pick<UncommonActionObjectProps, 'object' | 'dataKey'> {
+    actionType: 'scanCamera'
+    [key: string]: any
+  }
+  

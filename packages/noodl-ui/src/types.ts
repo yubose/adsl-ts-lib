@@ -24,6 +24,7 @@ import type {
   PluginBodyTailComponentObject,
   PluginBodyTopComponentObject,
   IfObject,
+  ScanCameraActionObject,
   PageComponentUrl,
   GetLocationAddressActionObject,
 } from 'noodl-types'
@@ -110,7 +111,7 @@ export type NUIActionObject =
   | SaveActionObject
   | ToastActionObject
   | UpdateActionObject
-
+  | ScanCameraActionObject
 export type NUIAction = Action | EmitAction
 
 export interface AnonymousActionObject extends ActionObject {

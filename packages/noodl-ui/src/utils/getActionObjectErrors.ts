@@ -67,7 +67,9 @@ function getActionObjectErrors(obj: NUIActionObjectInput | undefined) {
       //
     } else if (Identify.action.getLocationAddress(obj)) {
       //
-    } else {
+    } else if (Identify.action.scanCamera(obj)) {
+      //
+    }else {
       results.push(
         `Encountered an unsupported action object of type "${obj.actionType}". ` +
           `Check typos or letter casings.`,

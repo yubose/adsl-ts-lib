@@ -14,6 +14,7 @@ export const action = {
   saveObject: 'saveObject',
   saveSignature: 'saveSignature',
   updateObject: 'updateObject',
+  scanCamera: 'scanCamera',
 } as const
 
 export const actionTypes = Object.values(action)
