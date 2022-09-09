@@ -1,10 +1,10 @@
 {
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
   "dependencies": {
-    "noodl-action-chain": "^0.0.134",
+    "noodl-action-chain": "^0.0.135",
     "noodl-common": "^0.0.58",
-    "noodl-types": "^1.0.243",
-    "noodl-utils": "^0.0.116",
+    "noodl-types": "^1.0.244",
+    "noodl-utils": "^0.0.117",
     "signature_pad": "^4.0.7"
   },
   "description": "NOODL JavaScript library",
@@ -40,5 +40,5 @@
     "watch": "cross-env NODE_ENV=development NODE_OPTIONS=\"--stack-trace-limit=10000\" rollup -c -w"
   },
   "typings": "dist/index.d.ts",
-  "version": "0.1.170"
+  "version": "0.1.171"
 }

@@ -1,11 +1,11 @@
 {
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
   "dependencies": {
-    "noodl-core": "^0.1.37",
-    "noodl-types": "^1.0.243",
-    "noodl-ui": "*",
-    "noodl-ui-test-utils": "*",
-    "noodl-utils": "^0.0.116"
+    "noodl-core": "^0.1.38",
+    "noodl-types": "^1.0.244",
+    "noodl-ui": "^0.1.171",
+    "noodl-ui-test-utils": "^0.0.39",
+    "noodl-utils": "^0.0.117"
   },
   "description": "YAML bindings for noodl-core",
   "directories": {
@@ -46,5 +46,5 @@
     "types:watch": "npm run types -- -w"
   },
   "types": "dist/index.d.ts",
-  "version": "0.0.33"
+  "version": "0.0.34"
 }
