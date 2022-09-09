@@ -58,6 +58,7 @@ export interface ParseOptions<
    * This will be used to resolve the positioning/sizes of component styles
    */
   viewport?: NuiViewport | { width: number; height: number }
+  set?: (obj: any, key: string | number, value: any) => void
 }
 
 /**
@@ -93,6 +94,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
     props = {}
     return parse(props, blueprint, {
       ...parseOptions,
+      set: (a: any, b: any, c: any) => void (a[b] = c),
       getHelpers: (opts) => ({
         blueprint,
         context: context || {},
@@ -112,12 +114,14 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
     keepVpUnit,
     pageName = '',
     root = {},
+    set = (a, b, c) => void (a[b] = c),
     viewport,
   } = parseOptions
 
   if (!u.isFnc(getHelpers)) {
     return parse(props, blueprint, {
       ...arguments[2],
+      set: (a: any, b: any, c: any) => void (a[b] = c),
       getHelpers: (opts) => ({
         getParent,
         props,
@@ -130,16 +134,16 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
     })
   }
 
-  if (props && !props.style) props.style = {}
+  if (props && !props.style) set(props, 'style', {})
 
   if (u.isObj(blueprint?.style)) {
     for (const [key, value] of u.entries(getBaseStyles(blueprint, root))) {
-      props.style[key] = value
+      set(props.style, key, value)
     }
   }
 
   if (u.isObj(blueprint)) {
-    props.type = blueprint.type
+    set(props, 'type', blueprint.type)
 
     let iteratorVar = context?.iteratorVar || findIteratorVar(props) || ''
 
@@ -155,14 +159,13 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
           if (is.reference(originalValue)) {
             isLocalKey = is.localReference(originalValue)
           }
-          props['data-value'] = get(
-            isLocalKey ? root[pageName] : root,
-            datapath,
-          )
+          const dataValue = get(isLocalKey ? root[pageName] : root, datapath)
+          set(props, 'data-value', dataValue)
           if (is.component.select(blueprint)) {
-            props['data-options'] = u.isStr(blueprint.options)
+            const dataOptions = u.isStr(blueprint.options)
               ? get(isLocalKey ? root[pageName] : root, datapath)
               : u.array(blueprint.options)
+            set(props, 'data-options', dataOptions)
           }
           continue
         }
@@ -191,8 +194,8 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
               }
             }
           }
-          props['data-options'] = value || []
-          if (!props.options) props.options = props['data-options']
+          set(props, 'data-options', value || [])
+          if (!props.options) set(props, 'options', props['data-options'])
         }
       } else if (originalKey === 'style') {
         // Style keys to be removed (for the DOM) after processing
@@ -219,22 +222,22 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
           // AXIS
           if (u.isStr(axis) && /horizontal|vertical/.test(axis)) {
             markDelete('axis')
-            value.display = 'flex'
+            set(value, 'display', 'flex')
             if (axis === 'horizontal') {
-              value.flexWrap = 'nowrap'
+              set(value, 'flexWrap', 'nowrap')
             } else if (axis === 'vertical') {
-              value.flexDirection = 'column'
+              set(value, 'flexDirection', 'column')
             }
           }
 
           // ALIGN
           if (u.isStr(align) && /center[xy]/.test(align)) {
             markDelete('align')
-            value.display = 'flex'
+            set(value, 'display', 'flex')
             if (align === 'centerX') {
-              value.justifyContent = 'center'
+              set(value, 'justifyContent', 'center')
             } else if (align === 'centerY') {
-              value.alignItems = 'center'
+              set(value, 'alignItems', 'center')
             }
           }
 
@@ -242,23 +245,24 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
           if (textAlign) {
             // "centerX", "centerY", "left", "center", "right"
             if (u.isStr(textAlign)) {
-              if (textAlign === 'left') value.textAlign = 'left'
-              else if (textAlign === 'center') value.textAlign = 'center'
-              else if (textAlign === 'right') value.textAlign = 'right'
+              if (textAlign === 'left') set(value, 'textAlign', 'left')
+              else if (textAlign === 'center') set(value, 'textAlign', 'center')
+              else if (textAlign === 'right') set(value, 'textAlign', 'right')
               else if (textAlign === 'centerX') {
-                value.textAlign = 'center'
-                restoreVals.textAlign = 'center'
+                set(value, 'textAlign', 'center')
+                set(restoreVals, 'textAlign', 'center')
               } else if (textAlign === 'centerY') {
-                value.display = 'flex'
-                value.alignItems = 'center'
+                set(value, 'display', 'flex')
+                set(value, 'alignItems', 'center')
                 markDelete('textAlign')
               }
             }
             // { x, y }
             else if (u.isObj(textAlign)) {
               if (!u.isNil(textAlign.x)) {
-                value.textAlign =
+                const _textAlign =
                   textAlign.x === 'centerX' ? 'center' : textAlign.x
+                set(value, 'textAlign', _textAlign)
               }
               if (textAlign.y != undefined) {
                 // The y value needs to be handled manually here since s.getTextAlign will
@@ -270,10 +274,12 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                     ['center', 'center'],
                   ])
                   // convert (left ,center ,right) to (flex-start | flex-end | center)
-                  value.display = 'flex'
-                  value.alignItems = 'center'
-                  value.justifyContent = convert.get(
-                    textAlign.x ? textAlign.x : 'left',
+                  set(value, 'display', 'flex')
+                  set(value, 'alignItems', 'center')
+                  set(
+                    value,
+                    'justifyContent',
+                    convert.get(textAlign.x ? textAlign.x : 'left'),
                   )
                   if (!textAlign.x) markDelete('textAlign')
                 }
@@ -284,13 +290,11 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
           // DISPLAY
           if (display === 'inline') value.display = 'inline'
           else if (display === 'inline-block') {
-            value.display = 'inline-block'
-            value.verticalAlign = 'top'
+            set(value, 'display', 'inline-block')
+            set(value, 'verticalAlign', 'top')
           }
 
-          if (verticalAlign) {
-            value.verticalAlign = verticalAlign
-          }
+          if (verticalAlign) set(value, 'verticalAlign', verticalAlign)
 
           /* -------------------------------------------------------
             ---- BORDERS
@@ -313,7 +317,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
             let line: any
 
             // if (border == '0') debugger
-            if (border == ('0' as any)) value.borderStyle = 'none'
+            if (border == ('0' as any)) set(value, 'borderStyle', 'none')
 
             if (u.isObj(border)) {
               borderStyle = border.style
@@ -322,9 +326,11 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
               line = border.line
             }
 
-            if (color) value.borderColor = String(color).replace('0x', '#')
-            if (line) value.borderStyle = line
-            if (width) value.borderWidth = width
+            if (color) {
+              set(value, 'borderColor', String(color).replace('0x', '#'))
+            }
+            if (line) set(value, 'borderStyle', line)
+            if (width) set(value, 'borderWidth', width)
 
             // Analyizing border
             if (borderStyle == '1') {
@@ -349,25 +355,27 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
           if (borderWidth) {
             if (u.isStr(borderWidth)) {
               if (!com.hasLetter(borderWidth)) {
-                value.borderWidth = `${borderWidth}px`
+                set(value, 'borderWidth', `${borderWidth}px`)
               }
             } else if (u.isNum(borderWidth)) {
-              value.borderWidth = `${borderWidth}px`
+              set(value, 'borderWidth', `${borderWidth}px`)
             }
           }
 
           if (borderRadius) {
             if (s.isNoodlUnit(borderRadius)) {
-              value.borderRadius = String(
+              const _borderRadius = String(
                 s.getSize(borderRadius, viewport?.height as number),
               )
+              set(value, 'borderRadius', _borderRadius)
             } else {
               if (u.isStr(borderRadius)) {
-                value.borderRadius = !com.hasLetter(borderRadius)
+                const _borderRadius = !com.hasLetter(borderRadius)
                   ? `${borderRadius}px`
                   : `${borderRadius}`
+                set(value, 'borderRadius', _borderRadius)
               } else if (u.isNum(borderRadius)) {
-                value.borderRadius = `${borderRadius}px`
+                set(value, 'borderRadius', `${borderRadius}px`)
               }
 
               // If a borderRadius effect is to be expected and there is no border
@@ -376,7 +384,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
               const regex = /[a-zA-Z]+$/
               const radius = Number(`${borderRadius}`.replace(regex, ''))
               if (!Number.isNaN(radius)) {
-                value.borderRadius = `${radius}px`
+                set(value, 'borderRadius', `${radius}px`)
                 if (
                   !(u.isStr(value.border) && value.border) &&
                   (!value.borderWidth ||
@@ -384,8 +392,8 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                     value.borderWidth === '0px')
                 ) {
                   // Make the border invisible
-                  value.borderWidth = '1px'
-                  value.borderColor = 'rgba(0, 0, 0, 0)'
+                  set(value, 'borderWidth', '1px')
+                  set(value, 'borderColor', 'rgba(0, 0, 0, 0)')
                 }
               }
             }
@@ -402,20 +410,21 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
             if (u.isStr(fontSize)) {
               if (!com.hasLetter(fontSize)) {
                 if (s.isNoodlUnit(fontSize)) {
-                  value.fontSize = String(
+                  const _fontSize = String(
                     NuiViewport.getSize(fontSize, viewport?.height as number),
                   )
-                } else value.fontSize = `${fontSize}px`
+                  set(value, 'fontSize', _fontSize)
+                } else set(value, 'fontSize', `${fontSize}px`)
               }
             }
             // 10 --> '10px'
-            else if (u.isNum(fontSize)) value.fontSize = `${fontSize}px`
+            else if (u.isNum(fontSize)) set(value, 'fontSize', `${fontSize}px`)
             u.isStr(fontFamily) && value.fontFamily
           }
 
           // { fontStyle } --> { fontWeight }
           if (fontStyle === 'bold') {
-            value.fontWeight = 'bold'
+            set(value, 'fontWeight', 'bold')
             markDelete('fontStyle')
           }
 
@@ -432,7 +441,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                   s.getViewportBound(viewport, posKey) as number,
                 )
                 if (u.isObj(result)) {
-                  for (const [k, v] of u.entries(result)) value[k] = v
+                  for (const [k, v] of u.entries(result)) set(value, k, v)
                 }
               }
             })
@@ -453,9 +462,10 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
             ['height', height],
           ]) {
             if (!u.isNil(val)) {
-              value[key] = String(
+              const _value = String(
                 s.getSize(val, s.getViewportBound(viewport, key) as number),
               )
+              set(value, key, _value)
             }
           }
           for (const [key, vpKey, val] of [
@@ -465,7 +475,8 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
             ['minWidth', 'width', minWidth],
           ]) {
             if (!u.isNil(val)) {
-              value[key] = String(s.getSize(val, viewport?.[vpKey]))
+              const newValue = String(s.getSize(val, viewport?.[vpKey]))
+              set(value, key, newValue)
             }
           }
           // }
@@ -478,19 +489,19 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                 ...getHelpers({ rootKey: isLocal ? pageName : undefined }),
               })
               if (styleKey === 'autoplay') {
-                //@ts-expect-error
-                blueprint.autoplay = styleValue
+                set(blueprint, 'autoplay', styleValue)
               }
             }
 
             if (s.isKeyRelatedToWidthOrHeight(styleValue)) {
-              value[styleKey] = String(
+              const newValue = String(
                 NuiViewport.getSize(
                   styleValue,
                   s.getViewportBound(viewport, styleKey) as number,
                   { unit: 'px' },
                 ),
               )
+              set(value, styleKey, newValue)
             }
 
             if (u.isStr(styleValue)) {
@@ -509,15 +520,15 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
               // Resolve vw/vh units (Values directly relative to viewport)
               if (s.isVwVh(styleValue)) {
                 if (keepVpUnit) {
-                  value[styleKey] = `calc(${styleValue})`
+                  set(value, styleKey, `calc(${styleValue})`)
                 } else {
                   const vpKey = s.getVpKey(styleValue)
                   const vpVal = viewport?.[vpKey as nt.VpUnit] as number
                   const valueNum = s.toNum(styleValue) / 100
                   if (u.isNil(vpVal)) {
-                    value[styleKey] = styleValue
+                    set(value, styleKey, styleValue)
                   } else {
-                    value[styleKey] = String(s.getSize(valueNum, vpVal))
+                    set(value, styleKey, String(s.getSize(valueNum, vpVal)))
                   }
                 }
               }
@@ -537,7 +548,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                 if (viewport) {
                   if (s.isVwVh(styleValue)) {
                     const valueNum = s.toNum(styleValue) / 100
-                    value[styleKey] = keepVpUnit
+                    const newValue = keepVpUnit
                       ? `calc(${styleValue})`
                       : String(
                           s.getSize(
@@ -545,6 +556,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                             s.getViewportBound(viewport, styleValue) as number,
                           ),
                         )
+                    value[styleKey] = newValue
                   } else if (s.isKeyRelatedToWidthOrHeight(styleKey)) {
                     const computedValue = s.isNoodlUnit(styleValue)
                       ? String(
@@ -556,20 +568,20 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                         )
                       : undefined
                     if (s.isNoodlUnit(styleValue)) {
-                      value[styleKey] = computedValue
+                      set(value, styleKey, computedValue)
                     } else if (s.isKeyRelatedToHeight(styleKey)) {
                       if (styleKey == 'borderRadius' && u.isStr(styleValue)) {
                         if (styleValue.includes('px')) {
-                          value[styleKey] = `${styleValue}`
+                          set(value, styleKey, `${styleValue}`)
                         } else {
-                          value[styleKey] = `${styleValue}px`
+                          set(value, styleKey, `${styleValue}px`)
                         }
                       }
                     }
                   }
                 }
               } else {
-                value[styleKey] = com.formatColor(styleValue)
+                set(value, styleKey, com.formatColor(styleValue))
               }
 
               if (styleKey == 'pointerEvents' && styleValue != 'none') {
@@ -577,7 +589,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
               }
 
               if (styleKey == 'isHidden' && is.isBooleanTrue(styleValue)) {
-                props.style.visibility = 'hidden'
+                set(props.style, 'visibility', 'hidden')
               }
 
               // TODO - Find out how to resolve the issue of "value" being undefined without this string check when we already checked above this
@@ -621,17 +633,17 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                           )
                         }
                       } else if (styleKey === 'pointerEvents') {
-                        value['pointer-events'] = _styleValue
+                        set(value, 'pointer-events', _styleValue)
                       } else {
-                        value[styleKey] = _styleValue
+                        set(value, styleKey, _styleValue)
                       }
                     } else {
-                      value[styleKey] = com.formatColor(String(dataObject))
+                      set(value, styleKey, com.formatColor(String(dataObject)))
                     }
                   }
 
                   if (u.isStr(styleValue) && styleValue.startsWith('0x')) {
-                    value[styleKey] = com.formatColor(styleValue)
+                    set(value, styleKey, com.formatColor(styleValue))
                   }
                 }
               }
@@ -641,9 +653,9 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
           // Unparsed style value (reference)
         }
         delKeys.forEach((key) => delete value[key])
-        u.entries(restoreVals).forEach(([k, v]) => (value[k] = v))
+        u.entries(restoreVals).forEach(([k, v]) => set(value, k, v))
       } else if (originalKey === 'viewTag') {
-        props['data-viewtag'] = is.reference(value)
+        const viewTag = is.reference(value)
           ? getByRef(
               value,
               getHelpers({
@@ -651,6 +663,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
               }),
             )
           : value
+        set(props, 'data-viewtag', viewTag)
       } else if (originalKey === 'dataOption') {
         // @ts-expect-error
         let datapath = nu.toDataPath(nu.trimReference(originalValue))
@@ -660,33 +673,24 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
         if (is.reference(originalValue)) {
           isLocalOption = is.localReference(originalValue)
         }
-
-        props['data-option'] = get(
-          isLocalOption ? root[pageName] : root,
-          datapath,
-        )
+        const dataOption = get(isLocalOption ? root[pageName] : root, datapath)
+        props['data-option'] = dataOption
       } else if (originalKey === 'placeholder') {
         // @ts-expect-error
         let datapath = nu.toDataPath(nu.trimReference(originalValue))
         let isLocalOption = is.localKey(datapath.join('.'))
-        console.log({
-          blueprint,
-          props,
-          datapath,
-          isLocalOption,
-          originalValue,
-        })
         // Note: This is here for fallback reasons.
         // dataKey should never be a reference in the noodl
         if (is.reference(originalValue)) {
           isLocalOption = is.localReference(originalValue)
         }
         if (isLocalOption) {
-          props.placeholder = get(
+          const placeholder = get(
             isLocalOption ? root[pageName] : root,
             datapath,
           )
-          props['data-placeholder'] = props.placeholder
+          set(props, 'placeholder', placeholder)
+          set(props, 'data-placeholder', placeholder)
         }
       } else if (originalKey === 'videoOption') {
         // @ts-expect-error
@@ -697,15 +701,13 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
         if (is.reference(originalValue)) {
           isLocalOption = is.localReference(originalValue)
         }
-        props['video-option'] = get(
-          isLocalOption ? root[pageName] : root,
-          datapath,
-        )
+        const videoOption = get(isLocalOption ? root[pageName] : root, datapath)
+        set(props, 'video-option', videoOption)
       } else {
         // Arbitrary references
         if (u.isStr(originalValue) && is.reference(originalValue)) {
           value = getByRef(originalValue, getHelpers({ rootKey: pageName }))
-          props[originalKey] = value
+          set(props, originalKey, value)
         }
       }
     }
@@ -715,7 +717,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
     -------------------------------------------------------- */
 
     if (is.component.header(blueprint)) {
-      props.style.zIndex = 100
+      set(props.style, 'zIndex', 100)
     } else if (is.component.image(blueprint)) {
       // Remove the height to maintain the aspect ratio since images are
       // assumed to have an object-fit of 'contain'
@@ -724,35 +726,36 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
       // assumed to have an object-fit of 'contain'
       if (!('width' in (blueprint.style || {}))) delete props.style.width
       if (!('objectFit' in (blueprint.style || {}))) {
-        props.style.objectFit = 'contain'
+        set(props.style, 'objectFit', 'contain')
       }
     } else if (
       is.component.listLike(blueprint) &&
       props.style.display !== 'none'
     ) {
       const axis = blueprint.style?.axis
-      props.style.display =
+      const display =
         axis === 'horizontal' || axis === 'vertical' ? 'flex' : 'block'
-      props.style.listStyle = 'none'
-      props.style.padding = '0px'
+      set(props.style, 'display', display)
+      set(props.style, 'listStyle', 'none')
+      set(props.style, 'padding', '0px')
     } else if (is.component.listItem(blueprint)) {
       // Flipping the position to relative to make the list items stack on top of eachother.
       //    Since the container is a type: list and already has their entire height defined in absolute values,
       //    this shouldn't have any UI issues because they'll stay contained within
-      props.style.listStyle = 'none'
+      set(props.style, 'listStyle', 'none')
       // props.style.padding = 0
     } else if (is.component.popUp(blueprint)) {
-      props.style.visibility = 'hidden'
+      set(props.style, 'visibility', 'hidden')
     } else if (
       is.component.scrollView(blueprint) &&
       props.style.display !== 'none'
     ) {
-      props.style.display = 'block'
+      set(props.style, 'display', 'block')
     } else if (is.component.textView(blueprint)) {
-      props.style.rows = 10
-      props.style.resize = 'none'
+      set(props.style, 'rows', 10)
+      set(props.style, 'resize', 'none')
     } else if (is.component.video(blueprint)) {
-      props.style.objectFit = 'contain'
+      set(props.style, 'objectFit', 'contain')
     }
 
     /* -------------------------------------------------------
@@ -761,7 +764,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
 
     // Shadow
     if (is.isBooleanTrue(blueprint?.style?.shadow)) {
-      props.style.boxShadow = '5px 5px 10px 3px rgba(0, 0, 0, 0.015)'
+      set(props.style, 'boxShadow', '5px 5px 10px 3px rgba(0, 0, 0, 0.015)')
       delete props.style.shadow
     }
 
@@ -778,7 +781,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
     is.isBooleanTrue(isHiddenValue) && (props.style.visibility = 'hidden')
 
     if (is.isBoolean(blueprint?.required)) {
-      props.required = is.isBooleanTrue(blueprint?.required)
+      set(props, 'required', is.isBooleanTrue(blueprint?.required))
     }
   } else {
     /**
