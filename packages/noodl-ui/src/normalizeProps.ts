@@ -4,6 +4,7 @@ import * as nt from 'noodl-types'
 import * as nu from 'noodl-utils'
 import lget from 'lodash/get'
 import lset from 'lodash/set'
+import lunset from 'lodash/unset'
 import NuiViewport from './Viewport'
 import { presets } from './constants'
 import { findIteratorVar, findListDataObject } from './utils/noodl'
@@ -71,6 +72,7 @@ export interface ParseOptions<
   toArr?: (v: any) => any
   get?: <C = any>(component: C, key: any, initialValue?: any) => any
   set?: (obj: any, key: string | number, value: any) => void
+  unset?: (obj: any, key: string | number) => void
 }
 
 /**
@@ -115,7 +117,8 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
       isNil: u.isNil,
       isUnd: u.isUnd,
       get: lget,
-      set: (a: any, b: any, c: any) => void (a[b] = c),
+      set: lset,
+      unset: lunset,
       toArr: u.array,
       getHelpers: (opts) => ({
         blueprint,
@@ -147,12 +150,12 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
     toArr = u.array,
     get = lget,
     set = lset,
+    unset = lunset,
     viewport,
   } = parseOptions
 
   if (!u.isFnc(getHelpers)) {
     return parse(props, blueprint, {
-      ...arguments[2],
       assign: Object.assign,
       entries: Object.entries,
       isArr: u.isArr,
@@ -163,7 +166,9 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
       isUnd: u.isUnd,
       get: lget,
       set: lset,
+      unset: lunset,
       toArr: u.array,
+      ...arguments[2],
       getHelpers: (opts) => ({
         getParent,
         props,
@@ -701,7 +706,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
         } else if (isStr(originalValue)) {
           // Unparsed style value (reference)
         }
-        delKeys.forEach((key) => delete value[key])
+        delKeys.forEach((key) => unset(value, key))
         entries(restoreVals).forEach(([k, v]) => set(value, k, v))
       } else if (originalKey === 'viewTag') {
         const viewTag = is.reference(value)
@@ -777,12 +782,12 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
       // Remove the height to maintain the aspect ratio since images are
       // assumed to have an object-fit of 'contain'
       if (!('height' in (get(blueprint, 'style') || {}))) {
-        delete props.style.height
+        unset(props, 'style.height')
       }
       // Remove the width to maintain the aspect ratio since images are
       // assumed to have an object-fit of 'contain'
       if (!('width' in (get(blueprint, 'style') || {}))) {
-        delete props.style.width
+        unset(props, 'style.width')
       }
       if (!('objectFit' in (get(blueprint, 'style') || {}))) {
         set(get(props, 'style'), 'objectFit', 'contain')
@@ -828,7 +833,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
         'boxShadow',
         '5px 5px 10px 3px rgba(0, 0, 0, 0.015)',
       )
-      delete props.style.shadow
+      unset(props, 'style.shadow')
     }
 
     // Visibility

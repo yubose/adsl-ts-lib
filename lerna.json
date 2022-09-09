@@ -13,7 +13,7 @@
     "run": {}
   },
   "forceLocal": true,
-  "ignore": "noodl-{loader-docs,yaml}",
+  "ignore": "noodl-{loader,loader-docs,yaml}",
   "loglevel": "verbose",
   "message": "Update",
   "packages": [
@@ -24,7 +24,6 @@
     "packages/noodl-ui",
     "packages/noodl-file",
     "packages/noodl-core",
-    "packages/noodl-loader",
     "packages/gatsby-plugin-noodl"
   ],
   "useNx": true,

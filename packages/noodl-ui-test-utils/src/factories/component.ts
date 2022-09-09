@@ -123,18 +123,16 @@ const componentFactory = (function () {
     return { type: 'header', ...props }
   }
 
-  function image<Path extends string>(
-    path: Path,
-  ): ImageComponentObject & { path: Path }
-
-  function image(props?: Partial<ImageComponentObject>): ImageComponentObject
-
-  function image(): ImageComponentObject
-
-  function image<Path extends string>(
-    props?: Path | Partial<ImageComponentObject>,
-  ) {
-    return { type: 'image', path: strOrEmptyStr(props) } as ImageComponentObject
+  function image<Path = any>(props?: Path | Partial<ImageComponentObject>) {
+    const comp = { type: 'image' } as ImageComponentObject
+    if (u.isObj(props)) {
+      if ('path' in props || 'type' in props) {
+        u.assign(comp, props)
+      } else {
+        comp.path = props as any
+      }
+    }
+    return comp
   }
 
   function label<DataKey extends string>(

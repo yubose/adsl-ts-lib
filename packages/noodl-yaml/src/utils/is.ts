@@ -72,8 +72,10 @@ function equalTo<N = any>(v1: unknown, v2: N): v1 is typeof v2 {
 }
 
 const is = {
-  nil: (node: unknown): node is y.Scalar<null | undefined> =>
+  nilNode: (node: unknown): node is y.Scalar<null | undefined> =>
     coreIs.nil(unwrap(node)),
+  undefinedNode: (node: unknown): node is y.Scalar<undefined> =>
+    coreIs.und(unwrap(node)),
   equalTo,
   fileSystem: (value: unknown): value is FileSystem =>
     value !== null &&
@@ -89,6 +91,8 @@ const is = {
     getYamlNodeKind(node) === c.Kind.Scalar,
   stringNode: (node: unknown): node is y.Scalar<string> =>
     is.scalarNode(node) && coreIs.str(node.value),
+  numberNode: (node: unknown): node is y.Scalar<number> =>
+    is.scalarNode(node) && coreIs.num(node.value),
   pairNode: (node: unknown): node is y.Pair =>
     getYamlNodeKind(node) === c.Kind.Pair,
   mapNode: (node: unknown): node is y.YAMLMap =>

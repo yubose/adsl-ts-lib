@@ -30,13 +30,6 @@ describe(`ActionChain`, () => {
 })
 
 describe(`machine`, () => {
-  describe.only(`Key`, () => {
-    it(``, () => {
-      const key1 = new Key()
-      console.log(key1)
-    })
-  })
-
   describe(`emitter`, () => {
     describe(`when emitting await references`, () => {
       it.skip(`should use the second argument as the value and set it on the key in the first argument`, () => {

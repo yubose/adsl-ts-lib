@@ -14,6 +14,11 @@ export const isPair = y.isPair
 export const isMap = y.isMap
 export const isSeq = y.isSeq
 export const isNode = y.isNode
+export const isDoc = y.isDocument
+export const isAnyNode = (
+  value: unknown,
+): value is y.YAMLMap | y.Document | y.Pair | y.Scalar | y.YAMLSeq =>
+  isCollection(value) || isDoc(value) || isPair(value) || isScalar(value)
 
 export function toDoc(yml: string, opts?: ParseOptions) {
   const parseOptions: typeof opts = { ...defaultParseOptions, ...opts }
