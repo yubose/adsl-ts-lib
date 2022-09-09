@@ -8,6 +8,7 @@
     },
     "publish": {
       "bump": "patch",
+      "ignore": "noodl-{loader,loader-docs,yaml}",
       "message": "Update"
     },
     "run": {}
