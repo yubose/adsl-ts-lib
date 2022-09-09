@@ -4,7 +4,6 @@
     "noodl-action-chain": "^0.0.134",
     "noodl-common": "^0.0.58",
     "noodl-types": "^1.0.243",
-    "noodl-ui-test-utils": "^0.0.23",
     "noodl-utils": "^0.0.116",
     "signature_pad": "^4.0.7"
   },

@@ -86,7 +86,7 @@ const actionFactory = (function () {
 
   function popUpDismiss(props?: string | Partial<PopupDismissActionObject>) {
     const a = { actionType: 'popUpDismiss' } as PopupDismissActionObject
-    a.createProperty('popUpView', strOrEmptyStr(props))
+    a.popUpView = strOrEmptyStr(props)
     return u.assign(a, u.isObj(props) ? props : undefined)
   }
 
