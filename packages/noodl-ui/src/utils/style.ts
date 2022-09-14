@@ -13,6 +13,7 @@ export const vpHeightKeys = <const>[
   ...yKeys,
   'borderRadius',
   'fontSize',
+  'padding',
   'paddingTop',
   'paddingBottom',
   'marginBottom',
