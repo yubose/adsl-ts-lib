@@ -645,7 +645,7 @@ class NDOM extends NDOMInternal {
             ? document.createDocumentFragment()
             : node; 
             let i:number =0;
-            if(Identify.component.list(component)&&(+(component.get("lazyCount")))>0){
+            if(Identify.component.list(component)&&component.children.length>0&&(+(component.get("lazyCount")))>0){
               let newCount = component.children.length%count;
               i = newCount!==0?component.children.length-newCount:component.children.length-count
               for(i ;i<component.children.length;i++){
