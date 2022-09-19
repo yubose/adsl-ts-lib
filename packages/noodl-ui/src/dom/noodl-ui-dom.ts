@@ -434,9 +434,14 @@ class NDOM extends NDOMInternal {
     )
 
     const numComponents = components.length
-    for (let index = 0; index < numComponents; index++) {
-      await this.draw(components[index] as any, page.node, page, resolveOptions)
-    }
+    // for (let index = 0; index < numComponents; index++) {
+    //   await this.draw(components[index] as any, page.node, page, resolveOptions)
+    // }
+    Promise.all(
+      components.map(async(component)=>{
+        await this.draw(component as any, page.node, page, resolveOptions)
+      })
+    )
 
     page.emitSync(c.eventId.page.on.ON_COMPONENTS_RENDERED, page)
     page.setStatus(c.eventId.page.status.COMPONENTS_RENDERED)
@@ -645,7 +650,7 @@ class NDOM extends NDOMInternal {
             ? document.createDocumentFragment()
             : node; 
             let i:number =0;
-            if(Identify.component.list(component)&&(+(component.get("lazyCount")))>0){
+            if(Identify.component.list(component)&&component.children.length>0&&(+(component.get("lazyCount")))>0){
               let newCount = component.children.length%count;
               i = newCount!==0?component.children.length-newCount:component.children.length-count
               for(i ;i<component.children.length;i++){
