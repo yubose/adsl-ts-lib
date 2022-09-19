@@ -433,14 +433,14 @@ class NDOM extends NDOMInternal {
       page.snapshot({ components }),
     )
 
-    const numComponents = components.length
+    // const numComponents = components.length
     // for (let index = 0; index < numComponents; index++) {
     //   await this.draw(components[index] as any, page.node, page, resolveOptions)
     // }
     Promise.all(
-      components.map(async(component)=>{
+      components.map(async (component) => {
         await this.draw(component as any, page.node, page, resolveOptions)
-      })
+      }),
     )
 
     page.emitSync(c.eventId.page.on.ON_COMPONENTS_RENDERED, page)
@@ -477,7 +477,7 @@ class NDOM extends NDOMInternal {
     let hooks = options?.on
     let node: t.NDOMElement | null = null
     let page: NDOMPage = pageProp || this.page
-    let count = +(component.get("lazyCount")) as number;
+    let count = +component.get('lazyCount') as number
     if (hooks) {
       const currentHooks = this.renderState.options.hooks
       hooks.actionChain && (currentHooks.actionChain = hooks.actionChain)
@@ -524,7 +524,6 @@ class NDOM extends NDOMInternal {
       }
     }
     try {
-      
       if (component) {
         if (_isPluginComponent(component)) {
           // We will delegate the role of the node creation to the consumer (only enabled for plugin components for now)
@@ -539,7 +538,7 @@ class NDOM extends NDOMInternal {
             resolvers: this.resolvers,
           })
 
-          return node;
+          return node
         } else if (Identify.component.image(component)) {
           if (this.#createElementBinding) {
             node = this.#createElementBinding(component) as HTMLElement
@@ -549,16 +548,15 @@ class NDOM extends NDOMInternal {
               try {
                 node = await createAsyncImageElement(container as HTMLElement)
                 const result = component.get(c.DATA_SRC)
-                if(result?.then){
-                  result.then((res:any)=>{
-                    let re = res.find((val:any) => !!val?.result)?.result
+                if (result?.then) {
+                  result.then((res: any) => {
+                    let re = res.find((val: any) => !!val?.result)?.result
                     re = `${nui.getAssetsUrl()}/${re}`
                     node && ((node as HTMLImageElement).src = re)
                   })
-                }else{
+                } else {
                   node && ((node as HTMLImageElement).src = result)
                 }
-                
               } catch (error) {
                 console.error(error)
               }
@@ -569,16 +567,15 @@ class NDOM extends NDOMInternal {
             if (!node) {
               node = document.createElement('img')
               const result = component.get(c.DATA_SRC)
-                if(result?.then){
-                  result.then((res:any)=>{
-                    let re = res.find((val:any) => !!val?.result)?.result
-                    re = re? resolveAssetUrl(re, nui.getAssetsUrl()): ''
-                    ;(node as HTMLImageElement).src = re
-                  })
-                }else{
-                  ;((node as HTMLImageElement).src = result)
-                }
-              
+              if (result?.then) {
+                result.then((res: any) => {
+                  let re = res.find((val: any) => !!val?.result)?.result
+                  re = re ? resolveAssetUrl(re, nui.getAssetsUrl()) : ''
+                  ;(node as HTMLImageElement).src = re
+                })
+              } else {
+                ;(node as HTMLImageElement).src = result
+              }
             }
           }
         } else if (Identify.component.page(component)) {
@@ -590,9 +587,9 @@ class NDOM extends NDOMInternal {
           node = document.createElement(getElementTag(component))
           componentPage.replaceNode(node as HTMLIFrameElement)
         } else {
-          if(container?.tagName === "UL"&&(+(component.get("lazyCount")))>0){
-            node = container;
-          }else{
+          if (container?.tagName === 'UL' && +component.get('lazyCount') > 0) {
+            node = container
+          } else {
             node = this.#createElementBinding?.(component) || null
             node && (node['isElementBinding'] = true)
             !node && (node = document.createElement(getElementTag(component)))
@@ -610,9 +607,9 @@ class NDOM extends NDOMInternal {
         const parent = component.has?.('global')
           ? document.body
           : container || document.body
-          // console.log(count,"kkkk")
-          // NOTE: This needs to stay above the code below or the children will
-          // not be able to access their parent during the resolver calls
+        // console.log(count,"kkkk")
+        // NOTE: This needs to stay above the code below or the children will
+        // not be able to access their parent during the resolver calls
         if (!parent.contains(node)) {
           if (u.isObj(options) && u.isNum(options.nodeIndex)) {
             parent.insertBefore(node, parent.children.item(options.nodeIndex))
@@ -648,32 +645,44 @@ class NDOM extends NDOMInternal {
            */
           let childrenContainer = Identify.component.list(component)
             ? document.createDocumentFragment()
-            : node; 
-            let i:number =0;
-            if(Identify.component.list(component)&&component.children.length>0&&(+(component.get("lazyCount")))>0){
-              let newCount = component.children.length%count;
-              i = newCount!==0?component.children.length-newCount:component.children.length-count
-              for(i ;i<component.children.length;i++){
-                const childNode = (await this.draw(component.children[i], node, page, {
+            : node
+          let i: number = 0
+          if (
+            Identify.component.list(component) &&
+            component.children.length > 0 &&
+            +component.get('lazyCount') > 0
+          ) {
+            let newCount = component.children.length % count
+            i =
+              newCount !== 0
+                ? component.children.length - newCount
+                : component.children.length - count
+            for (i; i < component.children.length; i++) {
+              const childNode = (await this.draw(
+                component.children[i],
+                node,
+                page,
+                {
                   ...options,
                   on: hooks,
-                })) as HTMLElement
-                  childNode && childrenContainer?.appendChild(childNode)
-              }
-            }else{
-              for (const child of component.children) {
-                const childNode = (await this.draw(child, node, page, {
-                  ...options,
-                  on: hooks,
-                })) as HTMLElement
-                childNode && childrenContainer?.appendChild(childNode)
-              }
+                },
+              )) as HTMLElement
+              childNode && childrenContainer?.appendChild(childNode)
             }
+          } else {
+            for (const child of component.children) {
+              const childNode = (await this.draw(child, node, page, {
+                ...options,
+                on: hooks,
+              })) as HTMLElement
+              childNode && childrenContainer?.appendChild(childNode)
+            }
+          }
           if (
             childrenContainer.nodeType ===
             childrenContainer.DOCUMENT_FRAGMENT_NODE
           ) {
-              node.appendChild(childrenContainer)
+            node.appendChild(childrenContainer)
           }
           childrenContainer = null as any
         }
@@ -687,7 +696,7 @@ class NDOM extends NDOMInternal {
         delete this.renderState.draw.loading[page.id]
       }
     }
-    return node|| null
+    return node || null
   }
   async redraw<C extends t.NuiComponent.Instance>(
     node: t.NDOMElement | null, // ex: li (dom node)
@@ -757,15 +766,15 @@ class NDOM extends NDOMInternal {
       }
       if (node) {
         if (newComponent) {
-          if(component.get("lazyCount")>0){
+          if (component.get('lazyCount') > 0) {
             let newNode = await this.draw(newComponent, node, page, {
               ...options,
               on: options?.on || this.renderState.options.hooks,
               context,
               nodeIndex: getNodeIndex(node),
             })
-              node = newNode;
-          }else{
+            node = newNode
+          } else {
             let parentNode = node.parentNode
             let currentIndex = getNodeIndex(node)
             // @ts-expect-error
@@ -781,11 +790,10 @@ class NDOM extends NDOMInternal {
             } else {
               node?.remove?.()
             }
-            node = newNode  as HTMLElement
+            node = newNode as HTMLElement
             newNode = null
             parentNode = null
           }
-
         }
       }
     } catch (error) {
