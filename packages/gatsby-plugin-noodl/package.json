@@ -1,7 +1,7 @@
 {
   "author": "Christopher <christopher@aitmed.com>",
   "dependencies": {
-    "@aitmed/cadl": "^1.0.723",
+    "@aitmed/cadl": "^1.0.726",
     "@aitmed/ecos-lvl2-sdk": "^1.4.205",
     "app-root-path": "^3.0.0",
     "canvas": "^2.9.3",
