@@ -405,8 +405,8 @@ const componentsResolver: t.Resolve.Config = {
             let result = args.component.get(c.DATA_SRC)
             setAttr('src', result)
             setDataAttr('src', result)
-          } else {
           }
+          
           args.component.on('path', (result: string) => {
             if (args.node) {
               setAttr('src', result)

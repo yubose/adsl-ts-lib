@@ -546,41 +546,48 @@ class NDOM extends NDOMInternal {
           if (this.#createElementBinding) {
             node = this.#createElementBinding(component) as HTMLElement
           }
-          try {
-            if (Identify.folds.emit(component.blueprint?.path)) {
-              try {
-                node = await createAsyncImageElement(container as HTMLElement)
-                const result = component.get(c.DATA_SRC)
-                if (result?.then) {
-                  result.then((res: any) => {
-                    let re = res.find((val: any) => !!val?.result)?.result
-                    re = `${nui.getAssetsUrl()}/${re}`
-                    node && ((node as HTMLImageElement).src = re)
-                  })
-                } else {
-                  node && ((node as HTMLImageElement).src = result)
-                }
-              } catch (error) {
-                console.error(error)
-              }
-            }
-          } catch (error) {
-            console.error(error)
-          } finally {
-            if (!node) {
-              node = document.createElement('img')
-              const result = component.get(c.DATA_SRC)
-              if (result?.then) {
-                result.then((res: any) => {
-                  let re = res.find((val: any) => !!val?.result)?.result
-                  re = re ? resolveAssetUrl(re, nui.getAssetsUrl()) : ''
-                  ;(node as HTMLImageElement).src = re
-                })
-              } else {
-                ;(node as HTMLImageElement).src = result
-              }
-            }
+          if (!node) {
+            node = document.createElement('img')
           }
+          if(node){
+            console.log('test12',resolveAssetUrl('null.svg',nui.getAssetsUrl()))
+            node.setAttribute('src',resolveAssetUrl('null.svg',nui.getAssetsUrl()))
+          }
+          // try {
+          //   if (Identify.folds.emit(component.blueprint?.path)) {
+          //     try {
+          //       node = await createAsyncImageElement(container as HTMLElement)
+          //       const result = component.get(c.DATA_SRC)
+          //       if (result?.then) {
+          //         result.then((res: any) => {
+          //           let re = res.find((val: any) => !!val?.result)?.result
+          //           re = `${nui.getAssetsUrl()}/${re}`
+          //           node && ((node as HTMLImageElement).src = re)
+          //         })
+          //       } else {
+          //         node && ((node as HTMLImageElement).src = result)
+          //       }
+          //     } catch (error) {
+          //       console.error(error)
+          //     }
+          //   }
+          // } catch (error) {
+          //   console.error(error)
+          // } finally {
+          //   if (!node) {
+          //     node = document.createElement('img')
+          //     const result = component.get(c.DATA_SRC)
+          //     if (result?.then) {
+          //       result.then((res: any) => {
+          //         let re = res.find((val: any) => !!val?.result)?.result
+          //         re = re ? resolveAssetUrl(re, nui.getAssetsUrl()) : ''
+          //         ;(node as HTMLImageElement).src = re
+          //       })
+          //     } else {
+          //       ;(node as HTMLImageElement).src = result
+          //     }
+          //   }
+          // }
         } else if (Identify.component.page(component)) {
           const componentPage = _getOrCreateComponentPage(
             component,
