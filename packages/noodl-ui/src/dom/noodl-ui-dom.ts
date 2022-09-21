@@ -14,7 +14,6 @@ import {
   _resetTransactions,
 } from './utils'
 import GlobalComponentRecord from './global/GlobalComponentRecord'
-import createAsyncImageElement from '../utils/createAsyncImageElement'
 import componentFactory from './factory/componentFactory/componentFactory'
 import globalFactory from './factory/globalFactory'
 import isComponent from '../utils/isComponent'
@@ -419,7 +418,7 @@ class NDOM extends NDOMInternal {
       }),
     ) as t.NuiComponent.Instance[]
     let e = Date.now()
-    console.log(`[timeLog] ${e-s}ms`)
+    console.log(`[timeLog] ${e - s}ms`)
     page.setStatus(c.eventId.page.status.COMPONENTS_RECEIVED)
     page.emitSync(c.eventId.page.on.ON_DOM_CLEANUP, {
       global: this.global,
@@ -549,9 +548,15 @@ class NDOM extends NDOMInternal {
           if (!node) {
             node = document.createElement('img')
           }
-          if(node){
-            console.log('test12',resolveAssetUrl('null.svg',nui.getAssetsUrl()))
-            node.setAttribute('src',resolveAssetUrl('null.svg',nui.getAssetsUrl()))
+          if (node) {
+            console.log(
+              'test12',
+              resolveAssetUrl('null.svg', nui.getAssetsUrl()),
+            )
+            node.setAttribute(
+              'src',
+              resolveAssetUrl('null.svg', nui.getAssetsUrl()),
+            )
           }
           // try {
           //   if (Identify.folds.emit(component.blueprint?.path)) {
@@ -753,7 +758,6 @@ class NDOM extends NDOMInternal {
           component.blueprint,
           page?.getNuiPage?.(),
         )
-        
 
         if (parent) {
           newComponent.setParent(parent)
