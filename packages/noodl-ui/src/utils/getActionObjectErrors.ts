@@ -67,7 +67,7 @@ function getActionObjectErrors(obj: NUIActionObjectInput | undefined) {
       //
     } else if (Identify.action.getLocationAddress(obj)) {
       //
-    } else if (Identify.action.scanCamera(obj)) {
+    } else if (Identify.action.ScanCamera(obj)) {
       //
     }else {
       results.push(

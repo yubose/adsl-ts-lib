@@ -374,19 +374,37 @@ const componentsResolver: t.Resolve.Config = {
               setStyleAttr('height', '100%')
             }
           }
+          //load init image
+          const defaultPath = args.component.get('defaultPath')
+          if(defaultPath){
+            if (args.node) {
+              setAttr('src', resolveAssetUrl(defaultPath,nui.getAssetsUrl()))
+              setDataAttr('src', resolveAssetUrl(defaultPath,nui.getAssetsUrl()))
+            }
+          }
+
+          let pathResult:any
+          if(Identify.folds.emit(original['path'])){
+            setTimeout(
+              ()=>{
+                const ac = args.component.get('path')
+                pathResult = ac?.execute?.()
+                pathResult.then((res:any)=>{
+                  let re = res.find((val:any) => !!val?.result)?.result
+                  re = re? resolveAssetUrl(re, nui.getAssetsUrl()): ''
+                  setAttr('src', re)
+                  setDataAttr('src', re)
+                })
+              },0
+            )
+            
+          }
+          
+
           if (args.component.get(c.DATA_SRC)) {
             let result = args.component.get(c.DATA_SRC)
-            if (result?.then){
-              result.then((res:any)=>{
-                let re = res.find((val:any) => !!val?.result)?.result
-                re = re? resolveAssetUrl(re, nui.getAssetsUrl()): ''
-                setAttr('src', re)
-                setDataAttr('src', re)
-              })
-            }else{
-              setAttr('src', result)
-              setDataAttr('src', result)
-            }
+            setAttr('src', result)
+            setDataAttr('src', result)
           } else {
           }
           args.component.on('path', (result: string) => {

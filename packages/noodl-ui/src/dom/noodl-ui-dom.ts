@@ -410,6 +410,7 @@ class NDOM extends NDOMInternal {
     this.reset('componentCache', page)
     const nuiPage = page.getNuiPage()
 
+    let s = Date.now()
     const components = u.array(
       await nui.resolveComponents({
         components: page.components,
@@ -417,6 +418,8 @@ class NDOM extends NDOMInternal {
         ...resolveOptions,
       }),
     ) as t.NuiComponent.Instance[]
+    let e = Date.now()
+    console.log(`[timeLog] ${e-s}ms`)
     page.setStatus(c.eventId.page.status.COMPONENTS_RECEIVED)
     page.emitSync(c.eventId.page.on.ON_DOM_CLEANUP, {
       global: this.global,
@@ -739,12 +742,11 @@ class NDOM extends NDOMInternal {
           node,
           page,
         })
-
         newComponent = nui.createComponent(
           component.blueprint,
           page?.getNuiPage?.(),
         )
-        // console.log(component.blueprint,page?.getNuiPage?.(),component,"kkkkk");
+        
 
         if (parent) {
           newComponent.setParent(parent)
@@ -754,7 +756,15 @@ class NDOM extends NDOMInternal {
           newComponent.edit({ index })
         }
         // console.log(component.get("lazyCount"),newComponent,component,"kkkkk");
-
+        // console.log('test86',component,component.children.length,component.defaultChildren.length)
+        // console.log('test87',newComponent,newComponent.length,newComponent.defaultChildren.length)
+        // if(component.children.length === 0 &&  component.defaultChildren.length>0){
+        //   newComponent.removeChild()
+        //   for(const child of component.defaultChildren){
+        //     newComponent.createChild(child)
+        //   }
+        //   console.log('test88',newComponent)
+        // }
         this.removeComponent(component)
         newComponent = await nui.resolveComponents?.({
           callback: options?.callback,
@@ -763,6 +773,7 @@ class NDOM extends NDOMInternal {
           context,
           on: options?.on || this.renderState.options.hooks,
         })
+        // newComponent.copyFromChildrenToDefault()
       }
       if (node) {
         if (newComponent) {

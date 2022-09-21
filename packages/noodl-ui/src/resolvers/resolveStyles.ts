@@ -51,6 +51,15 @@ resolveStyles.setResolver(async (component, options, next) => {
       viewport,
     }),
   )
+  // if((component.style.visibility === 'hidden' ||  component.style.display === 'none') && component.children.length>0&&localStorage.getItem('initPageStatus')==='true'){
+  //   console.log('test8990',component)
+  //   component.removeAllDefaultChild()
+  //   component.copyFromChildrenToDefault()
+  //   component.children.map(child=>{
+  //     component.removeChild(child)
+  //   })
+  //   console.log('test8991',component)
+  // }
 
   return next?.()
 })

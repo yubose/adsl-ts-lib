@@ -125,12 +125,17 @@ setupResolver.setResolver(
               { emit: original[trigger].emit, actionType: 'emit' },
             ])
             on?.actionChain && actionChain.use(on.actionChain)
-            await on?.emit?.createActionChain?.({
-              actionChain,
-              actions: original[trigger].emit?.actions || [],
-              component,
-              trigger: trigger as t.NUITrigger,
-            })
+            if(trigger !== 'path'){
+              await on?.emit?.createActionChain?.({
+                actionChain,
+                actions: original[trigger].emit?.actions || [],
+                component,
+                trigger: trigger as t.NUITrigger,
+              })
+            }else{
+              component.edit({ [trigger]: actionChain })
+            }
+            
           }
         }
       }

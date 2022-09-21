@@ -16,6 +16,7 @@ class Component<C extends ComponentObject = ComponentObject> {
   #hookCbIds: string[] = []
   #component: ComponentObject
   #children: t.NuiComponent.Instance[] = []
+  #defaultChildren: t.NuiComponent.Instance[] = []
   #id = ''
   #parent: t.NuiComponent.Instance | null = null
   type: C['type']
@@ -66,6 +67,10 @@ class Component<C extends ComponentObject = ComponentObject> {
   get children() {
     if (!this.#children) this.#children = []
     return this.#children
+  }
+  get defaultChildren() {
+    if (!this.#defaultChildren) this.#defaultChildren = []
+    return this.#defaultChildren
   }
 
   get contentType() {
@@ -267,6 +272,15 @@ class Component<C extends ComponentObject = ComponentObject> {
     } else if (this.children.includes(child)) {
       return this.children.splice(this.children.indexOf(child), 1)[0]
     }
+  }
+
+  removeAllDefaultChild(){
+    return this.#defaultChildren = []
+  }
+
+  copyFromChildrenToDefault(){
+    const _clone = u.cloneDeep(this.children)
+    this.#defaultChildren = [..._clone]
   }
 
   on<Evt extends t.NuiComponent.HookEvent>(
