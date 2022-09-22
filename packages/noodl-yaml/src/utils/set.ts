@@ -1,5 +1,5 @@
 import y from 'yaml'
-import { fp, is as coreIs, trimReference } from 'noodl-core'
+import { fp, is as coreIs } from 'noodl-core'
 import createNode from './createNode'
 import is from './is'
 import getYamlNodeKind from './getYamlNodeKind'
