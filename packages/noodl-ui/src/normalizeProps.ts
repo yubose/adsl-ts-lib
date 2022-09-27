@@ -670,9 +670,13 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                           ),
                         )
                       : undefined
-                    if (s.isNoodlUnit(styleValue)) {
-                      set(value, styleKey, computedValue)
-                    } else if (s.isKeyRelatedToHeight(styleKey)) {
+                      if (s.isNoodlUnit(styleValue)) {
+                        if(styleValue.includes("%")&&styleKey === "borderRadius"){
+                        set(value, styleKey, styleValue)
+                        }else{
+                        set(value, styleKey, computedValue)
+                        }
+                      }  else if (s.isKeyRelatedToHeight(styleKey)) {
                       if (styleKey == 'borderRadius' && isStr(styleValue)) {
                         if (styleValue.includes('px')) {
                           set(value, styleKey, `${styleValue}`)
