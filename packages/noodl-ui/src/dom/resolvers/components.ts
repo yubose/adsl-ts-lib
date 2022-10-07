@@ -228,6 +228,8 @@ const componentsResolver: t.Resolve.Config = {
       } else if (args.node) {
         const original = args.component.blueprint || {}
 
+        //
+
         const {
           children,
           controls,
@@ -376,37 +378,36 @@ const componentsResolver: t.Resolve.Config = {
           }
           //load init image
           const defaultPath = args.component.get('defaultPath')
-          if(defaultPath){
+          if (defaultPath) {
             if (args.node) {
-              setAttr('src', resolveAssetUrl(defaultPath,nui.getAssetsUrl()))
-              setDataAttr('src', resolveAssetUrl(defaultPath,nui.getAssetsUrl()))
+              setAttr('src', resolveAssetUrl(defaultPath, nui.getAssetsUrl()))
+              setDataAttr(
+                'src',
+                resolveAssetUrl(defaultPath, nui.getAssetsUrl()),
+              )
             }
           }
 
-          let pathResult:any
-          if(Identify.folds.emit(original['path'])){
-            setTimeout(
-              ()=>{
-                const ac = args.component.get('path')
-                pathResult = ac?.execute?.()
-                pathResult.then((res:any)=>{
-                  let re = res.find((val:any) => !!val?.result)?.result
-                  re = re? resolveAssetUrl(re, nui.getAssetsUrl()): ''
-                  setAttr('src', re)
-                  setDataAttr('src', re)
-                })
-              },0
-            )
-            
+          let pathResult: any
+          if (Identify.folds.emit(original['path'])) {
+            setTimeout(() => {
+              const ac = args.component.get('path')
+              pathResult = ac?.execute?.()
+              pathResult.then((res: any) => {
+                let re = res.find((val: any) => !!val?.result)?.result
+                re = re ? resolveAssetUrl(re, nui.getAssetsUrl()) : ''
+                setAttr('src', re)
+                setDataAttr('src', re)
+              })
+            }, 0)
           }
-          
 
           if (args.component.get(c.DATA_SRC)) {
             let result = args.component.get(c.DATA_SRC)
             setAttr('src', result)
             setDataAttr('src', result)
           }
-          
+
           args.component.on('path', (result: string) => {
             if (args.node) {
               setAttr('src', result)
@@ -441,7 +442,7 @@ const componentsResolver: t.Resolve.Config = {
                         key = args.node.style[i]
                         iframe.style[key] = args.node.style[key as any]
                       }
-                      iframe.style.height = '600px';
+                      iframe.style.height = '600px'
 
                       let parent = args.node.parentNode
                       parent?.appendChild(iframe)
@@ -479,14 +480,14 @@ const componentsResolver: t.Resolve.Config = {
                   setAttr('innerHTML', content)
                 })
               } else {
-              if(!isEmpty(datavalue)){
-                let content = String(datavalue)
-                content =
-                  content.indexOf('\n') !== -1
-                    ? content.replace(/\n/g, '<br>')
-                    : content
-                setAttr('innerHTML', content)
-              }
+                if (!isEmpty(datavalue)) {
+                  let content = String(datavalue)
+                  content =
+                    content.indexOf('\n') !== -1
+                      ? content.replace(/\n/g, '<br>')
+                      : content
+                  setAttr('innerHTML', content)
+                }
               }
             } else if (text) {
               setAttr('innerHTML', String(text))

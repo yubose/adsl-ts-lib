@@ -549,7 +549,7 @@ componentResolver.setResolver(async (component, options, next) => {
                     }
                   : undefined),
               },
-              text: 'text' in item ? item.text : '',
+              text: 'text' in item ? `${item.text}` : '',
             }
 
             userEvent.forEach((event) => {
