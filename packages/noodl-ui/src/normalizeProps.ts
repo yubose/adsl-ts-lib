@@ -272,6 +272,56 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
             textAlign,
             verticalAlign,
           } = originalValue
+          
+          /* -------------------------------------------------------
+            ---- COMPONENTS
+          -------------------------------------------------------- */
+
+          if (is.component.header(blueprint)) {
+            set(get(props, 'style'), 'zIndex', 100)
+          } else if (is.component.image(blueprint)) {
+            // Remove the height to maintain the aspect ratio since images are
+            // assumed to have an object-fit of 'contain'
+            if (!('height' in (get(blueprint, 'style') || {}))) {
+              unset(props, 'style.height')
+            }
+            // Remove the width to maintain the aspect ratio since images are
+            // assumed to have an object-fit of 'contain'
+            if (!('width' in (get(blueprint, 'style') || {}))) {
+              unset(props, 'style.width')
+            }
+            if (!('objectFit' in (get(blueprint, 'style') || {}))) {
+              set(get(props, 'style'), 'objectFit', 'contain')
+            }
+          } else if (
+            is.component.listLike(blueprint) &&
+            get(props, 'style.display') !== 'none'
+          ) {
+            const axis = get(blueprint, 'style.axis')
+            const display =
+              axis === 'horizontal' || axis === 'vertical' ? 'flex' : 'block'
+            set(get(props, 'style'), 'display', display)
+            set(get(props, 'style'), 'listStyle', 'none')
+            // set(get(props, 'style'), 'padding', '0px')
+          } else if (is.component.listItem(blueprint)) {
+            // Flipping the position to relative to make the list items stack on top of eachother.
+            //    Since the container is a type: list and already has their entire height defined in absolute values,
+            //    this shouldn't have any UI issues because they'll stay contained within
+            set(get(props, 'style'), 'listStyle', 'none')
+            // props.style.padding = 0
+          } else if (is.component.popUp(blueprint)) {
+            set(get(props, 'style'), 'visibility', 'hidden')
+          } else if (
+            is.component.scrollView(blueprint) &&
+            get(props, 'style.display') !== 'none'
+          ) {
+            set(get(props, 'style'), 'display', 'block')
+          } else if (is.component.textView(blueprint)) {
+            set(get(props, 'style'), 'rows', 10)
+            set(get(props, 'style'), 'resize', 'none')
+          } else if (is.component.video(blueprint)) {
+            set(get(props, 'style'), 'objectFit', 'contain')
+          }
 
           // AXIS
           if (isStr(axis) && /horizontal|vertical/.test(axis)) {
@@ -620,9 +670,13 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                           ),
                         )
                       : undefined
-                    if (s.isNoodlUnit(styleValue)) {
-                      set(value, styleKey, computedValue)
-                    } else if (s.isKeyRelatedToHeight(styleKey)) {
+                      if (s.isNoodlUnit(styleValue)) {
+                        if(styleValue.includes("%")&&styleKey === "borderRadius"){
+                        set(value, styleKey, styleValue)
+                        }else{
+                        set(value, styleKey, computedValue)
+                        }
+                      }  else if (s.isKeyRelatedToHeight(styleKey)) {
                       if (styleKey == 'borderRadius' && isStr(styleValue)) {
                         if (styleValue.includes('px')) {
                           set(value, styleKey, `${styleValue}`)
@@ -772,55 +826,6 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
       }
     }
 
-    /* -------------------------------------------------------
-      ---- COMPONENTS
-    -------------------------------------------------------- */
-
-    if (is.component.header(blueprint)) {
-      set(get(props, 'style'), 'zIndex', 100)
-    } else if (is.component.image(blueprint)) {
-      // Remove the height to maintain the aspect ratio since images are
-      // assumed to have an object-fit of 'contain'
-      if (!('height' in (get(blueprint, 'style') || {}))) {
-        unset(props, 'style.height')
-      }
-      // Remove the width to maintain the aspect ratio since images are
-      // assumed to have an object-fit of 'contain'
-      if (!('width' in (get(blueprint, 'style') || {}))) {
-        unset(props, 'style.width')
-      }
-      if (!('objectFit' in (get(blueprint, 'style') || {}))) {
-        set(get(props, 'style'), 'objectFit', 'contain')
-      }
-    } else if (
-      is.component.listLike(blueprint) &&
-      get(props, 'style.display') !== 'none'
-    ) {
-      const axis = get(blueprint, 'style.axis')
-      const display =
-        axis === 'horizontal' || axis === 'vertical' ? 'flex' : 'block'
-      set(get(props, 'style'), 'display', display)
-      set(get(props, 'style'), 'listStyle', 'none')
-      set(get(props, 'style'), 'padding', '0px')
-    } else if (is.component.listItem(blueprint)) {
-      // Flipping the position to relative to make the list items stack on top of eachother.
-      //    Since the container is a type: list and already has their entire height defined in absolute values,
-      //    this shouldn't have any UI issues because they'll stay contained within
-      set(get(props, 'style'), 'listStyle', 'none')
-      // props.style.padding = 0
-    } else if (is.component.popUp(blueprint)) {
-      set(get(props, 'style'), 'visibility', 'hidden')
-    } else if (
-      is.component.scrollView(blueprint) &&
-      get(props, 'style.display') !== 'none'
-    ) {
-      set(get(props, 'style'), 'display', 'block')
-    } else if (is.component.textView(blueprint)) {
-      set(get(props, 'style'), 'rows', 10)
-      set(get(props, 'style'), 'resize', 'none')
-    } else if (is.component.video(blueprint)) {
-      set(get(props, 'style'), 'objectFit', 'contain')
-    }
 
     /* -------------------------------------------------------
       ---- OTHER / UNCATEGORIZED
