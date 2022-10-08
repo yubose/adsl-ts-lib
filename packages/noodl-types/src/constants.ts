@@ -46,6 +46,7 @@ export const component = {
   video: 'video',
   view: 'view',
   rotation: 'rotation',
+  checkbox: 'checkbox',
 } as const
 
 export const componentKeys = [

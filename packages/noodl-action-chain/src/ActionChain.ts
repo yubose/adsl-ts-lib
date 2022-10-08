@@ -287,8 +287,8 @@ class ActionChain<
       await this.abort?.(err.message)
       // throw new AbortExecuteError(error.message)
     } finally {
+			this.#emit('onExecuteEnd', this.#getDefaultCallbackArgs())
       this.#refresh?.()
-      this.#emit('onExecuteEnd', this.#getDefaultCallbackArgs())
     }
     return this.#results
   }
