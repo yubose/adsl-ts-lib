@@ -311,6 +311,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
             // props.style.padding = 0
           } else if (is.component.popUp(blueprint)) {
             set(get(props, 'style'), 'display', 'none')
+            set(get(props, 'style'), 'visibility', 'hidden')
           } else if (
             is.component.scrollView(blueprint) &&
             get(props, 'style.display') !== 'none'
