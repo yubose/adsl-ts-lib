@@ -1,5 +1,6 @@
 import * as u from '@jsmanifest/utils'
 import { hasLetter, hasDecimal } from './utils/common'
+import * as c from './constants'
 
 const isNil = (f: any) => u.isNull(f) || u.isUnd(f)
 
@@ -154,6 +155,12 @@ class NOODLViewport {
   constructor({ width, height }: { width?: number; height?: number } = {}) {
     this.width = width as number
     this.height = height as number
+
+    Object.defineProperty(this, c.NUI_ID, {
+      configurable: false,
+      enumerable: false,
+      value: c.NUI_VIEWPORT,
+    })
   }
 
   isValid() {
@@ -188,9 +195,9 @@ class NOODLViewport {
           previousWidth,
           previousHeight,
         })
-      } 
-      const trulyWindowWidth = window.screen.width;
-      const trulyWindowHeight = window.screen.height;
+      }
+      const trulyWindowWidth = window.screen.width
+      const trulyWindowHeight = window.screen.height
       const onUnload = (e: Event) => {
         // window.removeEventListener('gesturestart', this.#onResize)
         // window.removeEventListener('gestureend', this.#onResize)
@@ -210,7 +217,7 @@ class NOODLViewport {
         window.removeEventListener('resize', this.#onResize)
         window.removeEventListener('unload', onUnload)
       }
-      if(trulyWindowWidth < trulyWindowHeight) {
+      if (trulyWindowWidth < trulyWindowHeight) {
         //like phone browser but set UA as desktop
         window.removeEventListener('resize', this.#onResize)
         window.removeEventListener('unload', onUnload)

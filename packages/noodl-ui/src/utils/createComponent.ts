@@ -1,7 +1,7 @@
 import * as u from '@jsmanifest/utils'
 import type { ComponentObject } from 'noodl-types'
 import type { NuiComponentType } from '../types'
-import isComponent from './isComponent'
+import is from './is'
 import Component from '../Component'
 
 export interface PropsOptionFunc<T> {
@@ -43,7 +43,7 @@ function createComponent<K extends NuiComponentType = NuiComponentType>(
   const props = toProps(value, options?.props)
   if (typeof value === 'string') {
     childComponent = new Component({ type: value, ...props })
-  } else if (isComponent(value)) {
+  } else if (is.nuiComponent(value)) {
     childComponent = value
     if (props && u.isObj(props)) value.edit(props)
   } else {

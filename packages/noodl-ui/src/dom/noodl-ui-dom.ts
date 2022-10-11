@@ -410,6 +410,8 @@ class NDOM extends NDOMInternal {
     const nuiPage = page.getNuiPage()
 
     let s = Date.now()
+    console.log(`[ndom] render`)
+
     const components = u.array(
       await nui.resolveComponents({
         components: page.components,
@@ -480,51 +482,7 @@ class NDOM extends NDOMInternal {
     let node: t.NDOMElement | null = null
     let page: NDOMPage = pageProp || this.page
     let count = +component.get('lazyCount') as number
-    if (hooks) {
-      const currentHooks = this.renderState.options.hooks
-      hooks.actionChain && (currentHooks.actionChain = hooks.actionChain)
-      hooks.createComponent &&
-        (currentHooks.createComponent = hooks.createComponent)
-      hooks.emit && (currentHooks.emit = hooks.emit)
-      hooks.if && (currentHooks.if = hooks.if)
-      hooks.setup && (currentHooks.setup = hooks.setup)
-    }
 
-    if (page?.id) {
-      if (page.requesting === '') {
-        if (this.renderState.draw.active[page.id]) {
-          delete this.renderState.draw.active[page.id]
-        }
-        if (!this.renderState.draw.loading[page.id]) {
-          this.renderState.draw.loading[page.id] = {
-            pageName: '',
-            timestamp: Date.now(),
-          }
-        }
-        if (
-          this.renderState.draw.loading[page.id]?.pageName !== page.requesting
-        ) {
-          ;(this.renderState.draw.loading as any)[page.id].pageName =
-            page.requesting
-        }
-      } else if (page.requesting) {
-        if (this.renderState.draw.loading[page.id]) {
-          delete this.renderState.draw.loading[page.id]
-        }
-        if (!this.renderState.draw.active[page.id]) {
-          this.renderState.draw.active[page.id] = {
-            pageName: page.requesting,
-            timestamp: Date.now(),
-          }
-        }
-        if (
-          this.renderState.draw.active[page.id]?.pageName !== page.requesting
-        ) {
-          ;(this.renderState.draw.active as any)[page.id].pageName =
-            page.requesting
-        }
-      }
-    }
     try {
       if (component) {
         if (_isPluginComponent(component)) {
@@ -548,11 +506,12 @@ class NDOM extends NDOMInternal {
           if (!node) {
             node = document.createElement('img')
           }
+
           if (node) {
-            console.log(
-              'test12',
-              resolveAssetUrl('null.svg', nui.getAssetsUrl()),
-            )
+            // console.log(
+            //   'test12',
+            //   resolveAssetUrl('null.svg', nui.getAssetsUrl()),
+            // )
             node.setAttribute(
               'src',
               resolveAssetUrl('null.svg', nui.getAssetsUrl()),
@@ -705,11 +664,6 @@ class NDOM extends NDOMInternal {
     } catch (error) {
       console.error(error)
       throw error
-    } finally {
-      if (u.isStr(page?.id)) {
-        delete this.renderState.draw.active[page.id]
-        delete this.renderState.draw.loading[page.id]
-      }
     }
     return node || null
   }

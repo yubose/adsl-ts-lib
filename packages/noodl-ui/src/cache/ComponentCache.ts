@@ -93,20 +93,15 @@ class ComponentCache {
 
   add(
     component: NuiComponent.Instance,
-    page: NuiPage | string | undefined,
+    pageId = '',
+    pageName = '',
   ): ComponentCacheObject {
     if (component) {
-      const pageName = isNuiPage(page)
-        ? page.page
-        : u.isObj(page)
-        ? page.page || ''
-        : page || ''
-      const value = { component, page: pageName } as {
+      const value = { component, page: pageName, id: pageId } as {
         component: NuiComponent.Instance
         page: string
         pageId?: string
       }
-      isNuiPage(page) && (value.pageId = page.id as string)
       this.#cache.set(component.id, value)
       this.emit('add', value)
     }

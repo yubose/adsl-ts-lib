@@ -310,6 +310,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
             set(get(props, 'style'), 'listStyle', 'none')
             // props.style.padding = 0
           } else if (is.component.popUp(blueprint)) {
+            set(get(props, 'style'), 'display', 'none')
             set(get(props, 'style'), 'visibility', 'hidden')
           } else if (
             is.component.scrollView(blueprint) &&
@@ -696,7 +697,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
               }
 
               if (styleKey == 'isHidden' && is.isBooleanTrue(styleValue)) {
-                set(get(props, 'style'), 'visibility', 'hidden')
+                set(get(props, 'style'), 'display', 'none')
               }
 
               // TODO - Find out how to resolve the issue of "value" being undefined without this string check when we already checked above this
@@ -851,7 +852,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
       )
     }
 
-    is.isBooleanTrue(isHiddenValue) && set(props, 'style.visibility', 'hidden')
+    is.isBooleanTrue(isHiddenValue) && set(props, 'style.display', 'none')
 
     if (is.isBoolean(get(blueprint, 'required'))) {
       set(props, 'required', is.isBooleanTrue(get(blueprint, 'required')))

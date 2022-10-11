@@ -20,9 +20,7 @@ import createActionChain from './utils/createActionChain'
 import createComponent from './utils/createComponent'
 import getActionType from './utils/getActionType'
 import getActionObjectErrors from './utils/getActionObjectErrors'
-import isComponent from './utils/isComponent'
-import isPage from './utils/isPage'
-import isViewport from './utils/isViewport'
+import is from './utils/is'
 import NuiPage from './Page'
 import Transformer from './Transformer'
 import VP from './Viewport'
@@ -37,7 +35,6 @@ import {
 import log from './utils/log'
 import { groupedActionTypes, nuiEmitType } from './constants'
 import { isUnitTestEnv } from './utils/common'
-import isNuiPage from './utils/isPage'
 import cache from './_cache'
 import * as i from './utils/internal'
 import * as t from './types'
@@ -56,7 +53,7 @@ const NUI = (function () {
     value: NuiPage,
     onClean?: (stats?: { componentsRemoved: number }) => void,
   ) {
-    if (isPage(value)) {
+    if (is.nuiPage(value)) {
       const currentPage = value.page
       if (currentPage) {
         let componentsRemoved = 0
@@ -94,13 +91,17 @@ const NUI = (function () {
     page: NuiPage,
   ) {
     let component: t.NuiComponent.Instance
-    if (isComponent(componentObject)) {
+    if (is.nuiComponent(componentObject)) {
       component = componentObject
     } else {
       component = createComponent(componentObject as nt.ComponentObject)
     }
-    !cache.component.has(component) &&
-      cache.component.add(component, page || o.getRootPage())
+    const pageName = page?.page
+    const pageId = page?.id as string
+
+    if (!cache.component.has(component)) {
+      cache.component.add(component, pageId, pageName)
+    }
     return component
   }
 
@@ -391,15 +392,7 @@ const NUI = (function () {
       if (isListConsumer(opts.component)) {
         const dataObject =
           opts?.listDataObject || findListDataObject(opts.component)
-        if (dataObject) {
-          queries.push(dataObject)
-        } else {
-          log.debug(
-            `%cCould not find a data object for a list consumer "${opts.component.type}" component`,
-            `color:#ec0000;`,
-            opts.component,
-          )
-        }
+        if (dataObject) queries.push(dataObject)
       }
     }
     // Page object
@@ -459,7 +452,7 @@ const NUI = (function () {
 
     if (u.isArr(arg1)) {
       components = arg1
-      if (isNuiPage(arg2)) {
+      if (is.nuiPage(arg2)) {
         page = arg2
       } else if (u.isObj(arg2)) {
         arg2.callback && (callback = arg2.callback)
@@ -471,10 +464,10 @@ const NUI = (function () {
     } else if (u.isObj(arg1)) {
       if ('type' in arg1 || 'children' in arg1 || 'style' in arg1) {
         components = [arg1]
-        if (isNuiPage(arg2)) {
+        if (is.nuiPage(arg2)) {
           page = arg2
         } else if (u.isObj(arg2)) {
-          isNuiPage(arg2.page) && (page = arg2.page)
+          is.nuiPage(arg2.page) && (page = arg2.page)
           arg2.context && (context = arg2.context)
           arg2.callback && (callback = arg2.callback)
           arg2.on && (on = arg2.on)
@@ -518,59 +511,61 @@ const NUI = (function () {
       const iteratorVar = context?.iteratorVar || ''
       const isListConsumer = iteratorVar && u.isObj(context?.dataObject)
 
-      for (const [key, value] of u.entries(c.props)) {
-        if (key === 'style') {
-          // TODO - Put these finalizers into a curry utility func. This is temp. hardcoded for now
-          if (isListConsumer) {
-            if (u.isObj(value)) {
-              for (let [styleKey, styleValue] of u.entries(value)) {
-                // if (u.isStr(value) && vpHeightKeys.includes(key as any)) {
-                if (u.isStr(styleValue)) {
-                  if (styleValue.startsWith(iteratorVar)) {
-                    const dataKey = excludeIteratorVar(
-                      styleValue,
-                      iteratorVar,
-                    ) as string
-                    const cachedValue = styleValue
-                    styleValue = get(context?.dataObject, dataKey)
-                    if (styleValue) {
-                      c.edit({ style: { [styleKey]: styleValue } })
-                    } else {
+      setTimeout(() => {
+        for (const [key, value] of u.entries(c.props)) {
+          if (key === 'style') {
+            // TODO - Put these finalizers into a curry utility func. This is temp. hardcoded for now
+            if (isListConsumer) {
+              if (u.isObj(value)) {
+                for (let [styleKey, styleValue] of u.entries(value)) {
+                  // if (u.isStr(value) && vpHeightKeys.includes(key as any)) {
+                  if (u.isStr(styleValue)) {
+                    if (styleValue.startsWith(iteratorVar)) {
+                      const dataKey = excludeIteratorVar(
+                        styleValue,
+                        iteratorVar,
+                      ) as string
+                      const cachedValue = styleValue
+                      styleValue = get(context?.dataObject, dataKey)
+                      if (styleValue) {
+                        c.edit({ style: { [styleKey]: styleValue } })
+                      } else {
+                        log.debug(
+                          `%cEncountered an unparsed style value "${cachedValue}" for style key "${styleKey}"`,
+                          `color:#ec0000;`,
+                          { component: c, possibleValue: styleValue },
+                        )
+                      }
+                    } else if (nt.Identify.reference(styleValue)) {
                       log.debug(
-                        `%cEncountered an unparsed style value "${cachedValue}" for style key "${styleKey}"`,
+                        `%cEncountered an unparsed style value "${styleValue}" for style key "${styleKey}"`,
                         `color:#ec0000;`,
-                        { component: c, possibleValue: styleValue },
+                        c,
                       )
                     }
-                  } else if (nt.Identify.reference(styleValue)) {
-                    log.debug(
-                      `%cEncountered an unparsed style value "${styleValue}" for style key "${styleKey}"`,
-                      `color:#ec0000;`,
-                      c,
-                    )
                   }
+                  // }
                 }
-                // }
+              }
+            }
+          } else {
+            if (nt.Identify.reference(value)) {
+              // Do one final check for the "get" method, since some custom getters are defined on component.get() even though it returns the same component object when using component.props
+              if (nt.Identify.reference(c.get(key))) {
+                log.debug(
+                  `%cEncountered an unparsed reference value "${value}" for key "${key}"`,
+                  `color:#ec0000;`,
+                  c,
+                )
+                key === 'data-value' &&
+                  (nt.Identify.rootReference(value) ||
+                    nt.Identify.localReference(value)) &&
+                  c.edit({ [key]: '' })
               }
             }
           }
-        } else {
-          if (nt.Identify.reference(value)) {
-            // Do one final check for the "get" method, since some custom getters are defined on component.get() even though it returns the same component object when using component.props
-            if (nt.Identify.reference(c.get(key))) {
-              log.debug(
-                `%cEncountered an unparsed reference value "${value}" for key "${key}"`,
-                `color:#ec0000;`,
-                c,
-              )
-              key === 'data-value' &&
-                (nt.Identify.rootReference(value) ||
-                  nt.Identify.localReference(value)) &&
-                c.edit({ [key]: '' })
-            }
-          }
         }
-      }
+      })
       return {
         component: c,
         options,
@@ -805,7 +800,7 @@ const NUI = (function () {
             viewport?: VP | { width?: number; height?: number }
           },
     ) {
-      if (isNuiPage(args)) return args
+      if (is.nuiPage(args)) return args
 
       let name: string = ''
       let id: string | undefined = undefined
@@ -817,15 +812,15 @@ const NUI = (function () {
 
       if (u.isStr(args)) {
         name = args
-      } else if (isComponent(args)) {
+      } else if (is.nuiComponent(args)) {
         id = args.id
         name = String(args.get('path') || '')
         page = args.get('page') || cache.page.get(args.id)?.page
-        if (isNuiPage(page)) return page
+        if (is.nuiPage(page)) return page
       } else if (u.isObj(args)) {
         args.name && (name = args.name)
         args.onChange && (onChange = args.onChange)
-        if (isComponent(args.component)) {
+        if (is.nuiComponent(args.component)) {
           const componentId = args.component.id
           if (componentId) {
             if (cache.page.has(componentId)) {
@@ -836,7 +831,7 @@ const NUI = (function () {
           id = args.id || id || ''
         }
         if (args?.viewport) {
-          if (isViewport(args.viewport)) viewport = args.viewport
+          if (is.nuiViewport(args.viewport)) viewport = args.viewport
           else if (u.isObj(args.viewport)) viewport = new VP(args.viewport)
         }
       }
@@ -854,7 +849,7 @@ const NUI = (function () {
       obj?: t.NuiComponent.Instance | t.Plugin.ComponentObject,
     ) {
       let _location = '' as t.Plugin.Location
-      let _path = (isComponent(obj) ? obj.blueprint?.path : obj?.path) || ''
+      let _path = (is.nuiComponent(obj) ? obj.blueprint?.path : obj?.path) || ''
 
       if (u.isStr(location)) {
         _location = location
@@ -906,24 +901,20 @@ const NUI = (function () {
       const _id = id || opts?.id || opts?.component?.id
 
       const actionChain = createActionChain({
-        actions: u.reduce(
-          actions,
-          (acc: t.NUIActionObject[], obj) => {
-            const errors = getActionObjectErrors(obj)
-            if (errors.length && !isUnitTestEnv()) {
-              errors.forEach((errMsg) =>
-                log.error(`%c${errMsg}`, `color:#ec0000;`, obj),
-              )
-            }
-            if (u.isObj(obj) && !('actionType' in obj)) {
-              obj = { ...obj, actionType: getActionType(obj) }
-            } else if (u.isFnc(obj)) {
-              obj = { actionType: 'anonymous', fn: obj }
-            }
-            return acc.concat(obj as t.NUIActionObject)
-          },
-          [],
-        ),
+        actions: actions.reduce((acc: t.NUIActionObject[], obj) => {
+          const errors = getActionObjectErrors(obj)
+          if (errors.length && !isUnitTestEnv()) {
+            errors.forEach((errMsg) =>
+              log.error(`%c${errMsg}`, `color:#ec0000;`, obj),
+            )
+          }
+          if (u.isObj(obj) && !('actionType' in obj)) {
+            obj = { ...obj, actionType: getActionType(obj) }
+          } else if (u.isFnc(obj)) {
+            obj = { actionType: 'anonymous', fn: obj }
+          }
+          return acc.concat(obj as t.NUIActionObject)
+        }, []),
         trigger,
         loader: (objs) => {
           function __createExecutor(
@@ -939,15 +930,13 @@ const NUI = (function () {
                       fns.map(
                         async (
                           obj: t.Store.ActionObject | t.Store.BuiltInObject,
-                        ) => {
-                          const result = await obj.fn?.(action as any, {
+                        ) =>
+                          obj.fn?.(action as any, {
                             ...options,
                             component: opts?.component,
                             event,
                             ref: actionChain,
-                          })
-                          return result
-                        },
+                          }),
                       ),
                     )
                   ).values(),
@@ -1044,12 +1033,12 @@ const NUI = (function () {
       component: t.NuiComponent.Instance | Record<string, any>,
       originalComponent:
         | t.NuiComponent.Instance
-        | Record<string, any> = isComponent(component)
+        | Record<string, any> = is.nuiComponent(component)
         ? component.blueprint
         : component,
     ) {
       const origStyle =
-        (isComponent(component)
+        (is.nuiComponent(component)
           ? component.blueprint?.style || component.style
           : originalComponent.style || component?.style) || {}
       const styles = { ...origStyle }
@@ -1087,7 +1076,7 @@ const NUI = (function () {
     } & { [key: string]: any }) {
       const getPage = (page: NuiPage, component?: t.NuiComponent.Instance) => {
         if (component?.parent && nt.Identify.component.page(component.parent)) {
-          if (isNuiPage(component.parent?.get?.('page'))) {
+          if (is.nuiPage(component.parent?.get?.('page'))) {
             return component.parent?.get?.('page')
           }
           if (cache.page.has(component.id)) {
@@ -1331,7 +1320,7 @@ const NUI = (function () {
         _c.clear?.()
       }
       remove(component)
-    }
+    },
   }
 
   return o

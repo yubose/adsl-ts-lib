@@ -5,6 +5,11 @@ import {
 } from 'noodl-types'
 import type { NUIActionType } from './types'
 
+export const NUI_ID = 'noodl-ui'
+export const NUI_PAGE = Symbol.for(`${NUI_ID}:page`)
+export const NUI_COMPONENT = Symbol.for(`${NUI_ID}:component`)
+export const NUI_VIEWPORT = Symbol.for(`${NUI_ID}:component`)
+
 // Extended constants from this lib
 export const lib = {
   actionTypes: ['anonymous', 'emit', 'goto', 'toast'],

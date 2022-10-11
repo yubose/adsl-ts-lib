@@ -92,8 +92,13 @@ function attachUserEvents<N extends t.NDOMElement>(
         node.addEventListener('onLazyLoading', executeFun)
         return
       }else{
+				if (eventType === 'onClick') {
+					if (!node.classList.contains('noodl-onclick')) {
+						node.classList.add('noodl-onclick')
+					}
+				}
       node.addEventListener(normalizeEventName(eventType), (...args) =>
-        setTimeout(() => component.get?.(eventType)?.execute?.(...args)),
+        setTimeout(() => component.get?.(eventType)?.execute?.(...args))
       )
       }
 
