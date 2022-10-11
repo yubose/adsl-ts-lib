@@ -197,6 +197,8 @@ dataAttribsResolver.setResolver(async (component, options, next) => {
     }
   }
 
+  //
+
   /* -------------------------------------------------------
     ---- MEDIA
   -------------------------------------------------------- */
@@ -266,16 +268,18 @@ dataAttribsResolver.setResolver(async (component, options, next) => {
     // Receiving their options by reference
     if ([dataKey, selectOptions].find((v) => v && u.isStr(v))) {
       let dataOptions = selectOptions
-      if(u.isStr(selectOptions)){
-        if(iteratorVar &&  selectOptions.startsWith(iteratorVar)){
+      if (u.isStr(selectOptions)) {
+        if (iteratorVar && selectOptions.startsWith(iteratorVar)) {
           const dataOptionsKey = excludeIteratorVar(selectOptions, iteratorVar)
           dataOptions = dataOptionsKey
             ? get(n.findListDataObject(component), dataOptionsKey)
             : n.findListDataObject(component)
-        }else{
+        } else {
           const dataOptionsKey = trimReference(selectOptions)
           dataOptions = get(
-            Identify.localKey(dataOptionsKey) ? getRoot()[page.page] : getRoot(),
+            Identify.localKey(dataOptionsKey)
+              ? getRoot()[page.page]
+              : getRoot(),
             dataOptionsKey,
           )
         }

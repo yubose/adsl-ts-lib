@@ -140,7 +140,7 @@ componentResolver.setResolver(async (component, options, next) => {
         const childrenKey =
           component.type === 'chatList' ? 'chatItem' : 'children'
         const children = component.blueprint.children
-        const blueprint = cloneDeep(u.isArr(children) ? children[0] : children)
+        const blueprint = u.isArr(children) ? children[0] : children
         if (u.isObj(blueprint) && childrenKey === 'chatItem') {
           blueprint.type = 'listItem'
         }
@@ -165,15 +165,16 @@ componentResolver.setResolver(async (component, options, next) => {
 
       if (u.isArr(dataObjects)) {
         const numDataObjects = dataObjects.length
-        let newDataObjects:any = []
+        let newDataObjects: any = []
         for (let index = 0; index < numDataObjects; index++) {
           newDataObjects.push({
             index,
             data: dataObjects[index],
           })
         }
+
         await Promise.all(
-          newDataObjects.map(async(item:any)=>{
+          newDataObjects.map(async (item: any) => {
             const index = item['index']
             const dataObject = item['data']
             const ctx = { index, iteratorVar, dataObject }
@@ -193,7 +194,7 @@ componentResolver.setResolver(async (component, options, next) => {
               on: options.on,
               page,
             })
-          })
+          }),
         )
         // for (let index = 0; index < numDataObjects; index++) {
         //   const dataObject = dataObjects[index]
@@ -511,9 +512,12 @@ componentResolver.setResolver(async (component, options, next) => {
                 item.text = u.isObj(dataObject)
                   ? get(dataObject, item?.datKey)
                   : dataObject
-                item.text = item.text === item?.dataKey?
-                            itemText?itemText:"": item.text
-                
+                item.text =
+                  item.text === item?.dataKey
+                    ? itemText
+                      ? itemText
+                      : ''
+                    : item.text
               }
             }
             let componentObject = {
@@ -670,12 +674,13 @@ componentResolver.setResolver(async (component, options, next) => {
             page: _page,
             on: options.on,
           })
-
-          !cache.component.has(child) && cache.component.add(child, _page)
+          !cache.component.has(child) &&
+            cache.component.add(child, _page?.id || '', _page?.page || '')
         }
       }
     }
-    !cache.component.has(component) && cache.component.add(component, page)
+    !cache.component.has(component) &&
+      cache.component.add(component, page?.id || '', page?.page || '')
   } catch (error) {
     log.error(error instanceof Error ? error : new Error(String(error)))
   }

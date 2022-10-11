@@ -3,6 +3,7 @@ import type { OrArray } from '@jsmanifest/typefest'
 import type { ComponentObject, StyleObject } from 'noodl-types'
 import { getRandomKey } from './utils/internal'
 import isComponent from './utils/isComponent'
+import * as c from './constants'
 import * as t from './types'
 
 type Hooks = Record<
@@ -57,6 +58,12 @@ class Component<C extends ComponentObject = ComponentObject> {
     }
     this.#id = opts?.id || this.#component.id || getRandomKey()
     this.type = this.#blueprint.type
+
+    Object.defineProperty(this, c.NUI_ID, {
+      configurable: false,
+      enumerable: false,
+      value: c.NUI_COMPONENT,
+    })
   }
 
   get blueprint() {
@@ -274,11 +281,11 @@ class Component<C extends ComponentObject = ComponentObject> {
     }
   }
 
-  removeAllDefaultChild(){
-    return this.#defaultChildren = []
+  removeAllDefaultChild() {
+    return (this.#defaultChildren = [])
   }
 
-  copyFromChildrenToDefault(){
+  copyFromChildrenToDefault() {
     const _clone = u.cloneDeep(this.children)
     this.#defaultChildren = [..._clone]
   }

@@ -33,6 +33,12 @@ class Page implements IPage {
     this.created = Date.now()
     name && (this.#page = name)
     this.viewport = viewport
+
+    Object.defineProperty(this, c.NUI_ID, {
+      configurable: false,
+      enumerable: false,
+      value: c.NUI_PAGE,
+    })
   }
 
   /**

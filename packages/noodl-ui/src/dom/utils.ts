@@ -17,10 +17,8 @@ import cache from '../_cache'
 import findElement from '../utils/findElement'
 import { findParent, pullFromComponent } from '../utils/noodl'
 import is from '../utils/is'
-import isComponent from '../utils/isComponent'
 import isComponentPage from '../utils/isComponentPage'
 import isNDOMPage from '../utils/isNDOMPage'
-import isNuiPage from '../utils/isPage'
 import * as t from '../types'
 import * as c from '../constants'
 
@@ -103,6 +101,7 @@ export function _getOrCreateComponentPage(
   node?: any,
 ) {
   if (_isNUIPage(componentOrNUIPage)) {
+    // @ts-expect-error
     return (findPage(componentOrNUIPage) ||
       // @ts-expect-error
       createPage(componentOrNUIPage, node)) as ComponentPage
@@ -111,7 +110,7 @@ export function _getOrCreateComponentPage(
 }
 
 export function _isNUIPage(value: unknown): value is NUIPage {
-  return !!(value && isNuiPage(value) && !isNDOMPage(value))
+  return !!(value && is.nuiPage(value) && !isNDOMPage(value))
 }
 
 export function _isPluginComponent(component: t.NuiComponent.Instance) {
@@ -317,7 +316,7 @@ export const _syncPages = (function () {
         let component: t.NuiComponent.Instance | undefined
         let label = ''
 
-        if (isNuiPage(args)) {
+        if (is.nuiPage(args)) {
           page = args as NUIPage
         } else if ('page' in args) {
           component = args.component
@@ -506,7 +505,7 @@ export function makeFindByAttr(attr: LiteralUnion<t.DataAttribute, string>) {
     return c.lib.dataAttributes.includes(attr as t.DataAttribute)
       ? findByDataAttrib(
           attr,
-          isComponent(component)
+          is.nuiComponent(component)
             ? pullFromComponent(attr, component)
             : component,
         )
@@ -635,7 +634,7 @@ export const findFirstByClassName = makeFindFirstBy<string>(
 export function getPageAncestor(
   component: t.NuiComponent.Instance | null | undefined,
 ) {
-  if (isComponent(component)) {
+  if (is.nuiComponent(component)) {
     if (component.type === 'page') return component
     return findParent(component, is.component.page)
   }
@@ -689,7 +688,7 @@ export function isDisplayable(value: unknown): value is string | number {
  * @param { t.NuiComponent.Instance } component
  */
 export function isPageConsumer(component: any): boolean {
-  return isComponent(component)
+  return is.nuiComponent(component)
     ? !!findParent(component, (parent) => parent?.type === 'page')
     : false
 }
