@@ -726,11 +726,12 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                         iteratorVar,
                       ) as string
 
-                      const _styleValue = com.formatColor(
+                      let _styleValue = com.formatColor(
                         get(dataObject, dataKey),
                       )
 
                       if (s.isKeyRelatedToWidthOrHeight(styleKey)) {
+                        _styleValue = String(_styleValue)
                         if (s.isNoodlUnit(_styleValue)) {
                           const newValue = String(
                             NuiViewport.getSize(
