@@ -128,7 +128,7 @@ setupResolver.setResolver(
             if (trigger !== 'path') {
               console.log('HEHEHE')
 
-              on?.emit?.createActionChain?.({
+              await on?.emit?.createActionChain?.({
                 actionChain,
                 actions: original[trigger].emit?.actions || [],
                 component,
