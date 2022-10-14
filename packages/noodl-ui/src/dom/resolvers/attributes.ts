@@ -52,8 +52,9 @@ function attachUserEvents<N extends t.NDOMElement>(
      * - onChange
      * - onInput
      */
-    // if (eventType === 'onChange') return
-    if (eventType === 'onInput') return
+    // console.log(component.type,"oooo")
+    if ((component.type==="select" && eventType === 'onChange')) return
+    // if (eventType === 'onInput') return
 
     if (u.isFnc(component.get?.(eventType)?.execute)) {
       /**
