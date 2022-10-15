@@ -411,7 +411,6 @@ class NDOM extends NDOMInternal {
 
     let s = Date.now()
     console.log(`[ndom] render`)
-
     const components = u.array(
       await nui.resolveComponents({
         components: page.components,
@@ -420,7 +419,7 @@ class NDOM extends NDOMInternal {
       }),
     ) as t.NuiComponent.Instance[]
     let e = Date.now()
-    console.log(`[timeLog] ${e - s}ms`)
+    console.log('%c[timerLog]加载component','color: green;',`${e-s}`)
     page.setStatus(c.eventId.page.status.COMPONENTS_RECEIVED)
     page.emitSync(c.eventId.page.on.ON_DOM_CLEANUP, {
       global: this.global,
@@ -436,11 +435,13 @@ class NDOM extends NDOMInternal {
       pageEvt.on.ON_BEFORE_RENDER_COMPONENTS,
       page.snapshot({ components }),
     )
-
+    let s1 = Date.now()
     const numComponents = components.length
     for (let index = 0; index < numComponents; index++) {
       await this.draw(components[index] as any, page.node, page, resolveOptions)
     }
+    let e1 = Date.now()
+    console.log('%c[timerLog]转换component为Dom','color: green;',`${e1-s1}`)
     // await Promise.all(
     //   components.map(async (component) => {
     //     await this.draw(component as any, page.node, page, resolveOptions)

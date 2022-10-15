@@ -101,7 +101,6 @@ export function _getOrCreateComponentPage(
   node?: any,
 ) {
   if (_isNUIPage(componentOrNUIPage)) {
-    // @ts-expect-error
     return (findPage(componentOrNUIPage) ||
       // @ts-expect-error
       createPage(componentOrNUIPage, node)) as ComponentPage

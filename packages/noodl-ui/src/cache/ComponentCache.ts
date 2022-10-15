@@ -1,8 +1,6 @@
 import * as u from '@jsmanifest/utils'
 import type { LiteralUnion } from 'type-fest'
 import type { ComponentCacheObject, NuiComponent } from '../types'
-import type NuiPage from '../Page'
-import isNuiPage from '../utils/isPage'
 
 type ComponentCacheHookEvent = 'add' | 'clear' | 'remove'
 
