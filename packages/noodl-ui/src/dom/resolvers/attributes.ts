@@ -54,7 +54,11 @@ function attachUserEvents<N extends t.NDOMElement>(
      */
     // console.log(component.type,"oooo")
     if ((component.type==="select" && eventType === 'onChange')) return
-    // if (eventType === 'onInput') return
+    if (eventType === 'onInput'){
+      if((component.blueprint.debounce)){
+        return
+      }
+    }
 
     if (u.isFnc(component.get?.(eventType)?.execute)) {
       /**
