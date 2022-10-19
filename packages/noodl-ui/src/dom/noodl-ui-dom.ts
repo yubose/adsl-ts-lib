@@ -36,7 +36,6 @@ import * as t from '../types'
 
 const pageEvt = c.eventId.page
 const defaultResolvers = [attributeResolvers, componentResolvers]
-// const nullImg = resolveAssetUrl('null.svg', nui.getAssetsUrl())
 class NDOM extends NDOMInternal {
   #R: Resolver
   #createElementBinding = undefined as t.UseObject['createElementBinding']
@@ -391,7 +390,6 @@ class NDOM extends NDOMInternal {
       | t.ResolveComponentOptions<any, Context>['callback']
       | Omit<t.ResolveComponentOptions<any, Context>, 'components' | 'page'>,
   ) {
-    let ss = Date.now()
     const resolveOptions = u.isFnc(options) ? { callback: options } : options
     if (resolveOptions?.on) {
       const hooks = resolveOptions.on
@@ -410,26 +408,13 @@ class NDOM extends NDOMInternal {
     
     this.reset('componentCache', page)
     const nuiPage = page.getNuiPage()
-    
-    let s = Date.now()
-    console.log(`[ndom] render`)
-    console.error('page.components');
-    console.error(this.global.pageNames);
-    
     const components = u.array(
       await nui.resolveComponents({
         components: page.components,
         page: nuiPage
-        // ...resolveOptions,
+        ...resolveOptions,
       }),
     ) as t.NuiComponent.Instance[]
-    console.log('debuginfo-components');
-    console.log(components);
-    
-    let bb = Date.now()
-    console.log('%c[timerlog]','color: red','renderstep-resolveComponents',`${bb-ss}`)
-    let e = Date.now()
-    console.log('%c[timerLog]加载component','color: green;',`${e-s}`)
     page.setStatus(c.eventId.page.status.COMPONENTS_RECEIVED)
     page.emitSync(c.eventId.page.on.ON_DOM_CLEANUP, {
       global: this.global,
@@ -446,8 +431,6 @@ class NDOM extends NDOMInternal {
       pageEvt.on.ON_BEFORE_RENDER_COMPONENTS,
       page.snapshot({ components }),
     )
-    let cc = Date.now()
-    console.log('%c[timerlog]','color: red','renderstep-pageemitSync',`${cc-bb}`)
     // const numComponents = components.length
     // for (let index = 0; index < numComponents; index++) {
     //   await this.draw(components[index] as any, page.node, page, resolveOptions)
@@ -466,8 +449,6 @@ class NDOM extends NDOMInternal {
       )
     }
     
-    let dd = Date.now()
-    console.log('%c[timerlog]','color: red','renderstep-draw',`${dd-cc}`)
     // await Promise.all(
     //   components.map(async (component) => {
     //     await this.draw(component as any, page.node, page, resolveOptions)
@@ -476,8 +457,6 @@ class NDOM extends NDOMInternal {
 
     page.emitSync(c.eventId.page.on.ON_COMPONENTS_RENDERED, page)
     page.setStatus(c.eventId.page.status.COMPONENTS_RENDERED)
-    let ee = Date.now()
-    console.log('%c[timerlog]','color: red','render',`${ee-ss}`)
     return components as t.NuiComponent.Instance[]
   }
 
