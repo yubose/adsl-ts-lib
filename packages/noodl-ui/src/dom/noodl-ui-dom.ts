@@ -36,7 +36,7 @@ import * as t from '../types'
 
 const pageEvt = c.eventId.page
 const defaultResolvers = [attributeResolvers, componentResolvers]
-
+// const nullImg = resolveAssetUrl('null.svg', nui.getAssetsUrl())
 class NDOM extends NDOMInternal {
   #R: Resolver
   #createElementBinding = undefined as t.UseObject['createElementBinding']
@@ -391,6 +391,7 @@ class NDOM extends NDOMInternal {
       | t.ResolveComponentOptions<any, Context>['callback']
       | Omit<t.ResolveComponentOptions<any, Context>, 'components' | 'page'>,
   ) {
+    let ss = Date.now()
     const resolveOptions = u.isFnc(options) ? { callback: options } : options
     if (resolveOptions?.on) {
       const hooks = resolveOptions.on
@@ -406,18 +407,27 @@ class NDOM extends NDOMInternal {
     // Create the root node where we will be placing DOM nodes inside.
     // The root node is a direct child of document.body
     page.setStatus(c.eventId.page.status.RESOLVING_COMPONENTS)
+    
     this.reset('componentCache', page)
     const nuiPage = page.getNuiPage()
-
+    
     let s = Date.now()
     console.log(`[ndom] render`)
+    console.error('page.components');
+    console.error(this.global.pageNames);
+    
     const components = u.array(
       await nui.resolveComponents({
         components: page.components,
-        page: nuiPage,
-        ...resolveOptions,
+        page: nuiPage
+        // ...resolveOptions,
       }),
     ) as t.NuiComponent.Instance[]
+    console.log('debuginfo-components');
+    console.log(components);
+    
+    let bb = Date.now()
+    console.log('%c[timerlog]','color: red','renderstep-resolveComponents',`${bb-ss}`)
     let e = Date.now()
     console.log('%c[timerLog]加载component','color: green;',`${e-s}`)
     page.setStatus(c.eventId.page.status.COMPONENTS_RECEIVED)
@@ -425,6 +435,7 @@ class NDOM extends NDOMInternal {
       global: this.global,
       node: page.node,
     })
+    
     /**
      * Page components use NDOMPage instances that use their node as an
      * HTMLIFrameElement. They will have their own way of clearing their tree
@@ -435,13 +446,28 @@ class NDOM extends NDOMInternal {
       pageEvt.on.ON_BEFORE_RENDER_COMPONENTS,
       page.snapshot({ components }),
     )
-    let s1 = Date.now()
-    const numComponents = components.length
-    for (let index = 0; index < numComponents; index++) {
-      await this.draw(components[index] as any, page.node, page, resolveOptions)
+    let cc = Date.now()
+    console.log('%c[timerlog]','color: red','renderstep-pageemitSync',`${cc-bb}`)
+    // const numComponents = components.length
+    // for (let index = 0; index < numComponents; index++) {
+    //   await this.draw(components[index] as any, page.node, page, resolveOptions)
+    // }
+    if(this.global.pageNames[0] == 'VideoChat') {
+      
+      const numComponents = components.length
+      for (let index = 0; index < numComponents; index++) {
+        await this.draw(components[index] as any, page.node, page, resolveOptions)
+      }
+    } else {
+      await Promise.all(
+        components.map(async (component) => {
+          this.draw(component as any, page.node, page, resolveOptions)
+        }),
+      )
     }
-    let e1 = Date.now()
-    console.log('%c[timerLog]转换component为Dom','color: green;',`${e1-s1}`)
+    
+    let dd = Date.now()
+    console.log('%c[timerlog]','color: red','renderstep-draw',`${dd-cc}`)
     // await Promise.all(
     //   components.map(async (component) => {
     //     await this.draw(component as any, page.node, page, resolveOptions)
@@ -450,6 +476,8 @@ class NDOM extends NDOMInternal {
 
     page.emitSync(c.eventId.page.on.ON_COMPONENTS_RENDERED, page)
     page.setStatus(c.eventId.page.status.COMPONENTS_RENDERED)
+    let ee = Date.now()
+    console.log('%c[timerlog]','color: red','render',`${ee-ss}`)
     return components as t.NuiComponent.Instance[]
   }
 
@@ -483,7 +511,7 @@ class NDOM extends NDOMInternal {
     let node: t.NDOMElement | null = null
     let page: NDOMPage = pageProp || this.page
     let count = +component.get('lazyCount') as number
-
+    
     try {
       if (component) {
         if (_isPluginComponent(component)) {
@@ -507,17 +535,13 @@ class NDOM extends NDOMInternal {
           if (!node) {
             node = document.createElement('img')
           }
-
-          if (node) {
-            // console.log(
-            //   'test12',
-            //   resolveAssetUrl('null.svg', nui.getAssetsUrl()),
-            // )
-            node.setAttribute(
-              'src',
-              resolveAssetUrl('null.svg', nui.getAssetsUrl()),
-            )
-          }
+          // set img empty with css
+          // if (node) {
+          //   node.setAttribute(
+          //     'src',
+          //     'null.svg',
+          //   )
+          // }
           // try {
           //   if (Identify.folds.emit(component.blueprint?.path)) {
           //     try {
@@ -578,6 +602,8 @@ class NDOM extends NDOMInternal {
           this.global.register.set(onEvent, component)
         }
       }
+      
+      
       if (node) {
         const parent = component.has?.('global')
           ? document.body

@@ -449,7 +449,6 @@ const NUI = (function () {
     let callback: t.ResolveComponentOptions<C, Context>['callback'] | undefined
     let on: t.ResolveComponentOptions<C, Context>['on'] | undefined
     let otherOpts = {} as { keepVpUnit?: boolean }
-
     if (u.isArr(arg1)) {
       components = arg1
       if (is.nuiPage(arg2)) {
@@ -483,7 +482,8 @@ const NUI = (function () {
         if (arg1.keepVpUnit) otherOpts.keepVpUnit = arg1.keepVpUnit
       }
     }
-
+    // let bb = Date.now()
+    // console.log('%c[timerlog]','color: red','renderstep-callback',`${bb}`)
     async function xform(
       c: t.NuiComponent.Instance,
       {
@@ -576,7 +576,7 @@ const NUI = (function () {
 
     const componentsList = u.array(components)
     const numComponents = componentsList.length
-
+    
     for (let index = 0; index < numComponents; index++) {
       let componentObject = componentsList[index]
       // { components: ['.BaseHeader'] }
