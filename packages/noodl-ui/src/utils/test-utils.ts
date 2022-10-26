@@ -1,4 +1,5 @@
-import { actionFactory, componentFactory } from 'noodl-ui-test-utils'
+import { actionFactory, componentFactory } from 'noodl-test-utils'
+import m from 'noodl-test-utils'
 import get from 'lodash/get'
 import * as u from '@jsmanifest/utils'
 import * as nu from 'noodl-utils'
@@ -91,12 +92,12 @@ export function getPresetPageObjects() {
           thumbnail: '.Donut.thumbnail',
         },
         components: [
-          ui.view({
+          m.view({
             style: { shadow: 'true' },
             children: [
               //@ts-ignore
-              ui.image({ path: ifObject }),
-              ui.page({
+              m.image({ path: ifObject }),
+              m.page({
                 path: 'Tiger',
                 style: {
                   shadow: 'true',
@@ -115,22 +116,22 @@ export function getPresetPageObjects() {
         formData,
         thumbnail: 'red.png',
         components: [
-          ui.view({
+          m.view({
             viewTag: 'donutContainer',
             children: [
-              ui.textField({
+              m.textField({
                 onChange: [
-                  ui.emit({
+                  m.emitObject({
                     dataKey: 'Donut.formData.password',
                   }),
                 ],
               }),
-              ui.button({
+              m.button({
                 text: `Go to Donut page`,
-                onClick: [ui.goto('Donut')],
+                onClick: [m.goto('Donut')],
               }),
-              ui.divider({ id: 'divider' }),
-              ui.label({
+              m.divider({ id: 'divider' }),
+              m.label({
                 text: '..fullName',
               }),
             ],
@@ -180,31 +181,32 @@ export function getPresetPageObjects() {
       return {
         icon: 'edit.svg',
         components: [
-          ui.view({
+          m.view({
             children: [
-              ui.list({
+              m.list({
                 contentType: 'listObject',
                 listObject,
                 iteratorVar,
                 children: [
-                  ui.listItem({
+                  m.listItem({
                     [iteratorVar]: '',
                     children: [
-                      ui.label({ dataKey: 'pencil.key' }),
-                      ui.select({ options: `${iteratorVar}.doc` } as any),
-                      ui.textField({ dataKey: 'pencil.value' }),
-                      ui.view({
+                      m.label({ dataKey: 'pencil.key' }),
+                      m.select({ options: `${iteratorVar}.doc` } as any),
+                      m.textField({ dataKey: 'pencil.value' }),
+                      m.view({
                         children: [
-                          ui.button({
+                          m.button({
                             viewTag: 'updateTag',
                             text: 'Click to update this row',
                             onClick: [
-                              ui.emit(),
-                              ui.evalObject({
-                                object: async () => ui.goto('Cloud'),
+                              m.emitObject(),
+                              // @ts-expect-error
+                              m.evalObject({
+                                object: async () => m.goto('Cloud'),
                               }),
-                              ui.popUp('abc'),
-                              ui.builtIn({
+                              m.popUp('abc'),
+                              m.builtIn({
                                 funcName: 'goto',
                                 destination: 'MeetingRoomInvited',
                               }),
@@ -218,11 +220,11 @@ export function getPresetPageObjects() {
               }),
             ],
           }),
-          ui.button({
+          m.button({
             text: 'Submit',
-            onClick: [ui.emit(), ui.evalObject(), ui.goto('Abc')],
+            onClick: [m.emitObject(), m.evalObject(), m.goto('Abc')],
           }),
-          ui.textField({ dataKey: `..icon`, placeholder: `Icon URL` }),
+          m.textField({ dataKey: `..icon`, placeholder: `Icon URL` }),
         ],
       }
     },

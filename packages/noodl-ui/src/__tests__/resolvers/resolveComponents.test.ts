@@ -1,5 +1,5 @@
 // @ts-nocheck
-import * as mock from 'noodl-ui-test-utils'
+import * as mock from 'noodl-test-utils'
 import * as u from '@jsmanifest/utils'
 import sinon from 'sinon'
 import { expect } from 'chai'
@@ -13,7 +13,7 @@ import Viewport from '../../Viewport'
 import * as c from '../../constants'
 
 const getRoot = (args?: Record<string, any>) => ({
-  Hello: { components: [mock.getButtonComponent()] },
+  Hello: { components: [m.button()] },
   ...args,
 })
 
@@ -150,12 +150,16 @@ describe(coolGold(`resolveComponents (ComponentResolver)`), () => {
   })
 
   describe(italic(`list`), () => {
-    let listObject: ReturnType<typeof mock.getGenderListObject>
-    let componentObject: ReturnType<typeof mock.getListComponent>
+    let listObject: any[] = []
+    let componentObject: ReturnType<typeof m.list>
 
     beforeEach(() => {
-      listObject = mock.getGenderListObject()
-      componentObject = mock.getListComponent({
+      listObject = [
+        { key: 'gender', value: 'Female' },
+        { key: 'gender', value: 'Male' },
+        { key: 'gender', value: 'Other' },
+      ]
+      componentObject = m.list({
         contentType: 'listObject',
         iteratorVar: 'cereal',
         listObject,

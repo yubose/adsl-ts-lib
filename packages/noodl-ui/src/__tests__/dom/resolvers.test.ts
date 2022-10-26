@@ -1,6 +1,6 @@
 // @ts-nocheck
 import * as u from '@jsmanifest/utils'
-import * as mock from 'noodl-ui-test-utils'
+import m from 'noodl-test-utils'
 import { prettyDOM } from '@testing-library/dom'
 import sinon from 'sinon'
 import { NuiComponent, createComponent, flatten } from 'noodl-ui'
@@ -37,7 +37,7 @@ describe(coolGold(`resolvers`), () => {
   describe(italic(`button`), () => {
     it('should have a pointer cursor if it has an onClick', async () => {
       const { render } = createRender(
-        ui.button({ text: 'hello', onClick: [mock.getFoldedEmitObject()] }),
+        ui.button({ text: 'hello', onClick: [m.emitObject()] }),
       )
       expect(n.findFirstByElementId(await render()).style)
         .to.have.property('cursor')
@@ -64,7 +64,10 @@ describe(coolGold(`resolvers`), () => {
         const { request } = createRender({
           components: [
             ui.list({
-              listObject: mock.getGenderListObject().slice(0, 1),
+              listObject: [
+                { key: 'gender', value: 'Female' },
+                { key: 'gender', value: 'Male' },
+              ],
               contentType: 'listObject',
               iteratorVar,
               children: [
@@ -102,7 +105,7 @@ describe(coolGold(`resolvers`), () => {
 
 describe(italic(`ecosDoc`), () => {
   it(`should create an iframe as a direct child`, async () => {
-    const ecosObj = mock.getEcosDocObject('image')
+    const ecosObj = m.ecosObj('image')
     const { pageObject, render } = createRender(
       ui.ecosDocComponent({ id: 'hello', ecosObj }),
     )
@@ -121,7 +124,7 @@ describe(italic(`ecosDoc`), () => {
   it(`should render ecosDoc image documents`, async () => {
     const imageComponentObject = ui.ecosDocComponent({
       id: 'hello',
-      ecosObj: mock.getEcosDocObject('image'),
+      ecosObj: m.ecosObj('image'),
     })
     const { render } = createRender(imageComponentObject)
     await render()
@@ -165,7 +168,7 @@ describe(italic(`ecosDoc`), () => {
       it(`should render plain text documents`, async () => {
         const componentObject = ui.ecosDocComponent({
           id: 'hello',
-          ecosObj: mock.getEcosDocObject('text'),
+          ecosObj: m.ecosObj('text'),
         })
         const { render } = createRender(componentObject)
         const component = await render()
@@ -255,7 +258,11 @@ describe(italic(`list`), () => {
   )
 
   xit(`should remove removed list items from the component cache`, async () => {
-    const listObject = mock.getGenderListObject()
+    const listObject = [
+      { key: 'gender', value: 'Female' },
+      { key: 'gender', value: 'Male' },
+      { key: 'gender', value: 'Other' },
+    ]
     const { ndom, render } = createRender(ui.list({ listObject }))
     const component = await render()
     const flattened = flatten(component)
@@ -289,10 +296,10 @@ describe(italic(`page`), () => {
   xit(`should render the page component as an iframe`, async () => {
     const { render } = createRender({
       root: { Dog: { components: [] } },
-      components: mock.getPageComponent({
+      components: m.page({
         path: 'Dog' as any,
         children: [
-          mock.getTextViewComponent({
+          m.textView({
             placeholder: 'Type something here',
           } as any),
         ],

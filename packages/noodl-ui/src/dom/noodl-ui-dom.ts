@@ -28,7 +28,7 @@ import attributeResolvers from './resolvers/attributes'
 import componentResolvers from './resolvers/components'
 import cache from '../_cache'
 import nui from '../noodl-ui'
-import { findParent, findIteratorVar, resolveAssetUrl } from '../utils/noodl'
+import { findParent, findIteratorVar } from '../utils/noodl'
 import Resolver from './Resolver'
 import { _isIframeEl, _syncPages, _TEST_ } from './utils'
 import * as c from '../constants'
@@ -384,11 +384,11 @@ class NDOM extends NDOMInternal {
    * @param { NDOMPage } page
    * @returns t.NuiComponent.Instance
    */
-  async render<Context = any>(
+  async render(
     page: NDOMPage,
     options?:
-      | t.ResolveComponentOptions<any, Context>['callback']
-      | Omit<t.ResolveComponentOptions<any, Context>, 'components' | 'page'>,
+      | t.ResolveComponentOptions<any>['callback']
+      | Omit<t.ResolveComponentOptions<any>, 'components' | 'page'>,
   ) {
     const resolveOptions = u.isFnc(options) ? { callback: options } : options
     if (resolveOptions?.on) {
@@ -405,22 +405,22 @@ class NDOM extends NDOMInternal {
     // Create the root node where we will be placing DOM nodes inside.
     // The root node is a direct child of document.body
     page.setStatus(c.eventId.page.status.RESOLVING_COMPONENTS)
-    
+
     this.reset('componentCache', page)
     const nuiPage = page.getNuiPage()
     const components = u.array(
       await nui.resolveComponents({
         components: page.components,
-        page: nuiPage
+        page: nuiPage,
         ...resolveOptions,
-      }),
+      } as any),
     ) as t.NuiComponent.Instance[]
     page.setStatus(c.eventId.page.status.COMPONENTS_RECEIVED)
     page.emitSync(c.eventId.page.on.ON_DOM_CLEANUP, {
       global: this.global,
       node: page.node,
     })
-    
+
     /**
      * Page components use NDOMPage instances that use their node as an
      * HTMLIFrameElement. They will have their own way of clearing their tree
@@ -435,11 +435,15 @@ class NDOM extends NDOMInternal {
     // for (let index = 0; index < numComponents; index++) {
     //   await this.draw(components[index] as any, page.node, page, resolveOptions)
     // }
-    if(this.global.pageNames[0] == 'VideoChat') {
-      
+    if (this.global.pageNames[0] == 'VideoChat') {
       const numComponents = components.length
       for (let index = 0; index < numComponents; index++) {
-        await this.draw(components[index] as any, page.node, page, resolveOptions)
+        await this.draw(
+          components[index] as any,
+          page.node,
+          page,
+          resolveOptions,
+        )
       }
     } else {
       await Promise.all(
@@ -448,7 +452,7 @@ class NDOM extends NDOMInternal {
         }),
       )
     }
-    
+
     // await Promise.all(
     //   components.map(async (component) => {
     //     await this.draw(component as any, page.node, page, resolveOptions)
@@ -490,7 +494,7 @@ class NDOM extends NDOMInternal {
     let node: t.NDOMElement | null = null
     let page: NDOMPage = pageProp || this.page
     let count = +component.get('lazyCount') as number
-    
+
     try {
       if (component) {
         if (_isPluginComponent(component)) {
@@ -581,8 +585,7 @@ class NDOM extends NDOMInternal {
           this.global.register.set(onEvent, component)
         }
       }
-      
-      
+
       if (node) {
         const parent = component.has?.('global')
           ? document.body

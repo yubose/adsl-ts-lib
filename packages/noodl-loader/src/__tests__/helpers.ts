@@ -3,7 +3,7 @@ import y from 'yaml'
 import set from 'lodash/set'
 import { fs, vol } from 'memfs'
 import { fp, is as coreIs } from 'noodl-core'
-import { actionFactory, componentFactory } from 'noodl-ui-test-utils'
+import { actionFactory, componentFactory } from 'noodl-test-utils'
 import path from 'path'
 import nock from 'nock'
 import {

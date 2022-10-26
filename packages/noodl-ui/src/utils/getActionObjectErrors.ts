@@ -69,7 +69,7 @@ function getActionObjectErrors(obj: NUIActionObjectInput | undefined) {
       //
     } else if (Identify.action.scanCamera(obj)) {
       //
-    }else if (Identify.action.updateGlobal(obj)) {
+    } else if (Identify.action?.['updateGlobal']?.(obj)) {
       //
     } else {
       results.push(
