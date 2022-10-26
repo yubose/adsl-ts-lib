@@ -92,6 +92,9 @@ export const Identify = (function () {
       scanCamera: identifyObj<t.ScanCameraActionObject>(
         (v) => v.actionType === 'scanCamera',
       ),
+      updateGlobal: identifyObj<t.UpdateGlobalActionObject>(
+        (v) => v.actionType === 'updateGlobal',
+      ),
     },
     actionChain(v: unknown) {
       return (

@@ -305,6 +305,12 @@ export interface GetLocationAddressActionObject
   [key: string]: any
 }
 
+export interface UpdateGlobalActionObject
+  extends ActionObject,
+    Pick<UncommonActionObjectProps, 'dataKey'> {
+  actionType: 'updateGlobal'
+  [key: string]: any
+}
 /**
  * @example
  * ```json
