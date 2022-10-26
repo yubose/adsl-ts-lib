@@ -1,4 +1,3 @@
-import { actionFactory, componentFactory } from 'noodl-test-utils'
 import m from 'noodl-test-utils'
 import get from 'lodash/get'
 import * as u from '@jsmanifest/utils'
@@ -16,7 +15,6 @@ export { nui }
 export const baseUrl = 'http://127.0.0.1:3000/'
 export const assetsUrl = `${baseUrl}assets/`
 export const viewport = new Viewport({ width: 1024, height: 768 })
-export const ui = { ...actionFactory, ...componentFactory }
 export const ndom = new NDOM()
 
 export function createOn(
@@ -75,7 +73,7 @@ export function createDataKeyReference({
   return { page }
 }
 
-export function getPresetPageObjects() {
+export function getPresetPageObjects(): any {
   const getGenderListObject = () => [
     { key: 'Gender', value: 'Male' },
     { key: 'Gender', value: 'Female' },

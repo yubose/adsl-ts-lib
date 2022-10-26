@@ -1,12 +1,11 @@
 // @ts-nocheck
-import * as mock from 'noodl-test-utils'
 import * as u from '@jsmanifest/utils'
 import sinon from 'sinon'
+import m from 'noodl-test-utils'
 import { expect } from 'chai'
 import { coolGold, italic, magenta } from 'noodl-common'
 import { waitFor } from '@testing-library/dom'
 import { ComponentObject } from 'noodl-types'
-import { ui } from '../../utils/test-utils'
 import nui from '../../noodl-ui'
 import NuiPage from '../../Page'
 import Viewport from '../../Viewport'
@@ -43,20 +42,20 @@ describe(coolGold(`resolveComponents (ComponentResolver)`), () => {
     const iteratorVar = 'itemObject'
     const pageObject = {
       components: [
-        ui.view({
+        m.view({
           children: [
-            ui.label({ viewTag: 'labelTagAboveList' }),
-            ui.list({
+            m.label({ viewTag: 'labelTagAboveList' }),
+            m.list({
               iteratorVar,
               listObject,
               contentType: 'listObject',
               children: [
-                ui.listItem({
+                m.listItem({
                   viewTag: `listItemTag`,
                   [iteratorVar]: '',
                   children: [
-                    ui.label({ dataKey: `${iteratorVar}.fruit` }),
-                    ui.textField({
+                    m.label({ dataKey: `${iteratorVar}.fruit` }),
+                    m.textField({
                       dataKey: `${iteratorVar}.fruit`,
                       placeholder: 'Edit fruit',
                     }),
@@ -66,8 +65,8 @@ describe(coolGold(`resolveComponents (ComponentResolver)`), () => {
             }),
           ],
         }),
-        ui.button({ viewTag: 'submitTag', text: 'Submit' }),
-        ui.button({ viewTag: 'closeTag', text: 'Close' }),
+        m.button({ viewTag: 'submitTag', text: 'Submit' }),
+        m.button({ viewTag: 'closeTag', text: 'Close' }),
       ],
     }
     const HelloPg = nui.getRoot().Hello
@@ -106,9 +105,9 @@ describe(coolGold(`resolveComponents (ComponentResolver)`), () => {
         const ifObj = { if: [{}, 'hello', 'bye'] }
         ;(
           await nui.resolveComponents({
-            components: ui.button({
+            components: m.button({
               text: ifObj,
-              onClick: [ui.emit()],
+              onClick: [m.emit()],
               style: { border: { style: '2' }, shadow: 'true' },
             }),
             on: { if: spy },
@@ -124,9 +123,9 @@ describe(coolGold(`resolveComponents (ComponentResolver)`), () => {
         expect(
           (
             await nui.resolveComponents({
-              components: ui.button({
+              components: m.button({
                 text: { if: [{}, 'hello', 'bye'] },
-                onClick: [ui.emit()],
+                onClick: [m.emit()],
                 style: { border: { style: '2' }, shadow: 'true' },
               }),
               on: { if: () => true },
@@ -136,9 +135,9 @@ describe(coolGold(`resolveComponents (ComponentResolver)`), () => {
         expect(
           (
             await nui.resolveComponents({
-              components: ui.button({
+              components: m.button({
                 text: { if: [{}, 'hello', 'bye'] },
-                onClick: [ui.emit()],
+                onClick: [m.emit()],
                 style: { border: { style: '2' }, shadow: 'true' },
               }),
               on: { if: () => false },
@@ -198,10 +197,10 @@ describe(coolGold(`resolveComponents (ComponentResolver)`), () => {
   })
 
   describe(italic(`Page`), () => {
-    let componentObject: ReturnType<typeof ui.page>
+    let componentObject: ReturnType<typeof m.page>
 
     beforeEach(() => {
-      componentObject = ui.page('Cereal')
+      componentObject = m.page('Cereal')
     })
 
     async function resolveComponent(component: ComponentObject) {
@@ -285,11 +284,11 @@ describe(coolGold(`resolveComponents (ComponentResolver)`), () => {
       `should rerun the fetch components function and emit PAGE_COMPONENTS ` +
         `with the new components when PAGE_CHANGED is emitted`,
       async () => {
-        const dividerComponent = ui.divider({ id: 'divider' })
+        const dividerComponent = m.divider({ id: 'divider' })
         const Cereal = {
-          components: ui.page({
+          components: m.page({
             path: 'Hello',
-            children: [ui.label('Hi all')],
+            children: [m.label('Hi all')],
           }),
         }
         const spy = sinon.spy()
@@ -329,7 +328,7 @@ describe(coolGold(`resolveComponents (ComponentResolver)`), () => {
         `contents are fetched`,
       async () => {
         const component = await nui.resolveComponents({
-          components: ui.pluginBodyTail({ path: 'abc.html' }),
+          components: m.pluginBodyTail({ path: 'abc.html' }),
         })
         const spy = sinon.spy(async () => 'hello123')
         component.on('content', spy)
@@ -341,7 +340,7 @@ describe(coolGold(`resolveComponents (ComponentResolver)`), () => {
 
     xit(`should set this "content" property with the data received as its value`, async () => {
       const component = await nui.resolveComponents({
-        components: ui.pluginHead({ path: 'abc.html' }),
+        components: m.pluginHead({ path: 'abc.html' }),
       })
       const contents = 'hello123'
       global.fetch = (f) => f
@@ -368,7 +367,7 @@ describe(coolGold(`resolveComponents (ComponentResolver)`), () => {
     it(`should set the data-value from local root`, async () => {
       const pageObject = {
         formData: { password: 'mypassword' },
-        components: [ui.textField('formData.password')],
+        components: [m.textField('formData.password')],
       }
       nui.use({ getRoot: () => ({ Hello: pageObject }) })
       const component = (await nui.resolveComponents(pageObject.components))[0]

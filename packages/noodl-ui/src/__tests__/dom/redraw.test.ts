@@ -1,6 +1,6 @@
 // @ts-nocheck
 import sinon from 'sinon'
-import * as mock from 'noodl-test-utils'
+import m from 'noodl-test-utils'
 import * as u from '@jsmanifest/utils'
 import * as nc from 'noodl-common'
 import { expect } from 'chai'
@@ -21,7 +21,7 @@ import {
   NUIActionObjectInput,
   resolveAssetUrl,
 } from 'noodl-ui'
-import { createRender, getAllElementCount, ndom, ui } from '../test-utils'
+import { createRender, getAllElementCount, ndom } from '../test-utils'
 import { cache, nui } from '../nui'
 import * as i from '../utils/internal'
 import * as n from '../utils'
@@ -45,10 +45,10 @@ describe(u.cyan(`redraw`), () => {
         Cereal: {
           formData: { username: 'moodle' },
           components: [
-            ui.view({
+            m.view({
               children: [
-                ui.label({ dataKey: 'formData.username' }),
-                ui.textField({
+                m.label({ dataKey: 'formData.username' }),
+                m.textField({
                   dataKey: 'formData.username',
                   placeholder: 'Edit username',
                 }),
@@ -58,11 +58,11 @@ describe(u.cyan(`redraw`), () => {
         },
         Hello: {
           components: [
-            ui.view({
+            m.view({
               children: [
-                ui.button(),
-                ui.textField({ placeholder: 'Enter name' }),
-                ui.page('Cereal'),
+                m.button(),
+                m.textField({ placeholder: 'Enter name' }),
+                m.page('Cereal'),
               ],
             }),
           ],
@@ -83,9 +83,9 @@ describe(u.cyan(`redraw`), () => {
 
     beforeEach(() => {
       currentCount = 0
-      emitObject = ui.emitObject()
+      emitObject = m.emitObject()
       onClick = [emitObject]
-      componentObject = ui.label({
+      componentObject = m.label({
         id,
         text: null,
         dataKey: '..currentCount',
@@ -131,7 +131,7 @@ describe(u.cyan(`redraw`), () => {
 
   it(`should remove the components being redrawed from the component cache`, async () => {
     const { ndom, render } = createRender(
-      ui.list({ listObject: genderListObject }),
+      m.list({ listObject: genderListObject }),
     )
     const component = await render()
     const node = n.findFirstByElementId(component)
@@ -151,7 +151,7 @@ describe(u.cyan(`redraw`), () => {
 
   it(`the amount of descendants should remain the same in the components`, async () => {
     const { ndom, render } = createRender({
-      components: [ui.list({ listObject: genderListObject }), ui.label()],
+      components: [m.list({ listObject: genderListObject }), m.label()],
     })
     const list = await render()
     const node = n.findFirstByElementId(list)
@@ -169,24 +169,24 @@ describe(u.cyan(`redraw`), () => {
       pageObject: {
         formData: { password: 'mypw' },
         components: [
-          ui.view({
+          m.view({
             viewTag: 'container',
             children: [
-              ui.list({
+              m.list({
                 iteratorVar,
                 listObject: genderListObject,
                 children: [
-                  ui.listItem({
+                  m.listItem({
                     [iteratorVar]: '',
                     children: [
-                      ui.label({ dataKey: `${iteratorVar}.key` }),
-                      ui.textField(`${iteratorVar}.value`),
+                      m.label({ dataKey: `${iteratorVar}.key` }),
+                      m.textField(`${iteratorVar}.value`),
                     ],
                   }),
                 ],
               }),
-              ui.label(),
-              ui.view({ children: [ui.textField('formData.password')] }),
+              m.label(),
+              m.view({ children: [m.textField('formData.password')] }),
             ],
           }),
         ],
@@ -215,12 +215,12 @@ describe(u.cyan(`redraw`), () => {
     const iteratorVar = 'itemObject'
     const listObject = genderListObject
     let { ndom, render } = createRender([
-      ui.list({
+      m.list({
         iteratorVar,
         listObject,
-        children: [ui.listItem({ [iteratorVar]: '' })],
+        children: [m.listItem({ [iteratorVar]: '' })],
       }),
-      ui.label(),
+      m.label(),
     ])
     let list = await render()
     let componentCacheLengthBefore = ndom.cache.component.length
@@ -242,17 +242,17 @@ describe(u.cyan(`redraw`), () => {
       const iteratorVar = 'itemObject'
       const listObject = genderListObject
       let { ndom, render } = createRender([
-        ui.list({
+        m.list({
           iteratorVar,
           listObject,
           children: [
-            ui.listItem({
+            m.listItem({
               [iteratorVar]: '',
-              children: [ui.textField(), ui.divider()],
+              children: [m.textField(), m.divider()],
             }),
           ],
         }),
-        ui.label(),
+        m.label(),
       ])
       let list = await render()
       expect(n.findBySelector('li')).to.have.lengthOf(3)
@@ -272,7 +272,7 @@ describe(u.cyan(`redraw`), () => {
       async () => {
         let options = ['00:00', '00:10']
         let otherOptions = ['00:20', '00:30']
-        let { render } = createRender(ui.select({ options }))
+        let { render } = createRender(m.select({ options }))
         let component = await render()
         let node = n.findFirstByElementId(component) as HTMLSelectElement
         let optionsNodes = [...node.options]
@@ -296,7 +296,7 @@ describe(u.cyan(`redraw`), () => {
   it('should set the original parent as the parent of the new redrawee component', async () => {
     const view = createComponent('view')
     const list = await createRender(
-      ui.list({ listObject: genderListObject }),
+      m.list({ listObject: genderListObject }),
     ).render()
     view.createChild(list)
     ndom.draw(view)
@@ -310,9 +310,9 @@ describe(u.cyan(`redraw`), () => {
     const view = createComponent('view')
     const list = await createRender({
       components: [
-        ui.list({
+        m.list({
           listObject: genderListObject,
-          children: [ui.listItem({ children: [ui.label()] })],
+          children: [m.listItem({ children: [m.label()] })],
         }),
       ],
     }).render()
@@ -327,7 +327,7 @@ describe(u.cyan(`redraw`), () => {
   it('the redrawing component + node should have a matching id', async () => {
     ndom.draw(view)
     const list = await createRender({
-      components: [ui.list({ listObject: genderListObject })],
+      components: [m.list({ listObject: genderListObject })],
     }).render()
     const listItem = list.child()
     const liNode = document.getElementById(listItem?.id || '')
@@ -338,7 +338,7 @@ describe(u.cyan(`redraw`), () => {
   it.skip('should attach to the original parentNode as the new childNode', async () => {
     const view = createComponent('view')
     const { render, ndom } = createRender(
-      ui.list({ listObject: genderListObject }),
+      m.list({ listObject: genderListObject }),
     )
     const list = await render()
     view.createChild(list)
@@ -364,12 +364,12 @@ describe(u.cyan(`redraw`), () => {
         return ['']
       })
       const { ndom, render } = createRender({
-        components: ui.view({
+        components: m.view({
           children: [
-            ui.image({
+            m.image({
               id: 'img123',
-              path: ui.emitObject(),
-              onClick: [ui.emitObject()],
+              path: m.emitObject(),
+              onClick: [m.emitObject()],
             }),
           ],
         }),
@@ -418,7 +418,7 @@ describe(u.cyan(`redraw`), () => {
         pageName: 'Abc',
         pageObject: {
           components: [
-            { type: 'view', children: [ui.textField('formData.password')] },
+            { type: 'view', children: [m.textField('formData.password')] },
           ],
           formData: { password: 'mypassword' },
         },
@@ -489,24 +489,24 @@ describe(u.cyan(`redraw`), () => {
         Hello: {
           formData: { password: 'mypassword', outerImagePath: 'abc.png' },
           components: [
-            ui.view({
+            m.view({
               viewTag: 'containerTag',
               children: [
-                ui.list({
+                m.list({
                   viewTag: 'listTag',
                   listObject,
                   iteratorVar,
                   children: [
-                    ui.listItem({
+                    m.listItem({
                       [iteratorVar]: '',
                       viewTag: 'listItemTag',
-                      onClick: [ui.emitObject()],
+                      onClick: [m.emitObject()],
                       children: [
-                        ui.textField(`${iteratorVar}.fruit`),
-                        ui.label({ dataKey: `${iteratorVar}.color` }),
-                        ui.image({
+                        m.textField(`${iteratorVar}.fruit`),
+                        m.label({ dataKey: `${iteratorVar}.color` }),
+                        m.image({
                           viewTag: 'listItemImageTag',
-                          path: ui.emitObject({
+                          path: m.emitObject({
                             dataKey: `${iteratorVar}.path`,
                           }),
                         }),
@@ -514,23 +514,23 @@ describe(u.cyan(`redraw`), () => {
                     }),
                   ],
                 }),
-                ui.image({ id: 'abcId', path: '..formData.outerImagePath' }),
-                ui.textField('formData.email'),
-                ui.view({
+                m.image({ id: 'abcId', path: '..formData.outerImagePath' }),
+                m.textField('formData.email'),
+                m.view({
                   viewTag: 'viewChildTag',
                   children: [
-                    ui.view({
+                    m.view({
                       children: [
-                        ui.button({
+                        m.button({
                           viewTag: 'submitTag',
                           text: 'Submit',
-                          onClick: [ui.emitObject()],
+                          onClick: [m.emitObject()],
                         }),
-                        ui.button({
+                        m.button({
                           viewTag: 'redrawTag',
                           text: 'Redraw',
                           onClick: [
-                            ui.builtIn({
+                            m.builtIn({
                               funcName: 'redraw',
                               viewTag: 'containerTag',
                             }),
@@ -706,18 +706,18 @@ describe(u.cyan(`redraw`), () => {
     const pageObject = {
       formData: { password: 'mypassword' },
       components: [
-        ui.view({
+        m.view({
           children: [
-            ui.list({
+            m.list({
               listObject: genderListObject,
               children: [
-                ui.listItem({
+                m.listItem({
                   children: [
-                    ui.textField({ dataKey: 'formData.password' }),
-                    ui.label({ dataKey: `${iteratorVar}.fruit` }),
-                    ui.image({
-                      path: ui.emitObject(),
-                      onClick: [ui.emitObject()],
+                    m.textField({ dataKey: 'formData.password' }),
+                    m.label({ dataKey: `${iteratorVar}.fruit` }),
+                    m.image({
+                      path: m.emitObject(),
+                      onClick: [m.emitObject()],
                     }),
                   ],
                 }),
@@ -768,29 +768,29 @@ describe(u.cyan(`redraw`), () => {
 
     beforeEach(() => {
       root = {
-        Apple: { components: [ui.divider(), ui.button('Click me')] },
+        Apple: { components: [m.divider(), m.button('Click me')] },
         Cereal: {
           formData: { password: '123' },
           components: [
-            ui.image('abc.png'),
-            ui.label({ dataKey: 'formData.password' }),
-            ui.popUpComponent('cerealPopUpView'),
+            m.image('abc.png'),
+            m.label({ dataKey: 'formData.password' }),
+            m.popUpComponent('cerealPopUpView'),
           ],
         },
         Keychain: {
           myData: { firstName: 'Athena' },
           components: [
-            ui.label('where is my keychain?'),
-            ui.button({ text: 'Click', viewTag: 'keychainButtonTag' }),
+            m.label('where is my keychain?'),
+            m.button({ text: 'Click', viewTag: 'keychainButtonTag' }),
           ],
         },
         Hello: {
           pageName: 'Tiger',
           components: [
-            ui.view({
+            m.view({
               viewTag: 'abcTag',
               children: [
-                ui.page({
+                m.page({
                   path: { if: [true, '..pageName', '..pageName'] },
                   style: {
                     width: '0.2',
@@ -802,14 +802,14 @@ describe(u.cyan(`redraw`), () => {
                 }),
               ],
             }),
-            ui.button({
+            m.button({
               id: 'redrawButton',
-              onClick: [ui.builtIn({ funcName: 'redraw', viewTag: 'abcTag' })],
+              onClick: [m.builtIn({ funcName: 'redraw', viewTag: 'abcTag' })],
             }),
           ],
         },
-        Tiger: { components: [ui.popUpComponent('myPopUpView')] },
-        Zoo: { components: [ui.view({ children: [ui.scrollView()] })] },
+        Tiger: { components: [m.popUpComponent('myPopUpView')] },
+        Zoo: { components: [m.view({ children: [m.scrollView()] })] },
       }
     })
 

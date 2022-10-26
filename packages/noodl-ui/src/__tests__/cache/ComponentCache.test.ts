@@ -1,7 +1,6 @@
 // @ts-nocheck
 import { expect } from 'chai'
-import { coolGold, italic } from 'noodl-common'
-import * as mock from 'noodl-ui-test-utils'
+import m from 'noodl-test-utils'
 import sinon from 'sinon'
 import createComponent from '../../utils/createComponent'
 import ComponentCache from '../../cache/ComponentCache'
@@ -17,15 +16,15 @@ beforeEach(() => {
   page.page = 'CreateNewAccount'
 })
 
-describe(coolGold(`ComponentCache`), () => {
-  describe(italic(`clear`), () => {
+describe(`ComponentCache`, () => {
+  describe(`clear`, () => {
     it(`should clear only the components under that page if it is passed in`, () => {
       const signInComponents = Array(3)
         .fill(null)
-        .map((_) => createComponent(mock.getButtonComponent()))
+        .map((_) => createComponent(m.button()))
       const videoChatComponents = Array(3)
         .fill(null)
-        .map((_) => createComponent(mock.getButtonComponent()))
+        .map((_) => createComponent(m.button()))
       signInComponents.forEach((inst) => componentCache.add(inst, 'SignIn'))
       videoChatComponents.forEach((inst) =>
         componentCache.add(inst, 'VideoChat'),
@@ -39,7 +38,7 @@ describe(coolGold(`ComponentCache`), () => {
     })
   })
 
-  describe(italic(`emit`), () => {
+  describe(`emit`, () => {
     it(`should call the funcs subscribed to the "add" hook`, () => {
       const spy = sinon.spy()
       const spy2 = sinon.spy()
@@ -84,7 +83,7 @@ describe(coolGold(`ComponentCache`), () => {
     })
   })
 
-  describe(italic(`get`), () => {
+  describe(`get`, () => {
     it(`should return the component instance if given the component instance`, () => {
       const component = createComponent('select')
       componentCache.add(component, page)

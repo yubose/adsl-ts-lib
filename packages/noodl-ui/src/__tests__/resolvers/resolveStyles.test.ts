@@ -1,7 +1,7 @@
 // @ts-nocheck
+import m from 'noodl-test-utils'
 import { expect } from 'chai'
 import { coolGold, italic, magenta } from 'noodl-common'
-import { ui } from '../../utils/test-utils'
 import nui from '../../noodl-ui'
 
 describe(coolGold(`resolveStyles (ComponentResolver)`), () => {
@@ -9,10 +9,10 @@ describe(coolGold(`resolveStyles (ComponentResolver)`), () => {
     describe(magenta('page'), () => {
       it(`should have its styles parsed like others`, async () => {
         const components = await nui.resolveComponents([
-          ui.view({
+          m.view({
             style: { shadow: 'true' },
             children: [
-              ui.page({
+              m.page({
                 path: 'Abc',
                 style: {
                   shadow: 'true',
@@ -45,11 +45,11 @@ describe(coolGold(`resolveStyles (ComponentResolver)`), () => {
           fontColor: '0xFF0033',
         },
       ]
-      const listComponentObject = ui.list({
+      const listComponentObject = m.list({
         listObject,
         iteratorVar: 'itemObject',
         children: [
-          ui.listItem({
+          m.listItem({
             iteratorVar: 'itemObject',
             itemObject: '',
             style: {
@@ -58,7 +58,7 @@ describe(coolGold(`resolveStyles (ComponentResolver)`), () => {
               backgroundColor: 'itemObject.bgColor',
             },
             children: [
-              ui.label({
+              m.label({
                 dataKey: 'itemObject.key',
                 style: { width: '1', color: 'itemObject.fontColor' },
               }),

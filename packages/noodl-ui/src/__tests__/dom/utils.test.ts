@@ -1,8 +1,9 @@
 // @ts-nocheck
 import * as u from '@jsmanifest/utils'
+import m from 'noodl-test-utils'
 import { prettyDOM, waitFor } from '@testing-library/dom'
 import { expect } from 'chai'
-import { createRender, ui } from '../test-utils'
+import { createRender } from '../test-utils'
 import { dataAttributes } from '../constants'
 import NDOM from '../noodl-ui-dom'
 import findElement from '../utils/findElement'
@@ -14,8 +15,8 @@ describe(u.yellow(`utils`), () => {
     xit(``, async () => {
       const { request } = createRender({
         components: [
-          ui.listItem({
-            children: [ui.label({ dataKey: 'abc.fruit' as any })],
+          m.listItem({
+            children: [m.label({ dataKey: 'abc.fruit' as any })],
           }),
         ],
       })
@@ -31,8 +32,8 @@ describe(u.yellow(`utils`), () => {
     it(`should return an array of nodes if there are multiple nodes matched`, async () => {
       const { request } = createRender({
         components: [
-          ui.button({ viewTag: 'helloTag' }),
-          ui.textField({ viewTag: 'helloTag' }),
+          m.button({ viewTag: 'helloTag' }),
+          m.textField({ viewTag: 'helloTag' }),
         ],
       })
       const req = await request('Hello')
@@ -51,7 +52,7 @@ describe(u.italic(`findByDataAttrib`), () => {
       key,
     )}"`, async () => {
       const { request } = createRender({
-        components: [ui.button({ [key]: key }), ui.textField({ [key]: key })],
+        components: [m.button({ [key]: key }), m.textField({ [key]: key })],
       })
       const req = await request('Hello')
       req?.render()
@@ -65,40 +66,40 @@ describe(u.italic(`findByDataAttrib`), () => {
 
   describe(`isImageDoc`, () => {
     it(`should return true`, () => {
-      const ecosObj = ui.ecosDoc('image')
+      const ecosObj = m.ecosDoc('image')
       expect(i.isImageDoc(ecosObj)).to.be.true
     })
 
     it(`should return false`, () => {
-      expect(i.isImageDoc(ui.ecosDoc('pdf'))).to.be.false
-      expect(i.isImageDoc(ui.ecosDoc('text'))).to.be.false
-      expect(i.isImageDoc(ui.ecosDoc('video'))).to.be.false
+      expect(i.isImageDoc(m.ecosDoc('pdf'))).to.be.false
+      expect(i.isImageDoc(m.ecosDoc('text'))).to.be.false
+      expect(i.isImageDoc(m.ecosDoc('video'))).to.be.false
     })
   })
 
   describe(`isPdfDoc`, () => {
     it(`should return true`, () => {
-      const ecosObj = ui.ecosDoc('pdf')
+      const ecosObj = m.ecosDoc('pdf')
       expect(i.isPdfDoc(ecosObj)).to.be.true
     })
 
     it(`should return false`, () => {
-      expect(i.isPdfDoc(ui.ecosDoc('image'))).to.be.false
-      expect(i.isPdfDoc(ui.ecosDoc('text'))).to.be.false
-      expect(i.isPdfDoc(ui.ecosDoc('video'))).to.be.false
+      expect(i.isPdfDoc(m.ecosDoc('image'))).to.be.false
+      expect(i.isPdfDoc(m.ecosDoc('text'))).to.be.false
+      expect(i.isPdfDoc(m.ecosDoc('video'))).to.be.false
     })
   })
 
   describe(`isTextDoc`, () => {
     it(`should return true`, () => {
-      const ecosObj = ui.ecosDoc('text')
+      const ecosObj = m.ecosDoc('text')
       expect(i.isTextDoc(ecosObj)).to.be.true
     })
 
     xit(`should return false`, () => {
-      expect(i.isTextDoc(ui.ecosDoc('image'))).to.be.false
-      expect(i.isTextDoc(ui.ecosDoc('pdf'))).to.be.false
-      expect(i.isTextDoc(ui.ecosDoc('video'))).to.be.false
+      expect(i.isTextDoc(m.ecosDoc('image'))).to.be.false
+      expect(i.isTextDoc(m.ecosDoc('pdf'))).to.be.false
+      expect(i.isTextDoc(m.ecosDoc('video'))).to.be.false
     })
   })
 

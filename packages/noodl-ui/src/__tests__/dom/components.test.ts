@@ -3,11 +3,12 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 import { prettyDOM, waitFor } from '@testing-library/dom'
 import { ComponentObject, PageObject } from 'noodl-types'
-import { Page as NuiPage } from 'noodl-ui'
+import { Page as NuiPage } from 'noodl-m'
+import m from 'noodl-test-utils'
 import * as u from '@jsmanifest/utils'
 import * as nc from 'noodl-common'
-import { event as nuiEvent, NuiComponent } from 'noodl-ui'
-import { getRenderProps, createRender, ui } from '../../utils/test-utils'
+import { event as nuiEvent, NuiComponent } from 'noodl-m'
+import { getRenderProps, createRender } from '../../utils/test-utils'
 import {
   findBySelector,
   findByViewTag,
@@ -46,21 +47,21 @@ describe(nc.coolGold('components'), () => {
             id: 'donutContainer',
             viewTag: 'donutContainer',
             children: [
-              ui.textField({
+              m.textField({
                 id: 'donutInput',
                 onChange: [
-                  ui.emitObject({
+                  m.emitObject({
                     dataKey: 'Donut.formData.password',
                   }) as any,
                 ],
               }),
-              ui.button({
+              m.button({
                 id: 'b',
                 text: `Go to Donut page`,
-                onClick: [ui.goto('Donut')],
+                onClick: [m.goto('Donut')],
               }),
-              ui.divider({ id: 'divider' }),
-              ui.label({
+              m.divider({ id: 'divider' }),
+              m.label({
                 id: 'label',
                 text: '..fullName',
               }),
@@ -71,12 +72,12 @@ describe(nc.coolGold('components'), () => {
       Cereal = {
         submitMessage,
         components: [
-          ui.view({
+          m.view({
             viewTag: 'cerealView',
             children: [
-              ui.image('abc.png'),
-              ui.label({ dataKey: 'submitMessage' }),
-              ui.button({ text: 'Submit' }),
+              m.image('abc.png'),
+              m.label({ dataKey: 'submitMessage' }),
+              m.button({ text: 'Submit' }),
             ],
           }),
         ],
@@ -91,7 +92,7 @@ describe(nc.coolGold('components'), () => {
             type: 'view',
             style: { shadow: 'true' },
             children: [
-              ui.textField({
+              m.textField({
                 id: 'tf',
                 dataKey: 'Hello.greeting',
                 placeholder: 'Say your greeting',
@@ -100,7 +101,7 @@ describe(nc.coolGold('components'), () => {
                 type: 'view',
                 id: 'pageParent',
                 children: [
-                  ui.page({
+                  m.page({
                     id: 'page123',
                     path: 'Donut',
                     children: [],
@@ -141,7 +142,7 @@ describe(nc.coolGold('components'), () => {
 
     it.only(`should use the NuiPage instance from the page component to initialize the constructor`, async () => {
       const { ndom, render } = createRender(
-        ui.view({ children: [ui.page('Donut')] }),
+        m.view({ children: [m.page('Donut')] }),
       )
       const viewComponent = await render()
       const pageComponent = viewComponent.child()
@@ -197,15 +198,15 @@ describe(nc.coolGold('components'), () => {
           formData: { password: 'fruits' },
           infoPage: 'Donut',
           components: [
-            ui.view({
+            m.view({
               viewTag: 'containerTag',
               children: [
-                ui.scrollView({
+                m.scrollView({
                   viewTag: 'scrollTag',
-                  onClick: [ui.builtIn('redraw')],
+                  onClick: [m.builtIn('redraw')],
                   children: [
-                    ui.textField('formData.password'),
-                    ui.page({
+                    m.textField('formData.password'),
+                    m.page({
                       id: 'page123',
                       path: { if: [true, '..infoPage', '..infoPage'] },
                     }),
@@ -358,9 +359,9 @@ describe(nc.coolGold('components'), () => {
         pageName: 'Hello',
         root: {
           Donut: {
-            components: [ui.view({ children: [ui.button(), ui.label()] })],
+            components: [m.view({ children: [m.button(), m.label()] })],
           },
-          Hello: { components: [ui.view({ children: [ui.page('Donut')] })] },
+          Hello: { components: [m.view({ children: [m.page('Donut')] })] },
         },
       })
       ndom.use({ getPages: () => ['Donut', 'Hello'] })
@@ -456,10 +457,10 @@ describe(nc.coolGold('components'), () => {
               type: 'view',
               id: 'tigerView',
               children: [
-                ui.scrollView({
+                m.scrollView({
                   id: 'tigerScrollView',
                   children: [
-                    ui.button({
+                    m.button({
                       id: 'tigerButton',
                       text: 'Submit',
                     }),
@@ -479,16 +480,16 @@ describe(nc.coolGold('components'), () => {
                   type: 'view',
                   children: [
                     createWithIdIncrementer(
-                      ui.button({
+                      m.button({
                         children: [
                           createWithIdIncrementer(
-                            ui.scrollView({
+                            m.scrollView({
                               children: [
                                 createWithIdIncrementer(
-                                  ui.scrollView({
+                                  m.scrollView({
                                     children: [
                                       createWithIdIncrementer(
-                                        ui.textField({
+                                        m.textField({
                                           placeholder: 'Enter name',
                                           id: 'cereal-last-child',
                                         } as any),
@@ -502,13 +503,13 @@ describe(nc.coolGold('components'), () => {
                         ],
                       }),
                     ),
-                    createWithIdIncrementer(ui.textField()),
-                    createWithIdIncrementer(ui.textView()),
-                    createWithIdIncrementer(ui.label('morning')),
-                    createWithIdIncrementer(ui.button()),
-                    createWithIdIncrementer(ui.image('abc.png')),
+                    createWithIdIncrementer(m.textField()),
+                    createWithIdIncrementer(m.textView()),
+                    createWithIdIncrementer(m.label('morning')),
+                    createWithIdIncrementer(m.button()),
+                    createWithIdIncrementer(m.image('abc.png')),
                     createWithIdIncrementer(
-                      ui.divider({ id: 'cereal-divider' }),
+                      m.divider({ id: 'cereal-divider' }),
                     ),
                   ],
                 }),
@@ -536,8 +537,8 @@ describe(nc.coolGold('components'), () => {
               ...getRoot({
                 Hello: {
                   components: [
-                    { id: 'p1', type: 'view', children: [ui.label()] },
-                    { id: 'p2', type: 'view', children: [ui.page(targetPage)] },
+                    { id: 'p1', type: 'view', children: [m.label()] },
+                    { id: 'p2', type: 'view', children: [m.page(targetPage)] },
                   ],
                 },
               }),
@@ -644,18 +645,18 @@ describe(nc.coolGold('components'), () => {
           ...currRoot,
           Donut: {
             components: [
-              ui.view({
+              m.view({
                 id: 'container',
                 children: [
-                  ui.divider(),
-                  ui.list({
+                  m.divider(),
+                  m.list({
                     iteratorVar: 'itemObject',
                     listObject,
                     children: [
-                      ui.listItem({
+                      m.listItem({
                         children: [
-                          ui.textField('itemObject.greeting'),
-                          ui.label({ dataKey: 'itemObject.btnText' }),
+                          m.textField('itemObject.greeting'),
+                          m.label({ dataKey: 'itemObject.btnText' }),
                         ],
                       }),
                     ],
@@ -665,7 +666,7 @@ describe(nc.coolGold('components'), () => {
             ],
           },
         }),
-        components: [ui.view({ children: [ui.page('Donut')] })],
+        components: [m.view({ children: [m.page('Donut')] })],
       })
       let viewComponent = await render()
       let pageComponent = viewComponent.child()
@@ -701,7 +702,7 @@ describe(nc.coolGold('components'), () => {
 
     it(`should not duplicate any children`, async () => {
       const { getRoot, page, pageObject, render } = createRender({
-        components: [ui.view({ children: [ui.page('Donut')] })],
+        components: [m.view({ children: [m.page('Donut')] })],
       })
       const view = await render()
       const pageComponent = view.child()
@@ -775,7 +776,7 @@ describe(nc.coolGold('components'), () => {
         root: {
           Hello: {
             formData: { password: 'pw123' },
-            components: [ui.textField('formData.password')],
+            components: [m.textField('formData.password')],
           },
         },
       })
@@ -791,7 +792,7 @@ describe(nc.coolGold('components'), () => {
       const genders = ['2020', '2021', '2022']
       const { render } = _createRender({
         pageName: 'F',
-        components: ui.select({
+        components: m.select({
           options: ['2020', '2021', '2022'],
           viewTag: 'selectTag',
         }),
@@ -819,9 +820,9 @@ describe(nc.coolGold('components'), () => {
               listData,
             },
             components: [
-              ui.view({
+              m.view({
                 children: [
-                  ui.list({
+                  m.list({
                     iteratorVar: 'itemObject',
                     contentType: 'listObject',
                     listObject: [
@@ -836,20 +837,20 @@ describe(nc.coolGold('components'), () => {
                       { key: 'C', data: [{ key: 'China' }, { key: 'chaos' }] },
                     ],
                     children: [
-                      ui.listItem({
+                      m.listItem({
                         itemObject: '',
                         children: [
-                          ui.label({ dataKey: 'itemObject.key' }),
-                          ui.list({
+                          m.label({ dataKey: 'itemObject.key' }),
+                          m.list({
                             iteratorVar: 'itemObject',
                             contentType: 'listObject',
                             listObject: 'itemObject.data',
                             // viewTag: 'secondListTag',
                             children: [
-                              ui.listItem({
+                              m.listItem({
                                 itemObject: '',
                                 children: [
-                                  ui.label({ dataKey: 'itemObject.key' }),
+                                  m.label({ dataKey: 'itemObject.key' }),
                                 ],
                               }),
                             ],
@@ -876,7 +877,7 @@ describe(nc.coolGold('components'), () => {
   describe(`video`, () => {
     it(`should set the poster (cover image)`, async () => {
       const { assetsUrl, render } = _createRender(
-        ui.video({ poster: 'abc.png' }),
+        m.video({ poster: 'abc.png' }),
       )
       const el = findFirstByElementId(await render()) as HTMLVideoElement
       expect(el).to.have.property('poster', `${assetsUrl}abc.png`)
@@ -884,7 +885,7 @@ describe(nc.coolGold('components'), () => {
 
     it(`should set the src`, async () => {
       const { assetsUrl, render } = _createRender(
-        ui.video({ path: 'twenty.jpeg' }),
+        m.video({ path: 'twenty.jpeg' }),
       )
       const el = findFirstByElementId(await render()) as HTMLVideoElement
       await waitFor(() => {

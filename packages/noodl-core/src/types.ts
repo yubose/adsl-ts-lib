@@ -58,7 +58,7 @@ export interface IStructure<S extends string = string> {
 
 export abstract class AVisitor<
   R = any,
-  H = Record<string, any>,
+  H extends Record<string, any> = Record<string, any>,
   B extends BuiltIns = BuiltIns,
 > {
   abstract callback?: (args: VisitFnArgs<H, any, B>) => any
@@ -93,7 +93,7 @@ export interface BuiltIns {
 
 export interface VisitorAsserter<
   N = unknown,
-  H = Record<string, any>,
+  H extends Record<string, any> = Record<string, any>,
   B extends BuiltIns = BuiltIns,
 > {
   cond: (node: N) => boolean
