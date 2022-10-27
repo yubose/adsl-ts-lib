@@ -1,0 +1,98 @@
+AiTmedDocumentation:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - type: view
+      style: 
+        left: '0'
+        width: calc(1514.77/1724.81*100vw)
+        height: calc(1429.7/1724.81*100vw)
+        margin: auto
+        marginTop: calc(112.7/1724.81*100vw)
+
+      children:
+        - type: view
+          style:
+            left: '0'
+            width: calc(1514.77/1724.81*100vw)
+            height: 'auto'
+          children:
+            - type: view
+              children:
+                - type: image
+                  path: bgplain.svg
+                  viewTag: topView
+                  style:
+                    width: calc(1514.77/1724.81*100vw)
+                    height: calc(750.08/1724.81*100vw)
+                    backgroundColor: "0xe5f0f9ff"
+                    zIndex: 50
+                - type: label
+                  text: 'Blockchain Encrypted Document'
+                  style:
+                    fontSize: calc(37.85/1724.81*100vw)
+                    fontWeight: '600'
+                    fontFamily: Arial
+                    top: calc(138.77/1724.81*100vw)
+                    left: calc(247/1724.81*100vw)
+                    zIndex: 100
+                - type: label
+                  textBoard:
+                    - text: 'Make documentation sharing fast, easy, and secure'
+                    - br:
+                    - text: 'Break the Barrier Between Different Medical Facilities'
+                  style:
+                    fontSize: calc(25.23/1724.81*100vw)
+                    fontFamily: Arial
+                    top: calc(256.5/1724.81*100vw)
+                    left: calc(247/1724.81*100vw)
+                    lineHeight: calc(50/1724.81*100vw)
+                    zIndex: 100
+            - type: image
+              path: icon-test.png
+              style: 
+                top: calc(185.02/1724.81*100vw)
+                left: calc(1017.95/1724.81*100vw)
+                width: calc(254.49/1724.81*100vw)
+                zIndex: 100
+
+            - .othersSignIn: 
+              style:
+                top: calc(340.61/1724.81*100vw)
+                left: calc(247/1724.81*100vw)
+            - .othersSignUp: 
+              style:
+                top: calc(340.61/1724.81*100vw)
+                left: calc(508.97/1724.81*100vw)
+                marginTop: calc(71.8/1724.81*100vw)
+        - type: view
+          style:
+            left: '0'
+            width: calc(1496.98/1724.81*100vw)
+            top: calc(756.9/1724.81*100vw)
+            margin: auto
+          children: 
+            - type: image
+              path: upload.png
+              style:
+                width: calc(284.43/1724.81*100vw)
+                top: calc(185.02/1724.81*100vw)
+                left: calc(314.37/1724.81*100vw)
+            - type: label
+              textBoard:
+                - text: Upload and Share Documents 
+                - br:
+                - text: with
+                - br:
+                - text: Lockchain Security and Privacy
+              style:
+                fontSize: calc(33.64/1724.81*100vw)
+                fontWeight: '600'
+                top: calc(228.66/1724.81*100vw)
+                left: calc(703.58/1724.81*100vw)
+                textAlign:
+                  x: center
+    - .BaseFooter1:
+
+
+            

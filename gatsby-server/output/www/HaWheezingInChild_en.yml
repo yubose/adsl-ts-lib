@@ -1,0 +1,128 @@
+HaWheezingInChild:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Wheezing in children is a common problem encountered by family physicians
+          style: 
+            top: '0.02'
+            width: '0.7'
+        - .HaHeaderLittleLabel:
+          text: If Wheezing in children is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+    - .HaBodyTagView:
+      style:
+        marginTop: '0.09'
+      children:
+        - .HaBodyTagButton1:
+          text: Wheezing
+          style:
+            width: '0.1'   
+    - .HaBodyCon:
+      style:
+        height: '0.4'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          text: 'Seek emergency care if wheezing:'
+        - type: view 
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent: 
+              style:
+                width: '0.5'             
+              text: "⦁ Begins suddenly after he or she has been stung by a bee, taken medication or eaten an allergy-causing food"
+            - .HaBodyContent:
+              style:
+                top: '0.07'
+              text: "⦁ Is accompanied by severe difficulty breathing or bluish skin color"
+            - .HaBodyContent:
+              style:
+                top: '0.12'
+              text: "⦁ Occurs after he or she has choked on a small object or food"
+            - .HaBodyContent:
+              style:
+                top: '0.17'
+              text: "⦁ Difficulty breathing"
+            - .HaBodyContent:
+              style:
+                top: '0.22'
+              text: "⦁ Rapid breathing"      
+            - .HaBodyContent:
+              style:
+                top: '0.27'
+              text: "⦁ Briefly bluish skin color"
+        - .HaBodyImg:
+          style:  
+            top: '0.075'
+            left: '0.715'
+            width: '0.16'
+          path: healthAZ/wheezing_in_a_child.png
+    - .HaBodyCon:
+      style:
+        height: '0.38'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: Find possible causes of abdominal pain based on specific factors & use our patient Questionnaire.
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Approximately 25 to 30 percent of infants will have at least one wheezing episode, and nearly one half of children have a history of wheezing by six years of age. The most common causes of wheezing in children include asthma, allergies, infections, gastroesophageal reflux disease, and obstructive sleep apnea. Less common causes include congenital abnormalities, foreign body aspiration, and cystic fibrosis. Historical data that help in the diagnosis include family history, age at onset, pattern of wheezing, seasonality, suddenness of onset, and association with feeding, cough, respiratory illnesses, and positional changes. A focused examination and targeted diagnostic testing guided by clinical suspicion also provide useful information. Children with recurrent wheezing or a single episode of unexplained wheezing that does not respond to bronchodilators should undergo chest radiography. Children whose history or physical examination findings suggest asthma should undergo diagnostic pulmonary function testing."
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            marginTop: '0'
+            top: '0.05'
+            left: '0.16'
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: 'If Abdominal pain is interfering with your daily life, log on AiTmed and talk to a doctor to receive a treatment plan customized for you!'
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+          style: 
+            top: '0.05'
+
+        - .HaBottomTagname: 
+          style: 
+            top: '0.05'
+    - .BaseFooter1:

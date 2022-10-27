@@ -1,0 +1,211 @@
+
+HaLegOrFootSwelling:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      style:
+        height: '0.4'
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Leg or Foot Swelling
+        - .HaHeaderLittleLabel:
+          text: Swelling may be due to excess fluid in the tissues which may be a result of a cardiovascular disease. If the swelling is present on one side only, it may be due to a blood clot which may be life threatening if gone untreated.
+    - .HaBodyTagView:
+      style: 
+        marginTop: '0.12'
+      children:
+        - .HaBodyTagButton1:
+          text: leg
+        - .HaBodyTagButton2:
+          text: foot swelling
+        - .HaBodyTagButton1:
+          style:
+            left: '0.03'
+          text: foot
+        - .HaBodyTagButton2:
+          style:
+            left: '0.04'
+          text: swelling
+    - .HaBodyCon:
+      style:
+        height: '1'
+        marginTop: '0.17'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+            Top: '0'
+          text: "Seek urgent or emergency care immediately if the following:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Difficulty Breathing (shortness of breath) or coughing up blood"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Swelling on one side only"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Numbness, or extreme pain"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Post surgical extreme swelling and pain"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Redness, painful (Infection) with fever"
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+                width: '0.5'
+              text: "Swelling of the lower extremities can be caused by many different factors. When considering what those factors are, the first question one needs to ask is whether the swelling is on one side (Unilateral) or on both sides (bilateral)."
+            - .HaBodyContent:
+              style:
+                top: '0.339'
+                width: '0.5'
+              text: "Swelling that occurs throughout the body has different causes and may be linked to heart failure, liver failure, and kidney disorders. Pooling of blood in the legs may be a cause of swelling, however, this is more likely to occur in obese individuals and commonly resolves in the morning."
+            - .HaBodyContent:
+              style:
+                top: '0.455'
+                width: '0.5'
+              text: "Pregnancy is another normal common cause of swelling in the lower extremities, however, if this swelling involves the face or hands and is accompanied with high blood pressure, it may suggest preeclampsia which is dangerous to both the mother and the fetus if left untreated."        
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+                top: '0.575'
+              text: "A worrisome type of swelling is one that is confined to a single limb (Unilateral) or part of a limb commonly caused by a blood clot (Deep vein thrombosis) or a skin infection (Cellulitis). Both deep vein thrombosis and skin infections may be lead to fatality if left untreated. Blood clots may dislodge, travel to the lungs leading to blocking of the lung arteries (pulmonary embolism). Cellulitis is infectious (not contagious) and is a serious condition requiring antibiotics. If left untreated, it may lead to widespread infection which can be fatal."        
+            - .HaBodyContent:
+              style:
+                top: '0.775'
+                width: '0.5'
+              text: "Allergic reactions may cause acute swelling but typically include other parts of the body as well. It may be accompanied with trouble breathing. It is highly recommended that people with any of these warning signs see a doctor right away."        
+            - .HaBodyContent:
+              style:
+                top: '0.87'
+                width: '0.5'
+              text: "Congenital causes that block lymph Vessels(Lymphedema) is a less common cause. Previous surgeries or cancerous tumors may be a cause. If you're a tumor constricts vessels any part of the limb downstream (distally) can swell. Varicose veins are a easily diagnosable sign of changes to the veins in the legs that can be treated."    
+            - .HaBodyContent:
+              style:
+                top: '0.99'
+                width: '0.5'
+              text: "Connect with an AiT Healthcare provider who can diagnose, treat, and give recommendations immediately within minutes."        
+
+        - .HaBodyImg:
+          style:  
+            top: '0.11'
+            left: '0.715'
+            width: '0.16'
+          path: healthAZ/leg-or-foot-swelling.png
+    - .HaBodyCon:
+      style:
+        height: '0.38'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "How to prepare and get the most for your AITMED Ⓡ online visit following these helpful tips:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Find a quiet, private place for your visit"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Tell the provider who the visit is for, you or someone else"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Write down your questions for the visit before your appointment time"       
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Be specific about your concerns, symptoms, and questions"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Stay engaged and follow post-visit instructions if any are provided"      
+            
+    
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Leg or Foot Swelling is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname: 
+        #   text: "leg"
+        # - .HaBottomTagname: 
+        #   text: "foot swelling"
+        #   style: 
+        #     left: "0.25"     
+        # - .HaBottomTagname: 
+        #   text: "foot"
+        #   style: 
+        #     left: "0.5"     
+        # - .HaBottomTagname: 
+        #   text: "swelling "
+        #   style: 
+        #     left: "0.75"       
+    - .BaseFooter1:
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,125 @@
+HaAbdominalPainInChildren:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Abdominal Pain In Children
+        - .HaHeaderLittleLabel:
+          text: Abdominal pain is one of the most common reasons for a parent to bring his or her child to medical attention.
+    - .HaBodyTagView:
+      style:
+        top: '0.55'
+      children:
+        - .HaBodyTagButton1:
+          text: Abdominal pain in children
+          style:
+            width: '0.14'
+    - .HaBodyCon:
+      style:
+        height: '0.3'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          text: "Get emergency care if your child:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:  
+                width: '0.5'
+              text: "⦁ Has severe abdominal pain that is worsening or lasting more than an hour"
+            - .HaBodyContent:
+              style:
+                top: '0.045'
+                width: '0.45'
+              text: "⦁ Shows signs of dehydration — fewer than six wet diapers a day, more than eight hours without urinating in older children, dry mouth, decreased saliva or crying without tears"
+            - .HaBodyContent:
+              style:
+                top: '0.145'
+              text: "⦁ Has bloody diarrhea"
+            - .HaBodyContent:
+              style:
+                top: '0.19'
+              text: "⦁ Vomits blood"
+            - .HaBodyImg:
+              style:  
+                top: '0'
+                left: '0.73'
+              path: healthAZ/abdominal_pain_in_children.png
+    - .HaBodyCon:
+      style:
+        height: '0.5'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: Find possible causes of abdominal pain based on specific factors. Use our patient Questionnaire.
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Infections: Viruses or bacteria can cause abdominal pain, typically from stomach flu or gut flu (called gastroenteritis). Viral infections tend to go away quickly, while bacterial infections may need an antibiotic to get better."
+            - .HaBodyContent:
+              style:
+                top: '0.09'
+              text: "Food-related: Food poisoning (which has symptoms like those of stomach/gut flu), food allergies, eating excessive food, or gas production – any of these can cause bloating and temporary discomfort. Usually the onset is rapid after eating."
+            - .HaBodyContent:
+              style:
+                top: '0.18'
+              text: "Poisoning: This can range from simple problems (such as eating soap) to more serious issues like swallowing iron pills, magnets, coins, botulism from spoiled food, or an overdose of medications (such as acetaminophen poisoning."
+            - .HaBodyContent:
+              style:
+                top: '0.27'
+              text: "Surgical problems: These include appendicitis or blockage of the bowels."
+            - .HaBodyContent:
+              style:
+                top: '0.31'
+              text: "Medical causes: Things outside the abdomen can cause abdominal pain. For example, a child can have abdominal pain from complications of diabetes or from a snake bite."
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: 'If Abdominal pain in children is interfering with your daily life, log on AITMED and talk to a doctor to receive a treat ment plan customized for you!'
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname: 
+    - .BaseFooter1:

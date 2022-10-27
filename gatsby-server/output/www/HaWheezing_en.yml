@@ -1,0 +1,137 @@
+HaWheezing:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Wheezing
+          style: 
+            top: '0.06'
+        - .HaHeaderLittleLabel:
+          text: Wheezing- is a high-pitched whistling sound made while a person is breathing.
+    - .HaBodyTagView:
+      style: 
+        marginTop: '0.09'
+      children:
+        - .HaBodyTagButton1:
+          text: "Wheezing"
+          style:
+            width: '0.10'   
+    - .HaBodyCon:
+      style:
+        height: '0.4'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          text: 'Get emergency care if:'
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Begins suddenly after you’ve been stung by a bee, taken medication or eaten an allergy-causing food"
+            - .HaBodyContent:
+              style:
+                top: '0.07'
+              text: "⦁ Is accompanied by severe difficulty breathing or bluish skin color"
+            - .HaBodyContent:
+              style:
+                top: '0.12'
+              text: "⦁ Occurs after you’ve choked on a small object or food"
+            - .HaBodyContent:
+              style:
+                top: '0.17'
+              text: "⦁ Difficulty breathing"
+            - .HaBodyContent:
+              style:
+                top: '0.22'
+              text: "⦁ Rapid breathing"      
+            - .HaBodyContent:
+              style:
+                top: '0.27'
+              text: "⦁ Briefly bluish skin color"
+        - .HaBodyImg:
+          style:  
+            top: '0.11'
+            left: '0.7'
+            width: '0.16'
+          path: healthAZ/wheezing.png
+    - .HaBodyCon:
+      style:
+        height: '0.4'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: Find possible causes of wheezing based on specific factors. Use our patient Questionnaire.
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Some wheezes are only heard with a doctor's stethoscope, but a wheeze can often be heard with the naked ear."
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "Wheezing most often is caused by an obstruction (blockage) or narrowing of the small bronchial tubes in the chest. It can also be caused by an obstruction in the larger airways or vocal cords. The tone of the wheeze can vary depending on which part of the respiratory system is blocked or narrowed. Narrowing in the upper respiratory system may make for a hoarser wheeze. Lower obstructions may have a more 'musical' toneWheezing is most obvious when a person is breathing out (exhaling), but can also be heard when breathing in (inhaling)."
+            - .HaBodyContent:
+              style:
+                top: "0.2"
+              text: "The causes of wheezing vary widely, and range from chronic (long-term), usually manageable conditions such as asthma, to very serious conditions that include heart failure. The common causes of wheezing include: asthma, allergies，bronchitis，smoking，emphysema，heart failure，pneumonia, etc."
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+        marginTop: "0.1"
+      children:
+        - .HaHeaderView:
+          style: 
+            marginTop: '0.08'
+            top: '0.02'
+            left: '0.16'
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Wheezing is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.12'
+        width: '1'
+        # backgroundColor: "green"
+      children:
+        - .HaBottomTag: 
+          style: 
+            top: '0.05'
+        - .HaBottomTagname: 
+          style: 
+            top: '0.05'
+    - .BaseFooter1:

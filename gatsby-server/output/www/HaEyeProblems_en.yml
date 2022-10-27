@@ -1,0 +1,206 @@
+
+
+
+HaEyeProblems:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Eye Problems
+        - .HaHeaderLittleLabel:
+          text: In the early stage, many eye diseases have no symptoms. They can be painless and you may see that your vision has not changed until the disease becomes very advanced.
+    - .HaBodyTagView:
+      style: 
+        top: '0.55'
+      children:
+        - .HaBodyTagButton1:
+          text: Eye
+        - .HaBodyTagButton2:
+          text: Eye Problems
+    - .HaBodyCon:
+      style:
+        height: '0.58'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "If you have any of the following conditions, please call the emergency department:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Severe headache"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Confusion, dizziness or trouble talking"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Numbness or weakness on one side of the body"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Severe eye pain or irritation"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Nausea or vomiting"   
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ Eye floaters, flashes of light or halos around lights"
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+              text: "⦁ Double vision or loss of vision"  
+            - .HaBodyContent:
+              style:
+                top: '0.35'
+                width: '0.5'
+              text: "For easy understanding, we compare the eye to a film camera. The cornea and lens correspond to the two lenses inside the camera, where the cornea is a fixed-focus lens, the lens is a zoom lens, but the zoom range is fixed, and the retina is the camera's film."
+
+        - .HaBodyImg:
+          style:  
+            top: '0.14'
+            left: '0.68'
+            width: '0.16'
+          path: healthAZ/eye_problems.png
+    - .HaBodyCon:
+      style:
+        height: '0.3'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "1. Myopia"  
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "It is said that in some area, the ratio of myopia among middle school students is almost 80%. The pathological change of myopia in the eye is that the entire eyeball is elongated, that is, the distance from the cornea to the retina becomes longer. Thus the retina cannot be clearly imaged."
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "The cause of myopia is not clear, it is known to be multi-factorial, and genetics has an impact. The known control methods are all optically trying to make the light re-project on the retina. Among them, frame glasses, contact lenses, and intraocular lens implantation are all kinds of methods, then only difference is that the lenses are placed in different positions."
+            
+    - .HaBodyCon:
+      style:
+        height: '0.2'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "2. Retinal Detachment" 
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Retinal detachment is not very common, it belongs to an eye emergency. Simply speaking, the retina is stripped from its original position and it is difficult to receive the oxygen and nutrients provided by the blood vessels. The longer retinal detachment goes untreated, the greater your risk of permanent vision loss in the affected eye."
+    - .HaBodyCon:
+      style:
+        height: '0.2'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "3. Farsightedness (Hyperopia)" 
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Most of the people were shocked when they first learned about they were hyperopia. In fact, many people have hyperopia after they are 40 years old. The reason for the hyperopia is the aging of the lens. The zoom force decreases with time. The speed of the drop varies from person to person."
+    - .HaBodyCon:
+      style:
+        height: '0.2'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "4. Conjunctivitis / Keratitis" 
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "They are all infection disease in the eyes. Eyes are red, itchy eyes, and foreign body sensations in the eye are mostly inflammation of the conjunctiva, which is related to eye hygiene, daily life style, and allergies. The main symptoms of keratitis are eye tingling, tearing and photophobia and other irritating symptoms."
+    - .HaBodyCon:
+      style:
+        height: '0.2'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "5. Dry Eye Syndrome"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Dry eye is a condition in which a person does not have enough quality tears to lubricate and nourish the eyes. Tears are necessary to maintain the health of the anterior surface of the eye and provide clear vision. Dry eye is a common and often chronic problem, especially in the elderly."
+                 
+   
+
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Eye problems is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag:
+        - .HaBottomTagname: 
+    - .BaseFooter1:
+
+
+
+
+
+
+
+

@@ -1,0 +1,728 @@
+HealthAll:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - type: view
+      viewTag: topView
+      style:
+        width: calc(1514.77/1724.81*100vw)
+        left: '0'
+        margin: auto
+      children: 
+        - type: view
+          style:
+            width: calc(1514.77/1724.81*100vw)
+            height: calc(290.7.8/1724.81*100vw)
+            top: calc(115.84/1724.81*100vw)
+            textAlign:
+              x: center
+          children:
+            - type: image
+              path: backgroundBlue.png
+              style:
+                width: calc(1514.77/1724.81*100vw)
+                left: '0'
+            - type: 'label'
+              text: Health Conditions (A - Z)
+              style: 
+                # textShadow: '2px 2px 3px #999999'
+                fontSize: calc(38.36/1724.81*100vw)
+                fontFamily: 'Arial'
+                fontStyle: 'bold'
+                textAlign:  
+                  x: left
+                left: calc(273.12/1724.81*100vw)
+                top: calc(96/1724.81*100vw)
+                color: '0xffffff'
+            - type: label
+              text: Jump to health condition by letter
+              style:
+                top: calc(182.21/1724.81*100vw)
+                fontSize: calc(22/1724.81*100vw)
+                fontFamily: 'Arial'
+                width: calc(1000.62/1724.81*100vw)
+                height: calc(28.77/1724.81*100vw)
+                textAlign: 
+                  x: left
+                left: calc(273.12/1724.81*100vw)
+                color: '0xffffff'
+        - type: view
+          style:
+            width: calc(1160.77/1724.81*100vw)
+            height: calc(95.9/1724.81*100vw)
+            margin: auto
+            marginTop: '0'
+          children:
+            - type: view
+              style:
+                display: flex
+                left: '0'
+                top: calc(498.68/1724.81*100vw)
+              children:
+                - .HealthNavTrue:
+                  key: A
+                  style:
+                    left: '0'
+                - .HealthNavTrue:
+                  key: B
+                  style:
+                    left: calc(25.61/1724.81*100vw)
+                - .HealthNavTrue:
+                  key: C
+                  style:
+                    left: calc(51.21/1724.81*100vw)
+                - .HealthNavTrue:
+                  key: D
+                  style:
+                    left: calc(76.82/1724.81*100vw)
+                - .HealthNavTrue:
+                  key: E
+                  style:
+                    left: calc(102.42/1724.81*100vw)
+                - .HealthNavTrue:
+                  key: F
+                  style:
+                    left: calc(128.03/1724.81*100vw)
+                - .HealthNavFalse:
+                  key: G
+                  style:
+                    left: calc(153.63/1724.81*100vw)
+                - .HealthNavTrue:
+                  key: H
+                  style:
+                    left: calc(179.24/1724.81*100vw)
+                - .HealthNavFalse:
+                  key: I
+                  style:
+                    left: calc(204.84/1724.81*100vw)
+                - .HealthNavTrue:
+                  key: J
+                  style:
+                    left: calc(230.45/1724.81*100vw)
+                - .HealthNavTrue:
+                  key: K
+                  style:
+                    left: calc(256.05/1724.81*100vw)
+                - .HealthNavTrue:
+                  key: L
+                  style:
+                    left: calc(281.66/1724.81*100vw)
+                - .HealthNavTrue:
+                  key: M
+                  style:
+                    left: calc(307.26/1724.81*100vw)
+            - type: view
+              style:
+                margin: auto
+                left: '0'
+                marginTop: calc(28.77/1724.81*100vw)
+                display: flex
+                top: calc(537.04/1724.81*100vw)
+              children:
+                - .HealthNavTrue:
+                  key: N
+                  style:
+                    left: '0'
+                - .HealthNavFalse:
+                  key: O
+                  style:
+                    left: calc(25.61/1724.81*100vw)
+                - .HealthNavTrue:
+                  key: P
+                  style:
+                    left: calc(51.21/1724.81*100vw)
+                - .HealthNavFalse:
+                  key: Q
+                  style:
+                    left: calc(76.82/1724.81*100vw)
+                - .HealthNavFalse:
+                  key: R
+                  style:
+                    left: calc(102.42/1724.81*100vw)
+                - .HealthNavTrue:
+                  key: S
+                  style:
+                    left: calc(128.03/1724.81*100vw)
+                - .HealthNavTrue:
+                  key: T
+                  style:
+                    left: calc(153.63/1724.81*100vw)
+                - .HealthNavTrue:
+                  key: U
+                  style:
+                    left: calc(179.24/1724.81*100vw)
+                - .HealthNavTrue:
+                  key: V
+                  style:
+                    left: calc(204.84/1724.81*100vw)
+                - .HealthNavTrue:
+                  key: W
+                  style:
+                    left: calc(230.45/1724.81*100vw)
+                - .HealthNavFalse:
+                  key: X
+                  style:
+                    left: calc(256.05/1724.81*100vw)
+                - .HealthNavFalse:
+                  key: Y
+                  style:
+                    left: calc(281.66/1724.81*100vw)
+                - .HealthNavFalse:
+                  key: Z
+                  style:
+                    left: calc(307.26/1724.81*100vw)
+    - type: view
+      style: 
+        margin: "auto"
+        marginTop: calc(617.3/1724.81*100vw)
+        width: calc(1143.7/1724.81*100vw)
+        height: auto
+      children:       
+        - .HealthAllTitle:
+          children:
+            - type: label
+              text: A   
+              style:  
+                left: calc(51.21/1724.81*100vw)
+        - .HealthAllView:
+          children: 
+            - .HealthallLink:
+              children:
+                - .HealthAllCircle:
+                - .HealthAllLittleLabel: 
+                  onClick:
+                    - goto: HaAbdominalPain
+                  text: Abdominal Pain
+            - .HealthallLink:
+              children:
+                - .HealthAllCircle:
+                - .HealthAllLittleLabel:
+                      onClick: 
+                        - goto: HaAbdominalPainInChildren
+                      text: Abdominal Pain In Children
+        - .HealthAllTitle:
+          children:
+            - type: view
+              style: 
+                left: calc(51.21/1724.81*100vw)
+              children:
+                - type: label
+                  text: B
+        - .HealthAllView:
+          children: 
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle:
+              - .HealthAllLittleLabel:
+                  onClick:
+                    - goto: HaBloodInTheStool 
+                  text: Blood In The Stool     
+        - .HealthAllTitle:
+          children:
+            - type: view
+              style: 
+                left: calc(51.21/1724.81*100vw)
+              children:
+                - type: label
+                  text: C
+        - .HealthAllView:
+          children: 
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle:
+              - .HealthAllLittleLabel: 
+                    text: Chest Pain 
+                    onClick:
+                      - goto: HaChestPain
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle:
+              - .HealthAllLittleLabel: 
+                    text: Constipation 
+                    onClick:
+                      - goto: HaConstipation
+            - .HealthallLink:
+              children: 
+              - .HealthAllCircle:
+              - .HealthAllLittleLabel: 
+                    text: Constipation In Child
+                    onClick: 
+                      - goto: HaConstipationInChild
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle:
+              - .HealthAllLittleLabel: 
+                    text: Cough
+                    onClick:
+                      - goto: "HaCough"
+        - .HealthAllView:
+          style:
+            height: calc(55.62/1724.81*100vw)
+          children:       
+            - .HealthallLink:
+              style:
+                height: calc(9.59/1724.81*100vw)
+              children:
+              - .HealthAllCircle:
+                style: 
+                  top: '0'
+              - .HealthAllLittleLabel:
+                style: 
+                  top: calc(-2.9/1724.81*100vw)
+                  height: calc(9.59/1724.81*100vw)
+                onClick: 
+                  - goto: "HaCoughInChild"
+                text: Cough In A Child
+        - .HealthAllTitle:
+          children:
+            - type: view
+              style: 
+                left: calc(51.21/1724.81*100vw)
+              children:
+                - type: label
+                  text: D
+        - .HealthAllView:
+          children: 
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Diarrhea In Adult
+                    onClick:
+                      - goto: HaDiarrheaInAdult
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle:
+              - .HealthAllLittleLabel: 
+                    text: Diarrhea In A Child 
+                    onClick:
+                      - goto: HaDiarrheaInChild
+            - .HealthallLink:
+              children: 
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Difficulty Swallowing
+                    onClick: 
+                      - goto: HaDifficultySwallowing
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Dizziness
+                    onClick:
+                      - goto: "HaDizziness"
+
+        - .HealthAllTitle:
+          children:
+            - type: view
+              style: 
+                left: calc(51.21/1724.81*100vw)
+              children:
+                - type: label
+                  text: E   
+        - .HealthAllView:
+          children: 
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Ear Problems In Child
+                    onClick:
+                      - goto: HaEarProblemsInChild
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Earache In Child
+                    onClick:
+                      - goto: HaEaracheInChild
+            - .HealthallLink:
+              children: 
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Eye Problems In Child
+                    onClick: 
+                      - goto: HaEyeProblemsInChild
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                style:
+                  width: calc(170.7/1724.81*100vw)
+                  top: calc(30.21/1724.81*100vw)
+                text: Eye DisComfort & Redness
+                onClick:
+                  - goto: "HaEyeDiscomfortAndRedness"  
+        - .HealthAllView:
+          style:
+            height: calc(55.62/1724.81*100vw)
+          children:       
+            - .HealthallLink:
+              style:
+                height: calc(9.59/1724.81*100vw)
+              children:
+              - .HealthAllCircle:
+                style: 
+                  top: '0'
+              - .HealthAllLittleLabel:
+                style: 
+                  top: calc(-9.59/1724.81*100vw) 
+                  height: calc(47.95/1724.81*100vw)
+                text: Eye Discomfort And Redness In Child
+                onClick: 
+                  - goto: HaEyeDiscomfortAndRednessInChild
+            - .HealthallLink:
+              style:
+                height: calc(9.59/1724.81*100vw)
+              children:
+              - .HealthAllCircle:
+                style: 
+                  top: '0'
+              - .HealthAllLittleLabel:
+                style: 
+                  top: calc(-2.88/1724.81*100vw)
+                  height: calc(9.59/1724.81*100vw)
+                text: Eye Problems
+                onClick:
+                  - goto: HaEyeProblems
+            
+        - .HealthAllTitle:
+          children:
+            - type: view
+              style: 
+                left: calc(51.21/1724.81*100vw)
+              children:
+                - type: label
+                  text: F
+        - .HealthAllView:
+          children: 
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Fever In A Child
+                    onClick:
+                      - goto: HaFeverInChild
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Foot Pain Or Ankle Pain
+                    onClick:
+                      - goto: HaFootPainOrAnklePain
+        - .HealthAllTitle:
+          children:
+            - type: view
+              style: 
+                left: calc(51.21/1724.81*100vw)
+              children:
+                - type: label
+                  text: H
+        - .HealthAllView:
+          children: 
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Headaches
+                    onClick: 
+                      - goto: "HaHeadaches"
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Headache In A Child
+                    onClick: 
+                      - goto: "HaHeadacheInChild"
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Heart Palpitions
+                    onClick: 
+                      - goto: "HaHeartPalpitions"
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Hip Pain
+                    onClick: 
+                      - goto: "HaHipPain"
+        - .HealthAllTitle:
+          children:
+            - type: view
+              style: 
+                left: calc(51.21/1724.81*100vw)
+              children:
+                - type: label
+                  text: J
+        - .HealthAllView:
+          children: 
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Joint Pain Or Muscle Pain In Children
+                    onClick:  
+                      - goto: "HaJointPainOrMusclePainInChild"
+                    style: 
+                      width: calc(341.40/1724.81*100vw)
+                      marginTop: calc(0.96/1724.81*100vw)
+        - .HealthAllTitle:
+          children:
+            - type: view
+              style: 
+                left: calc(51.21/1724.81*100vw)
+              children:
+                - type: label
+                  text: K
+        - .HealthAllView:
+          children: 
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Knee Pain
+                    onClick: 
+                      - goto: "HaKneePain"
+        - .HealthAllTitle:
+          children:
+            - type: view
+              style: 
+                left: calc(51.21/1724.81*100vw)
+              children:
+                - type: label
+                  text: L
+        - .HealthAllView:
+          children: 
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Leg Or Foot Swelling 
+                    onClick: 
+                      - goto: "HaLegOrFootSwelling"
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Low Back Pain
+                    onClick: 
+                      - goto: "HaLowBackPain"
+        - .HealthAllTitle:
+          children:
+            - type: view
+              style: 
+                left: calc(51.21/1724.81*100vw)
+              children:
+                - type: label
+                  text: M 
+        - .HealthAllView:
+          children: 
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Menopause
+                    onClick: 
+                      - goto: "HaMenopause"
+        - .HealthAllTitle:
+          children:
+            - type: view
+              style: 
+                left: calc(51.21/1724.81*100vw)
+              children:
+                - type: label
+                  text: N
+        - .HealthAllView:
+          children: 
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Nasal Congestion
+                    onClick: 
+                      - goto: "HaNasalCongestion"
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Nasal Congestion C
+                    onClick: 
+                      - goto: "HaNasalCongestionC"
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Nausea And Vomting 
+                    onClick: 
+                      - goto: "HaNauseaAndVomting"    
+                      
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Nausea Or Vomiting In Child
+                    onClick: 
+                      - goto: "HaNauseaAndVomtingInChild"
+                    style:
+                      width: calc(170.7/1724.81*100vw)
+        - .HealthAllView:
+          style:
+            height: calc(55.62/1724.81*100vw)
+          children:       
+            - .HealthallLink:
+              style:
+                height: calc(9.59/1724.81*100vw)
+              children:
+              - .HealthAllCircle:
+                style: 
+                  top: '0'
+              - .HealthAllLittleLabel:
+                style: 
+                  top: '0' 
+                  height: calc(9.59/1724.81*100vw)
+                text: Neck Pain
+                onClick: 
+                  - goto: "HaNeckPain"
+            - .HealthallLink:
+              style:
+                height: calc(9.59/1724.81*100vw)
+              children:
+              - .HealthAllCircle:
+                style: 
+                  top: '0'
+              - .HealthAllLittleLabel:
+                style: 
+                  top: calc(-9.59/1724.81*100vw)
+                  height: calc(9.59/1724.81*100vw)
+                text: Numbness Or Tingling In Hands
+                onClick: 
+                  - goto: "HaNumbnessOrTinglingInHands"
+        - .HealthAllTitle:
+          children:
+            - type: view
+              style: 
+                left: calc(51.21/1724.81*100vw)
+              children:
+                - type: label
+                  text: P
+        - .HealthAllView:
+          children: 
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Pelvic Pain Female
+                    onClick: 
+                      - goto: "HaPelvicPainFemale"
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Pelvic Pain Male
+                    onClick: 
+                      - goto: "HaPelvicPainMale"
+        - .HealthAllTitle:
+          children:
+            - type: view
+              style: 
+                left: calc(51.21/1724.81*100vw)
+              children:
+                - type: label
+                  text: S
+        - .HealthAllView:
+          children: 
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Shortness Of Breath 
+                    onClick: 
+                      - goto: "HaShortnessOfBreath"
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Shoulder Pain
+                    onClick: 
+                      - goto: "HaShoulderPain"
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Skin Rashes In A Child
+                    onClick: 
+                      - goto: "HaSkinRashesInChild"
+        
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Sore Throat
+                    onClick: 
+                      - goto: "HaSoreThroat"
+        - .HealthAllView:
+          style:
+            height: calc(55.62/1724.81*100vw)
+          children:       
+            - .HealthallLink:
+              style:
+                height: calc(9.59/1724.81*100vw)
+              children:
+              - .HealthAllCircle:
+                style: 
+                  top: '0'
+              - .HealthAllLittleLabel:
+                style: 
+                  top: calc(-2.88/1724.81*100vw)
+                  height: calc(9.59/1724.81*100vw)
+                text: Sore Throat In Child
+                onClick: 
+                  - goto: "HaSoreThroatInChild"
+        - .HealthAllTitle:
+          children:
+            - type: view
+              style: 
+                left: calc(51.23/1724.81*100vw)
+              children:
+                - type: label
+                  text: U
+        - .HealthAllView:
+          children: 
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle: 
+              - .HealthAllLittleLabel: 
+                    text: Urinary Problems
+                    onClick: 
+                      - goto: "HaUrinaryProblems"
+        - .HealthAllTitle:
+          children:
+            - type: view
+              style: 
+                left: calc(51.21/1724.81*100vw)
+              children:
+                - type: label
+                  text: W
+        - .HealthAllView:
+          style: 
+            height: calc(210.98/1724.81*100vw)
+          children: 
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle:
+              - .HealthAllLittleLabel: 
+                    text: Wheezing
+                    onClick: 
+                      - goto: "HaWheezing"
+            - .HealthallLink:
+              children:
+              - .HealthAllCircle:
+              - .HealthAllLittleLabel: 
+                        text: Wheezing In A Child
+                        onClick: 
+                          - goto: "HaWheezingInChild"
+    - .BaseFooter1:
+      style: 
+        # marginTop: "0.1"

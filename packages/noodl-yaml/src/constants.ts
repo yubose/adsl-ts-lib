@@ -1,6 +1,7 @@
 export const _symbol = {
   fs: Symbol('fileSystem'),
   root: Symbol('DocRoot'),
+  propsNode: Symbol('props.node'),
 } as const
 
 export enum EmitCode {}

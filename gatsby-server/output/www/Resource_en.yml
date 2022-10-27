@@ -1,0 +1,134 @@
+Resource:   # the resource of page
+  productFlag: "0"
+  wellnessFlag: "0"
+  signInFlag: "0"
+  changeSignInColor:  
+    - title: Sign In
+      fontColor: "0xff0000"
+      fontSize: "1.9vh"
+  SignIncolor: 
+    - title: Sign In
+      fontColor: "0xff0000"
+      fontSize: "1.9vh"
+  baseHeaderData:
+    - title: "Find My Care"
+      pageName: AiTmedCare  
+      val: '0xe8e8e8'
+      fontColor: "0x000000"
+      fontSize: "2.28vh"
+      left: '0vw'
+      marginLeft: "0"
+      width: calc(7vw)
+      textDecoration: none
+    - title: "For Provider"
+      fontColor: "0x000000"
+      fontSize: "2.28vh"
+      left: '2vw'
+      marginLeft: "0"
+      width: calc(7vw)
+      textDecoration: none
+    - title: For Business
+      fontColor: "0x000000"
+      fontSize: "2.28vh"
+      left: '3vw'
+      width: calc(7vw)
+      marginLeft: "0.8vw"
+      textDecoration: none
+    - title: Aitmed Care
+      fontColor: "0x333333"
+      fontSize: "2.28vh"
+      left: '5vw'
+      marginLeft: "0"
+      width: calc(7vw)
+      textDecoration: none
+    - title: FAQ
+      fontColor: "0x000000"
+      fontSize: "2.28vh"
+      left: '7vw'
+      width: calc(7vw)
+      marginLeft: "0.8vw"
+      textDecoration: none
+    # - title: Wellness
+    #   fontColor: "0x333333"
+    #   fontSize: "2.28vh"
+    #   left: '0'
+    - title: "Sign in / Sign up"
+      fontColor: "0x333333"
+      fontSize: "2.28vh"
+      left: '11.7vw'
+      marginLeft: "0"
+      width: calc(9vw)
+      textDecoration: underline
+  baseHeaderData2: 
+    - title: Home
+      fontColor: "0x000000"
+      fontSize: "2.28vh"
+      # left: '0'
+    - title: "About"
+      fontColor: "0x000000"
+      fontSize: "2.28vh"
+      # left: '0'
+    - title: Products
+      fontColor: "0x333333"
+      fontSize: "2.28vh"
+      # left: '0'
+    - title: Wellness
+      fontColor: "0x333333"
+      fontSize: "2.28vh"
+      # left: '0'
+    # - title: Sign In
+    #   fontColor: "0x333333"
+    #   fontSize: "2.28vh"
+    #   # left: '0'
+  baseHeaderData1: 
+    - title: Sign In
+      fontColor: "0x333333"
+      fontSize: "2.28vh"
+      # left: '0'
+  baseProduct: 
+    # - title: "Find Care"
+    #   pageName: AiTmedCare  
+    #   val: '0xe8e8e8'
+    - title: "Care App"
+      pageName: AiTmedCare  
+      val: '0xe8e8e8'
+    - title: "Health A-Z"
+      pageName: HealthAll  
+      val: '0xe8e8e8'
+    # - title: Search & Referral
+    #   pageName: AiTmedSearch  
+    #   val: '0xffffff'
+  baseSignIn: 
+    - title: Care
+      val: '0xe8e8e8' 
+    - title: Provider
+      val: '0xe8e8e8'
+    - title: Admin
+      val: '0xffffff'
+  messageAitmed: 
+    - imagePath: customizedSmall.png
+      imgName: Customized Telehealth Platform
+      hei: calc(100.91/1724.81*100vw)
+      fontSize: calc(15.98/1724.81*100vw)
+      color: '0x333333'
+    - imagePath: videoSmall.png
+      hei: calc(100.91/1724.81*100vw)
+      fontSize: calc(15.98/1724.81*100vw)
+      imgName: HD Video
+      color: '0x333333'
+    - imagePath: storeBig.png
+      imgName: E-Med Store
+      hei: calc(168.19/1724.81*100vw)
+      fontSize: calc(25.24/1724.81*100vw)
+      color: '0x000000'
+      fontWeight: '600'
+    - imagePath: schdulingSmall.png
+      imgName: Self-Schduling
+      fontSize: calc(15.98/1724.81*100vw)
+      hei: calc(100.91/1724.81*100vw)
+      color: '0x333333'
+    - imagePath: presciptionSmall.png
+      imgName: E-Prescription
+      fontSize: calc(15.98/1724.81*100vw)
+      hei: calc(100.91/1724.81*100vw)
+      color: '0x333333'

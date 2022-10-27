@@ -1,0 +1,971 @@
+HomePage:
+  init:
+    - actionType: evalObject
+      object: 
+        - =.builtIn.object.setProperty: 
+            dataIn: 
+              obj: =.Resource.baseHeaderData
+              label: "title"
+              text: "Home"
+              arr: ["fontSize","fontWeight","fontColor"]
+              valueArr: ["2.28vh","600","0x388fcd"]
+              errorArr: ["2.28vh","400","0x000000"]
+            dataOut: Resource.baseHeaderData
+    - actionType: builtIn
+      funcName: redraw
+      viewTag: headRightView
+  title: WebSite
+  viewPort: top
+  imgData:
+    - key: partner/2.png
+      url: https://a1lawyer.aitmed.com/
+    - key: partner/1.png
+      url: https://accare.aitmed.com/    
+    - key: partner/3.png
+      url: https://thespinepro.aitmed.com/     
+    - key: partner/34.png
+      url: https://anaheimclinic.aitmed.com/     
+    - key: partner/5.png
+      url: https://andallawgroup.aitmed.com/    
+    - key: partner/6.png
+      url: https://askhelen.aitmed.com/
+    - key: partner/8.png
+      url: https://cerritosmedicalcenter.aitmed.com/    
+    - key: partner/7.png 
+    - key: partner/9.png
+      url: https://comsi.aitmed.com/    
+    - key: partner/10.png
+      url: https://dermanoor.aitmed.com/    
+    - key: partner/11.png
+      url: https://dislab.aitmed.com/    
+    - key: partner/33.png
+      url: https://georgesmeleka.aitmed.com/    
+    
+  imgDataCopy:
+    - key: partner/2.png
+    - key: partner/1.png
+    - key: partner/3.png
+    - key: partner/34.png
+    - key: partner/5.png
+    - key: partner/6.png
+    - key: partner/8.png
+    - key: partner/7.png
+    - key: partner/9.png
+    - key: partner/10.png
+    - key: partner/11.png
+    - key: partner/33.png
+    
+  imgDataNext:
+    - key: partner/13.png
+      url: https://gfattorney.aitmed.com/    
+    - key: partner/14.png
+      url: https://hanorthopaedics.aitmed.com/    
+    - key: partner/15.png
+      url: https://kensnyderlaw.aitmed.com/    
+    - key: partner/16.png
+      url: https://kidscare.aitmed.com/    
+    - key: partner/17.png
+    - key: partner/19.png
+      url: https://mtmcc.aitmed.com/    
+    - key: partner/18.png
+      url: https://mosaiccare.aitmed.com/    
+    - key: partner/20.png
+      url: https://pathlab.aitmed.com/    
+    - key: partner/21.png
+      url: https://pathway.aitmed.com/    
+    - key: partner/22.png
+    - key: partner/23.png
+      url: https://sanamedgroup.aitmed.com/    
+    - key: partner/24.png
+      url: https://purebio.aitmed.com/    
+  imgDataSecond:
+    - key: partner/12.png
+      url: https://slimnyoung.aitmed.com/    
+    - key: partner/26.png
+      url: https://socaluc.aitmed.com/    
+    - key: partner/27.png
+      url: https://statewidelaw.aitmed.com/    
+    - key: partner/28.png
+      url: https://sullivan.aitmed.com/    
+    - key: partner/29.png
+    - key: partner/30.png
+      url: https://vahdatlaw.aitmed.com/    
+    - key: partner/31.png
+      url: https://vidaHealth.aitmed.com/    
+    - key: partner/32.png
+      url: https://walnutnatural.aitmed.com/    
+  flagIcon: "0"
+  productsData:
+    - key: aitmedCare.png
+      name: AiTmed Care
+    - key: mockup.png
+      name: AiTmed Provider 
+    - key: laptoptdz.png
+      name: AiTmed Admin
+    - key: laptopTwo.png
+      name: Search & Referral
+
+  resource:
+    - imgPath: homeNew11.png
+      filter: "blur(0px)"
+
+  HomeList:
+    First:
+      - img: circleLight.png
+        number: '1'
+      - img: ellipseBlack.png
+        number: '2'
+      - img: ellipseBlack.png
+        number: '3'
+    Second:
+      - img: ellipseBlack.png
+        number: '1'
+      - img: circleLight.png
+        number: '2'
+      - img: ellipseBlack.png
+        number: '3'
+    Third:
+      - img: ellipseBlack.png
+        number: '1'
+      - img: ellipseBlack.png
+        number: '2'
+      - img: circleLight.png
+        number: '3'
+  formData:
+    show:
+      - img: circleLight.png
+        number: '1'
+      - img: ellipseBlack.png
+        number: '2'
+      - img: ellipseBlack.png
+        number: '3'
+
+  components: 
+    - type: popUp
+      viewTag: breakView
+    - .BaseHeader:
+    - type: popUp
+      viewTag: topView
+    
+    # - type: scrollView
+    #   style:
+    #     left: '0'
+    #     width: '1'
+    #     height: '1'
+    #     margin: auto
+    #     marginTop: '0'
+    #   children:
+    # main
+    - type: view
+      style: 
+        # left: '0'
+        width: calc(1514.77/1724.81*100vw)
+        margin: "auto"
+        height: calc(852.72/1920*100vw)
+        marginTop: calc(130.2/1920*100vw)
+        viewTag: topView
+      children: 
+        # - type: list
+        #   contentType: listObject
+        #   listObject: ..resource
+        #   iteratorVar: itemObject
+        #   style:
+        #     width: calc(1514.77/1724.81*100vw)
+        #   children:
+        #     - type: listItem
+        #       itemObject: 
+        #       style:
+        #         width: calc(1514.77/1724.81*100vw)
+        #       children:
+        #         - type: image
+        #           path: itemObject.imgPath
+        #           style: 
+        #             filter: itemObject.filter
+        #             width: calc(1514.77/1724.81*100vw)
+        - type: image
+          path: homeNew11.png
+          style:
+            width: calc(1514.77/1724.81*100vw)
+        - type: label
+          text: "Anyone, Anywhere, Anytime Start Your E-health Journey With Us! "
+          style:
+            fontSize: calc(43.6/1920*100vw)
+            fontWeight: '600'
+            textShadow: '2px 2px 3px #999999'
+            fontFamily: 'Arial'
+            color: '0xffffff'
+            width: calc(620.92/1920*100vw)
+            height: calc(145.34/1920*100vw)
+            left: calc(275.97/1920*100vw)
+            top: calc(251.94/1920*100vw)
+        - type: label
+          text: "A full-service healthcare solution"
+          style:
+            fontSize: calc(29.07/1920*100vw)
+            color: '0xffffff'
+            width: calc(862.41/1920*100vw)
+            height: calc(96.89/1920*100vw)
+            left: calc(275.97/1920*100vw)
+            fontFamily: Arial
+            top: calc(437.99/1920*100vw)
+        - type: button
+          onClick:
+            - actionType: popUp
+              popUpView: JFreeTag
+            # - actionType: popUp
+            #   popUpView: JFreeShadowPop
+            # - actionType: evalObject
+            #   object: 
+            #     # - ..res@: "blur(8px)"
+            #     - =.builtIn.object.setProperty: 
+            #         dataIn: 
+            #           obj: =..resource
+            #           label: 'imgPath'
+            #           text: 'homeNew1.png'
+            #           arr: ["filter"]
+            #           valueArr: ["blur(2px)"]
+            #           errorArr: ["blur(0px)"]
+            #         dataOut: HomePage.resource
+            # - actionType: builtIn
+            #   funcName: redraw
+            #   viewTag: topView
+          text: "Get Started - For FREE"
+          style:
+            fontSize: calc(31/1920*100vw)
+            color: '0xffffff'
+            fontFamily: 'Arial'
+            backgroundColor: "0x30b354" 
+            zIndex: '99'
+            fontWeight: 'Regular'
+            borderRadius: calc(4.85/1920*100vw)
+            borderWidth: "0"
+            boxShadow: 1px 1px 2px 0x000000
+            height: calc(65.89/1920*100vw)
+            left: calc(275.97/1920*100vw)
+            top: calc(544.58/1920*100vw)
+            # width: calc(384.64/1920*100vw)
+            padding: "0 20px"
+            textAlign: 
+              x: center
+              y: center
+      
+    # why us
+    - type: view 
+      style: 
+        width:  calc(1514.77/1724.81*100vw)
+        margin: auto
+        display: flex
+        justifyContent: center
+        height: calc(836.25/1920*100vw)
+        marginTop: calc(26.24/1920*100vw)
+      children:
+        - type: view
+          style:
+            display: flex
+            flexDirection: column
+          children:
+            - type: label
+              text: 'Why Us'
+              style: 
+                display: flex
+                flexDirection: column
+                width: calc(1514.77/1724.81*100vw)
+                fontSize: calc(37.5/1920*100vw)
+                fontFamily: 'Arial'
+                fontWeight: '600'
+                height: calc(180.25/1920*100vw)
+                justifyContent: center
+                alignItems: center
+
+            - type: view
+              style:
+                display: flex
+                flexDirection: row
+                flexWrap: wrap 
+                # width: calc(1500.9/1920*100vw)
+                width: calc(1514.77/1724.81*100vw)
+                height: calc(656/1920*100vw)
+                justifyContent: center
+                alignItems: center
+              children: 
+                - type: view
+                  style:
+                    width: calc(555.6/1920*100vw)
+                    height: calc(328/1920*100vw)
+                    display: flex
+                    flexDirection: column
+                    justifyContent: center
+                    alignItems: center
+                  children:
+                    - type: image
+                      style:
+                        width: calc(151.1/1920*100vw)
+                        height: 'auto'
+                      path: 'remoteLight.png'
+                    - type: label
+                      style:
+                        display: flex
+                        fontSize: calc(21.4/1920*100vw)
+                        fontFamily: 'Arial' 
+                        height: calc(121.8/1920*100vw)
+                        justifyContent: center
+                        alignItems: center
+                        
+                      text: 'Remote Monitoring'
+
+                - type: view
+                  style:
+                    width: calc(555.6/1920*100vw)
+                    height: calc(328/1920*100vw)
+                    display: flex
+                    flexDirection: column
+                    justifyContent: center
+                    alignItems: center
+                  children:
+                    - type: image
+                      style:
+                        width: calc(151.1/1920*100vw)
+                        height: 'auto'
+                      path: 'worldLight.png'
+                    - type: label
+                      style:
+                        display: flex
+                        fontSize: calc(21.4/1920*100vw)
+                        fontFamily: 'Arial' 
+                        height: calc(121.8/1920*100vw)
+                        justifyContent: center
+                        alignItems: center
+                      text: 'Worldwide Usage'
+
+                - type: view
+                  style:
+                    width: calc(555.6/1920*100vw)
+                    height: calc(328/1920*100vw)
+                    display: flex
+                    flexDirection: column
+                    justifyContent: center
+                    alignItems: center
+                  children:
+                    - type: image
+                      style:
+                        width: calc(151.1/1920*100vw)
+                        height: 'auto'
+                      path: 'pigLight.png'
+                    - type: label
+                      style:
+                        display: flex
+                        fontSize: calc(21.4/1920*100vw)
+                        fontFamily: 'Arial' 
+                        height: calc(121.8/1920*100vw)
+                        justifyContent: center
+                        alignItems: center
+                      text: 'Free'
+                            
+                - type: view
+                  style:
+                    width: calc(555.6/1920*100vw)
+                    height: calc(328/1920*100vw)
+                    display: flex
+                    flexDirection: column
+                    justifyContent: center
+                    alignItems: center
+                  children:
+                    - type: image
+                      style:
+                        width: calc(151.1/1920*100vw)
+                        height: 'auto'
+                      path: 'userLight.png'
+                    - type: label
+                      style:
+                        display: flex
+                        fontSize: calc(21.4/1920*100vw)
+                        fontFamily: 'Arial' 
+                        height: calc(121.8/1920*100vw)
+                        justifyContent: center
+                        alignItems: center
+                        textAlign: 
+                          x: center
+                      text: 'Premium Network & E-Referral'
+                        
+                - type: view
+                  style:
+                    width: calc(555.6/1920*100vw)
+                    height: calc(328/1920*100vw)
+                    display: flex
+                    flexDirection: column
+                    justifyContent: center
+                    alignItems: center
+                  children:
+                    - type: image
+                      style:
+                        width: calc(151.1/1920*100vw)
+                        height: 'auto'
+                      path: 'lockLight.png'
+                    - type: label
+                      style:
+                        display: flex
+                        fontSize: calc(21.4/1920*100vw)
+                        fontFamily: 'Arial' 
+                        height: calc(121.8/1920*100vw)
+                        justifyContent: center
+                        alignItems: center
+                        textAlign: 
+                          x: center
+                      text: 'Highest Level of Privacy & Security'
+
+                - type: view
+                  style:
+                    width: calc(555.6/1920*100vw)
+                    height: calc(328/1920*100vw)
+                    display: flex
+                    flexDirection: column
+                    justifyContent: center
+                    alignItems: center
+                  children:
+                    - type: image
+                      style:
+                        width: calc(151.1/1920*100vw)
+                        height: 'auto'
+                      path: 'heartLight.png'
+                    - type: label
+                      style:
+                        display: flex
+                        fontSize: calc(21.4/1920*100vw)
+                        fontFamily: 'Arial' 
+                        height: calc(121.8/1920*100vw)
+                        justifyContent: center
+                        alignItems: center
+                        textAlign: 
+                          x: center
+                      text: 'E-Health Solution'
+
+
+    # AiTmed Products
+    - type: view
+      style: 
+        display: flex
+        flexDirection: column
+        width: calc(1514.77/1724.81*100vw)
+        margin: 'auto'
+        height: calc(786.94/1920*100vw)
+      children: 
+        - type: image
+          path: HomeBottom.png
+          style:
+            width: calc(1514.77/1724.81*100vw)
+            top: '0'
+        - type: label
+          text: AiTmed Products
+          style:
+            display: flex
+            justifyContent: center
+            alignItems: center
+            width: calc(1514.77/1724.81*100vw)
+            color: '0xffffff'
+            height: calc(187.4/1920*100vw)
+            fontWeight: '600'
+            fontSize: calc(37.5/1920*100vw)
+            fontFamily: 'Arial'
+        
+        - type: view
+          style: 
+            width: calc(1514.77/1724.81*100vw)
+            height: calc(421.64/1920*100vw)
+            display: flex
+            justifyContent: center
+            alignItems: center
+          children: 
+            - type: view
+              style:
+                display: flex
+                justifyContent: center
+                alignItems: center
+                flexDirection: column
+                width: calc(333.56/1920*100vw)
+                height: calc(421.64/1920*100vw)
+              children:
+                - type: view
+                  style:
+                    width: calc(250.17/1920*100vw)
+                    height: calc(312.2/1920*100vw)
+                  children:
+                    - type: image
+                      path: phone4.png
+                      style:
+                        width: calc(250.17/1920*100vw)
+                        height: calc(312.2/1920*100vw)
+                - type: label
+                  style:
+                    textAlign:
+                      x: center
+                    width: calc(333.56/1920*100vw)
+                    color: '0xffffff'
+                    fontSize: calc(22/1700*100vw)
+                    fontWeight: '600'
+                    fontFamily: 'Arial'
+                    textDecoration: underline
+                  text: AiTmed Care
+                  onClick: 
+                    - actionType: evalObject
+                      object: 
+                        - =.builtIn.object.setProperty: 
+                            dataIn: 
+                              obj: =.Resource.baseHeaderData
+                              label: "title"
+                              text: "Products"
+                              arr: ["fontSize","fontWeight","fontColor"]
+                              valueArr: ["2.28vh","600","0x388fcd"]
+                              errorArr: ["2.28vh","400","0x000000"]
+                            dataOut: Resource.baseHeaderData
+                    - actionType: builtIn
+                      funcName: redraw
+                      viewTag: headRightView
+                    - goto: AiTmedCare     
+                
+                - type: view
+                  style:
+                    display: flex
+                    flexDirection: row
+                    width: calc(300.56/1920*100vw)
+                    height: calc(65.58/1920*100vw)
+                    alignItems: center
+                    justifyContent: space-evenly
+                  children:
+                    - type: label
+                      text: Sign In
+                      style:
+                        fontSize: calc(19/1920*100vw)
+                        fontFamily: 'Arial'
+                        color: '0xbfe6ff'
+                        width: calc(150.28/1920*100vw)
+                        display: flex
+                        justifyContent: center
+                        alignItems: center
+                      onClick: 
+                        - goto: https://patient.aitmed.com/ 
+                    - type: label
+                      text: Sign Up                      
+                      style:
+                        fontSize: calc(19/1920*100vw)
+                        fontFamily: 'Arial'
+                        color: '0xbfe6ff'
+                        width: calc(150.28/1920*100vw)
+                        display: flex
+                        justifyContent: center
+                        alignItems: center
+                      onClick: 
+                        - goto: https://patient.aitmed.com/   
+                  
+            - type: view
+              style:
+                display: flex
+                justifyContent: center
+                alignItems: center
+                flexDirection: column
+                width: calc(333.56/1920*100vw)
+                height: calc(421.64/1920*100vw)
+              children:
+                - type: view
+                  style:
+                    width: calc(250.17/1920*100vw)
+                    height: calc(312.2/1920*100vw)
+                    display: flex
+                    justifyContent: center
+                    alignItems: center
+                  children:
+                    - type: image
+                      path: phone1.png
+                      style:
+                        width: calc(133.42/1920*100vw)
+                    
+                - type: label
+                  style:
+                    display: flex
+                    justifyContent: center
+                    alignItems: center
+                    width: calc(333.56/1920*100vw)
+                    color: '0xffffff'
+                    fontSize: calc(22/1700*100vw)
+                    fontWeight: '600'
+                    fontFamily: 'Arial'
+                    textDecoration: underline
+
+                  text: AiTmed Provider
+                  onClick: 
+                    - actionType: evalObject
+                      object: 
+                        - =.builtIn.object.setProperty: 
+                            dataIn: 
+                              obj: =.Resource.baseHeaderData
+                              label: "title"
+                              text: "Products"
+                              arr: ["fontSize","fontWeight","fontColor"]
+                              valueArr: ["2.28vh","600","0x388fcd"]
+                              errorArr: ["2.28vh","400","0x000000"]
+                            dataOut: Resource.baseHeaderData
+                    - actionType: builtIn
+                      funcName: redraw
+                      viewTag: headRightView
+                    - goto: AiTmedProvider
+                  
+                - type: view
+                  style:
+                    display: flex
+                    flexDirection: row
+                    width: calc(300.56/1920*100vw)
+                    height: calc(65.58/1920*100vw)
+                    alignItems: center
+                    justifyContent: space-evenly
+                    fontSize: calc(17.8/1920*100vw)
+                    fontFamily: 'Arial'
+                    color: '0xbfe6ff'
+                  children:
+                    - type: label
+                      text: Sign In
+                      style:
+                        width: calc(150.28/1920*100vw)
+                        display: flex
+                        justifyContent: center
+                        alignItems: center
+                      onClick: 
+                        - goto: https://provider.aitmed.com/   
+                    - type: label
+                      text: Sign Up                      
+                      style:
+                        fontSize: calc(17.8/1920*100vw)
+                        fontFamily: 'Arial'
+                        color: '0xbfe6ff'
+                        width: calc(150.28/1920*100vw)
+                        display: flex
+                        justifyContent: center
+                        alignItems: center
+                      onClick: 
+                        - goto: https://provider.aitmed.com/
+                
+            
+            - type: view
+              style:
+                display: flex
+                justifyContent: center
+                alignItems: center
+                flexDirection: column
+                width:  calc(333.56/1920*100vw)
+                height: calc(421.64/1920*100vw)
+              children:
+                - type: view
+                  style:
+                    display: flex
+                    alignItems: center
+                    justifyContent: center
+                    width: calc(250.17/1920*100vw)
+                    height: calc(312.2/1920*100vw)
+                  children:
+                    - type: image
+                      path: product.png
+                      style:
+                        width: calc(200.14/1920*100vw)
+                        
+                - type: label
+                  style:
+                    width: calc(333.56/1920*100vw)
+                    display: flex
+                    justifyContent: center
+                    alignItems: center
+                    color: '0xffffff'
+                    fontSize: calc(22/1700*100vw)
+                    fontWeight: '600'
+                    fontFamily: 'Arial'
+                    textDecoration: underline
+                  text: AiTmed Admin
+                  onClick:
+                    - actionType: evalObject
+                      object: 
+                        - =.builtIn.object.setProperty: 
+                            dataIn: 
+                              obj: =.Resource.baseHeaderData
+                              label: "title"
+                              text: "Products"
+                              arr: ["fontSize","fontWeight","fontColor"]
+                              valueArr: ["2.28vh","600","0x388fcd"]
+                              errorArr: ["2.28vh","400","0x000000"]
+                            dataOut: Resource.baseHeaderData
+                    - actionType: builtIn
+                      funcName: redraw
+                      viewTag: headRightView
+                    - goto: AiTmedAdmin
+
+                - type: view
+                  style:
+                    display: flex
+                    width: calc(300.56.17/1920*100vw)
+                    height: calc(65.58/1920*100vw)
+                    justifyContent: center
+                    alignItems: center
+                  children:
+                    - type: label
+                      text: Sign In
+                      style:
+                        display: flex
+                        justifyContent: center
+                        fontSize: calc(17.8/1920*100vw)
+                        fontFamily: 'Arial'
+                        color: '0xbfe6ff'
+                        width: calc(150.28/1920*100vw)
+                      onClick: 
+                        - goto: https://admin.aitmed.com/
+        
+                    - type: label
+                      text: Sign Up                      
+                      style:
+                        display: flex
+                        justifyContent: center
+                        fontSize: calc(17.8/1920*100vw)
+                        fontFamily: 'Arial'
+                        color: '0xbfe6ff'
+                        width: calc(150.28/1920*100vw)
+                      onClick: 
+                        - goto: https://admin.aitmed.com/
+          
+            - type: view
+              style:
+                display: flex
+                justifyContent: center
+                alignItems: center
+                flexDirection: column
+                width: calc(333.56/1920*100vw)
+                height: calc(402.91/1920*100vw)
+                # marginTop: '0.017'
+              children:
+                - type: view
+                  style:
+                    display: flex
+                    alignItems: center
+                    justifyContent: center
+                    width: calc(250.17/1920*100vw)
+                    height: calc(352.2/1920*100vw)
+                  children:
+                    - type: image
+                      path: product1.png
+                      style:
+                        width: calc(200.14/1920*100vw)
+                - type: label
+                  text: Search & Referral
+                  style:
+                    display: flex
+                    justifyContent: center
+                    alignItems: flex-start
+                    width: calc(333.56/1920*100vw)
+                    height: calc(103.06/1920*100vw)
+                    color: '0xffffff'
+                    fontSize: calc(22/1700*100vw)
+                    fontWeight: '600'
+                    fontFamily: 'Arial'
+                    textDecoration: underline
+                  onClick:
+                    - actionType: evalObject
+                      object: 
+                        - =.builtIn.object.setProperty: 
+                            dataIn: 
+                              obj: =.Resource.baseHeaderData
+                              label: "title"
+                              text: "Products"
+                              arr: ["fontSize","fontWeight","fontColor"]
+                              valueArr: ["2.28vh","600","0x388fcd"]
+                              errorArr: ["2.28vh","400","0x000000"]
+                            dataOut: Resource.baseHeaderData
+                    - actionType: builtIn
+                      funcName: redraw
+                      viewTag: headRightView
+                    - goto: AitmedSearch
+                      
+    - type: view
+      style:
+        margin: auto
+        width: calc(1514.77/1724.81*100vw)
+        display: flex
+        flexDirection: column
+        justifyContent: center
+        alignItems: center
+        marginTop: '0.025'
+      children:
+        - type: label
+          text: What Is AiTmed
+          style:
+            width: calc(1514.77/1724.81*100vw)
+            height: calc(243.61/1920*100vw)
+            display: flex
+            justifyContent: center
+            alignItems: center
+            fontSize: calc(37.48/1920*100vw)
+            fontFamily: 'Arial'
+            fontWeight: '600'
+        - type: video
+          videoFormat: mp4
+          path: https://public.aitmed.com/commonRes/video/aitmed228FromBlair11192020.mp4
+          poster: backgroundBlack.png
+          controls: true
+          style: 
+            width: calc(1167.5/1920*100vw)
+        - type: view
+          style: 
+            width: calc(1514.77/1724.81*100vw)
+            height: calc(1030.7/1920*100vw)
+            marginTop: calc(18.74/1920*100vw)
+            display: flex
+            flexDirection: column
+            justifyContent: center
+            alignItems: center
+          children:
+            - type: view
+              style:
+                display: flex
+                flexDirection: column
+              children:
+                - type: divider
+                  style:
+                    width: calc(333.56/1920*100vw)
+                    margin: 'auto'
+                    height: calc(0.94/1920*100vw)
+                    backgroundColor: '#cccccc'
+                    border: 
+                      style: "5"
+
+                - type: label
+                  text: Our Partners
+                  style:
+                    width: calc(1514.77/1724.81*100vw)
+                    height: calc(140.55/1920*100vw)
+                    display: flex
+                    justifyContent: center
+                    alignItems: center
+                    fontSize: calc(37.48/1920*100vw)
+                    fontFamily: 'Arial'
+                    fontWeight: '600'
+                
+            # Partners' brands
+            - type: view
+              style:
+                width: calc(1514.77/1724.81*100vw)
+                display: flex
+                justifyContent: center
+                alignItems: center
+                
+              children:
+                - type: list
+                  viewTag: imagePaths
+                  contentType: listObject
+                  listObject: ..imgData
+                  iteratorVar: itemObject
+                  style:
+                    width: calc(1250.89/1920*100vw)
+                    height: calc(590.3/1920*100vw)
+                    textAlign:
+                      x: center
+                      y: center
+                    # axis: horizontal
+                    # flexWrap: wrap
+                  children:
+                    - type: listItem
+                      itemObject: 
+                      style:
+                        width: calc(300.2/1920*100vw)
+                        display: inline-block
+                        # display: flex
+                      children: 
+                        - type: image
+                          path: itemObject.key
+                          onClick:
+                            - emit:
+                                dataKey:
+                                  var: itemObject
+                                actions:
+                                  - goto: $var.url
+                          style:
+                            width: calc(191.8/1920*100vw)
+            # small points
+            - type: list
+              viewTag: imageUpdate
+              contentType: listObject
+              listObject: ..formData.show
+              iteratorVar: itemObject
+              style:
+                width: 'calc(250.17/1920*100vw)'
+                height: calc(93.69/1920*100vw)
+                axis: horizontal
+                justifyContent: space-evenly
+                alignItems: center
+              children:
+                - type: listItem
+                  itemObject: ""
+                  onClick:
+                    - emit:
+                        dataKey:
+                          var: itemObject
+                        actions:
+                          - if:
+                            - =.builtIn.string.equal:
+                                dataIn:
+                                  string1: $var.number
+                                  string2: '1'
+                            - ..formData.show@: =..HomeList.First
+                            - continue
+                          - if:
+                            - =.builtIn.string.equal:
+                                dataIn:
+                                  string1: $var.number
+                                  string2: '2'
+                            - ..formData.show@: =..HomeList.Second
+                            - continue
+                          - if:
+                            - =.builtIn.string.equal:
+                                dataIn:
+                                  string1: $var.number
+                                  string2: '3'
+                            - ..formData.show@: =..HomeList.Third
+                            - continue
+                          - if:
+                            - =.builtIn.string.equal:
+                                dataIn:
+                                  string1: '1'
+                                  string2: $var.number
+                            - ..imgData@: =..imgDataCopy
+                          - if:
+                            - =.builtIn.string.equal:
+                                dataIn:
+                                  string1: '2'
+                                  string2: $var.number
+                            - ..imgData@: =..imgDataNext
+                          - if:
+                            - =.builtIn.string.equal:
+                                dataIn:
+                                  string1: '3'
+                                  string2: $var.number
+                            - ..imgData@: =..imgDataSecond
+                    - actionType: builtIn
+                      funcName: redraw
+                      viewTag: imageUpdate
+                    - actionType: builtIn
+                      funcName: redraw
+                      viewTag: imagePaths
+                  style:
+                    width: calc(14.05/1920*100vw) 
+                    height: calc(14.05/1920*100vw) 
+                    display: flex
+                    justifyContent: center
+                    alignItems: center
+                  children:
+                    - type: image
+                      path: 
+                        emit:
+                          dataKey:
+                            var: itemObject
+                          actions:
+                            - if:
+                              - true
+                              - $var.img
+                              - $var.img
+                      style:
+                        height: calc(14.05/1920*100vw)
+            
+
+    - .BaseFooter1:

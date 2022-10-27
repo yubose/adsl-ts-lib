@@ -1,0 +1,221 @@
+HaDiarrheaInChild:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Diarrhea in Children
+        - .HaHeaderLittleLabel:
+          text: Is a common symptom of the respiratory tract. Cough is always caused by inflammation, foreign body, physical or chemical stimulation of the trachea, bronchial mucosa or pleura.
+    - .HaBodyTagView:
+      style:
+        top: '0.55'
+      children:
+        - .HaBodyTagButton1:
+          text: Diarrhea
+    - .HaBodyCon:
+      style:
+        height: '0.56'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Seek emergency care immediately if the following:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: Diarrhea is frequent, loose, or watery bowel movements that are more frequent, and differ from the child’s normal pattern. Diarrhea is very prevalent in children.
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Blood or Pus in stool"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Black tarry stool"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Bloody Vomit"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Extreme pain in the abdomen when touched"
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ If Diarrhea has lasted more than 3 days"    
+            - .HaBodyContent:
+              style:
+                top: '0.29'
+                width: '0.5'
+              text: "Diarrhea is loose, or watery bowel movements that are more frequent, and differ from the child’s normal pattern. Diarrhea may contain mucus, blood or may simply be watery. Watery diarrhea greater than 24 hours duration is never considered normal. If diarrhea lasts longer than 24 hours, your child may be dehydrated. Severe dehydration may be life threatening and if suspected, please seek emergency medical care ASAP."
+            - .HaBodyContent:
+              style:
+                top: '0.44'
+                width: '0.5'
+              text: "Children with Diarrhea may experience loss of appetite, recent loss of weight, vomiting, and or have a fever."
+            - .HaBodyContent:
+              style:
+                top: '0.51'
+                width: '0.5'
+              text: "Causes of diarrhea in children differ depending on time. Less than 2 weeks (acute) or greater than 2 weeks (chronic). Acute causes are more commonly seen. Children should be evaluated by a medical professional immediately when diarrhea and or dehydration are suspected." 
+        - .HaBodyImg:
+          style:  
+            top: '0.078'
+            left: '0.68'
+            width: '0.16'
+          path: healthAZ/diarrhea_in_a_child.png
+    - .HaBodyCon:
+      style:
+        height: '0.43'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+            marginTop: '0.2'
+          text: "Acute diarrhea causes:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "⦁ Infectious"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Food Poisoning (Viral or Bacterial)"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Food allergies"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Antibiotic use"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Less commonly:" 
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ Appendicitis"
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+              text: "⦁ Intussusception"
+            - .HaBodyContent:
+              style:
+                top: '0.35'
+              text: "⦁ HUS"
+    - .HaBodyCon:
+      style:
+        height: '0.5'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Chronic diarrhea causes:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "⦁ Diet"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Parasitic infections"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Genetic Diseases"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Less commonly:"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Immunodeficiency"
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ Malabsorption"
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+              text: "⦁ Cystic Fibrosis"     
+            - .HaBodyContent:
+              style:
+                top: '0.35'
+              text: "Specific causes of diarrhea in children may require treatment. Dehydration is a main concern and requires immediate re-hydration. Sports drinks and sodas should be avoided. Oral rehydration solutions are frequently sold at pharmacies and most supermarkets. If the child is unable to hold any fluids in due to vomiting, hospitalization may be necessary.`,"
+
+    
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Diarrhea in children is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+          # style:
+          #   left: '0.34'
+        - .HaBottomTagname: 
+          style: 
+            # width: '0.15'
+            # left: '0.5'
+          # text: "Diarrhea"
+    - .BaseFooter1:
+
+
+
+
+
+

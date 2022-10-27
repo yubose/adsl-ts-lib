@@ -1,0 +1,343 @@
+OncCertification: # xd page number:4
+  # pageNumber: "30"
+  viewPort: top
+  init:
+  formDataTemp:
+
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children:
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: ONC Certification
+
+    - type: view
+      style:
+        width: calc(1514.77/1724.81*100vw)
+        height: auto
+        margin: auto
+      children:
+        - type: view
+          style:
+            width: "0.56"
+            margin: auto
+            # height: "0.4"
+          children:
+
+            - type: view
+              style:
+                width: "0.31"
+                margin: auto
+                # height: "0.4"
+                display: "inline-block"
+              children:
+                - type: view
+                  style:
+                    height: auto
+                  children:
+                    - type: label
+                      text: "Vendor Name:"
+                      style:
+                        # width: 0.07
+                        fontSize: .Nfont.h2
+                        height: "0.04"
+                        fontWeight: bold
+                        display: "inline-block"
+                    - type: label
+                      text: "&nbsp;AiTmed Inc."
+                      style:
+                        fontSize: .Nfont.h2
+                        display: "inline-block"
+                - type: view
+                  style:
+                    height: auto
+                  children:
+                    - type: label
+                      text: "Product Name:"
+                      style:
+                        # width: 0.08
+                        fontSize: .Nfont.h2
+                        height: "0.04"
+                        fontWeight: bold
+                        display: "inline-block"
+                    - type: label
+                      text: "&nbsp;AiTmed Telehealth System"
+                      style:
+                        fontSize: .Nfont.h2
+                        display: "inline-block"
+                - type: view
+                  style:
+                    height: auto
+                  children:
+                    - type: label
+                      text: "Version:"
+                      style:
+                        fontSize: .Nfont.h2
+                        height: "0.04"
+                        fontWeight: bold
+                        display: "inline-block"
+                    - type: label
+                      text: "&nbsp;2.0"
+                      style:
+                        fontSize: .Nfont.h2
+                        display: "inline-block"
+                - type: view
+                  style:
+                    height: auto
+                  children:
+                    - type: label
+                      text: "Certification:"
+                      style:
+                        width: 0.07
+                        fontSize: .Nfont.h2
+                        height: "0.04"
+                        fontWeight: bold
+                        display: "inline-block"
+                - type: view
+                  style:
+                    height: auto
+                  children:
+                    - type: label
+                      text: "Date Certified:"
+                      style:
+                        fontSize: .Nfont.h2
+                        height: "0.04"
+                        fontWeight: bold
+                        display: "inline-block"
+            - type: image
+              path: certification.svg
+              style:
+                display: "inline-blobk"
+                width: 0.25
+            - type: label
+              text: "This Health IT Module is 2015 Edition compliant and has been certified by an ONC-ACB in accordance with the applicable certification criteria adopted by the Secretary of Health and Human Services. This certification does not represent an endorsement by the U.S. Department of Health and Human Services. "
+              style:
+                width: 0.56
+                margin: auto
+                fontSize: .Nfont.h2
+                height: auto
+                marginTop: "0.01"
+            - type: view
+              style:
+                height: auto
+              children:
+                - type: label
+                  text: "Certified Criteria:"
+                  style:
+                    # width: 0.07
+                    fontSize: .Nfont.h2
+                    # height: "0.04"
+                    fontWeight: bold
+                    marginTop: "0.05"
+                    display: "inline-block"
+            - type: view
+              style:
+                height: auto
+              children:
+                - type: view
+                  style:
+                    height: auto
+                    marginTop: "0.01"
+                  children:
+                    - type: label
+                      text: "170.315(d)(1)"
+                      style:
+                        display: "inline-block"
+                        fontSize: 1.1vw
+                    - type: label
+                      text: "170.315(d)(2)"
+                      style:
+                        display: "inline-block"
+                        fontSize: 1.1vw
+                        marginLeft: "0.1"
+                    - type: label
+                      text: "170.315(d)(3)"
+                      style:
+                        display: "inline-block"
+                        marginLeft: "0.1"
+                        fontSize: 1.1vw
+                    - type: label
+                      text: "170.315(d)(4)"
+                      style:
+                        display: "inline-block"
+                        marginLeft: "0.1"
+                        fontSize: 1.1vw
+                - type: view
+                  style:
+                    height: auto
+                    marginTop: "0.01"
+                  children:
+                    - type: label
+                      text: "170.315(d)(5)"
+                      style:
+                        display: "inline-block"
+                        fontSize: 1.1vw
+                    - type: label
+                      text: "170.315(d)(6)"
+                      style:
+                        display: "inline-block"
+                        fontSize: 1.1vw
+                        marginLeft: "0.1"
+                    - type: label
+                      text: "170.315(d)(7)"
+                      style:
+                        display: "inline-block"
+                        marginLeft: "0.1"
+                        fontSize: 1.1vw
+                    - type: label
+                      text: "170.315(d)(8)"
+                      style:
+                        display: "inline-block"
+                        marginLeft: "0.1"
+                        fontSize: 1.1vw
+                - type: view
+                  style:
+                    height: auto
+                    marginTop: "0.01"
+                  children:
+                    - type: label
+                      text: "170.315(d)(9)"
+                      style:
+                        display: "inline-block"
+                        fontSize: 1.1vw
+                    - type: label
+                      text: "170.315(d)(12)"
+                      style:
+                        display: "inline-block"
+                        fontSize: 1.1vw
+                        marginLeft: "0.1"
+                    - type: label
+                      text: "170.315(d)(13)"
+                      style:
+                        display: "inline-block"
+                        marginLeft: "0.095"
+                        fontSize: 1.1vw
+                    - type: label
+                      text: "170.315(g)(4)"
+                      style:
+                        display: "inline-block"
+                        marginLeft: "0.095"
+                        fontSize: 1.1vw
+                - type: view
+                  style:
+                    height: auto
+                    marginTop: "0.01"
+                  children:
+                    - type: label
+                      text: "170.315(g)(5)"
+                      style:
+                        display: "inline-block"
+                        fontSize: 1.1vw
+            - type: view
+              style:
+                height: auto
+              children:
+                - type: label
+                  text: "Additional Software Required"
+                  style:
+                    # width: 0.07
+                    fontSize: .Nfont.h2
+                    # height: "0.04"
+                    fontWeight: bold
+                    marginTop: "0.05"
+                - type: label
+                  text: "None."
+                  style:
+                    fontSize: .Nfont.h2
+                    marginTop: "0.02"
+            - type: view
+              style:
+                height: auto
+              children:
+                - type: label
+                  text: "AiTmed Telehealth System Pricing and Costs"
+                  style:
+                    # width: 0.07
+                    fontSize: .Nfont.h2
+                    # height: "0.04"
+                    fontWeight: bold
+                    marginTop: "0.05"
+                - type: label
+                  text: "AiTmed, Inc. offers services incurring two kinds of charges: per-use-based charge and subscription-based charges;"
+                  style:
+                    fontSize: .Nfont.h2
+                    marginTop: "0.02"
+                - type: label
+                  text: "• Per-Use-Charge: Usage charge includes,
+                          but not limited to, the cost of the communication for
+                          tele-health service, secure store and access of
+                          medical documents, payment processing,
+                          and many add-on convenient features yielding from
+                          artificial intelligent(AI)."
+                  style:
+                    fontSize: .Nfont.h2
+                    marginTop: "0.02"
+                - type: label
+                  text: "• Subscription Charges:
+                      includes various premium services, such as,
+                      training service and technical support service,
+                      AI-medical billing service, payer enrollment
+                      assistant service, etc.."
+                  style:
+                    fontSize: .Nfont.h2
+                    marginTop: "0.02"
+                - type: label
+                  text: "Additional Costs"
+                  style:
+                    # width: 0.07
+                    fontSize: .Nfont.h2
+                    # height: "0.04"
+                    fontWeight: bold
+                    marginTop: "0.05"
+                - type: label
+                  text: "In addition to the Pricing and Costs outlined above, the following may require an additional one-time or annual fee:"
+                  style:
+                    fontSize: .Nfont.h2
+                    marginTop: "0.02"
+                - type: label
+                  text: "• E-Prescriber option- annual $80 licensing fee per
+                        provider for sending over sure-Script network."
+                  style:
+                    fontSize: .Nfont.h2
+                    marginTop: "0.02"
+                - type: label
+                  text: "• System migration and setup fee."
+                  style:
+                    fontSize: .Nfont.h2
+                    marginTop: "0.02"
+                - type: label
+                  text: "• CPT AMA License - fee paid directly to AMA or an authorized distributor."
+                  style:
+                    fontSize: .Nfont.h2
+                    marginTop: "0.02"
+                - type: label
+                  text: "• Immunization Registry - setup fee and per Provider fee paid directly to HealthCareXchange"
+                  style:
+                    fontSize: .Nfont.h2
+                    marginTop: "0.02"
+                - type: label
+                  text: "These charges and fees are subjected to be changed to align with AiTmed business objectives with or without notice."
+                  style:
+                    fontSize: .Nfont.h2
+                    marginTop: "0.02"
+                    height: 0.1
+            # - type: view
+            #   style:
+            #     height: auto
+            #   children:
+            #     - type: label
+            #       text: "Pricing and Costs"
+            #       style:
+            #         # width: 0.07
+            #         fontSize: .Nfont.h2
+            #         # height: "0.04"
+            #         fontWeight: bold
+            #         marginTop: "0.05"
+            #     - type: label
+            #       text: "There is NO fee for clients to use AiTmed Telemedicine System now."
+            #       style:
+            #         fontSize: .Nfont.h2
+            #         marginTop: "0.02"
+    - .BaseFooter1:

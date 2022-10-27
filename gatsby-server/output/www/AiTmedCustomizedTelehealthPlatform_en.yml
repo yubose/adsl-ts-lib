@@ -1,0 +1,198 @@
+AiTmedCustomizedTelehealthPlatform:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - type: view
+      style:
+        left: '0'
+        width: calc(1514.77/1724.81*100vw)
+        marginTop: '0'
+        height: calc(1800.2/1724.81*100vw)
+        margin: auto
+        backgroundColor: ''
+      children:
+        - type: view
+          style:
+            left: '0'
+            width: calc(1514.77/1724.81*100vw)
+            height: 'auto'
+            margin: auto
+            backgroundColor: '#E5F0F9'
+          children:
+            - type: view
+              style:
+                zIndex: 10
+                marginTop: calc(115.51/1724.81*100vw)
+              children:
+                - type: image
+                  path: bgplain.svg
+                  viewTag: topView
+                  style:
+                    width: calc(1514.77/1724.81*100vw)
+                    height: calc(750.08/1724.81*100vw)
+                    backgroundColor: "0xe5f0f9ff"
+                    zIndex: 50
+                - type: label
+                  text: 'Customized Telehealth Platfrom'
+                  style:
+                    fontSize: calc(43.16/1724.81*100vw)
+                    fontWeight: '600'
+                    fontFamily: Arial
+                    top: calc(160.15/1724.81*100vw)
+                    left: calc(281.6/1724.81*100vw)
+                    zIndex: 100
+                - type: label
+                  textBoard:
+                    - text: 'Build your own telehealth platform'
+                    - br:
+                    - text: 'Brand your business'
+                  style:
+                    fontSize: calc(28.78/1724.81*100vw)
+                    fontFamily: Arial
+                    top: calc(292.5/1724.81*100vw)
+                    left: calc(281.66/1724.81*100vw)
+                    zIndex: 100
+                    lineHeight: calc(50/1724.81*100vw)
+            - type: image
+              path: help.png
+              style:
+                top: calc(143.85/1724.81*100vw)
+                left: calc(1160.77/1724.81*100vw)
+                width: calc(290.2/1724.81*100vw)
+                zIndex: 100
+            - .othersSignIn:
+              style:
+                top: calc(460.32/1724.81*100vw)
+                left: calc(281.66/1724.81*100vw)
+                marginTop: '0'
+            - .othersSignUp:
+              style:
+                top: calc(460.32/1724.81*100vw)
+                left: calc(568.44/1724.81*100vw)
+            # - type: button
+            #   text: 'Request Demo'
+            #   style:
+            #     backgroundColor: '#30B354'
+            #     top: calc(460.32/1724.81*100vw)
+            #     left: calc(856.93/1724.81*100vw)
+            #     width: calc(233.86/1724.81*100vw)
+            #     height: calc(65.21/1724.81*100vw)
+            #     color: 'white'
+            #     fontSize: calc(28.78/1724.81*100vw)
+            #     border:
+            #       style: "5"
+            #     borderRadius: '5'
+            #     zIndex: 100
+        - type: view
+          style:
+            left: '0'
+            width: calc(1514.77/1724.81*100vw)
+            top: calc(767.2/1724.81*100vw)
+            height: calc(863.1/1724.81*100vw)
+            margin: auto
+            marginTop: calc(191.8/1724.81*100vw)
+          children:
+            - type: label
+              text: 'Features'
+              style:
+                top: calc(76.72/1724.81*100vw)
+                fontSize: calc(47.95/1724.81*100vw)
+                fontWeight: '600'
+                width: calc(682.8/1724.81*100vw)
+                textAlign:
+                  x: center
+                left: calc(377.355/1724.81*100vw)
+            - type: view
+              style:
+                height: calc(767.2/1724.81*100vw)
+              children:
+                - type: view
+                  style:
+                    left: calc(240.93/1724.81*100vw)
+                    top: calc(239.75/1724.81*100vw)
+                    height: calc(239.75/1724.81*100vw)
+                    width: calc(510.4/1724.81*100vw)
+                    backgroundColor: '#E5F0F9'
+                  children:
+                    - type: image
+                      path: questionnaire.png
+                      style:
+                        width: calc(102.42/1724.81*100vw)
+                        top: calc(47.95/1724.81*100vw)
+                        left: calc(208.26/1724.81*100vw)
+                    - type: label
+                      text: 'Questionnaire and Form'
+                      style:
+                        fontSize: calc(28.78/1724.81*100vw)
+                        fontWeight: '600'
+                        top: calc(163.03/1724.81*100vw)
+                        left: calc(105.84/1724.81*100vw)
+                - type: view
+                  style:
+                    left: calc(753.1/1724.81*100vw)
+                    top: calc(239.75/1724.81*100vw)
+                    height: calc(239.75/1724.81*100vw)
+                    width: calc(510.4/1724.81*100vw)
+                    backgroundColor: '#E5F0F9'
+                  children:
+                    - type: image
+                      path: website.png
+                      style:
+                        width: calc(102.42/1724.81*100vw)
+                        top: calc(47.95/1724.81*100vw)
+                        left: calc(187.78/1724.81*100vw)
+                    - type: label
+                      text: 'Web Page'
+                      style:
+                        fontSize: calc(28.78/1724.81*100vw)
+                        fontWeight: '600'
+                        top: calc(163.03/1724.81*100vw)
+                        left: calc(179.28/1724.81*100vw)
+                - type: view
+                  style:
+                    left: calc(240.93/1724.81*100vw)
+                    top: calc(481.38/1724.81*100vw)
+                    height: calc(239.75/1724.81*100vw)
+                    width: calc(510.4/1724.81*100vw)
+                    backgroundColor: '#E5F0F9'
+                  children:
+                    - type: image
+                      path: app.png
+                      style:
+                        width: calc(102.42/1724.81*100vw)
+                        top: calc(38.36/1724.81*100vw)
+                        left: calc(204.84/1724.81*100vw)
+                    - type: label
+                      text: 'Tailored APP'
+                      style:
+                        fontSize: calc(28.78/1724.81*100vw)
+                        fontWeight: '600'
+                        top: calc(143.85/1724.81*100vw)
+                        left: calc(179.24/1724.81*100vw)
+                - type: view
+                  style:
+                    left: calc(753.1/1724.81*100vw)
+                    top: calc(481.38/1724.81*100vw)
+                    height: calc(239.75/1724.81*100vw)
+                    width: calc(510.4/1724.81*100vw)
+                    backgroundColor: '#E5F0F9'
+                  children:
+                    - type: image
+                      path: cloud-tools.png
+                      style:
+                        width: calc(102.42/1724.81*100vw)
+                        display: inline-block
+                        top: calc(47.95/1724.81*100vw)
+                        left: calc(187.78/1724.81*100vw)
+                    - type: label
+                      textBoard:
+                      - text: 'Function'
+                      style:
+                        textAlign:
+                          x: center
+                        fontSize: calc(28.78/1724.81*100vw)
+                        fontWeight: '600'
+                        top: calc(143.85/1724.81*100vw)
+                        left: calc(184.36/1724.81*100vw)
+    - .BaseFooter1
+

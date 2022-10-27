@@ -1,0 +1,111 @@
+HaBloodInTheStool:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Blood in the stool
+        - .HaHeaderLittleLabel:
+          text: Blood in the stool means there is bleeding somewhere in your digestive tract.
+    - .HaBodyTagView:
+      style:
+        top: '0.55'
+      children:
+        - .HaBodyTagButton1:
+          text: Blood
+    - .HaBodyCon:
+      style:
+        height: '0.3'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          text: "Seek emergency care if you notice:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "⦁ Large amounts of blood"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Lightheadedness"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Rapid heart rate"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+              text: "⦁ Weakness"
+        - .HaBodyImg:
+          style:  
+            top: '0.09'
+            left: '0.7'
+          path: healthAZ/blood_in_stool.png
+    - .HaBodyCon:
+      style:
+        height: '0.33'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: Find possible causes of abdominal pain based on specific factors. Use our patient Questionnaire.
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Blood in the stool can be frightening, whether you discover it while wiping after a bowel movement or from a test ordered by your health care provider. While blood in stool can signal a serious problem, it doesn't always. Here's some tips for you."
+            - .HaBodyContent:
+              style:
+                top: '0.09'
+              text: "Blood in the stool means there is bleeding somewhere in your digestive tract. Sometimes the amount of blood is so small that it can only be detected by a fecal occult test (which checks for hidden blood in the stool). At other times it may visible on toilet tissue or in the toilet after a bowel movement as bright red blood. Bleeding that happens higher up in the digestive tract may make stool appear black and tarry."
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: 'If Blood in the stool is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you!'
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname: 
+
+    - .BaseFooter1:
+

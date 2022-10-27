@@ -1,0 +1,158 @@
+HaConstipation:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Constipation
+        - .HaHeaderLittleLabel:
+          text: Constipation is difficult or infrequent passage of stool, hardness of stool, or a feeling of incomplete evacuation
+    - .HaBodyTagView:
+      style:
+        top: '0.55'
+      children:
+        - .HaBodyTagButton1:
+          text: Constipation
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Seek emergency care if you notice:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "⦁ Is more severe than usual"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Lasts longer than usual"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Alternates with diarrhea"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.4'
+              text: "⦁ Is accompanied by abdominal or rectal pain, rectal bleeding, blood in your stool, blacstools, or unexplained weight loss"
+        - .HaBodyImg:
+          style:  
+            top: '0.06'
+            left: '0.67'
+            width: '0.18'
+          path: healthAZ/constipation.png
+    - .HaBodyCon:
+      style:
+        height: '0.2'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Find possible causes of constipation based on specific factors. Use our patient Questionnaire."
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Though occasional constipation is very common, some people experience chronic constipation that can interfere with their ability to go about their daily tasks. Chronic constipation may also cause excessive straining to have a bowel movement and other signs and symptoms. Treatment for chronic constipation depends in part on the underlying cause. However, in some cases, a cause is never found."  
+    - .HaBodyCon:
+      style:
+        height: '0.42'
+      children:
+        - .HaBodyTitle:
+          text: "Symptoms"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:  
+                width: '0.5'
+              text: "Signs and symptoms of chronic constipation include:"  
+            - .HaBodyContent:
+              style:
+                top: '0.045'
+                width: '0.5'
+              text: "⦁ Passing fewer than three stools a week"
+            - .HaBodyContent:
+              style:
+                top: '0.095'
+              text: "⦁ Having lumpy or hard stools"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+              text: "⦁ Straining to have bowel movements"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Feeling as though there's a blockage in your rectum that prevents bowel movements"      
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ Feeling as though you can't completely empty the stool from your rectum"
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+              text: "⦁ Needing help to empty your rectum, such as using your hands to press on your abdomen and using a finger to remove stool from your rectum"
+      
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Constipation is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+          
+        - .HaBottomTagname: 
+          # style: 
+          #   width: '0.12'
+            # left: '0.5'
+          # text: "Constipation"
+    - .BaseFooter1:
+
+
+
+

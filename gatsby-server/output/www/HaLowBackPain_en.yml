@@ -1,0 +1,182 @@
+HaLowBackPain:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Low back pain
+        - .HaHeaderLittleLabel:
+          text: Low back pain is the second most common cause in clinical. Up to 84% of adults would have a low back pain experience during their lifetime
+    - .HaBodyTagView:
+      style: 
+        marginTop: '0.09'
+      children:
+        - .HaBodyTagButton1:
+          text: "low back pain"
+        - .HaBodyTagButton2:
+          text: "back"
+        - .HaBodyTagButton1:
+          style:
+            left: '0.03'
+          text: "low back"
+       
+    - .HaBodyCon:
+      style:
+        height: '0.77'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Get your doctor if:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Pain Is constant or Worsens during rest."
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Low back pain is caused by trauma."
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Causes weakness, numbness or tingling in one or both legs."
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Is associated with new bowel or bladder problems."
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Is associated with pain or throbbing in the abdomen."
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+                width: '0.5'
+              text: "⦁ Is accompanied by fever."
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+                width: '0.5'
+              text: "Low back pain is the second most common complain in clinical. Up to 84% of adults would have a low back pain experience during their lifetime. The range of diseases and complications associated with low back pain is very wide. For many people, low back pain is self-limiting and can be relieved without special treatment. However, for other people, low back pain is recurrent or long-term, which can cause significant pain. It will have an impact on the quality of work and life."        
+            - .HaBodyContent:
+              style:
+                top: '0.45'
+                width: '0.5'
+              text: "⦁ Sprains and strains account for most acute back pain. Sprains are caused by overstretching or tearing ligaments, and strains are tears in tendon or muscle. Both can occur from twisting or lifting something improperly, lifting something too heavy, or overstretching. Such movements may also trigger spasms in back muscles, which can also be painful."
+            - .HaBodyContent:
+              style:
+                top: '0.58'
+                width: '0.5'
+              text: "⦁ Lumbar disc degeneration: Degenerative disease refers to the natural aging of the lumbar spine. It is a physiological and pathological process. The lumbar vertebra is the hub of the human trunk, and all physical activities would increase the burden of the lumbar spine. The activity and overload make the lumbar spine accelerate of aging. Severe lumbar degenerative diseases can cause low back pain and even nerve damage, affecting work ability and quality of life."
+            
+
+        - .HaBodyImg:
+          style:  
+            top: '0.11'
+            left: '0.69'
+            width: '0.16'
+          path: healthAZ/low-back-pain.png
+    
+    - .HaBodyCon:
+      style:
+        height: '0.4'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Spinal stenosis"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              
+              text: "Lumbar spinal stenosis refers to a type of disease in which the various diameters of the spinal canal are shortened, the dural sac, spinal cord or nerve roots are compressed. It is one of the causes of common cause for low back pain. Spinal stenosis is mostly found in middle-aged people over 40 years old."
+            - .HaBodyContent:
+              style:
+                top: '0.09'
+              text: "Myofascial pain syndrome: Myofascial pain syndrome is a chronic pain disorder. In this condition, pressure on sensitive points in your muscles (trigger points) causes pain in the muscle and sometimes in seemingly unrelated parts of your body. This is called referred pain."
+            - .HaBodyContent:
+              style:
+                top: '0.18'
+              text: "This syndrome typically occurs after a muscle has been contracted repetitively. This can be caused by repetitive motions used in jobs or hobbies or by stress-related muscle tension."
+            - .HaBodyContent:
+              style:
+                top: '0.23'
+                
+              text: "While nearly everyone has experienced muscle tension pain, the discomfort associated with myofascial pain syndrome persists or worsens. Treatment options include physical therapy and trigger point injections. Pain medications and relaxation techniques also can help."
+
+    
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Low back pain is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname:  
+        #   text: "low back pain"
+        # - .HaBottomTagname: 
+        #   text: "back"
+        #   style: 
+        #     left: "0.30"     
+        # - .HaBottomTagname: 
+        #   text: "low back"
+        #   style: 
+        #     left: "0.55"    
+    - .BaseFooter1:
+
+
+
+
+
+
+
+
+
+
+
+

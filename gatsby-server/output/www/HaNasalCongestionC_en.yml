@@ -1,0 +1,205 @@
+HaNasalCongestionC:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Nasal congestion in child
+        - .HaHeaderLittleLabel:
+          text: Nasal congestion, stuffiness, or obstruction to nasal breathing is one of the oldest and most common human complaints.
+    - .HaBodyTagView:
+      style: 
+        marginTop: '0.09'
+      children:
+        - .HaBodyTagButton1:
+          text: "nasal"
+        - .HaBodyTagButton2:
+          text: "congestion"
+        - .HaBodyTagButton1:
+          style:
+            left: '0.03'
+          text: "nasal congestion"
+    - .HaBodyCon:
+      style:
+        height: '0.78'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Get emergency medical care if:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ A fever in a child younger than 3 months"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Fever that lasts more than five days in a row"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Chills or sweating"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Difficulty breathing"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Nausea or vomiting"
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+                width: '0.5'
+              text: "⦁ Greenish or bloody nasal discharge"
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+              text: "⦁ Unusual sleepiness"
+            - .HaBodyContent:
+              style:
+                top: '0.35'
+              text: "⦁ Severe headache"
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+                top: '0.4'
+              text: "⦁ Persistent crying"
+            - .HaBodyContent:
+              style:
+                top: '0.45'
+              text: "⦁ Ear pain"
+            - .HaBodyContent:
+              style:
+                top: '0.5'
+                width: '0.5'
+              text: "Nasal congestion is another term for a stuffy nose. It is often a symptom of another health problem, such as a sinus infection. It may also be caused by the common cold.Nasal congestion is marked by:stuffy or runny nose,sinus pain,mucus buildup,swollen nasal tissue."
+            - .HaBodyContent:
+              style:
+                top: '0.6'
+                width: '0.5'
+              text: "Home remedies may be enough to alleviate nasal congestion, particularly if it is caused by the common cold. However, if you experience chronic, or long-term, congestion, you should seek medical treatment."
+            - .HaBodyContent:
+              style:
+                top: '0.7'
+              text: "Other common cause of nasal congestion include:"
+            
+
+        - .HaBodyImg:
+          style:  
+            top: '0.11'
+            left: '0.7'
+            width: '0.16'
+          path: healthAZ/nasal-congestion-in-a-child.png
+    
+    - .HaBodyCon:
+      style:
+        height: '0.3'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Sinusitis:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Unlike in adults, pediatric sinusitis is difficult to diagnose because symptoms of sinusitis can be caused by other problems, such as viral illness and allergy. Young children are more prone to infections of the nose, sinus, and ears, especially in the first several years of life. These are most frequently caused by viral infections (colds), and they may be aggravated by allergies. However, if your child remains ill beyond the usual week to ten days, a sinus infection may be the cause."
+            - .HaBodyContent:
+              style:
+                top: '0.14'
+              text: "You can reduce the risk of sinus infections for your child by reducing exposure to known environmental allergies and pollutants such as tobacco smoke, reducing his/her time at day care, and treating stomach acid reflux disease."      
+    - .HaBodyCon:
+      style:
+        height: '0.35'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Hay fever:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Hay fever is a type of allergic reaction. It happens when pollens and dust mites in the air get into your nose and eyes, which can cause inflammation. It usually affects the nose, face, sinus passages, eyes and throat. Common symptoms of hay fever include sniffling, runny nose, blocked nose, mouth breathing and sneezing. Your child might also have itchy eyes, nose, roof of the mouth and back of the throat. Your child’s eyes might be red and sore, and water a lot."
+            - .HaBodyContent:
+              style:
+                top: '0.12'
+              text: "Hay fever is usually a minor problem. But if your child is very sensitive to pollens in the air, he can develop other symptoms like wheezing, hives and rashes, especially eczema. Hay fever can also lead to poor-quality sleep, tiredness and poor concentration during the daytime."      
+    
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Nasal congestion in child is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname: 
+        #   text: "nasal"
+        # - .HaBottomTagname: 
+        #   text: "congestion"
+        #   style: 
+        #     left: "0.25"     
+        # - .HaBottomTagname: 
+        #   text: "nasal congestion"
+        #   style: 
+        #     left: "0.55"    
+    - .BaseFooter1:
+
+
+
+
+
+
+
+
+
+
+
+
+

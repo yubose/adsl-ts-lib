@@ -1,0 +1,116 @@
+HaAbdominalPain:
+  viewPort: top
+  components: 
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+        - .HaHeaderLittleLabel:
+    - .HaBodyTagView:
+      style:
+        # left: '0.16'
+        top: '0.55'
+      children:
+        - .HaBodyTagButton1:
+          style:
+            left: '0.03'
+    - .HaBodyCon:
+      style:
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            marginTop: '0'
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "⦁ The pain is related to an accident or injury"
+            - .HaBodyContent:
+              text: "⦁ You also experience pain in your chest, neck or shoulder"
+            - .HaBodyContent:
+              text: "⦁ The pain is accompanied by shortness of breath or dizziness"
+            - .HaBodyContent:
+              text: "⦁ You vomit blood"
+            - .HaBodyContent:
+              text: "⦁ Your stool is black or bloody"      
+            - .HaBodyContent:
+              text: "⦁ You find blood in your urine"
+            - .HaBodyContent:
+              text: "⦁ Your abdomen is swollen and tender"
+            - .HaBodyContent:
+              text: "⦁ You experience a high fever"
+            - .HaBodyContent:
+              text: "⦁ You experience persistent nausea or vomiting"
+            - .HaBodyImg:
+              path: healthAZ/abdominal_pain.png
+              style:
+                top: '-0.0017'
+                left: '0.71'
+    - .HaBodyCon:
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.7'
+          text: Find possible causes of abdominal pain based on specific factors & use our patient Questionnaire.
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Abdominal pain has many potential causes. The most common causes — such as gas pains, indigestion or a pulled muscle — usually aren't serious. Other conditions may require more-urgent medical attention."
+            - .HaBodyContent:
+              style:
+                top: '0.06'
+              text: "While the location and pattern of abdominal pain can provide important clues, its time course is particularly useful when determining its cause."
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+              text: "Acute abdominal pain develops, and often resolves, over a few hours to a few days. Chronic abdominal pain may be intermittent, or episodic, meaning it may come and go. This type of pain may be present for weeks to months, or even years. Some conditions cause progressive pain, which steadily gets worse over time."
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            # - .ImageHa:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: 'If Abdominal pain is interfering with your daily life, log on AiTmed and talk to a doctor to receive a treatment plan customized for you!'
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+  
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname: 
+    - .BaseFooter1:

@@ -13,6 +13,8 @@ import { resolve as _resolve } from './resolve'
 import { Key } from '../machine/key'
 import get from '../utils/get'
 import has from '../utils/has'
+import set from 'lodash/set'
+import unset from 'lodash/unset'
 import unwrap from '../utils/unwrap'
 import { createNormalizer } from '../normalizer'
 import { ui } from './test-utils'
@@ -23,6 +25,8 @@ let normalize: ReturnType<typeof createNormalizer>
 beforeEach(() => {
   normalize = createNormalizer({
     assign: (node, ...rest) => {
+      console.log(`assign: `, { node, rest })
+
       if (y.isDocument(node)) node = node.contents
       if (y.isMap(node)) {
         for (const o of rest) {
@@ -36,16 +40,16 @@ beforeEach(() => {
       }
       return node
     },
-    entries: (node) => {
-      const entries = [] as [unknown, unknown][]
-      if (y.isDocument(node)) node = node.contents
-      if (y.isMap(node)) {
-        node.items.forEach((pair) => {
-          entries.push([String(pair.key), pair.value])
-        })
-      }
-      return entries
-    },
+    // entries: (node) => {
+    //   const entries = [] as [unknown, unknown][]
+    //   if (y.isDocument(node)) node = node.contents
+    //   if (y.isMap(node)) {
+    //     node.items.forEach((pair) => {
+    //       entries.push([String(pair.key), pair.value])
+    //     })
+    //   }
+    //   return entries
+    // },
     isArr: (node) => y.isSeq(node),
     isObj: (node) => y.isMap(node),
     isStr: (node) => is.stringNode(node),
@@ -53,6 +57,7 @@ beforeEach(() => {
     isNil: (node) => is.nilNode(node),
     isUnd: (node) => is.undefinedNode(node),
     get: (node, key) => {
+      console.log(`[get]`, { node, key })
       if (y.isScalar(key)) key = key.value
       if (y.isCollection(node)) return node.getIn(fp.toPath(key), true)
       if (y.isScalar(node)) return node
@@ -60,6 +65,8 @@ beforeEach(() => {
       if (coreIs.obj(node)) return node[key]
     },
     set: (node, key, value) => {
+      console.log(`[set]`, { node, key, value })
+
       if (y.isScalar(key)) key = key.value
       if (y.isCollection(node)) node.setIn(fp.toPath(key), value)
       else if (y.isDocument(node)) node.setIn(fp.toPath(key), value)
@@ -89,20 +96,18 @@ beforeEach(() => {
 
 describe.only(`normalizer`, () => {
   it(``, () => {
-    const component = createNode(
-      ui.image({
-        path: 'abc.png',
-        style: {
-          top: '0.1',
-          textAlign: { x: 'centerX', y: 'center' },
-          border: { style: '3' },
-          isHidden: 'false',
-        },
-        viewTag: 'abcTag',
-      }),
-    )
+    const component = ui.image({
+      path: 'abc.png',
+      style: {
+        top: '0.1',
+        textAlign: { x: 'centerX', y: 'center' },
+        border: { style: '3' },
+        isHidden: 'false',
+        shadow: 'true',
+      },
+      viewTag: 'abcTag',
+    })
     const normalized = normalize(component)
-    // console.dir(component, { depth: Infinity })
-    console.dir({ normalized }, { depth: Infinity })
+    console.dir(normalized.toJSON(), { depth: Infinity })
   })
 })

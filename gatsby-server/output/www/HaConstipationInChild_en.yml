@@ -1,0 +1,158 @@
+HaConstipationInChild:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Constipation in Child
+        - .HaHeaderLittleLabel:
+          text: Constipation is responsible for up to 5% of pediatric office visits. It is defined as delay or difficulty in defecation.
+    - .HaBodyTagView:
+      style:
+        top: '0.55'
+      children:
+        - .HaBodyTagButton1:
+          style:
+            width: '0.12'
+          text: Constipation in child
+    - .HaBodyCon:
+      style:
+        height: '0.27'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Seek emergency care if you notice:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "⦁ Is more severe than usual"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Lasts longer than usual"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Alternates with diarrhea"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.4'
+              text: "⦁ Is accompanied by abdominal or rectal pain, rectal bleeding, blood in your stool, blacstools, or unexplained weight loss"
+            - .HaBodyImg:
+              style:  
+                top: '0'
+                left: '0.735'
+              path: healthAZ/constipation_child.png
+    - .HaBodyCon:
+      style:
+        height: '0.3'
+      children:
+        - .HaBodyTitle:
+          text: "Find possible causes of constipation based on specific factors. Use our patient Questionnaire."
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Normal frequency and consistency of stool varies with children's age, and diet; there is also considerable variation from child to child."
+            - .HaBodyContent:
+              style:
+                top: '0.055'
+              text: "Most (90%) normal neonates pass meconium within the first 24 h of life. During the first week of life, infants pass an average of 4 to 8 stools/day; breastfed infants typically have more stools than formula-fed infants. During the first few months of life, breastfed infants pass a mean of 3 stools/day, vs about 2 stools/day for formula-fed infants. By age 2 yr, the number of bowel movements has decreased to slightly < 2/day. After age 4 yr, it is slightly > 1/day."
+            - .HaBodyContent:
+              style:
+                top: '0.165'
+              text: "In general, signs of effort (eg, straining) in a young infant do not signify constipation. Infants only gradually develop the muscles to assist a bowel movement."
+    - .HaBodyCon:
+      style:
+        height: '0.35'
+      children:
+        - .HaBodyTitle:
+          text: "Signs and symptoms of constipation in children may include:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:  
+                width: '0.5'
+              text: "⦁ Less than three bowel movements a week"
+            - .HaBodyContent:
+              style:
+                top: '0.045'
+                width: '0.5'
+              text: "⦁ Bowel movements that are hard, dry and difficult to pass"
+            - .HaBodyContent:
+              style:
+                top: '0.095'
+              text: "⦁ Large-diameter stools that may obstruct the toilet"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+              text: "⦁ FPain while having a bowel movement"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Abdominal pain"
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ Blood on the surface of hard stool"
+      
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Constipation in child is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        
+        - .HaBottomTagname: 
+          # style: 
+          #   width: '0.2'
+          #   left: '0.5'
+          # text: "Constipation in child"
+    - .BaseFooter1:
+

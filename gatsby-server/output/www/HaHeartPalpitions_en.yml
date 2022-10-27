@@ -1,0 +1,157 @@
+
+HaHeartPalpitions:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Heart palpitations
+        - .HaHeaderLittleLabel:
+          text: Heart palpitations is the feeling that your heart unexpectedly starts to race or pound or feel like it skips beats.
+    - .HaBodyTagView:
+      style:
+        marginTop: '0.09'
+      children:
+        - .HaBodyTagButton1:
+          text: Heart
+        - .HaBodyTagButton2:
+          text: Palpitation
+        - .HaBodyTagButton1:
+          style:
+            left: '0.03'
+            width: '0.11'
+          text: Heart Palpitations
+    - .HaBodyCon:
+      style:
+        height: '1.0'
+        marginTop: '0.23'
+        # backgroundColor: "red"
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Get emergency medical care if heart palpitations are accompanied by:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Dizziness, lightheadedness or fainting "
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Severe swelling"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Chest pain"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Shortness of breath"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+                width: '0.5'
+              text: "The four major symptoms of heart disease are palpitations, difficulty breathing, chest pain and edema. Although these symptoms are frequently seen in other diseases, heart problems should be considered in the event of these symptoms. The reasons for heart palpitation are:"        
+            - .HaBodyContent:
+              style:
+                top: '0.33'
+                width: '0.5'
+              text: "⦁ Heart arrhythmia，occur when the electrical impulses that coordinate your heartbeats don't work properly, causing your heart to beat too fast, too slow or irregularly.Ventricular fibrillation is one type of arrhythmia that can be deadly. It occurs when the heart beats with rapid, erratic electrical impulses. This causes pumping chambers in your heart (the ventricles) to quiver uselessly instead of pumping blood. Without an effective heartbeat, blood pressure plummets, cutting off blood supply to your vital organs"
+            - .HaBodyContent:
+              style:
+                top: '0.52'
+                width: '0.5'
+              text: "⦁ Panic attacks :A panic attack is a sudden episode of intense fear that triggers severe physical reactions when there is no real danger or apparent cause. Panic attacks can be very frightening. When panic attacks occur, you might think you're losing control, having a heart attack or even dying."
+            - .HaBodyContent:
+              style:
+                top: '0.65'
+                width: '0.5'
+              text: "⦁ Anemia. in some patient with Anemia they will fill heart palpotation."       
+            - .HaBodyContent:
+              style:
+                top: '0.7'
+                width: '0.5'
+              text: "⦁ Hyperthyroidism: you produces too much of the hormone thyroxine that makes your heart works abnorm. other cause includ"
+            - .HaBodyContent:
+              style:
+                top: '0.78'
+                width: '0.5'
+              text: "⦁ Stimulants, including cocaine, tobacco,caffeine , and medications that contain pseudoephedrine"   
+            - .HaBodyContent:
+              style:
+                top: '0.84'
+                width: '0.5'
+              text: "⦁ Hormone changes associated with menstruation, pregnancy or menopause"
+            - .HaBodyContent:
+              style:
+                top: '0.9'
+              text: "⦁ Fever, Exercise etc."          
+        - .HaBodyImg:
+          style:  
+            top: '0.13'
+            left: '0.68'
+            width: '0.16'
+          path: healthAZ/heart-palpitations.png
+    
+    
+            
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Heart palpitations is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname: 
+    - .BaseFooter1:
+
+
+
+
+
+
+
+
+

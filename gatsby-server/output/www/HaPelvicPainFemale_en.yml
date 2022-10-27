@@ -1,0 +1,141 @@
+
+HaPelvicPainFemale:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Pelvic pain in female
+        - .HaHeaderLittleLabel:
+          text: Refers to pain below the belly button in the anterior lower abdomen including the sex organ
+    - .HaBodyTagView:
+      style:
+        marginTop: '0.09'
+      children:
+        - .HaBodyTagButton1:
+          text: Pelvic
+    - .HaBodyCon:
+      style:
+        height: '0.3'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Get emergency care if your child:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Excessive vaginal bleeding"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Fever"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Nausea or vomiting"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Signs of shock, such as fainting"
+            
+
+        - .HaBodyImg:
+          style:  
+            top: '0.06'
+            left: '0.725'
+            width: '0.16'
+          path: healthAZ/pelvic-pain-female.png
+    - .HaBodyCon:
+      style:
+        height: '0.7'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Find possible causes of pelvic pain based on specific factors. Use our patient Questionnaire."
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Often pelvic pain is not serious and gets better in a few days. If your pain continues or gets worse, you may need tests and treatment. Tell your doctor about any new symptoms. Pelvic pain can arise from your digestive, reproductive or urinary system. In female, reproductive system should address more attention. Common cause included ."
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "Menstrual cramps (dysmenorrhea) are throbbing or cramping pains in the lower abdomen. Many women have menstrual cramps just before and during their menstrual periods.For some women, the discomfort is merely annoying. For others, menstrual cramps can be severe enough to interfere with everyday activities for a few days every month. Conditions such as endometriosis or uterine fibroids can cause menstrual cramps. Treating the cause is key to reducing the pain. Menstrual cramps that aren't caused by another condition tend to lessen with age and often improve after giving birth."
+            - .HaBodyContent:
+              style:
+                top: '0.275'
+              text: "Pelvic inflammatory disease (PID): is an infection of the female reproductive organs. It usually occurs when sexually transmitted bacteria spread from your vagina to your uterus, fallopian tubes or ovaries. PID might cause only mild signs and symptoms or none at all. When severe, PID might cause fever, chills, severe lower abdominal or pelvic pain — especially during a pelvic exam — and bowel discomfort."
+            - .HaBodyContent:
+              style:
+                top: '0.4'
+              text: "Ovarian cysts are fluid-filled sacs or pockets in an ovary or on its surface. Women have two ovaries — each about the size and shape of an almond — on each side of the uterus. Eggs (ova), which develop and mature in the ovaries, are released in monthly cycles during the childbearing years.Many women have ovarian cysts at some time. Most ovarian cysts present little or no discomfort and are harmless. The majority disappears without treatment within a few months.However, ovarian cysts — especially those that have ruptured — can cause serious symptoms. To protect your health, get regular pelvic exams and know the symptoms that can signal a potentially serious problem."
+            
+    
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Pelvic pain in female is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname: 
+          # text: "pelvic"
+    - .BaseFooter1:
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,203 @@
+Cloudwaitingroom:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - type: view
+      style:
+        left: '0'
+        width: calc(1514.77/1724.81*100vw)
+        # marginTop: '0.12'
+        height: calc(1774.15/1724.81*100vw)
+        margin: auto
+        # backgroundColor: ''
+      children:
+        - type: view
+          style:
+            left: '0'
+            width: calc(1514.77/1724.81*100vw)
+            height: 'auto'
+            margin: auto
+          children:
+            - type: view
+              style:
+                zIndex: 10
+                marginTop: calc(115.08/1724.81*100vw)
+              children:
+                - type: image
+                  path: bgplain.svg
+                  viewTag: topView
+                  style:
+                    width: calc(1514.77/1724.81*100vw)
+                    height: calc(750.08/1724.81*100vw)
+                    backgroundColor: "0xe5f0f9ff"
+                    zIndex: 50
+                - type: image
+                  path: wait.png
+                  style:
+                    top: calc(153.44/1724.81*100vw)
+                    left: calc(1143.7/1724.81*100vw)
+                    width: calc(290.19/1724.81*100vw)
+                    zIndex: 100
+                - type: view
+                  style:
+                    width: calc(1109.56/1724.81*100vw)
+                    height: calc(671.3/1724.81*100vw)
+                    top: calc(160.15/1724.81*100vw)
+                    left: calc(51.21/1724.81*100vw)
+                    zIndex: 100
+                  children:
+                    - type: label
+                      text: 'AiTmed Cloud Waiting - Exam Room'
+                      style:
+                        fontSize: calc(43.16/1724.81*100vw)
+                        fontWeight: '600'
+                        fontFamily: Arial
+                        marginTop: '0'
+                        left: calc(221.91/1724.81*100vw)
+                        zIndex: 100
+                    - type: label
+                      textBoard:
+                        - text: 'Contactless mobile check-in and virtual waiting roomVirtual waiting Room'
+                        - br:
+                        - br:
+                        - text: 'Patients can pre-register and check-in anytime, anywhere from their mobile device '
+                      style:
+                        fontSize: calc(28.78/1724.81*100vw)
+                        fontFamily: Arial
+                        width: calc(648.67/1724.81*100vw)
+                        left: calc(221.91/1724.81*100vw)
+                        zIndex: 100
+                        marginTop: calc(91.11/1724.81*100vw)
+
+                    - .othersSignIn:
+                    - .othersSignUp:
+
+                    # - type: button
+                    #   text: 'Request Demo'
+                    #   style:
+                    #     backgroundColor: '#30B354'
+                    #     marginTop: calc(71.93/1724.81*100vw)
+                    #     left: calc(330.3/1724.81*100vw)
+                    #     width: calc(233.86/1724.81*100vw)
+                    #     height: calc(65.21/1724.81*100vw)
+                    #     color: 'white'
+                    #     fontSize: calc(30.69/1724.81*100vw)
+                    #     border:
+                    #       style: "5"
+                    #     borderRadius: '5'
+                    #     zIndex: 100
+
+        - type: view
+          style:
+            left: '0'
+            width: calc(1514.77/1724.81*100vw)
+            marginTop: calc(48/1724.81*100vw)
+            height: 'auto'
+          children:
+            - type: label
+              text: 'Features'
+              style:
+                top: calc(76.72/1724.81*100vw)
+                fontSize: calc(47.95/1724.81*100vw)
+                fontWeight: '600'
+                width: calc(682.81/1724.81*100vw)
+                textAlign:
+                  x: center
+                left: calc(410.17/1724.81*100vw)
+            - type: view
+              children:
+                - type: view
+                  style:
+                    left: calc(246.99/1724.81*100vw)
+                    top: calc(239.75/1724.81*100vw)
+                    height: calc(239.75/1724.81*100vw)
+                    width: calc(510.4/1724.81*100vw)
+                    backgroundColor: '#E5F0F9'
+                  children:
+                    - type: image
+                      path: lock.png
+                      style:
+                        width: calc(102.42/1724.81*100vw)
+                        top: calc(47.95/1724.81*100vw)
+                        left: calc(187.77/1724.81*100vw)
+                    - type: label
+                      text: 'Self, Private, and Easy'
+                      style:
+                        fontSize: calc(27.8/1724.81*100vw)
+                        fontWeight: '600'
+                        top: calc(163.03/1724.81*100vw)
+                        left: calc(102.42/1724.81*100vw)
+                - type: view
+                  style:
+                    left: calc(759.5/1724.81*100vw)
+                    top: calc(239.75/1724.81*100vw)
+                    height: calc(239.75/1724.81*100vw)
+                    width: calc(512.11/1724.81*100vw)
+                    backgroundColor: '#E5F0F9'
+                  children:
+                    - type: image
+                      path: phone2.png
+                      style:
+                        width: calc(102.42/1724.81*100vw)
+                        top: calc(47.95/1724.81*100vw)
+                        left: calc(187.78/1724.81*100vw)
+                    - type: label
+                      text: 'Streamlined Check-in'
+                      style:
+                        fontSize: calc(27.8/1724.81*100vw)
+                        fontWeight: '600'
+                        top: calc(163.03/1724.81*100vw)
+                        left: calc(110.096/1724.81*100vw)
+                - type: view
+                  style:
+                    left: calc(246.99/1724.81*100vw)
+                    top: calc(482/1724.81*100vw)
+                    height: calc(239.75/1724.81*100vw)
+                    width: calc(510.4/1724.81*100vw)
+                    backgroundColor: '#E5F0F9'
+                  children:
+                    - type: image
+                      path: iconspace_Book Checklist.png
+                      style:
+                        width: calc(85.35/1724.81*100vw)
+                        top: calc(38.36/1724.81*100vw)
+                        left: calc(196.31/1724.81*100vw)
+                    - type: label
+                      textBoard:
+                        - text: 'Digitized clinical intake'
+                        - br:
+                        - text: 'before consult'
+                      style:
+                        textAlign:
+                          x: center
+                        fontSize: calc(27.8/1724.81*100vw)
+                        fontWeight: '600'
+                        top: calc(143.85/1724.81*100vw)
+                        left: calc(102.42/1724.81*100vw)
+                - type: view
+                  style:
+                    left: calc(759.5/1724.81*100vw)
+                    top: calc(482/1724.81*100vw)
+                    height: calc(239.75/1724.81*100vw)
+                    width: calc(512.11/1724.81*100vw)
+                    backgroundColor: '#E5F0F9'
+                  children:
+                    - type: image
+                      path: cloudwork.png
+                      style:
+                        width: calc(102.42/1724.81*100vw)
+                        top: calc(28.77/1724.81*100vw)
+                        left: calc(187.78/1724.81*100vw)
+                    - type: label
+                      textBoard:
+                      - text: 'Brand Your Practice In'
+                      - br:
+                      - text: 'Your Cloud Room'
+                      style:
+                        textAlign:
+                          x: center
+                        fontSize: calc(28.78/1724.81*100vw)
+                        fontWeight: '600'
+                        top: calc(143.85/1724.81*100vw)
+                        left: calc(110.96/1724.81*100vw)
+    - .BaseFooter1

@@ -1,0 +1,118 @@
+FAQQuestionOne: 
+  viewPort: top
+  title: 
+  pageNumber: 
+  init: #Page initialization
+
+  formData: #Input data here
+
+  formDataTemp: #Input data temp here, datatemp should not mix with formData
+
+  apiRequest: #Input data request here
+
+  style: #Input style fragment here
+
+  components:
+    - .BaseHeader:
+    - type: view
+      style:
+        left: "0"
+        width: calc(1514.77/1724.81*100vw)
+        height: "auto"
+        margin: "auto"
+        marginTop: calc(100.92/1724.81*100vw)
+      children:
+        - type: view
+          viewTag: topView
+          style:
+            left: "0"
+            marginTop: '0'
+            width: calc(1514.77/1724.81*100vw)
+            height: calc(260.71/1724.81*100vw)
+          children:
+            - type: image
+              path: backgroundBlue.png
+              style:
+                width: calc(1514.77/1724.81*100vw)
+                left: '0'
+            - type: label
+              text: "Add A Patient With No Phone Number"
+              style:
+                left: calc(360/1724.81*100vw)
+                width: calc(645.3/1724.81*100vw)
+                top: calc(111.6/1724.81*100vw)
+                height: calc(39.6/1724.81*100vw)
+                fontSize:  calc(36/1724.81*100vw)
+                fontFamily: Arial
+                fontWeight: "600"
+                color: '0xffffff'
+        - type: view
+          style: 
+            marginTop: calc(115.08/1724.81*100vw)
+            left: "0"
+            height: calc(479.5/1724.81*100vw)
+            width: calc(1514.77/1724.81*100vw)
+          children:
+            - type: label
+              textBoard:
+                - text: "Patient does not have a phone to create an account, add patient by using 887. 887 is a generated"
+                - br:
+                - text: account using a “fake number” allowing the patient to create an account and use on any platform."
+              style:
+                height: calc(52.2/1724.81*100vw)
+                left: calc(360/1724.81*100vw)
+                width: calc(978.4/1724.81*100vw) 
+                fontSize: calc(22.5/1724.81*100vw)
+                fontWeight: '400'
+                fontFamily: 'Arial'
+            - type: label
+              text: "Step By Step: "
+              dataKey:
+              style:
+                width: calc(152.1/1724.81*100vw)
+                height: calc(25.2/1724.81*100vw)
+                top: calc(100/1724.81*100vw) 
+                left: calc(360/1724.81*100vw)
+                fontSize: calc(22.5/1724.81*100vw)
+                fontWeight: 550
+                fontFamily: "Arial"
+
+            - type: label
+              textBoard:
+                - type: label
+                  text: "⦁ Go to "
+                  dataKey:
+                  style:
+                    display: "inline"
+                    fontSize: calc(22.5/1724.81*100vw)
+                    fontFamily: "Arial"
+                - text: "patient.aitmed.com "  
+                  display: "inline"
+                  text-decoration: underline
+                  color: "#114a8f"
+                  fontSize: calc(22.5/1724.81*100vw)
+                  onClick:
+                    - goto: https://patient.aitmed.com/          
+                - text: "&nbsp;or android or IOS  aitmed care app to download. "
+                - br:
+                - text: "⦁ Click sign up "
+                - br:
+                - text: "⦁ Create number using 887 (ex: 887-421-5342)"
+                - br:
+                - text: "⦁ Verification code will auto fill "
+                - br:
+                - text: "⦁ Fill out sign up page"
+                - br:
+                - text: "⦁ Complete profile "
+                - br:
+                - text: "⦁ Add phone number on admin by inviting patient"
+              style:
+                top: calc(164/1724.81*100vw)
+                left: calc(360/1724.81*100vw)
+                fontSize: calc(22.5/1724.81*100vw)
+                fontFamily: "Arial"
+    - .BaseFooter1:
+      style: 
+        marginTop: calc(59.57/1724.81*100vw) 
+
+

@@ -4,6 +4,10 @@ import { clearState as clearVisitorState } from '../DocVisitor'
 
 Chai.use(sinonChai)
 
+before(() => {
+  process.stdout.write('\x1Bc')
+})
+
 afterEach(() => {
   clearVisitorState()
 })

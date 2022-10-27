@@ -1,0 +1,145 @@
+HaUrinaryProblems:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Urinary problems
+          style: 
+            top: '0.06'
+        - .HaHeaderLittleLabel:
+          text: The urinary tract is the part of the body that deals with storing and removing urine from the body. It is quite common for people to get infections in this part of their body.
+    - .HaBodyTagView:
+      style:
+        marginTop: '0.09'
+      children:
+        - .HaBodyTagButton1:
+          text: Urinary
+          style:
+            width: '0.10'
+    - .HaBodyCon:
+      style:
+        height: '0.52'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            # top: '0.08'
+            width: '0.5'
+          text: 'Get emergency care if you or your child experience:'
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "⦁ A new persistent urge to urinate"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Bloody or cloudy urine"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Involuntary loss of urine"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+              text: "⦁ Pain or burning when urinating"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Pain in your back, side or groin"      
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ Fever with urinary symptoms"
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+              text: "⦁ Discharge from penis"
+            - .HaBodyContent:
+              style:
+                top: '0.35'
+              text: "⦁ Change in vaginal discharge"
+        - .HaBodyImg:
+          style:  
+            top: '0.078'
+            left: '0.74'
+            width: '0.16'
+          path: healthAZ/urinary_problems.png
+    - .HaBodyCon:
+      style:
+        height: '0.47'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: Find possible causes of urinary problems based on specific factors. Use our patient Questionnaire.
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Most people will have some kind of urinary problem or injury in their lifetime. urinary problem include：Awaking two or more times in the night to urinate，Blood in urine，Change in urine color，Cloudy urine, Difficulty emptying bladder or weak urine stream，Difficulty starting urination Frequent urination，Involuntary loss of urine，Pain or burning when urinating，Strong, persistent urge to urinate."
+            - .HaBodyContent:
+              style:
+                top: '0.13'
+                width: '0.5'
+              text: "Some time urinary problem goes without treatment. If your symptoms continue, maybe you need medical diagnosis and treatment."
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "The causes of wheezing vary widely, and range from chronic (long-term), usually manageable conditions such as asthma, to very serious conditions that include heart failure. The common causes of wheezing include: asthma, allergies，bronchitis，smoking，emphysema，heart failure，pneumonia, etc."
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            marginTop: '0'
+            top: '0'
+            left: '0.16'
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Urinary problems is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+          style: 
+            top: '0'
+        - .HaBottomTagname: 
+          style: 
+            top: '0'
+    - .BaseFooter1:

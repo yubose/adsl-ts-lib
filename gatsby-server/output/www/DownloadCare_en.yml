@@ -1,0 +1,10 @@
+DownloadCare:
+  init:
+    - if:
+      - .builtIn.isIOS
+      - goto: https://apps.apple.com/us/app/aitmed-care/id1566010358
+      - continue
+    - if:
+      - .builtIn.isAndroid
+      - goto: https://play.google.com/store/apps/details?id=com.aitmed.care&hl=en_US&gl=US
+      - goto HomePage

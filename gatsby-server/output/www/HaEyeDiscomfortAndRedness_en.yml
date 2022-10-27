@@ -1,0 +1,212 @@
+HaEyeDiscomfortAndRedness:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Eye Discomfort and Redness
+        - .HaHeaderLittleLabel:
+          text: Constipation is difficult or infrequent passage of stool, hardness of stool, or a feeling of incomplete evacuation
+    - .HaBodyTagView:
+      style:
+        top: '0.55'
+      children:
+        - .HaBodyTagButton1:
+          text: Eye
+        - .HaBodyTagButton2:
+          text: Redness
+    - .HaBodyCon:
+      style:
+        height: '0.48'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Get emergency medical if:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Severe eye pain or irritation"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Direct injury to the eye."
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Swelling in or around your eyes."
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Discharge of blood or pus from your eyes."
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Double vision or loss of vision."      
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ Sudden or new appearance of halos around lights."
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+              text: "⦁ Nausea or vomiting."
+            - .HaBodyContent:
+              style:
+                top: '0.35'
+              text: "⦁ Sudden, severe headache."
+            
+
+        - .HaBodyImg:
+          style:  
+            top: '0.06'
+            left: '0.68'
+            width: '0.16'
+          path: healthAZ/eye_discomfort_and_redness.png
+    - .HaBodyCon:
+      style:
+        height: '0.6'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.7'
+          text: "Common eye discomfort include Achy, Gritty sensation, Redness, Sensitivity to light, pain ect. Common happened disease include:"        
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "A cataract is a clouding of the eye's natural lens, which lies behind the iris and the pupil. Cataracts are the most common cause of vision loss in people over age 40 and is the principal cause of blindness in the world. In fact, there are more cases of cataracts worldwide than there are of glaucoma, macular degeneration and diabetic retinopathy combined, according to Prevent Blindness America (PBA). Timely cataract surgery can not only improve the visual function as early as possible, but also more importantly, it can deepen the space of the eye and effectively reduce the possibility of glaucoma development."
+            - .HaBodyContent:
+              style:
+                top: '0.17'
+              text: "Glaucoma is a group of diseases that damage the eye’s optic nerve and can result in vision loss and blindness. The onset and visual impairment are usually occult. When there is a serious visual decline or acute pain episode, the best treatment opportunity is often missed."
+            - .HaBodyContent:
+              style:
+                top: '0.26'
+              text: "Age-related macular degeneration: The macula is the most sensitive place for human vision. With the increase of age, some middle-aged and elderly people have lesions in the macular area, causing vision loss, visual distortion and even blindness."
+            - .HaBodyContent:
+              style:
+                top: '0.355'
+              text: "Diabetic retinopathy: This is one of the important complications of diabetes. It is the most cause of blindness in middle-aged people. Timely screening and follow-up treatment can effectively control vision loss."
+    - .HaBodyCon:
+      style:
+        height: '0.5'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Get emergency medical if:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ One eye turns in or out while the other points straight ahead"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Frequent blinking"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Red or watery eyes"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Difficulty concentrating"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Covering or closing one eye"
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ Holding a book very close to read"
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+              text: "⦁ Squinting or sitting very close when watching television"
+            - .HaBodyContent:
+              style:
+                top: '0.35'
+              text: "⦁ Complaints of headaches"
+            - .HaBodyContent:
+              style:
+                top: '0.4'
+              text: "⦁ Complaints of blurred or double vision."
+                     
+    
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: Common eye discomfort include Achy, Gritty sensation, Redness, Sensitivity to light, pain etc.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname: 
+        #   text: "eye"
+          
+        # - .HaBottomTagname: 
+        #   text: "redness"
+        #   style: 
+            
+        #     left: "0.4"      
+    - .BaseFooter1:
+
+
+
+
+
+
+
+
+
+
+

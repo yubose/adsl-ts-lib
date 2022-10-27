@@ -1,0 +1,240 @@
+
+HaNauseaAndVomtingInChild:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Nausea or vomiting in child
+        - .HaHeaderLittleLabel:
+          text: Nausea and vomiting are common in children, and are usually part of a mild, short-lived illness, frequently caused by a viral infection.
+    - .HaBodyTagView:
+      style: 
+        marginTop: '0.09'
+      children:
+        - .HaBodyTagButton1:
+          text: abdominal
+    - .HaBodyCon:
+      style:
+        height: '0.38'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Seek emergency medical care for a toddler or older child who has nausea and vomiting that:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Contains blood or greenish material"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Is accompanied by black or bloody stools"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Is accompanied by a severe headache"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Is accompanied by severe abdominal pain or cramping"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Is accompanied by severe swelling of the abdomen"
+
+        - .HaBodyImg:
+          style:  
+            top: '0.11'
+            left: '0.71'
+            width: '0.16'
+          path: healthAZ/nausea-or-vomiting-in-child.png
+    
+   
+    - .HaBodyCon:
+      style:
+        height: '0.33'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Call your child's doctor if:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Vomiting lasts more than 12 hours for infants"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Vomiting lasts more than 24 hours for children under age 2"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Vomiting lasts more than 48 hours for children age 2 and older"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Vomiting is accompanied by diarrhea"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Your child has recently started a new medication"
+    - .HaBodyCon:
+      style:
+        height: '0.63'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Also, call your doctor if your child shows any signs of dehydration:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ No wet diapers or urine production in a period of eight hours"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Dry skin"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Dry mouth"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Crying without tears"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Unusual sleepiness or irritability"
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ A sunken appearance to the abdomen, eyes or cheeks"
+            - .HaBodyContent:
+              style:
+                top: '0.29'
+                # width: '0.5'
+              text: "Vomiting occurs when nerves in the body or brain sense a trigger, such as food poisoning, certain infections or medicines, or motion. Nausea usually, but not always, occurs before vomiting. Younger children may not be able to recognize nausea, although they may complain of a stomach ache or have other general complaints."
+            - .HaBodyContent:
+              style:
+                top: '0.38'
+              text: "Vomiting often has a benefit since it provides a way for the body to get rid of potentially harmful substances. However, medicines and methods to induce vomiting (eg, syrup of ipecac, placing a finger in the throat) are no longer recommended, even if an infant or child has ingested a harmful substance."
+            - .HaBodyContent:
+              style:
+                top: '0.47'
+              text: "Vomiting can be caused by a number of different problems. The possible causes of vomiting depend upon a child's age."
+    
+    - .HaBodyCon:
+      style:
+        height: '0.65'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Newborns and young infants"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              # style:
+              #   width: '0.5'
+              text: "In newborns and young infants (up to three months old), forceful vomiting can indicate a serious condition and always requires further evaluation. Potential causes of vomiting in these infants include a blockage or narrowing of the stomach (pyloric stenosis) or a blockage of the intestines (intestinal obstruction)."
+            - .HaBodyContent:
+              style:
+                top: '0.09'
+              text: "Infants can also vomit because of infections of the intestine or other parts of the body. Any young infant (newborn to three months) who develops a temperature of 100.4º F (38º C) or higher, with or without vomiting, should see a doctor or nurse."
+            - .HaBodyContent:
+              style:
+                top: '0.18'
+              text: "Older infants and children — The most common cause of vomiting in older infants and children is infectious gastroenteritis (an infection of the stomach or intestines), usually caused by a virus. Vomiting caused by gastroenteritis usually begins suddenly and resolves quickly, often within 24 to 48 hours. Other signs of gastroenteritis can include nausea, diarrhea, fever, or abdominal pain."
+            - .HaBodyContent:
+              style:
+                top: '0.295'
+                # width: '0.5'
+              text: "Gastroenteritis can develop after eating contaminated food or putting a contaminated object (or hand) into the mouth. The viruses that commonly cause gastroenteritis are spread easily. Careful hygiene (especially hand washing) can prevent these infections from spreading."
+            - .HaBodyContent:
+              style:
+                top: '0.385'
+              text: "Less commonly, vomiting occurs after consuming improperly stored or prepared foods that contain bacteria or toxins; this is called food poisoning."
+            - .HaBodyContent:
+              style:
+                top: '0.445'
+              text: "Other illnesses can also cause vomiting in older infants and children, including gastroesophageal reflux, peptic ulcer disease, an intestinal blockage (obstruction), cyclic vomiting syndrome, respiratory and urinary tract infections, and others"
+
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Nausea or vomiting in child is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname:                                                                                                         
+          # text: "abdominal"
+    - .BaseFooter1:
+
+
+
+
+
+
+
+
+
+
+
+

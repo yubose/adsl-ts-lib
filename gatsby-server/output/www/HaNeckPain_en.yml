@@ -1,0 +1,191 @@
+HaNeckPain:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Neck pain
+        - .HaHeaderLittleLabel:
+          text: Neck pain – is a very common problem, most adults would suffer neck pains in their lifetime
+    - .HaBodyTagView:
+      style: 
+        marginTop: '0.09'
+      children:
+        - .HaBodyTagButton1:
+          text: abdominal
+    - .HaBodyCon:
+      style:
+        height: '0.35'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Get emergency care if your child:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Is severe"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Follows an accident or injury"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Is accompanied by pain radiating to your arms or legs"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Is accompanied by numbness, tingling or weakness in your limbs"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Is accompanied by headache"
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+                width: '0.5'
+              text: "⦁ Is accompanied by an unexplained fever"
+            
+        - .HaBodyImg:
+          style:  
+            top: '0.11'
+            left: '0.7'
+            width: '0.16'
+          path: healthAZ/neck-pain.png
+    
+   
+    - .HaBodyCon:
+      style:
+        height: '0.3'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Find possible causes of neck pain based on specific factors. Use our patient Questionnaire."
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              # style:
+              #   width: '0.5'
+              text: "Neck pain is a very common problem; in most adult they would suffer neck pain in their lifetime. For some patient, it is a temporary disease that disappears with time. Others need medical diagnosis and treatment to treat the disease."
+            - .HaBodyContent:
+              style:
+                top: '0.08'
+              text: "Neck pain may result from abnormalities in the soft tissues—the muscles, ligaments, and nerves—as well as in bones and disks of the spine. The most common causes of neck pain are soft-tissue abnormalities due to injury (a sprain) or prolonged wear and tear."          
+            
+
+    - .HaBodyCon:
+      style:
+        height: '0.2'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Cervical spondylosis"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Cervical spondylosis is a common age-related disease affecting joints and intervertebral discs of the cervical vertebrae. It is also known as cervical osteoarthritis or cervical arthritis. It develops from wear of cartilage and bone. It depends mainly on age, but it may be caused by other factors as well."
+            
+    - .HaBodyCon:
+      style:
+        height: '0.2'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Spinal stenosis"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Spinal stenosis refers to various forms of stenosis of the spinal canal, nerve root canal and intervertebral foramen, including changes in spinal canal volume caused by soft tissue (such as hypertrophy of the ligamentum flavum, calcification of the posterior ligament, etc.) and stenosis of the dural sac itself. Symptoms follows due to spinal cord and nerve and blood vessel compression and stimulation caused by spinal stenosis patient. Some people with spinal stenosis may not have symptoms. Others may experience pain, tingling, numbness and muscle weakness. Symptoms can worsen over time."
+            
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Herniated disk"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              
+              text: "Cervical disc herniation is a syndrome of cervical disc degeneration, rupture, and then compression of the spinal cord or nerve. The most common cause of cervical disc herniation is cumulative chronic strain. More often occur in middle-aged men, less related to weight-bearing labor injuries, more is posture-type strain, related to occupation use and bad habits. Such as: reading in bed and watching TV, sitting and dozing. Other causes include: Tension headache,Sprains and strains, Meningitis, Cervical dystonia"
+            
+
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Neck pain is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname: 
+          # text: "abdominal"
+    - .BaseFooter1:
+
+
+
+
+
+
+
+
+
+
+
+

@@ -7,12 +7,12 @@
     },
     "publish": {
       "bump": "patch",
-      "ignore": "noodl-{loader,loader-docs,yaml}",
+      "ignore": "noodl-{loader,loader-docs}",
       "message": "Update"
     }
   },
   "forceLocal": true,
-  "ignore": "noodl-{loader,loader-docs,yaml}",
+  "ignore": "noodl-{loader,loader-docs}",
   "loglevel": "verbose",
   "message": "Update",
   "packages": [
@@ -21,6 +21,7 @@
     "packages/noodl-utils",
     "packages/noodl-ui",
     "packages/noodl-core",
+    "packages/noodl-yaml",
     "packages/gatsby-plugin-noodl"
   ],
   "useNx": true,

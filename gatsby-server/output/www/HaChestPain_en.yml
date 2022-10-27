@@ -1,0 +1,190 @@
+HaChestPain:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Chest pain
+        - .HaHeaderLittleLabel:
+          text: "Chest pain appears in many forms, ranging from a sharp stab to a dull ache."
+    - .HaBodyTagView:
+      style:
+        top: '0.55'
+      children:
+        - .HaBodyTagButton1:
+          text: Chest pain
+    - .HaBodyCon:
+      style:
+        height: '0.45'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          text: "Get emergency medical care if:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:  
+                width: '0.5'
+              text: "⦁ You have uncomfortable pressure, fullness or squeezing pain in your chest for longer than a few minutes"
+            - .HaBodyContent:
+              style:
+                top: '0.07'
+                width: '0.5'
+              text: "⦁ Your chest pain is accompanied by shortness of breath, sweating, nausea, dizziness or fainting"
+            - .HaBodyContent:
+              style:
+                top: '0.14'
+                width: '0.5'
+              text: "⦁ If combined with bleeding or severe pain after an injury."
+            - .HaBodyContent:
+              style:
+                top: '0.19'
+                width: '0.5'
+              text: "⦁ The pain radiates beyond your chest to one or both of your arms or your neck"
+            - .HaBodyContent:
+              style:
+                top: '0.24'
+                width: '0.5'
+              text: "Chest pain appears in many forms, ranging from a sharp stab to a dull ache. Sometimes chest pain feels crushing or burning. In certain cases, the pain travels up the neck, into the jaw, and then radiates to the back or down one or both arms."
+            - .HaBodyContent:
+              style:
+                top: '0.34'
+                width: '0.5'
+              text: "Many different problems can cause chest pain. The most life-threatening causes involve the heart or lungs. Because chest pain can indicate a serious problem, it's important to seek medical help."
+            - .HaBodyImg:
+              style:  
+                top: '0.008'
+                left: '0.71'
+              path: healthAZ/chest_pain.png
+    - .HaBodyCon:
+      style:
+        height: '0.49'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Symptoms"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Infections: Viruses or bacteria can cause abdominal pain, typically from stomach flu or gut flu (called gastroenteritis). Viral infections tend to go away quickly, while bacterial infections may need an antibiotic to get better."
+            - .HaBodyContent:
+              style:
+                top: '0.09'
+              text: "⦁ Pressure, fullness, burning or tightness in your chest"
+            - .HaBodyContent:
+              style:
+                top: '0.14'
+              text: "⦁ Crushing or searing pain that radiates to your back, neck, jaw, shoulders, and one or both arms"
+            - .HaBodyContent:
+              style:
+                top: '0.19'
+              text: "⦁ Pain that lasts more than a few minutes, gets worse with activity, goes away and comes back, or varies in intensity"
+            - .HaBodyContent:
+              style:
+                top: '0.24'
+              text: "⦁ Shortness of breath"
+            - .HaBodyContent:
+              style:
+                top: '0.29'
+              text: "⦁ Cold sweats"
+            - .HaBodyContent:
+              style:
+                top: '0.34'
+              text: "⦁ Dizziness or weakness"
+            - .HaBodyContent:
+              style:
+                top: '0.39'
+              text: "⦁ Nausea or vomiting"
+    - .HaBodyCon:
+      style:
+        height: '0.45'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: Other types of chest pain
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "⦁ A sour taste or a sensation of food re-entering your mouth"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Trouble swallowing"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Pain that gets better or worse when you change your body position"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+              text: "⦁ Pain that intensifies when you breathe deeply or cough"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Tenderness when you push on your chest"
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ Pain that is persistently present for many hours"
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+              text: "The classic symptoms of heartburn — a painful, burning sensation behind your breastbone — can be caused by problems with your heart or your stomach."
+            
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: "If Chest pain is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you."
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname: 
+          text: "Sign up"
+
+    - .BaseFooter1:
+

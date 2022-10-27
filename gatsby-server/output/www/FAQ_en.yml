@@ -1,0 +1,94 @@
+FAQ:
+  viewPort: top
+  title: 
+  pageNumber: 
+  init: #Page initialization
+  formData: #Input data here
+  formDataTemp: #Input data temp here, datatemp should not mix with formData
+    QuestionList:
+      - key: Q1.
+    LabelList:
+      - key: Add A Patient With No Phone Number.
+  apiRequest: #Input data request here
+  style: #Input style fragment here
+  components:
+    - .BaseHeader:
+    - type: view
+      style:
+        left: "0"
+        width: calc(1514.77/1724.81*100vw)
+        height: "auto"
+        margin: "auto"
+        marginTop: calc(100.92/1724.81*100vw)
+      children:
+        - type: view
+          viewTag: topView
+          style:
+            left: "0"
+            marginTop: '0'
+            width: calc(1514.77/1724.81*100vw)
+            height: calc(260.71/1724.81*100vw)
+          children:
+            - type: image
+              path: backgroundBlue.png
+              style:
+                width: calc(1514.77/1724.81*100vw)
+                left: '0'
+            - type: label
+              text: "Frequently Asked Questions"
+              style:
+                left: calc(360/1724.81*100vw)
+                width: calc(486.9/1724.81*100vw)
+                top: calc(111.6/1724.81*100vw)
+                height: calc(39.6/1724.81*100vw)
+                fontSize:  calc(36/1724.81*100vw)
+                fontFamily: Arial
+                fontWeight: "550"
+                color: '0xffffff'
+        - type: view
+          style: 
+            marginTop: calc(115.08/1724.81*100vw)
+            left: "0"
+            height: calc(479.5/1724.81*100vw)
+            width: calc(1514.77/1724.81*100vw)
+          children:
+            - type: list
+              contentType: listObject
+              listObject: ..formDataTemp.QuestionList
+              iteratorVar: itemObject
+              children:
+                - type: listItem
+                  itemObject: ""
+                  style:
+                    height: calc(75.6/1724.81*100vw)
+                    left: calc(360/1724.81*100vw)
+                    fontSize: calc(22.5/1724.81*100vw)
+                    fontWeight: '600'
+                    fontFamily: 'Arial'
+                    color: '0x114A8F' 
+                  children:
+                    - type: label
+                      dataKey: itemObject.key
+            - type: list
+              contentType: listObject
+              listObject: ..formDataTemp.LabelList
+              iteratorVar: itemObject
+              children:
+                - type: listItem
+                  itemObject: ""
+                  style:
+                    height: calc(75.6/1724.81*100vw)
+                    fontWeight: '400'
+                    fontFamily: 'Arial'
+                    textDecoration: underline black
+                    top: "0"
+                    left: calc(410/1724.81*100vw)
+                    fontSize: calc(22.5/1724.81*100vw)
+                  children:
+                    - type: label
+                      dataKey: itemObject.key     
+                      onClick:
+                        - goto: FAQQuestionOne       
+    - .BaseFooter1:
+      style: 
+        marginTop: calc(59.57/1724.81*100vw) 

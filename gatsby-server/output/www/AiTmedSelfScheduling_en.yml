@@ -1,0 +1,176 @@
+AiTmedSelfScheduling:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - type: view
+      style:
+        left: '0'
+        width: calc(1514.77/1724.81*100vw)
+        # marginTop: '0.12'
+        height: calc(1724.05/1724.81*100vw)
+        margin: auto
+        backgroundColor: ''
+      children:
+        - type: view
+          style:
+            left: '0'
+            width: calc(1514.77/1724.81*100vw)
+            height: calc(504.6/1724.81*100vw)
+            margin: auto
+            top: calc(112.7/1724.81*100vw)
+          children:
+            - type: view
+              children:
+                - type: image
+                  path: bgplain.svg
+                  viewTag: topView
+                  style:
+                    width: calc(1514.77/1724.81*100vw)
+                    height: calc(750.08/1724.81*100vw)
+                    backgroundColor: "0xe5f0f9ff"
+                    zIndex: 50
+                - type: label
+                  text: 'Online Scheduling Appointments'
+                  style:
+                    fontSize: calc(37.85/1724.81*100vw)
+                    fontWeight: '600'
+                    fontFamily: Arial
+                    top: calc(138.77/1724.81*100vw)
+                    left: calc(247/1724.81*100vw)
+                    zIndex: 100
+                - type: label
+                  text: 'Schedule medical appointment fast and easy'
+                  style:
+                    fontSize: calc(25.23/1724.81*100vw)
+                    lineHeight: calc(38/1724.81*100vw)
+                    fontFamily: Arial
+                    top: calc(258.19/1724.81*100vw)
+                    left: calc(247/1724.81*100vw)
+                    zIndex: 100
+            - type: image
+              path: calendar_edited.png
+              style:
+                top: calc(126.15/1724.81*100vw)
+                left: calc(1017.95/1724.81*100vw)
+                width: calc(254.49/1724.81*100vw)
+                zIndex: 100
+
+            - .othersSignIn:
+              style:
+                top: calc(353.22/1724.81*100vw)
+                left: calc(247/1724.81*100vw)
+                marginTop: '0'
+            - .othersSignUp:
+              style:
+                top: calc(353.22/1724.81*100vw)
+                left: calc(508.97/1724.81*100vw)
+            # - type: button
+            #   text: 'Request Demo'
+            #   style:
+            #     backgroundColor: '#30B354'
+            #     top: calc(353.22/1724.81*100vw)
+            #     left: calc(770.94/1724.81*100vw)
+            #     width: calc(233.86/1724.81*100vw)
+            #     height: calc(65.21/1724.81*100vw)
+            #     color: 'white'
+            #     fontSize: calc(30.69/1724.81*100vw)
+            #     border:
+            #       style: "5"
+            #     borderRadius: '5'
+            #     zIndex: 100
+        - type: view
+          style:
+            left: '0'
+            width: calc(1514.77/1724.81*100vw)
+            top: calc(756.9/1724.81*100vw)
+            height: calc(756.9/1724.81*100vw)
+            margin: auto
+            marginTop: calc(84.1/1724.81*100vw)
+          children:
+            - type: label
+              text: 'Request Your Appointment Online Now'
+              style:
+                top: calc(84.1/1724.81*100vw)
+                fontSize: calc(40.05/1724.81*100vw)
+                fontWeight: '600'
+                width: calc(898.19/1724.81*100vw)
+                left: calc(299.4/1724.81*100vw)
+                textAlign:
+                  x: center
+            - type: view
+              style:
+                # height: '0.5'
+              children:
+                - type: view
+                  children:
+                    - type: image
+                      path: yuyue2.png
+                      style:
+                        top: calc(252.3/1724.81*100vw)
+                        left: calc(239.58/1724.81*100vw)
+                        width: calc(74.85/1724.81*100vw)
+                    - type: label
+                      textBoard:
+                        - text: Don’t wait on hold any longer, request your
+                        - br:
+                        - text: medical appointment online today with
+                        - br:
+                        - text: AiTmed.
+                      style:
+                        left: calc(344.31/1724.81*100vw)
+                        top: calc(252.3/1724.81*100vw)
+                        fontSize: calc(19.18/1724.81*100vw)
+                - type: view
+                  children:
+                    - type: image
+                      path: cloud upload.png
+                      style:
+                        top: calc(420.5/1724.81*100vw)
+                        left: calc(239.52/1724.81*100vw)
+                        width: calc(74.85/1724.81*100vw)
+                    - type: label
+                      textBoard:
+                        - text: Upload medical documents and share with
+                        - br:
+                        - text: medical provider in prior to your appointment.
+                      style:
+                        left: calc(344.31/1724.81*100vw)
+                        top: calc(428.9/1724.81*100vw)
+                        fontSize: calc(19.17/1724.81*100vw)
+                - type: view
+                  children:
+                    - type: image
+                      path: histroy.png
+                      style:
+                        top: calc(588.7/1724.81*100vw)
+                        left: calc(239.58/1724.81*100vw)
+                        width: calc(74.85/1724.81*100vw)
+                    - type: label
+                      textBoard:
+                        - text: Keep history of your visits and shared
+                        - br:
+                        - text: documents with highest level of  security and
+                        - br:
+                        - text: privacy.
+                      style:
+                        left: calc(344.31/1724.81*100vw)
+                        top: calc(588.7/1724.81*100vw)
+                        fontSize: calc(19.17/1724.81*100vw)
+            - type: view
+              style:
+                top: calc(252.3/1724.81*100vw)
+              children:
+                - type: label
+                  text: Schedule
+                  style:
+                    fontSize: calc(22.1/1724.81*100vw)
+                    fontWeight: '600'
+                    left: calc(1100.28/1724.81*100vw)
+                    top: '0'
+                - type: image
+                  path: calendar.png
+                  style:
+                    width: calc(598.79/1724.81*100vw)
+                    left: calc(853.28/1724.81*100vw)
+                    top: calc(84.1/1724.81*100vw)
+    - .BaseFooter1

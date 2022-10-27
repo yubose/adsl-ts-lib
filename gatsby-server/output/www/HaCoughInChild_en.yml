@@ -1,0 +1,258 @@
+HaCoughInChild:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Cough (Child)
+        - .HaHeaderLittleLabel:
+          text: Cough is a natural bodily function to assist in clearing materials from the airways and prevent them from going into the lungs.
+    - .HaBodyTagView:
+      style:
+        top: '0.55'
+      children:
+        - .HaBodyTagButton1:
+          text: Cough (Child)
+    - .HaBodyCon:
+      style:
+        marginTop: '0.23'
+        height: '0.5'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Seek emergency care immediately if the following:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "⦁ Loud squeaking noise when the child inhales"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Bluish color of the lips or skin develops"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Difficulty breathing"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Repetitive coughing spells followed by high pitched intake of air"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Suspect your child has swallowed a foreign object"
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ listless , lethargic child"        
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+                width: '0.48'
+              text: "Cough is a normal bodily function that assists in clearing the airways and prevent materials from settling in the lungs. A productive cough is one that brings up phlegm, commonly coughed up and can vary in color from clear, to yellow or green. Rarely, phlegm can be rust colored or present as bloody. Young children do not efficiently expel the phlegm, and end up swallowing it. The causes of the cough may differ, however they can be differentiated mostly by the amount of time the child has been coughing. Coughs lasting less than 3 weeks are considered acute. Cough may present with a fever and other symptoms. Clinical diagnosis is often adequate in determining the cause."
+        - .HaBodyImg:
+          style:  
+            top: '0.1'
+            left: '0.67'
+            width: '0.18'
+          path: healthAZ/cough_in_child.png
+    - .HaBodyCon:
+      style:
+        height: '0.5'
+        marginTop: '0.02'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+            marginTop: '0.2'
+          text: "Acute Causes:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "⦁ Viral (Upper respiratory infection)"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Allergy"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Less commonly"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Foreign object (piece of food or toy)"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Pneumonia"
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ Pertussis"   
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+              text: "⦁ Bronchiolitis"
+            - .HaBodyContent:
+              style:
+                top: '0.35'
+              text: "⦁ Croup"
+            - .HaBodyContent:
+              style:
+                top: '0.4'
+              text: "⦁ Sinusitis"  
+    - .HaBodyCon:
+      style:
+        height: '0.6'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Chronic Causes:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "⦁ Asthma (most common cause)"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Acid Reflux"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Post nasal drip"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Less commonly"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Hereditary disorders"
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ Birth defect"   
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+              text: "⦁ Inflammatory disorders"
+            - .HaBodyContent:
+              style:
+                top: '0.35'
+              text: "⦁ Stress related"
+            - .HaBodyContent:
+              style:
+                top: '0.4'
+              text: "⦁ Tuberculosis"   
+            - .HaBodyContent:
+              style:
+                top: '0.45'
+              text: "If you suspect you your child has swallowed a foreign object, take your child to the Dr or nearest ER immediately. It is important to have your child evaluated by a health care provider to rule out any serious or life threatening causes."
+            - .HaBodyContent:
+              style:
+                top: '0.508'
+              text: "Remember, cough suppressants and expectorants are not recommended unless prescribed by a healthcare provider."
+    - .HaBodyCon:
+      style:
+        height: '0.35'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "How to prepare and get the most for your AITMED Ⓡ online visit following these helpful tips:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "⦁ Find a quiet, private place for your visit"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Tell the provider who the visit is for, you or someone else"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Write down your questions for the visit before your appointment time"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Be specific about your concerns, symptoms, and questions"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Stay engaged and follow post-visit instructions if any are provided"
+            
+    
+    
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Cough (Child) is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+          # style:
+          #   left: '0.35'
+        - .HaBottomTagname: 
+          # style: 
+          #   width: '0.15'
+          #   left: '0.5'
+          # text: "Cough (Child)"
+    - .BaseFooter1:
+
+
+
+
+
+

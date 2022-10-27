@@ -1,0 +1,151 @@
+HaPelvicPainMale:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Pelvic pain in male
+        - .HaHeaderLittleLabel:
+          text: Refers to pain below the belly button in the anterior lower abdomen including the sex organ
+
+    - .HaBodyTagView:
+      style:
+        marginTop: '0.09'
+      children:
+        - .HaBodyTagButton1:
+          text: Pelvic
+          style:
+            width: '0.10'
+    - .HaBodyCon:
+      style:
+        height: '0.4'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Get emergency care if your child:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Fever"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Nausea or vomiting"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Is accompanied by dizziness, fainting, nausea or vomiting"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Blood in your semen"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Blood in your urine"
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+                width: '0.5'
+              text: "⦁ A lump or swelling in your groin or scrotum"
+            
+
+        - .HaBodyImg:
+          style:  
+            top: '0.10'
+            left: '0.72'
+            width: '0.16'
+          path: healthAZ/pelvic-pain-male.png
+    
+    - .HaBodyCon:
+      style:
+        height: '0.6'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Find possible causes of pelvic pain based on specific factors. Use our patient Questionnaire."
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Depending on its source, pelvic pain can be dull or sharp; it might be constant or off and on (intermittent); and it might be mild, moderate or severe. Pelvic pain can sometimes radiate to your lower back, buttocks or thighs. Sometimes, you might notice pelvic pain only at certain times, such as when you urinate or during sexual activity."
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "Men may have chronic pelvic pain from a number of disorders, including urinary dysfunction or irritable bowel syndrome (IBS). However, prostatitis is the most common male-specific cause of pelvic pain. Prostatitis is swelling and inflammation of the prostate gland, a walnut-sized gland situated directly below the bladder in men. The prostate gland produces fluid (semen) that nourishes and transports sperm. Prostatitis often causes painful or difficult urination. Other symptoms include pain in the groin, pelvic area or genitals and sometimes flu-like symptoms. Prostatitis affects men of all ages but tends to be more common in men 50 or younger. The condition has a number of causes. Sometimes the cause isn't identified. If prostatitis is caused by a bacterial infection, it can usually be treated with antibiotics. Depending on the cause, prostatitis can come on gradually or suddenly. It might improve quickly, either on its own or with treatment. Some types of prostatitis last for months or keep recurring (chronic prostatitis)."
+            - .HaBodyContent:
+              style:
+                top: '0.35'
+              text: "A urinary tract infection (UTI) is an infection in any part of your urinary system — your kidneys, ureters, bladder and urethra. Most infections involve the lower urinary tract — the bladder and the urethra. It is a reason for pelvic pain."
+            
+   
+    
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Pelvic pain in male pain in maleation is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname: 
+          # text: "pelvic" 
+    - .BaseFooter1:
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,159 @@
+HaShoulderPain:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Shoulder pain
+        - .HaHeaderLittleLabel:
+          text: Shoulder pain can be a result of injury or disease of the shoulder joint. Injury can affect any of the ligaments, bursae, or tendons surrounding the shoulder joint.
+
+    - .HaBodyTagView:
+      style:
+        marginTop: '0.09'
+      children:
+        - .HaBodyTagButton1:
+          text: Shoulder
+          style:
+            width: '0.10'
+        - .HaBodyTagButton2:
+          text: Shoulder Pain
+          style:
+            width: '0.14'
+            left: "0.03"
+        - .HaBodyTagButton1:
+          text: Pain
+          style:
+            width: '0.10'
+            left: "0.05"
+    - .HaBodyCon:
+      style:
+        height: '0.3'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Get emergency care if your shoulder:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Began suddenly and affects your ability to function"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Is accompanied by chest pain that lasts more than a few minutes"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Is accompanied by dizziness, fainting, nausea or vomiting"
+
+        - .HaBodyImg:
+          style:  
+            top: '0.09'
+            left: '0.7'
+            width: '0.16'
+          path: healthAZ/shoulder-pain.png
+    - .HaBodyCon:
+      style:
+        height: '0.6'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Find possible causes of shoulder pain based on specific factors. Use our patient Questionnaire."
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "The shoulder is a ball and socket joint with a large range of movement. Mobility has its price, however. It may lead to increasing problems with instability or impingement of the soft tissue or bony structures in your shoulder, resulting in pain. You may feel pain only when you move your shoulder, or all of the time. The pain may be temporary or it may continue and require medical diagnosis and treatment. Common cause of should pain include:"
+            - .HaBodyContent:
+              style:
+                top: '0.14'
+              text: "Of all the reasons you can have shoulder pain, injury to your rotator cuff is the most common.The rotator cuff is a group of muscles and tendons that surround the shoulder joint, keeping the head of your upper arm bone firmly within the shallow socket of the shoulder. A rotator cuff injury can cause a dull ache in the shoulder, which often worsens when you try to sleep on the involved side.Rotator cuff injuries occur most often in people who repeatedly perform overhead motions in their jobs or sports. Examples include painters, carpenters, and people who play baseball or tennis. The risk of rotator cuff injury also increases with age."
+            - .HaBodyContent:
+              style:
+                top: '0.32'
+              text: "Many people recover from rotator cuff disease with physical therapy exercises that improve flexibility and strength of the muscles surrounding the shoulder joint."
+            - .HaBodyContent:
+              style:
+                top: '0.40'
+              text: "Sometimes, rotator cuff tears may occur as a result of a single injury. In those circumstances, medical care should be provided as soon as possible. Extensive rotator cuff tears may require surgical repair, transfer of alternative tendons or joint replacement. Other cause include: Frozen shoulder, Osteoarthritis, Dislocated shoulder, Bursitis, Tendinitis"
+    
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Shoulder pain is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+          # style:
+          #   left: '0.25'
+        - .HaBottomTagname: 
+        #   text: "Shoulder"
+        #   style:
+        #     left: '0.375'
+        # - .HaBottomTagname: 
+        #   text: "shoulder pain"
+        #   style: 
+        #     width: '0.13'
+        #     left: "0.495"
+        # - .HaBottomTagname: 
+        #   text: "pain"
+        #   style:  
+        #     left: "0.65" 
+    - .BaseFooter1:
+
+
+
+
+
+
+
+
+
+
+
+

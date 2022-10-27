@@ -1,0 +1,180 @@
+HaFootPainOrAnklePain:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Foot pain or ankle pain
+        - .HaHeaderLittleLabel:
+          text: Foot pain or ankle pain is very common after a intensive practice due to the ligaments, tendons, bones and muscles injury.
+    - .HaBodyTagView:
+      style:
+        marginTop: '0.09'
+      children:
+        - .HaBodyTagButton1:
+          text: Foot
+        - .HaBodyTagButton2:
+          text: Ankle
+        - .HaBodyTagButton1:
+          style:
+            left: '0.03'
+          text: Pain
+    - .HaBodyCon:
+      style:
+        height: '0.35'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Get emergency medical care if:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+        
+              text: "⦁ Your child is younger than 3 months and has a fever"                
+        - .HaBodyImg:
+          style:  
+            top: '0.065'
+            left: '0.68'
+            width: '0.16'
+          path: healthAZ/foot_pain_or_ankle_pain.png
+    - .HaBodyCon:
+      style:
+        height: "0.55"
+        marginTop: "0"
+   
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Get emergency medical care if:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                # width: '0.5'
+              text: "⦁ You have signs or symptoms of infection, such as redness, fever, warmth and tenderness in the affected area" 
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Acute trauma leads to bleeding, deformity or tissue or bone exposure"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Your pain does not disappear after a few weeks"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ You have burning, numbness or tingling, especially most or all of your soles"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Cannot bear any weight"
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ You have severe pain or swelling"
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+              text: "⦁ Your swelling does not improve after a few days of treatment at home"
+            - .HaBodyContent:
+              style:
+                top: '0.35'
+              text: "Wearing the wrong shoes is the main cause of daily foot and ankle pain."
+    - .HaBodyCon:
+      style:
+        height: '0.42'
+        marginTop: "0.05"
+
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'    
+          text: "Other situations include:"         
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                # width: '0.5'
+              text: "⦁ Ankle pain: pain on one or both sides of ankle. It may be a result of Sprains and strains, Osteoarthritis, Rheumatoid arthritis etc. among those Sprains and strains is the most common reason."
+            - .HaBodyContent:
+              style:
+                top: '0.07'
+              text: "⦁ Heel pain: pain on one or both sides of the heel. It may be a result of Plantar fasciitis, Achilles tendinitis, Corns and calluses, Rheumatoid arthritis etc. among those Plantar fasciitis is the most common reason."
+            - .HaBodyContent:
+              style:
+                top: '0.14'
+              text: "⦁ Toe pain: gout occurs in middle-aged men, often acute onset, toe, phlegm and other joints redness and heat pain patients."
+            - .HaBodyContent:
+              style:
+                top: '0.21'
+              text: "⦁ Middle part of foot: Most people have no signs or symptoms associated with flatfeet. But some people with flatfeet experience foot pain, particularly in the middle part of foot. Pain may worsen with activity. Swelling along the inside of the ankle can also occur."
+    
+    
+    - .HaBodyCon:
+      style:
+        height: '0.35'
+
+        marginTop: "0"
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Foot pain or ankle pain is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname:  
+    - .BaseFooter1:
+
+
+
+
+
+
+
+

@@ -1,0 +1,131 @@
+
+HaCough:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Cough
+        - .HaHeaderLittleLabel:
+          text: Cough is a natural bodily function to assist in clearing materials from the airways and prevent them from going into the lungs.
+    - .HaBodyTagView:
+      style:
+        top: '0.55'
+      children:
+        - .HaBodyTagButton1:
+          text: Cough
+    - .HaBodyCon:
+      style:
+        height: '0.7'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Get emergency medical care if:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "⦁ Difficulty in breathing"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Thick green or yellow or blood sputum"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ High fever or persistent fever"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Cough for more than 1 week"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Wheezing"
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ Swallowing pain or difficulty"   
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+                width: '0.46'
+              text: "Cough is the most common symptom in primary care settings. According to the time cough is divided in to acute cough, Subacute cough and chronic cough"
+            - .HaBodyContent:
+              style:
+                top: '0.38'
+                width: '0.46'
+              text: "⦁ Acute cough: refers to cough within 3 weeks, which is the most common symptom in respiratory disease. Causes include cold, acute bronchitis, pneumonia, respiratory infections, tuberculosis, and foreign bodies in tracheal ect."
+            - .HaBodyContent:
+              style:
+                top: '0.49'
+                width: '0.455'
+              text: "⦁ subacute cough: duration of more than 3 weeks, within 8 weeks of cough called subacute cough, the reasons are more complex, often self-limiting"
+            - .HaBodyContent:
+              style:
+                top: '0.57'
+                width: '0.46'
+              text: "⦁ chronic cough: lasts more than 8 weeks, can last for several years or even for decades. The causes including cough variant asthma (allergic bronchitis), upper respiratory cough syndrome (allergic rhino-bronchitis), gastroesophageal reflux, chronic bronchitis, etc. Among them, cough variant asthma and upper respiratory cough syndrome are the most common."
+        - .HaBodyImg:
+          style:  
+            top: '0.1'
+            left: '0.69'
+            width: '0.18'
+          path: healthAZ/cough.png
+
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Cough is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname: 
+          # text: "Cough"
+    - .BaseFooter1:
+
+
+
+
+

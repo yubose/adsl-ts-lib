@@ -1,0 +1,148 @@
+HaSkinRashesInChild:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Skin rashes in child
+        - .HaHeaderLittleLabel:
+          text: Childhood rashes are common and aren't usually a cause for concern. However, see your doctor if your child has a rash and seems unwell, or if you're worried.
+
+    - .HaBodyTagView:
+      style: 
+        marginTop: '0.09'
+      children:
+        - .HaBodyTagButton1:
+          text: Skin Rash
+          style:
+            width: '0.10'
+    - .HaBodyCon:
+      style:
+        height: '0.5'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Consult your child's doctor if:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ A rash or lesion affects the eyes"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Blue, red or purple dots appear in the affected area"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ The lesion is crusty, blistering or oozing"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ A rash is accompanied by a fever, dizziness, shortness of breath, vomiting or a stiff neck"
+            - .HaBodyContent:
+              style:
+                top: '0.21'
+              text: "⦁ A rash is accompanied by any other troubling symptoms"
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+                width: '0.5'
+              text: "A rash is a reaction of the skin. It can be caused by many things, such as a reaction by contact to a skin irritant, a drug reaction, an infection, or an allergic reaction. Many different agents can cause similar-appearing rashes because the skin has a limited number of possible responses. Very often the other associated symptoms or history, in addition to the rash, help establish the cause of the rash. A history of tick bites, exposure to other ill children or adults, recent antibiotic use, environmental exposures, or prior immunizations are all important elements of the patient's history to help determine the cause of a skin rash in a child."
+            
+
+        - .HaBodyImg:
+          style:  
+            top: '0.08'
+            left: '0.69'
+            width: '0.16'
+          path: healthAZ/skin_rashes_in_child.png
+    - .HaBodyCon:
+      style:
+        height: '0.4'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Here is some common cause:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Hand-foot-and-mouth disease — a mild, contagious viral infection common in young children — is characterized by sores in the mouth and a rash on the hands and feet. Hand-foot-and-mouth disease is most commonly caused by a coxsackievirus."
+            - .HaBodyContent:
+              style:
+                top: '0.09'
+              text: "There's no specific treatment for hand-foot-and-mouth disease. Frequent hand-washing and avoiding close contact with people who are infected with hand-foot-and-mouth disease may help reduce your child's risk of infection. Eczema:is a condition that makes your skin red and itchy. It's common in children but can occur at any age. Atopic dermatitis is long lasting (chronic) and tends to flare periodically. It may be accompanied by asthma or hay fever."
+            - .HaBodyContent:
+              style:
+                top: '0.21'
+              text: "No cure has been found for atopic dermatitis. But treatments and self-care measures can relieve itching and prevent new outbreaks. For example, it helps to avoid harsh soaps, moisturize your skin regularly, and apply medicated creams or ointments."
+   
+    
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Eye Problems in children is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname: 
+          # text: "skin rash"   
+    - .BaseFooter1:
+
+
+
+
+
+
+
+
+
+
+
+

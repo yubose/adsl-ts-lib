@@ -1,0 +1,206 @@
+HaFeverInChild:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      style:
+        height: '0.4'
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Fever in A Child
+        - .HaHeaderLittleLabel:
+          text: Fever happens when the body's internal "thermostat" raises the body temperature above its normal level. This thermostat is found in a part of the brain called the hypothalamus.
+    - .HaBodyTagView:
+      style:
+        marginTop: '0.15'
+      children:
+        - .HaBodyTagButton1:
+          text: Fever         
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+        marginTop: '0.25'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Get emergency medical care if:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Your child is younger than 3 months and has a fever" 
+                 
+        - .HaBodyImg:
+          style:  
+            top: '0.10'
+            left: '0.68'
+            width: '0.16'
+          path: healthAZ/fever_in_a_child.png
+    - .HaBodyCon:
+      style:
+        height: '0.52'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Seek medical care if a child of any age shows any of the following:"           
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Fussiness, or acting abnormally, which doesn't improve even after taking medications to bring down the fever"
+            - .HaBodyContent:
+              style:
+                top: '0.07'
+              text: "⦁ Signs of dehydration, such as no wet diapers over eight to 10 hours, crying without tears, a dry mouth or refusing to drink any fluids"
+            - .HaBodyContent:
+              style:
+                top: '0.135'
+              text: "⦁ Stiff neck or a headache"
+            - .HaBodyContent:
+              style:
+                top: '0.185'
+                width: '0.5'
+              text: "⦁ Abdominal pain"
+            - .HaBodyContent:
+              style:
+                top: '0.235'
+              text: "⦁ Trouble breathing"
+            - .HaBodyContent:
+              style:
+                top: '0.27'
+              text: "⦁ Rash"
+            - .HaBodyContent:
+              style:
+                top: '0.32'
+              text: "⦁ Joint pain or swelling"
+            - .HaBodyContent:
+              style:
+                top: '0.37'
+              text: "⦁ fever lasts more than five days in a row"
+    - .HaBodyCon:
+      style:
+        height: '0.35'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.7'
+          text: "Children with relatively high fevers may not look or act particularly sick. Treating a fever depends on the degree of discomfort. If your child is uncomfortable or restless, these home care strategies may help:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Encourage your child to drink fluids"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Dress your child in lightweight clothing."
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Use a light blanket if your child feels chilled, until the chills end."
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Pain relievers also may help, but note these precautions:"          
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "⦁ Don't give aspirin to anyone age 18 or younger."
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Don't give an infant any type of pain reliever until after you've contacted a medical provider or your child has been evaluated."
+            - .HaBodyContent:
+              style:
+                top: '0.12'
+              text: "⦁ Children ages 6 months and older may be given acetaminophen or ibuprofen (Advil, Children's Motrin, others)."
+    - .HaBodyCon:
+      style:
+        height: '0.2'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Follow the directions on the label."       
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "⦁ Don't give ibuprofen to children under 6 months."
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Don't give acetaminophen to infants under 6 weeks."
+           
+    - .HaBodyCon:
+      style:
+        height: '0.35'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Fever in a Child is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname: 
+          # text: "fever"
+    - .BaseFooter1:
+
+
+
+
+
+
+
+

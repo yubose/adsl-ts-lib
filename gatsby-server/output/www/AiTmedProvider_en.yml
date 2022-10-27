@@ -1,0 +1,631 @@
+AiTmedProvider:
+  viewPort: top
+  init:
+  patientCareList2:
+    First:
+      - img: inCircle1.svg
+        text: Create your own availability profile for both telemedicine and office visits
+        number: "1"
+        top: '0.01'
+      - img: circle2.svg
+        text: Review secure medical records and upload new documents all in one area
+        number: "2"
+        top: '0.01'
+      - img: patientCaren3.svg
+        text: Blockchain-secure virtual visits
+        number: "3" 
+        top: '0.018'
+      - img: patientCaren4.svg
+        text: One click provider notes:evaluation notes, prescriptions, and others
+        number: "4"
+        top: '0.01'
+      - img: 5.svg
+        text: Personalized network of specialists and other professionals
+        number: "5"
+        top: '0.01'
+    Second:
+      - img: patientCaren1.svg
+        text: Create your own availability profile for both telemedicine and office visits
+        number: "1"
+        top: '0.01'
+      - img: inCircle2.svg
+        text: Review secure medical records and upload new documents all in one area
+        number: "2"
+        top: '0.01'
+      - img: patientCaren3.svg
+        text: Blockchain-secure virtual visits
+        number: "3" 
+        top: '0.018'
+      - img: patientCaren4.svg
+        text: One click provider notes:evaluation notes, prescriptions, and others
+        number: "4"
+        top: '0.01'
+      - img: 5.svg
+        text: Personalized network of specialists and other professionals
+        number: "5"
+        top: '0.01'
+    Third:
+      - img: patientCaren1.svg
+        text: Create your own availability profile for both telemedicine and office visits
+        number: "1"
+        top: '0.01'
+      - img: circle2.svg
+        text: Review secure medical records and upload new documents all in one area
+        number: "2"
+        top: '0.01'
+      - img: inCircle3.svg
+        text: Blockchain-secure virtual visits
+        number: "3" 
+        top: '0.018'
+      - img: patientCaren4.svg
+        text: One click provider notes:evaluation notes, prescriptions, and others
+        number: "4"
+        top: '0.01'
+      - img: 5.svg
+        text: Personalized network of specialists and other professionals
+        number: "5"
+        top: '0.01'
+    Fourth:
+      - img: patientCaren1.svg
+        text: Create your own availability profile for both telemedicine and office visits
+        number: "1"
+        top: '0.01'
+      - img: circle2.svg
+        text: Review secure medical records and upload new documents all in one area
+        number: "2"
+        top: '0.01'
+      - img: patientCaren3.svg
+        text: Blockchain-secure virtual visits
+        number: "3" 
+        top: '0.018'
+      - img: inCircle4.svg
+        text: One click provider notes:evaluation notes, prescriptions, and others
+        number: "4"
+        top: '0.01'
+      - img: 5.svg
+        text: Personalized network of specialists and other professionals
+        number: "5"
+        top: '0.01'
+    Fifth:
+      - img: patientCaren1.svg
+        text: Create your own availability profile for both telemedicine and office visits
+        number: "1"
+        top: '0.01'
+      - img: circle2.svg
+        text: Review secure medical records and upload new documents all in one area
+        number: "2"
+        top: '0.01'
+      - img: patientCaren3.svg
+        text: Blockchain-secure virtual visits
+        number: "3" 
+        top: '0.018'
+      - img: patientCaren4.svg
+        text: One click provider notes:evaluation notes, prescriptions, and others
+        number: "4"
+        top: '0.01'
+      - img: inCircle5.svg
+        text: Personalized network of specialists and other professionals
+        number: "5"
+        top: '0.01'
+  formData:
+    show:
+      - img: inCircle1.svg
+        text: Create your own availability profile for both telemedicine and office visits
+        number: "1"
+        top: '0.01'
+      - img: circle2.svg
+        text: Review secure medical records and upload new documents all in one area
+        number: "2"
+        top: '0.01'
+      - img: patientCaren3.svg
+        text: Blockchain-secure virtual visits
+        number: "3" 
+        top: '0.018'
+      - img: patientCaren4.svg
+        text: One click provider notes:evaluation notes, prescriptions, and others
+        number: "4"
+        top: '0.01'
+      - img: 5.svg
+        text: Personalized network of specialists and other professionals
+        number: "5"
+        top: '0.01'
+  imgPath: p_animation1.png
+
+  components:
+    - .BaseHeader:
+    - type: view
+      style: 
+        left: "0"
+        width: calc(1514.77/1724.81*100vw)
+        #height: "4"
+        margin: auto
+        marginTop: calc(102.12/1724.81*100vw)
+      children: 
+        - type: view
+          viewTag: topView
+          style:
+            width: calc(1514.77/1724.81*100vw)
+            marginTop: "0"
+            left: "0"
+            height: calc(773/1724.81*100vw)
+            zIndex: "100"
+          children:
+            - type: image
+              path: providerNew.png
+              style: 
+                marginTop: "0"
+                width: calc(1514.77/1724.81*100vw)
+                # height: '1'
+                left: "0"
+                zIndex: "1000"
+            - type: label
+              text: "AiTmed Provider"
+              style: 
+                left: calc(969.459/1724.81*100vw)
+                # height: "0.4"
+                textShadow: '2px 2px 3px #999999'
+                top: calc(222.111/1724.81*100vw)
+                width: calc(454.434/1724.81*100vw)
+                fontSize: calc(38.3/1724.81*100vw)
+                fontWeight: '600'
+                fontFamily: Arial
+                zIndex: "1000"
+                color: "#000000"
+            - type: label
+              text: Creating a Telehealth solution for your practice
+              style:
+                left: calc(931.59/1724.81*100vw)
+                height: calc(85.1/1724.81*100vw)
+                top: calc(300.403/1724.81*100vw)
+                textShadow: '2px 2px 3px #999999'
+                width: calc(348.399/1724.81*100vw)
+                fontSize: calc(25.53/1724.81*100vw)
+                fontFamily: Arial
+                zIndex: "1000"
+                textAlign: 
+                  x: right
+            - type: button
+              onClick: 
+                - actionType: evalObject
+                  object:
+                    - goto: https://provider.aitmed.com/
+              text: "Get Started - For FREE"
+              style:
+                fontSize: calc(31/1920*100vw)
+                color: '0xffffff'
+                fontFamily: 'Arial'
+                backgroundColor: "0x30b354" 
+                fontWeight: 'Regular'
+                borderRadius: calc(4.85/1920*100vw)
+                borderWidth: "0"
+                boxShadow: 1px 1px 2px 0x000000
+                height: calc(65.89/1920*100vw)
+                left: calc(55.5vw)
+                top: calc(22.5vw)
+                padding: "0 20px"
+                zIndex: '1000'
+                textAlign: 
+                  x: center
+                  y: center
+        - type: view
+          style:
+            width: calc(1514.77/1724.81*100vw)
+            # left: "0"
+            display: flex
+            justifyContent: center
+            alignItems: center
+            height: calc(723.35/1724.81*100vw)
+            zIndex: "1000"
+            backgroundColor: "#ffffff"
+          children:
+            - type: view
+              style:
+                width: calc(530.173/1724.81*100vw)
+                display: flex
+                height: calc(300/1724.81*100vw)
+                flexDirection: column
+                justifyContent: center
+              children:
+                - type: image
+                  path: lock_bg.png
+                  style: 
+                    height: calc(256.07/1724.81*100vw)
+                    display: flex
+            - type: view
+              style:
+                width: calc(454.434/1724.81*100vw)
+                display: flex
+                height: calc(550/1724.81*100vw)
+                flexDirection: column
+                justifyContent: center
+              children:        
+                - type: label
+                  text: The World's Most Secure and Private Communication Between Providers
+                  style:
+                    width: calc(454.434/1724.81*100vw)
+                    height: calc(85.1/1724.81*100vw)
+                    display: flex
+                    fontSize: calc(25.53/1724.81*100vw)
+                    fontFamliy: 'Arial'
+                    fontWeight: "650"
+                    alignItems: center
+                - type: label     
+                  text: AiTmed allows providers to communicate instantly with each other through a blockchain secured, HIPAA compliant portal to discuss patient care,  consultations, referrals, orders, and basic communication needs through phone, messaging, or chat.
+                  style: 
+                    height: calc(119.14/1724.81*100vw)
+                    width: calc(454.434/1724.81*100vw)
+                    fontSize: calc(16.17/1724.81*100vw)
+                    fontWeight: "450"
+                    fontFamliy: 'Arial'
+                    # lineHeight: "1.5" 
+        - type: view
+          # viewTag: imgView
+          style: 
+            left: "0"
+            marginTop: "0"
+            height: calc(765.9/1724.81*100vw)
+            width: calc(1514.77/1724.81*100vw)
+            background: "linear-gradient(to bottom  , #3890CE, #054B90)"
+            zIndex: 10
+          children: 
+            - type: label
+              text: Features
+              style: 
+                left: calc(378.695/1724.81*100vw)
+                top: calc(323.38/1724.81*100vw)
+                # width: calc(202.956/1724.81*100vw)
+                # height: calc(85.1/1724.81*100vw)
+                fontSize: calc(34.04/1724.81*100vw)
+                fontWeight: "700"
+                fontFamliy: 'Arial'
+                color: "#ffffff"
+                zIndex: 1000
+            - type: label
+              textBoard:
+                - text: Practice management
+                - br:
+                - text: anytime, anywhere
+                
+              style: 
+                textAlign:
+                  x: right
+                top: calc(374.44/1724.81*100vw)
+                width: calc(515.025/1724.81*100vw)
+                left: '0'
+                height: calc(127.65/1724.81*100vw)
+                fontSize: calc(16.17/1724.81*100vw)
+                fontWeight: "400"
+                fontFamliy: 'Arial'
+                color: "#ffffff"
+            - type: image
+              viewTag: imgView
+              path: 
+                emit:
+                  actions:
+                    - if:
+                      - true
+                      - ..imgPath
+                      - ..imgPath
+              style:
+                top: calc(187.22/1724.81*100vw)
+                width: calc(272.66/1724.81*100vw)
+                left: calc(568.043/1724.81*100vw)
+            - type: view
+              style:
+                top: calc(170.2/1724.81*100vw)
+                width: calc(530.173/1724.81*100vw)
+                height: calc(425.5/1724.81*100vw)
+                left: calc(817.981/1724.81*100vw)
+              children:
+                - type: list
+                  viewTag: TempList
+                  contentType: listObject
+                  listObject: ..formData.show
+                  iteratorVar: itemObject
+                  style:
+                    width: calc(530.173/1724.81*100vw)
+                    top: '0'
+                    height: auto
+                    left: "0"
+                  children:
+                    - type: listItem
+                      itemObject: ""
+                      onClick: 
+                        - emit:
+                            dataKey:
+                              var: itemObject
+                            actions:
+                              - if:
+                                - =.builtIn.string.equal:
+                                    dataIn:
+                                      string1: $var.number
+                                      string2: '1'
+                                - ..formData.show@: =..patientCareList2.First
+                                - continue
+                              - if:
+                                - =.builtIn.string.equal:
+                                    dataIn:
+                                      string1: $var.number
+                                      string2: '2'
+                                - ..formData.show@: =..patientCareList2.Second
+                                - continue
+                              - if:
+                                - =.builtIn.string.equal:
+                                    dataIn:
+                                      string1: $var.number
+                                      string2: '3'
+                                - ..formData.show@: =..patientCareList2.Third
+                                - continue
+                              - if:
+                                - =.builtIn.string.equal:
+                                    dataIn:
+                                      string1: $var.number
+                                      string2: '4'
+                                - ..formData.show@: =..patientCareList2.Fourth
+                                - continue
+                              - if:
+                                - =.builtIn.string.equal:
+                                    dataIn:
+                                      string1: $var.number
+                                      string2: '5'
+                                - ..formData.show@: =..patientCareList2.Fifth
+                                - continue
+                              - if:
+                                - =.builtIn.string.equal:
+                                    dataIn:
+                                      string1: $var.number
+                                      string2: '1'
+                                - ..imgPath@: p_animation1.png
+                                - continue
+                              - if:
+                                - =.builtIn.string.equal:
+                                    dataIn:
+                                      string1: $var.number
+                                      string2: '2'
+                                - ..imgPath@: p_animation2.png
+                                - continue
+                              - if:
+                                - =.builtIn.string.equal:
+                                    dataIn:
+                                      string1: $var.number
+                                      string2: '3'
+                                - ..imgPath@: p_animation3.png
+                                - continue
+                              - if:
+                                - =.builtIn.string.equal:
+                                    dataIn:
+                                      string1: $var.number
+                                      string2: '4'
+                                - ..imgPath@: p_animation4.png
+                                - continue
+                              - if:
+                                - =.builtIn.string.equal:
+                                    dataIn:
+                                      string1: $var.number
+                                      string2: '5'
+                                - ..imgPath@: p_animation5.png
+                                - continue
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: imgView
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: TempList
+                      style:
+                        width: calc(454.434/1724.81*100vw)
+                        height: calc(85.1/1724.81*100vw)
+                        left: calc(75.739/1724.81*100vw)
+                        color: '0xffffff'
+                        display: inline-block
+                      children:
+                        - type: image
+                          path: 
+                            emit:
+                              dataKey: 
+                                var: itemObject
+                              actions:
+                                - if: 
+                                  - true
+                                  - $var.img
+                                  - $var.img
+                          style:
+                            left: "0"
+                            height: calc(51.06/1724.81*100vw)
+                            top: "0"
+                        - type: label
+                          dataKey: itemObject.text
+                          style:
+                            top: itemObject.top
+                            left: calc(60.5912/1724.81*100vw)
+                            height: calc(102.12/1724.81*100vw)
+                            width: calc(408.991/1724.81*100vw)
+                            fontSize: calc(16.17/1724.81*100vw)
+                            fontWeight: '400'
+                            fontFamily: "Arial"
+
+                            
+        - type: view
+          style:
+            marginTop: "0"
+            width: calc(1514.77/1724.81*100vw)
+            left: "0"
+            height: calc(765.9/1724.81*100vw)
+            zIndex: "100"
+          children:
+            - type: image
+              path: providerBottom.png
+              style:
+                width: calc(1514.77/1724.81*100vw)
+                left: '0'
+            - type: view
+              style:
+                display: flex
+                flexWrap: wrap
+                justifyContent: center
+                alignItems: center
+                top: calc(51.06/1724.81*100vw)
+                left: calc(310/1724.81*100vw)
+                width: calc(908.868/1724.81*100vw)
+                height: calc(595.7/1724.81*100vw)
+                backgroundColor: "0xffffffcc"
+                borderRadius: '25'
+                zIndex: '1000'
+              children:
+                - type: label
+                  text: "Be a Part of the Next Revolutionary Health Care System"
+                  style: 
+                    height: calc(85.1/1724.81*100vw)
+                    width: calc(908.868/1724.81*100vw)
+                    fontWeight: bold
+                    fontSize: calc(32.34/1724.81*100vw)
+                    zIndex: 1000
+                    fontFamily: "Arial"
+                    display: flex
+                    justifyContent: center
+                    alignItems: center
+                - .LiTileBigView:
+                  style:
+                    height: 'calc(120/1724.81*100vw)'
+                  children:
+                    - type: view
+                      style:
+                        width: 'calc(80/1724.81*100vw)'
+                        display: flex
+                      children:
+                        - type: image
+                          path: group1.svg
+                          style: 
+                            width: calc(60.5912/1724.81*100vw)
+                            zIndex: 1000
+                    - .LiTileView:
+                      style:
+                        height: 'calc(120/1724.81*100vw)'
+                        
+                      children:
+                        - .LiTile:
+                        - .LoTile:
+                          style:
+                            width: 'calc(310/1724.81*100vw)'
+                - .LiTileBigView:
+                  style:
+                        height: 'calc(120/1724.81*100vw)'
+                  children:
+                    - type: view
+                      style:
+                        width: 'calc(80/1724.81*100vw)'
+                        display: flex
+                      children:
+                        - type: image
+                          path: group3.svg
+                          style: 
+                            width: calc(60.5912/1724.81*100vw)
+                            zIndex: 1000
+                    - .LiTileView:
+                      style:
+                        height: 'calc(120/1724.81*100vw)'
+                      children:
+                        - .LiTile:
+                          text: "Quickly completed document"
+                        - .LoTile:
+                          text: AI-assisted documentation for your evaluations, prescriptions, notes, reports, and more.
+                          style:
+                            width: 'calc(310/1724.81*100vw)'
+                - .LiTileBigView:
+                  children:
+                    - type: view
+                      style:
+                        width: 'calc(80/1724.81*100vw)'
+                        display: flex
+                      children:
+                        - type: image
+                          path: group2.svg
+                          style: 
+                            width: calc(60.5912/1724.81*100vw)
+                            zIndex: 1000
+                    - .LiTileView:
+                      children:
+                        - .LiTile:
+                          text: 'Authorized document sharing'
+                        - .LoTile:
+                          text: AiTmed's state-of-the-art blockchain technology is HIPPA compliant and encrypts all documents with the highest security and privacy.
+                          style:
+                            width: 'calc(310/1724.81*100vw)'
+                - .LiTileBigView:
+                  children:
+                    - type: view
+                      style:
+                        width: 'calc(80/1724.81*100vw)'
+                        display: flex
+                      children:
+                        - type: image
+                          path: arrow.svg
+                          style: 
+                            width: calc(60.5912/1724.81*100vw)
+                            zIndex: 1000
+                    - .LiTileView:
+                      children:
+                        - .LiTile:
+                          text: "Revolutionary one-click e-referral"
+                        - .LoTile:
+                          style:
+                            width: 'calc(310/1724.81*100vw)'
+                          text: AiTmed's premium e-referral network will change the way providers can refer patients to any specialist with ease. Refer patients swiftly to other physicians along with their medical records, labs, and imaging.
+        - type: view
+          style:
+            marginTop: "0"
+            width: calc(1514.77/1724.81*100vw)
+            left: "0"
+            height: calc(425.5/1724.81*100vw)
+            backgroundColor: "transparent"
+            zIndex: "1000"
+            display: flex
+            flexDirection: column
+            alignItems: center
+            justifyContent: center
+          children:
+            - type: label
+              text: Connect With Your Patients Today!
+              style:
+                height: calc(85.1/1724.81*100vw)
+                fontWeight: "600"
+                display: flex
+                fontSize: calc(42.55/1724.81*100vw)
+                #zIndex: "100"
+                color: "#000000"
+            - type: button
+              onClick:
+                - goto: https://provider.aitmed.com/
+              text: "Sign Up For Free"
+              style:
+                width: calc(302.956/1724.81*100vw)
+                height: calc(42.55/1724.81*100vw)
+                fontSize: calc(25.53/1724.81*100vw)
+                color: '0xffffff'
+                backgroundColor: "0x30b354"
+                #zIndex: '100'
+                borderRadius: "0.005"
+                borderWidth: "0"
+                display: flex
+                alignItems: center
+                justifyContent: center
+        - type: view
+          style:
+            #marginTop: "0" 
+            width: calc(1514.77/1724.81*100vw) 
+            left: "0" 
+            top: calc(2553/1724.81*100vw) 
+            height: calc(425.5/1724.81*100vw) 
+            #zIndex: "1" 
+            #position: "fixed"
+            margin: "auto"
+          children:
+            - type: image
+              path: bottomPhoto.png
+              style:
+                top: "0"
+                width: calc(1514.77/1724.81*100vw)
+                zIndex: "1"
+                position: "fixed"
+                opacity: "0.6"
+    - .BaseFooter1:
+ 

@@ -1,0 +1,152 @@
+
+
+
+HaEarProblemsInChild:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Ear Problems in Child
+        - .HaHeaderLittleLabel:
+          text: The ears are very delicate structures, especially in children.
+    - .HaBodyTagView: 
+      style:
+        top: '0.55'
+      children:
+        - .HaBodyTagButton1:
+          text: Ear
+    - .HaBodyCon:
+      style:
+        marginTop: '0.23'
+        height: '0.48'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Get emergency care if:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Has ear pain"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Has discharge of blood, pus or clear fluid from the ear"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Pulls at or scratches his or her ear"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Have delays in speech development or unclear speech"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Respond to sounds inconsistently."
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ Does not respond to instructions or being called"
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+              text: "⦁ Does not understand speech"
+            - .HaBodyContent:
+              style:
+                top: '0.35'
+              text: "⦁ Turns up music or the television"
+            
+
+        - .HaBodyImg:
+          style:  
+            top: '0.11'
+            left: '0.7'
+            width: '0.16'
+          path: healthAZ/ear_problems_in_child.png
+    - .HaBodyCon:
+      style:
+        height: '0.49'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Find possible causes of ear problem based on specific factors. Use our patient Questionnaire."
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Two common ear conditions may affect children. Acute otitis media (AOM) is an infection that usually involves fever, pain, and evidence of middle ear (behind the eardrum) inflammation with effusion (fluid). This is the most common type of ear infection. It is usually painful because parts of the middle ear are swollen and infected, and fluid is trapped behind the eardrum. Symptoms include fever and possibly puss in the ear. Infants and children with acute otitis media often pull on their ears. It can be treated with antibiotics because it's usually caused by bacteria, not a virus, although it can be a complication from a virus."
+            - .HaBodyContent:
+              style:
+                top: '0.17'
+              text: "Otitis media with effusion (OME) is fluid in the middle ear without signs of infection. This type of ear infection is very common, and it is caused by the buildup of fluid in the middle ear. It often happens after an ear infection has run its course. Most of the time, children will not have pain, but a doctor will be able to see the fluid behind the eardrum. Otitis media with effusion usually goes away on its own, and antibiotics won't be effective. It's common to have with allergies, when exposed to irritants like cigarette smoke and in conjunction with viral upper respiratory infections."
+            - .HaBodyContent:
+              style:
+                top: '0.315'
+              text: "Others include Otitis externa, Objects in the ear, etc."
+            
+    
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Ear problems in child is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag:
+        - .HaBottomTagname: 
+    - .BaseFooter1:
+
+
+
+
+
+
+
+
+
+

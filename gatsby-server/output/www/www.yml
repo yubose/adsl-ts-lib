@@ -1,0 +1,80 @@
+apiHost: ecosapip1.aitmed.io
+apiPort: '443'
+webApiHost: apiHost
+appApiHost: apiHost
+connectiontimeout: '5'
+loadingLevel: 1
+versionNumber: 0.1
+debug: console_log_api
+designSuffix:
+    widthHeightRatioThreshold: 1
+    greaterEqual: ""
+    less: "v"  #v disable vertical view versionß
+viewWidthHeightRatio:
+    max: 1.78
+    min: 0.4
+web:
+  cadlVersion:
+    stable: 4.24
+    test : 4.24
+ios:
+  cadlVersion:
+    stable: 4.24
+    test : 4.24
+android:
+  cadlVersion:
+    stable : 4.24
+    test : 4.24
+cadlBaseUrl: https://public.aitmed.us/cadl/www${cadlVersion}${designSuffix}/
+cadlMain: cadlEndpoint.yml
+timestamp: 09242022.4PDT
+keywords:
+  - telemedicine
+  - Telehealth
+  - Blockchain Telemedicine
+  - Fast, Private, Secure
+  - Blockchain Telehealth Platform
+  - HIPAA Compliance
+  - Pandemic
+  - Covid19
+  - Wellness and illness
+  - Telemedicine clinic
+  - Telemedicine Pediatric
+  - Telemedicine Urgent Care
+  - Telemedicine dermatology
+  - Telemedicine Senior House
+  - Telemedicine Hospital
+  - Telemedicine RADIOLOGY
+  - Telemedicine Neurology
+  - Telehealth Lab
+  - Telehealth Pandemic
+  - Telehealth Covid19
+  - Telehealth clinic
+  - Telehealth Pediatric
+  - Telehealth Urgent Care
+  - Telehealth dermatology
+  - Telehealth Senior House
+  - Telehealth Hospital
+  - Telehealth RADIOLOGY
+  - Telehealth Neurology
+  - Telehealth Lab
+  - Doctor Virtual Platform
+  - Telemedicine Imaging
+  - Online Medical Practice
+  - Online schedule
+  - E-prescription
+  - Virtual Meeting Room
+  - Virtual platform
+  - Secure Platform
+  - Virtual Visit
+  - Private Visit
+  - doctor
+  - patient
+  - chronic illness
+  - Medical clinic
+  - medical platform
+  - Medical knowledge
+  - telecommunication
+  - virtual
+  - Vital Sign
+
