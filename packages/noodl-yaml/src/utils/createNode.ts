@@ -25,6 +25,8 @@ function createNode<K extends string, V = any>(key: K, value?: V): y.Pair<K, V>
 
 function createNode<N extends any[]>(value: N): y.YAMLSeq<N[number]>
 
+function createNode(value: unknown): y.Node
+
 function createNode<N = unknown>(keyOrValue: N, value?: any) {
   if (isScalar(keyOrValue)) {
     return keyOrValue

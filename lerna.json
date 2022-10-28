@@ -15,15 +15,7 @@
   "ignore": "noodl-{loader,loader-docs}",
   "loglevel": "verbose",
   "message": "Update",
-  "packages": [
-    "packages/noodl-types",
-    "packages/noodl-action-chain",
-    "packages/noodl-utils",
-    "packages/noodl-ui",
-    "packages/noodl-core",
-    "packages/noodl-yaml",
-    "packages/gatsby-plugin-noodl"
-  ],
   "useNx": true,
+  "useWorkspaces": true,
   "version": "independent"
 }

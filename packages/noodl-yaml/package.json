@@ -1,11 +1,13 @@
 {
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
   "dependencies": {
+    "is-proxy": "^1.0.6",
     "noodl-core": "*",
     "noodl-test-utils": "*",
     "noodl-types": "*",
     "noodl-ui": "*",
-    "noodl-utils": "*"
+    "noodl-utils": "*",
+    "rambda": "^7.3.0"
   },
   "description": "YAML bindings for noodl-core",
   "devDependencies": {

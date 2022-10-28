@@ -62,7 +62,13 @@
     "yaml": "^2.1.1"
   },
   "workspaces": [
-    "packages/*"
+    "packages/noodl-types",
+    "packages/noodl-action-chain",
+    "packages/noodl-utils",
+    "packages/noodl-ui",
+    "packages/noodl-core",
+    "packages/noodl-yaml",
+    "packages/gatsby-plugin-noodl"
   ],
   "prettier": {
     "arrowParens": "always",
