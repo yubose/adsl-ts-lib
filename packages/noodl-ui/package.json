@@ -25,7 +25,7 @@
     "tsconfig.json",
     "tsconfig.test.json"
   ],
-  "gitHead": "ca4e349fdbdcb6e941f8b92c1bd31ed7349eb695",
+  "gitHead": "0b9e684034928e0e7dbd3f056ba3fc39dc8e6320",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -42,5 +42,5 @@
     "publish": "npm version patch && npm publish -f"
   },
   "typings": "dist/index.d.ts",
-  "version": "0.1.609"
+  "version": "0.1.1064"
 }
