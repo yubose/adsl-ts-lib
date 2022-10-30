@@ -1,11 +1,11 @@
 {
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
   "dependencies": {
-    "noodl-action-chain": "^0.0.139",
+    "noodl-action-chain": "^0.0.140",
     "noodl-common": "^0.0.58",
     "noodl-test-utils": "^0.0.12",
-    "noodl-types": "*",
-    "noodl-utils": "^0.0.121",
+    "noodl-types": "^1.0.249",
+    "noodl-utils": "^0.0.122",
     "signature_pad": "^4.0.7"
   },
   "description": "NOODL JavaScript library",
@@ -42,5 +42,5 @@
     "publish": "npm version patch && npm publish -f"
   },
   "typings": "dist/index.d.ts",
-  "version": "0.1.207"
+  "version": "0.1.208"
 }

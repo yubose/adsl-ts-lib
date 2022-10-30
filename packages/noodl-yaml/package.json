@@ -2,11 +2,11 @@
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
   "dependencies": {
     "is-proxy": "^1.0.6",
-    "noodl-core": "*",
+    "noodl-core": "^0.1.43",
     "noodl-test-utils": "*",
-    "noodl-types": "*",
-    "noodl-ui": "*",
-    "noodl-utils": "*",
+    "noodl-types": "^1.0.249",
+    "noodl-ui": "^0.1.208",
+    "noodl-utils": "^0.0.122",
     "rambda": "^7.3.0"
   },
   "description": "YAML bindings for noodl-core",
@@ -51,5 +51,5 @@
     "types:watch": "npm run types -- -w"
   },
   "types": "dist/index.d.ts",
-  "version": "0.0.38"
+  "version": "0.0.39"
 }
