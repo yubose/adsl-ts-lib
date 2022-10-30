@@ -95,3 +95,21 @@ export enum VisitorQueueStatus {
   Pending = 1,
   Error = 2,
 }
+
+/**
+ * Reserved noodl style keys (incompatible with the DOM)
+ */
+export const reservedStyleKeys = [
+  'align',
+  'axis',
+  'contentSize',
+  'isHidden',
+  'shadow',
+] as const
+
+export enum ProxyHandlerType {
+  Has = 'has',
+  Get = 'get',
+  Set = 'set',
+  Del = 'delete',
+}

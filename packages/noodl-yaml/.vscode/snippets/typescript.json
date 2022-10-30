@@ -1,0 +1,6 @@
+{
+  "import { fp, is as coreIs } from 'noodl-core'": {
+    "body": "import { fp, is as coreIs } from 'noodl-core'",
+    "prefix": "fp"
+  }
+}

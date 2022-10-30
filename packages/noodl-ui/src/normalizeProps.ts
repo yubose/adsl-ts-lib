@@ -772,7 +772,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                 rootKey: is.localReference(value) ? pageName : undefined,
               }),
             )
-          : value
+          : value || originalValue
         set(props, 'data-viewtag', viewTag)
       } else if (originalKey === 'dataOption') {
         // @ts-expect-error

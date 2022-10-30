@@ -1,33 +1,25 @@
 import y from 'yaml'
 import { fp, is } from 'noodl-core'
-import getYamlNodeKind from './getYamlNodeKind'
-import {
-  isAnyNode,
-  isScalar,
-  isPair,
-  isCollection,
-  isMap,
-  isSeq,
-  isDoc,
-  isNode,
-} from './yaml'
-import * as c from '../constants'
+import { isAnyNode, isScalar, isPair, isMap, isSeq, isDoc } from './yaml'
 
-function createNode<N extends Record<string, any>>(
+export function createNode<N extends Record<string, any>>(
   value: N,
 ): y.YAMLMap<keyof N, any>
 
-function createNode<V extends boolean | number | string | null | undefined>(
-  value: V,
-): y.Scalar<V>
+export function createNode<
+  V extends boolean | number | string | null | undefined,
+>(value: V): y.Scalar<V>
 
-function createNode<K extends string, V = any>(key: K, value?: V): y.Pair<K, V>
+export function createNode<K extends string, V = any>(
+  key: K,
+  value?: V,
+): y.Pair<K, V>
 
-function createNode<N extends any[]>(value: N): y.YAMLSeq<N[number]>
+export function createNode<N extends any[]>(value: N): y.YAMLSeq<N[number]>
 
-function createNode(value: unknown): y.Node
+export function createNode(value: unknown): y.Node
 
-function createNode<N = unknown>(keyOrValue: N, value?: any) {
+export function createNode<N = unknown>(keyOrValue: N, value?: any) {
   if (isScalar(keyOrValue)) {
     return keyOrValue
   }

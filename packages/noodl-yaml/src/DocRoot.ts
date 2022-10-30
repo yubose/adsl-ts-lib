@@ -116,7 +116,7 @@ class DocRoot extends ARoot {
       value = doc
     }
 
-    set(this.value, unwrap(key), value)
+    set(this.value as any, unwrap(key) as any, value)
     // this.value.set(unwrap(key) as string, value)
     return this
   }

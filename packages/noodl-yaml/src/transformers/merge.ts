@@ -41,12 +41,12 @@ function _merge<N extends t.YAMLNode>(
 
   if (
     (coreIs.str(refOrNode) || y.isScalar(refOrNode)) &&
-    isMergingRef(refOrNode)
+    isMergingRef(refOrNode as any)
   ) {
-    ref = coreIs.str(refOrNode) ? refOrNode : refOrNode.value
+    ref = coreIs.str(refOrNode) ? refOrNode : (refOrNode.value as any)
   }
 
-  if (is.nil(node)) {
+  if (node == null) {
     return ref ? deref({ node: ref, root, rootKey }).value : refOrNode
   }
 

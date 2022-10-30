@@ -20,17 +20,17 @@ function get(
   key: (number | string)[] | y.Scalar | number | string,
   arg3?: boolean | GetOptions,
 ): any {
-  let keepScalar = true
+  // let keepScalar = true
   let originalKey = key
   let options = {} as GetOptions
-  let root
+  // let root
   let rootKey = ''
 
   if (coreIs.obj(arg3)) {
-    if (arg3.root) root = arg3.root
+    // if (arg3.root) root = arg3.root
     if (arg3.rootKey) rootKey = arg3.rootKey
   } else if (coreIs.bool(arg3)) {
-    keepScalar = arg3 as boolean
+    // keepScalar = arg3 as boolean
   }
 
   if (y.isScalar(key) && coreIs.str(key.value)) {

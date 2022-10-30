@@ -1,4 +1,4 @@
-import { fp, is as coreIs } from 'noodl-core'
+import { is as coreIs } from 'noodl-core'
 
 export class Processor {
   consumed = [] as any[]

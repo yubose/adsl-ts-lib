@@ -18,7 +18,7 @@ function _merge<N = any>(
   let mergingValue: any
   let ref = is.str(refOrValue) && is.reference(refOrValue) && refOrValue
 
-  if (is.nil(obj)) {
+  if (obj == null) {
     return ref ? deref({ dataObject, ref, root, rootKey }) : refOrValue
   }
 

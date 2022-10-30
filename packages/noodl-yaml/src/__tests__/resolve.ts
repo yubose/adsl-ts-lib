@@ -1,17 +1,7 @@
 import type { RootConfig, AppConfig } from 'noodl-types'
-import { fp, is, deref } from 'noodl-core'
-import {
-  isCollection,
-  isMap,
-  isScalar,
-  isPair,
-  isSeq,
-  isNode,
-} from '../utils/yaml'
-import get from '../utils/get'
+import { is, deref } from 'noodl-core'
+import { isCollection, isPair, isNode } from '../utils/yaml'
 import unwrap from '../utils/unwrap'
-import * as c from '../constants'
-import * as t from '../types'
 
 export interface ResolveOptions {
   config?: RootConfig
@@ -35,9 +25,9 @@ export function has(key: string | number | symbol, node: unknown) {
   }
 }
 
-export function resolve(value?: unknown, options?: ResolveOptions) {
-  let _config = options?.config || {}
-  let _cadlEndpoint = options?.cadlEndpoint || {}
+export function resolve(value?: unknown, options?: ResolveOptions): any {
+  // let _config = options?.config || {}
+  // let _cadlEndpoint = options?.cadlEndpoint || {}
   let _page = options?.page || ''
   let _root = options?.root || {}
 
