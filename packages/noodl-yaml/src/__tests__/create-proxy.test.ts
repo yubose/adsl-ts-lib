@@ -236,6 +236,7 @@ describe.only(`createProxy`, () => {
         .get(0) as y.YAMLMap
 
       listObject.forEach((_, index) => {
+        // @ts-expect-error
         const listItem = list.get('children')?.get?.(index)
         expect(listItem.get('type')).to.eq('listItem')
         expect(listItem.get('style').get('boxShadow')).to.eq(
@@ -244,5 +245,84 @@ describe.only(`createProxy`, () => {
         expect(listItem.get('children').items).to.have.lengthOf(2)
       })
     }
+  })
+
+  xit(`should be able to visit nodes like normal`, () => {
+    const listObject = [{ color: 'red' }, { color: 'green' }, { color: 'blue' }]
+    const component = m.view({
+      style: { top: '0.1', left: '0.1', width: '1', height: '1' },
+      children: [
+        m.ecosDocComponent({
+          children: [
+            // @ts-expect-error
+            m.textField({
+              contentType: 'email',
+              dataKey: 'formData.password',
+              global: true,
+              placeholder: 'Enter your password',
+              onChange: [
+                m.evalObject({
+                  object: [
+                    { [`.Global.initialPassword@`]: '..formData.password' },
+                  ],
+                }),
+                m.builtIn({ funcName: 'redraw', viewTag: 'helloTag' }),
+              ],
+              onInput: m.emitObject({
+                actions: [
+                  m.ifObject([
+                    true,
+                    { [`.Global.timestamp`]: Date.now() },
+                    'continue',
+                  ]),
+                ],
+              }),
+              required: true,
+              style: {
+                border: '2',
+                shadow: 'true',
+              },
+              textAlign: {
+                x: 'centerX',
+                y: 'centerY',
+              },
+              viewTag: 'inputTag',
+            }),
+            m.view({
+              children: [
+                m.scrollView({
+                  children: [
+                    m.list({
+                      iteratorVar: 'itemObject',
+                      listObject,
+                      children: [
+                        m.listItem({
+                          itemObject: '',
+                          style: { shadow: 'true' },
+                          children: [
+                            m.view({ children: [m.image('hello.gif')] }),
+                            m.video('sun.mkv'),
+                          ],
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+      viewTag: 'helloTag',
+    })
+
+    const node = createNode(component)
+
+    const spy = sinon.spy()
+    y.visit(node, {
+      Map: console.log,
+    })
+
+    console.log(spy.callCount)
   })
 })
