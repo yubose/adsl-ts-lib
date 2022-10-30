@@ -227,11 +227,10 @@ function wrap<Fn extends t.AssertAsyncFn | t.AssertFn>(
   return onVisit.bind(null, { clearState, getState, isAsync })
 }
 
-class DocVisitor<H = any, B extends BuiltIns = BuiltIns> extends AVisitor<
-  any,
-  H,
-  B
-> {
+class DocVisitor<
+  H extends Record<string, any> = any,
+  B extends BuiltIns = BuiltIns,
+> extends AVisitor<any, H, B> {
   #callback: any
 
   get callback() {

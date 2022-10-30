@@ -9,7 +9,6 @@ import { resolve as _resolve } from './resolve'
 import { createNode } from '../utils/createNode'
 import { createProxy } from '../create-proxy'
 import { normalizeDeep } from '../utils/normalize-deep'
-import { ui } from './test-utils'
 import * as c from '../constants'
 
 let viewport = { width: 1024, height: 768 }
@@ -39,7 +38,7 @@ describe.only(`createProxy`, () => {
     })
 
     it(`should normalize the props onto the node`, () => {
-      const component = ui.image({
+      const component = m.image({
         path: 'abc.png',
         viewTag: 'abcTag',
         style: {
