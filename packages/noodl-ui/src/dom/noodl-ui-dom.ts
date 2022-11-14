@@ -411,7 +411,7 @@ class NDOM extends NDOMInternal {
     const components = u.array(
       await nui.resolveComponents({
         components: page.components,
-        page: nuiPage
+        page: nuiPage,
         ...resolveOptions,
       }),
     ) as t.NuiComponent.Instance[]
@@ -565,8 +565,8 @@ class NDOM extends NDOMInternal {
           node = document.createElement(getElementTag(component))
           componentPage.replaceNode(node as HTMLIFrameElement)
         } else {
-          if (container?.tagName === 'UL' && +component.get('lazyCount') > 0) {
-            node = container
+          if (container?.tagName === 'UL' && +component.get('lazyCount') > 0 && component.get("lazyState")) {
+            node = container;
           } else {
             node = this.#createElementBinding?.(component) || null
             node && (node['isElementBinding'] = true)
@@ -748,7 +748,7 @@ class NDOM extends NDOMInternal {
       }
       if (node) {
         if (newComponent) {
-          if (component.get('lazyCount') > 0) {
+          if (component.get('lazyCount') > 0 && component.get("lazyState")) {
             let newNode = await this.draw(newComponent, node, page, {
               ...options,
               on: options?.on || this.renderState.options.hooks,
