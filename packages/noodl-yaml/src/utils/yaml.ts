@@ -8,6 +8,13 @@ const defaultParseOptions: ParseOptions = {
   prettyErrors: true,
 }
 
+export function getPairByKey(node: y.YAMLMap, key: string) {
+  return node.items.find((pair) => {
+    if (isScalar(pair.key)) return pair.key.value === key
+    return pair.key === key
+  })
+}
+
 export const isCollection = y.isCollection
 export const isScalar = y.isScalar
 export const isPair = y.isPair

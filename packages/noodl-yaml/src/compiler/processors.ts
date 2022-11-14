@@ -2,7 +2,7 @@ import { consts, fp } from 'noodl-core'
 import { isScalar } from '../utils/yaml'
 import { getScalarType, getNodeKind } from './utils'
 import { Basic, Organic } from './compilerConstants'
-import type { If, IfNode } from '../types'
+import type { If } from '../types'
 import * as t from './compilerTypes'
 import * as c from '../constants'
 
@@ -119,7 +119,7 @@ export function createInterpretations(nodes: unknown[] | unknown) {
 }
 
 export function createIfInterpreter(node: If) {
-  return createInterpretations((node.get('if') as IfNode).items)
+  return createInterpretations((node.get('if') as any).items)
 }
 
 export function createSomething() {

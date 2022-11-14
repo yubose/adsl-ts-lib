@@ -1,0 +1,159 @@
+HaHipPain:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Hip pain
+        - .HaHeaderLittleLabel:
+          text: Hip pain is not uncommon in orthopedic clinics. In fact, there are many clinical diseases that can cause hip pain and limited mobility.
+    - .HaBodyTagView:
+      style:
+        marginTop: '0.09'
+      children:
+        - .HaBodyTagButton1:
+          text: Hip Pain
+        - .HaBodyTagButton2:
+          text: Hip 
+    - .HaBodyCon:
+      style:
+        height: '0.48'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Get emergency medical care if:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Hip pain is accompanied by bleeding"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Hip pain is severe or sudden swelling around hip"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Hips are obviously deformed"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Hips pain aggravated the next day after a fall"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Hips cannot withstand weight"
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ Osteoporosis patient injuried your hips"
+            
+                 
+        - .HaBodyImg:
+          style:  
+            top: '0.08'
+            left: '0.68'
+            width: '0.16'
+          path: healthAZ/hip-pain.png
+    - .HaBodyCon:
+      style:
+        height: '0.65'
+
+        marginTop: "0.05"
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Hip pain is not uncommon in orthopedic clinics. In fact, there are many clinical diseases that can cause hip pain and limited mobility. Common reasons are:"        
+        - type: view
+          style:
+            marginTop: '0.05'
+ 
+            height: "0.6"
+          children:
+            - .HaBodyContent:
+              text: "⦁ Osteoarthritis: caused by degeneration and injury to the articular cartilage. Cartilage is a firm, slippery tissue that permits nearly frictionless joint motion.In osteoarthritis, the slick surface of the cartilage becomes rough. Eventually, if the cartilage wears down completely, you may be left with bone rubbing on bone. Clinical manifestations include joint pain and inactivity."
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+              text: "⦁ Avascular necrosis of the femoral head. It is a very challenging disease in orthopedics. Due to the damage or interruption of blood supply to the femoral head, it causes death of bone cells and bone marrow components. The causes of the disease can be divided into two major categories: traumatic and non- traumatic. Traumatic is mainly caused by hip fractures and dislocations. The main cause of non- traumatic is Steroid, Bisphosphonate and Excessive alcohol use,"
+            - .HaBodyContent:
+              style:
+                top: '0.32'
+              text: "⦁ Hip fracture, the elderly are high-risk groups of hip fractures. Hip fractures include femoral neck fractures and intertrochanteric fractures. It always cause pain in hip and decrease ROM of hip."       
+            - .HaBodyContent:
+              style:
+                top: '0.42'
+              text: "Other cause include hip synovitis, Psoriatic arthritis,Rheumatoid arthritis , Bursitis, Tendinitis, Osteomyelitis, etc."
+
+
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+ 
+        marginTop: "0.1"
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Hip pain is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        # left: '0.12'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname: 
+        #   text: "hip pain"
+        #   style: 
+        #     left: "0.35"
+        # - .HaBottomTagname: 
+        #   text: "hip"
+        #   style: 
+        #     left: "0.5"  
+    - .BaseFooter1:
+
+
+
+
+
+
+
+
+

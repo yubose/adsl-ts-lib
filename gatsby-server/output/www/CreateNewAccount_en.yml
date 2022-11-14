@@ -1,0 +1,867 @@
+CreateNewAccount: # This is page name
+  viewPort: top
+  
+  module: patient
+
+  title: Create New Account
+  pageNumber: "45"
+  init:
+    - if:
+        - ..formData.vertex.name.phoneNumber
+        - continue
+        - goto: SignUp
+    # - if:
+    #   - ..
+    # - ..formData@: =.UserAgreement.formData
+    # - ..formData@: =.SubscriptionAgreement
+    # - ..formData@: =.PrivacyPolicy
+  formData:
+    response: ""
+    vertex : # inherit from BaseDataModel_en.yml
+      .Vertex: ""
+      type : .Global.newAccountFlag
+      name:
+        countryCode: .SignUp.formData.countryCode
+        phoneNumber: .Global.phoneNumber
+        userName: ""
+        firstName: ""
+        lastName: ""
+        password: ""
+        confirmPassword: ""
+        avatar : "https://public.aitmed.com/avatar/JohnDoe.jpg"
+        verificationCode: .SignUp.formData.code
+        signature: ""
+    vertexAPI:
+      .VertexAPI: ""
+      store:
+        api: builtIn.createNewAccount # construct uid, pk, esk .. for new account
+        dataIn: formData.vertex
+        dataOut: formData.response
+    target: false
+    tar: false
+    confirm: ""
+  # init: 
+    # - if:
+    #   - =.ServicesAgreement.agreement.servicesAgreement
+    #   - ..selectData.tar@: "selectOn.png"
+    #   - ..selectData.tar@: "selectOff.png"
+  rvCondition: ""
+  checkOk: ""
+  getVertex:
+    response: ""
+    vertex:
+      xfname: none
+      type: 1
+      sCondition: =..rvCondition
+      _nonce: =.Global._nonce
+    vertexAPI:
+      get:
+        api: rv
+        dataIn: CreateNewAccount.getVertex.vertex
+        dataOut: CreateNewAccount.getVertex.response
+  save: 
+    - ..formData.vertexAPI.store #
+    # - .Global.rootNotebook.edgeAPI.store
+  update: 
+    - .Global.currentUser.vertex@ : =..formData.response.vertex # set {".Global.currentUser.vertex":".builtIn.UserVertex"}
+    - .Global.currentUser.vertex.name.firstName@ : =..formData.vertex.name.firstName
+    - .Global.currentUser.vertex.name.lastName@ : =..formData.vertex.name.lastName      
+    - .Global.currentUser.JWT@ : =..formData.response.jwt
+    - .Global.rootNotebookID@: =.Global.currentUser.vertex.deat.rnb64ID
+    - .Global.currentUser.dataCache.loadingDateTime@ : =.Global.currentDateTime  
+  components:
+    - .BaseCheckView: ""
+      message: "Incorrect verificationCode"
+      viewTag: wrongCode
+    - .BaseCheckView: ""
+      message: "Password should be same"
+      viewTag: samePassword
+    - .BaseCheckView: ""
+      message: "Please fill out required fields"
+      viewTag: inputPassword
+    - .BaseCheckView: ""
+      message: "Please check the box"
+      viewTag: noSelected
+    - .BaseCheckView: ""
+      message: "Username has been used"
+      viewTag: sameuserid
+    - .BaseCheckView: ""
+      message: "Invalid Username: Required length should be 6 to 16"
+      viewTag: invaliduserid
+    - type: view
+      style:
+        width: "0.66"
+        height: "1"
+      children:
+        - type: view
+          style:
+            width: "0.66"
+            height: "1"
+            left: "0"
+            top: "0"
+            background: "linear-gradient(to right , #133458 , #205085)"
+          children:
+            - type: image
+              path: aitmedLogoWhite.png
+              style:
+                width: "0.16"
+                left: "0.25"
+                top: '0.14'
+            - type: label
+              textBoard: 
+                - text: WELCOME TO 
+                - br: 
+                - text: AITMED 
+              style: 
+                left: "0.1"
+                width: "0.46"
+                top: "0.67"
+                height: "0.3"
+                color: "0xffffff"
+                textAlign: 
+                  x: center
+                fontSize: "5.7vh"
+                lineHeight: "1.5"
+                letterSpacing: "2.5px"
+    - type: view
+      style:
+        left: "0.66"
+        top: "0"
+        width: "0.354"
+        height: "0.998"
+        border:   
+          style: "3"
+        borderWidth: "1"
+        borderColor: "0xcdcdcd"
+      children:
+        - type: view
+          style:
+            left: "0"
+            top: "0"
+            width: "0.34"
+            height: "0.25"
+          children:
+            - type: image
+              path: AiTmed.png
+              style:
+                left: "0.06"
+                top: "0.035"
+                width: "0.07"
+            - type: label
+              text: Create New Account
+              style:
+                left: "0.04"
+                top: "0.22"
+                width: "0.3"
+                height: "0.041"
+                fontSize: "2.7vh"
+                fontWeight: "500"
+                fontFamily: "sans-serif"
+                textAlign: 
+                  x: left
+                  y: center
+            - type: label
+              text: Sign Up with AiTmed
+              style:
+                left: "0.04"
+                top: "0.26"
+                width: "0.3"
+                height: "0.03"
+                fontSize: "1.7vh"
+                fontWeight: "500"
+                fontFamily: "sans-serif"
+                textAlign: 
+                  x: left
+                  y: center
+        - type: view
+          style:
+            width: "0.3"
+            left: "0.04"
+            height: "0.35"
+            top: "0.29"
+          children:
+            - type: view
+              style:
+                left: "0"
+                top: "0.02"
+                width: "0.05"
+                height: "0.09"
+              children:
+                - type: label
+                  text: Country
+                  style:
+                    color: "0x000000"
+                    left: "0"
+                    top: "0"
+                    width: "0.05"
+                    height: "0.03"
+                    fontSize: .Nfont.h1
+                    fontWeight: "500"
+                    textAlign: 
+                      x: left
+                      y: center
+                - type: select
+                  contentType: countryCode
+                  placeholder: ..formData.vertex.name.countryCode
+                  dataKey: formData.vertex.name.countryCode # formData.countryCode : inputValue
+                  options:
+                    .CountryCode
+                  required: "true"
+                  style:
+                    left: "0.0008"
+                    top: "0.031"
+                    width: "0.043"
+                    height: "0.041"
+                    fontSize: .Nfont.h2 
+                    placeholder: "US +1"
+                    borderWidth: "1"
+                    border:
+                      style: "3"
+                      color: "0xdededf"  
+                    borderRadius: "5"      
+            - type: view
+              style:
+                left: "0.05"
+                top: "0.02"
+                width: "0.15"
+                height: "0.09"
+              children:
+                - type: label
+                  text: Phone
+                  style:
+                    color: "0x000000"
+                    left: "0"
+                    top: "0"
+                    width: "0.1"
+                    height: "0.03"
+                    fontSize: .Nfont.h1
+                    fontWeight: "500"
+                    textAlign: 
+                      x: left
+                      y: center
+                - type: view
+                  style: 
+                    left: "0"
+                    backgroundColor: "0xffffff"
+                    top: "0.031"
+                    width: "0.15"
+                    height: "0.041"
+                    borderWidth: "1"
+                    border:
+                      style: "3"
+                      color: "0xdededf"  
+                    borderRadius: "5"  
+                  children:
+                    - type: label
+                      # contentType: phoneNumber
+                      # placeholder: ..formData.vertex.name.phoneNumber
+                      dataKey: formData.vertex.name.phoneNumber # formData.countryCode : inputValue
+                      # required: "true"
+                      style:
+                        fontSize: .Nfont.h2
+                        top: "0.002"
+                        height: "0.035"
+                        left: "0.003"
+                        width: "0.146"
+                        textAlign: 
+                          x: left
+                          y: center
+            - type: view
+              style:
+                left: "0"
+                top: "0.105"
+                width: "0.05"
+                height: "0.09"
+              children:
+                - type: label
+                  text: First Name
+                  style:
+                    color: "0x000000"
+                    left: "0"
+                    top: "0"
+                    width: "0.2"
+                    height: "0.03"
+                    fontSize: .Nfont.h1
+                    fontWeight: "500"
+                    textAlign: 
+                      x: left
+                      y: center
+                - type: view
+                  style: 
+                    left: "0"
+                    backgroundColor: "0xffffff"
+                    top: "0.031"
+                    width: "0.124"
+                    height: "0.041"
+                    borderWidth: "1"
+                    border:
+                      style: "3"
+                      color: "0xdededf"  
+                    borderRadius: "5"  
+                  children:
+                    - type: textField
+                      contentType: text
+                      placeholder: "Enter here"
+                      dataKey: formData.vertex.name.firstName # formData.countryCode : inputValue
+                      required: "true"
+                      style:
+                        fontSize: .Nfont.h2
+                        left: "0.003"
+                        backgroundColor: "0xffffff"
+                        top: "0.002"
+                        width: "0.116"
+                        height: "0.035"
+                        border:
+                          style: "1"
+                        textAlign: 
+                          x: left
+                          y: center
+            - type: view
+              style:
+                top: "0.105"
+                left: "0.14"
+                height: "0.041"
+                width: "0.1"
+              children:
+                - type: label
+                  text: Last Name
+                  style:
+                    color: "0x000000"
+                    left: "0"
+                    top: "0"
+                    width: "0.1"
+                    height: "0.03"
+                    fontSize: .Nfont.h1
+                    fontWeight: "500"
+                    textAlign: 
+                      x: left
+                      y: center
+                - type: view
+                  style: 
+                    left: "0"
+                    backgroundColor: "0xffffff"
+                    top: "0.031"
+                    width: "0.124"
+                    height: "0.041"
+                    borderWidth: "1"
+                    border:
+                      style: "3"
+                      color: "0xdededf"  
+                    borderRadius: "5"  
+                  children:
+                    - type: textField
+                      contentType: text
+                      placeholder: "Enter here"
+                      dataKey: formData.vertex.name.lastName # formData.countryCode : inputValue
+                      required: "true"
+                      style:
+                        fontSize: .Nfont.h2 
+                        left: "0.003"
+                        backgroundColor: "0xffffff"
+                        top: "0.002"
+                        width: "0.116"
+                        height: "0.035"
+                        border:
+                          style: "1"
+                        textAlign: 
+                          x: left
+                          y: center                  
+            - type: view
+              style:
+                top: "0.19"
+                left: "0"
+                width: "0.22"
+                height: "0.041"
+              children:
+                - type: label
+                  textBoard: 
+                    - text: Username
+                    - text: "*"
+                      color: "0xff0000"
+                  style:
+                    color: "0x000000"
+                    left: "0"
+                    top: "0"
+                    width: "0.2"
+                    height: "0.03"
+                    fontSize: .Nfont.h1
+                    fontWeight: "500"
+                    textAlign: 
+                      x: left
+                      y: center
+                - type: view
+                  style: 
+                    left: "0"
+                    backgroundColor: "0xffffff"
+                    top: "0.031"
+                    width: "0.124"
+                    height: "0.041"
+                    borderWidth: "1"
+                    border:
+                      style: "3"
+                      color: "0xdededf"  
+                    borderRadius: "5"  
+                  children:
+                    - type: textField
+                      contentType: text
+                      placeholder: "Create your own"
+                      dataKey: formData.vertex.name.userName # formData.countryCode : inputValue
+                      required: "true"
+                      style:
+                        fontSize: .Nfont.h2
+                        left: "0.003"
+                        backgroundColor: "0xffffff"
+                        top: "0.002"
+                        width: "0.116"
+                        height: "0.035"
+                        border:
+                          style: "1"
+                        textAlign: 
+                          x: left
+                          y: center
+            - type: view
+              style:
+                top: "0.19"
+                left: "0.14"
+                width: "0.14"
+                height: "0.041"
+              children:
+                - type: label
+                  text: Email
+                  style:
+                    color: "0x000000"
+                    left: "0"
+                    top: "0"
+                    width: "0.14"
+                    height: "0.03"
+                    fontSize: .Nfont.h1
+                    fontWeight: "500"
+                    textAlign: 
+                      x: left
+                      y: center
+                - type: view
+                  style: 
+                    left: "0"
+                    backgroundColor: "0xffffff"
+                    top: "0.031"
+                    width: "0.124"
+                    height: "0.041"
+                    borderWidth: "1"
+                    border:
+                      style: "3"
+                      color: "0xdededf"  
+                    borderRadius: "5"  
+                  children:
+                    - type: textField
+                      contentType: text
+                      placeholder: "Enter here"
+                      dataKey: formData.vertex.name.email # formData.countryCode : inputValue
+                      required: "true"
+                      style:
+                        fontSize: .Nfont.h2
+                        left: "0.003"
+                        backgroundColor: "0xffffff"
+                        top: "0.002"
+                        width: "0.116"
+                        height: "0.035"
+                        border:
+                          style: "1"
+                        textAlign: 
+                          x: left
+                          y: center   
+            - type: view
+              style:
+                top: "0.275"
+                left: "0"
+                height: "0.041"
+                width: "0.22"
+              children:
+                - type: label
+                  text: Password
+                  style:
+                    color: "0x000000"
+                    left: "0"
+                    top: "0"
+                    width: "0.2"
+                    height: "0.03"
+                    fontSize: .Nfont.h1
+                    fontWeight: "500"
+                    textAlign: 
+                      x: left
+                      y: center  
+                - type: view
+                  style: 
+                    left: "0"
+                    backgroundColor: "0xffffff"
+                    top: "0.031"
+                    width: "0.124"
+                    height: "0.041"
+                    borderWidth: "1"
+                    border:
+                      style: "3"
+                      color: "0xdededf"  
+                    borderRadius: "5"  
+                  children: 
+                    - type: textField
+                      contentType: password
+                      placeholder: "Enter here"
+                      dataKey: formData.vertex.name.password # formData.countryCode : inputValue
+                      required: "true"
+                      style:
+                        fontSize: .Nfont.h2
+                        left: "0.003"
+                        backgroundColor: "0xffffff"
+                        top: "0.002"
+                        width: "0.116"
+                        height: "0.035"
+                        border:
+                          style: "1"
+                        textAlign: 
+                          x: left
+                          y: center
+            - type: view
+              style:
+                top: "0.275"
+                left: "0.14"
+                height: "0.041"
+                width: "0.14"
+              children:
+                - type: label
+                  textBoard:
+                    - text: Confirm Password
+                    - text: "*"
+                      color: "0xff0000"
+                  style:
+                    color: "0x000000"
+                    left: "0"
+                    top: "0"
+                    width: "0.14"
+                    height: "0.03"
+                    fontSize: .Nfont.h1
+                    fontWeight: "500"
+                    textAlign: 
+                      x: left
+                      y: center
+                - type: view
+                  style: 
+                    left: "0"
+                    backgroundColor: "0xffffff"
+                    top: "0.031"
+                    width: "0.124"
+                    height: "0.041"
+                    borderWidth: "1"
+                    border:
+                      style: "3"
+                      color: "0xdededf"  
+                    borderRadius: "5"  
+                  children: 
+                    - type: textField
+                      contentType: password
+                      placeholder: "Enter here"
+                      dataKey: formData.vertex.name.confirmPassword # formData.countryCode : inputValue
+                      required: "true"
+                      style:
+                        fontSize: .Nfont.h2
+                        left: "0.003"
+                        backgroundColor: "0xffffff"
+                        top: "0.002"
+                        width: "0.116"
+                        height: "0.035"
+                        border:
+                          style: "1"
+                        textAlign: 
+                          x: left
+                          y: center  
+        - type: view
+          style:
+            left: "0.01"
+            top: "0.62"
+            width: "0.34"
+            height: "0.1"
+          children:
+            - type: button
+              text: Sign Up
+              style:
+                color: "0xffffffff"
+                fontSize: .Nfont.h3
+                # fontStyle: bold
+                left: "0.07"
+                top: "0.05"
+                width: "0.18"
+                height: "0.045"
+                backgroundColor: "#005795"
+                border:
+                  style: "1"
+                borderRadius: "5"
+                textAlign:
+                  x: center
+                  y: center
+              onClick: 
+                - actionType: evalObject
+                  object:
+                    - if:
+                      - =..formData.target
+                      - continue
+                      - actionType: popUp
+                        popUpView: noSelected
+                        wait: true
+                - actionType: evalObject
+                  object:
+                    - if:
+                      - =..formData.tar
+                      - continue
+                      - actionType: popUp
+                        popUpView: noSelected
+                        wait: true 
+                - actionType: evalObject
+                  object:
+                    - if:
+                      - =..formData.vertex.name.password
+                      - continue
+                      - actionType: popUp
+                        popUpView: inputPassword
+                        wait: true
+                - actionType: evalObject
+                  object:
+                    - if:
+                      - =..formData.vertex.name.userName
+                      - continue
+                      - actionType: popUp
+                        popUpView: inputPassword
+                        wait: true
+                - actionType: evalObject
+                  object:
+                    - if:
+                      - =..formData.vertex.name.firstName
+                      - continue
+                      - actionType: popUp
+                        popUpView: inputPassword
+                        wait: true                      
+                - actionType: evalObject
+                  object:
+                    - if:
+                      - =..formData.vertex.name.lastName
+                      - continue
+                      - actionType: popUp
+                        popUpView: inputPassword
+                        wait: true                                         
+                - actionType: evalObject
+                  object:
+                    - if:
+                        - =.builtIn.string.equal:
+                            dataIn:
+                              string1: =..formData.vertex.name.password
+                              string2: =..formData.vertex.name.confirmPassword
+                        - continue
+                        - actionType: popUp
+                          popUpView: samePassword
+                          wait: true                          
+                - actionType: evalObject
+                  object: 
+                    .Global._nonce@: 
+                      =.builtIn.math.random: ""
+                - actionType: evalObject
+                  object:
+                    - =.builtIn.typeCheck.userName:
+                        dataIn:
+                          =..formData.vertex.name.userName
+                        dataOut: CreateNewAccount.checkOk
+                    - if:
+                        - =..checkOk
+                        - continue
+                        - actionType: popUp
+                          popUpView: invaliduserid
+                          wait: true 
+                - actionType: evalObject
+                  object:
+                    - =.builtIn.string.concat:
+                        dataIn:
+                          - "uid like '"
+                          - =..formData.vertex.name.userName
+                          - "%'"
+                        dataOut: CreateNewAccount.rvCondition 
+                    - =..getVertex.vertexAPI.get: ""
+                    - if:
+                        - =..getVertex.response.vertex.0.id
+                        - actionType: popUp
+                          popUpView: sameuserid
+                          wait: true
+                        - continue
+                - actionType: saveObject
+                  object: ..save 
+                - actionType: evalObject
+                  object: 
+                    - if:
+                        - =.builtIn.string.equal:
+                            dataIn:
+                              string1: =..formData.response.code
+                              string2: 1031
+                        - actionType: popUp
+                          popUpView: sameuserid
+                          wait: true
+                        - continue    
+                - actionType: evalObject
+                  object: ..update  
+                - actionType: evalObject
+                  object:
+                    =.builtIn.eccNaCl.decryptAES:
+                      dataIn:
+                        key: =..formData.vertex.name.password
+                        message: =..formData.response.vertex.esk
+                      dataOut: Global.currentUser.vertex.sk  
+                - actionType: evalObject
+                  object:
+                    - if:
+                        - =..formData.response.vertex.pk
+                        - goto: SelectOrganization
+                        - actionType: popUp
+                          popUpView: wrongCode 
+                - actionType: evalObject
+                  object:
+                    - if:
+                      - =..formData.response.vertex.pk
+                      - continue
+                      - goto: SignUp              
+        - type: view 
+          style:
+            top: "0.74"
+            left: "0.05"
+            width: "0.24"
+            height: "0.1"
+          children:
+            - type: image
+              viewTag: select
+              onClick:
+                - emit:
+                    actions:
+                      - if:
+                        - =.CreateNewAccount.formData.target
+                        - .CreateNewAccount.formData.target@: false
+                        - .CreateNewAccount.formData.target@: true    
+                - actionType: builtIn
+                  funcName: redraw
+                  viewTag: select
+              path: 
+                emit:
+                  actions:
+                    - if:
+                        - =.CreateNewAccount.formData.target
+                        - https://public.aitmed.com/commonRes/selectOn.png
+                        - https://public.aitmed.com/commonRes/selectOff.png
+              # path: selectOff.png
+              # pathSelected: selectOn.png
+              style:
+                left: "0.01"
+                width: "0.01"
+                top: "0.006"
+            - type: label
+              style:
+                color: "0x000000"
+                left: "0.03"
+                top: "0.005"
+                fontSize: "1.8vh"
+                height: "0.03"
+                textAlign: 
+                  x: left
+              onClick:
+                - ..fromData.flag@: "1"
+                - goto: UserAgreement
+              textBoard:
+                - text: "I agree to "
+                - text: "&nbsp;"
+                - text: "AiTmed Terms of Use Agreement"
+                  color: "0x005795"
+                - text: "&nbsp;"
+                - text: " and "
+            - type: label
+              style:
+                color: "0x000000"
+                left: "0.03"
+                top: "0.03"
+                height: "0.03"
+                fontSize: "1.8vh"
+                textAlign: 
+                  x: left
+              onClick:
+                - ..fromData.flag@: "2"
+                - goto: SubscriptionAgreement
+              textBoard:
+                - text: "AiTmed Master Subscription Agreement"
+                  color: "0x005795"
+            - type: image
+              viewTag: select
+              onClick:
+                - emit:
+                    actions:
+                      - if:
+                        - =.CreateNewAccount.formData.tar
+                        - .CreateNewAccount.formData.tar@: false
+                        - .CreateNewAccount.formData.tar@: true    
+                - actionType: builtIn
+                  funcName: redraw
+                  viewTag: select
+              path:
+                emit:
+                  actions:
+                    - if:
+                        - =.CreateNewAccount.formData.tar
+                        - https://public.aitmed.com/commonRes/selectOn.png
+                        - https://public.aitmed.com/commonRes/selectOff.png
+              style:
+                left: "0.01"
+                width: "0.01"
+                top: "0.06"
+            - type: label
+              onClick:
+                - ..fromData.flag@: "3"
+                - goto: PrivacyPolicy
+              textBoard: 
+                - text: "I also agree to"
+                - text: "&nbsp;"
+                - text: " AiTmed Privacy Policy"
+                  color: "0x005795"
+              style:
+                color: "0x000000"
+                left: "0.03"
+                top: "0.06"
+                width: "0.22"
+                height: "0.03"
+                fontSize: "1.8vh"
+                lineHeight: "1.3"
+                textAlign: 
+                  x: left
+        - type: view 
+          style:
+            top: "0.85"
+            left: "0.06"
+            width: "0.2"
+            height: "0.1"
+          children:
+            - type: label
+              text: Have an account?
+              style:
+                left: "0.04"
+                width: "0.08"
+                top: "0"
+                height: "0.03"
+                fontSize: "1.8vh"
+                textAlign: 
+                  x: center
+                  y: center
+            - type: button
+              text: Sign In
+              style:
+                color: "0x005795"
+                fontSize: "1.8vh"
+                left: "0.12"
+                top: "0"
+                width: "0.04"
+                height: "0.03"
+                fontStyle: "bold"
+                backgroundColor: "0xffffff00"
+                border:
+                  style: "1"
+                margin: "0"
+                padding: "0"
+              onClick: 
+                - goto: SignIn

@@ -1,12 +1,13 @@
 // @ts-nocheck
 import * as u from '@jsmanifest/utils'
+import m from 'noodl-test-utils'
 import sinon from 'sinon'
 import sample from 'lodash/sample'
 import { waitFor } from '@testing-library/dom'
 import { isActionChain } from 'noodl-action-chain'
 import { userEvent } from 'noodl-types'
 import { expect } from 'chai'
-import { createDataKeyReference, nui, ui } from '../utils/test-utils'
+import { createDataKeyReference, nui } from '../utils/test-utils'
 import {
   groupedActionTypes,
   nuiEmitType,
@@ -21,7 +22,7 @@ const viewport = { width: 375, height: 667 }
 
 describe(u.italic(`createActionChain`), () => {
   it(`should create and return an ActionChain instance`, () => {
-    expect(isActionChain(nui.createActionChain('onBlur', [ui.divider()]))).to.be
+    expect(isActionChain(nui.createActionChain('onBlur', [m.divider()]))).to.be
       .true
   })
 
@@ -29,7 +30,7 @@ describe(u.italic(`createActionChain`), () => {
     it(`should attach the ActionChain instance to ${u.magenta(evt)}`, () => {
       const ac = nui.createActionChain(
         'onClick',
-        ui.video({ [sample(userEvent) as any]: [ui.popUp()] }),
+        m.video({ [sample(userEvent) as any]: [m.popUp()] }),
       )
       expect(isActionChain(ac)).to.be.true
     })
@@ -59,18 +60,18 @@ describe(u.italic(`createActionChain`), () => {
     const ac = nui.createActionChain(
       'onFocus',
       [
-        ui.pageJump(),
-        ui.emit(),
-        ui.goto(),
-        ui.builtIn({ funcName: 'too' } as any),
-        ui.refresh(),
-        ui.saveObject(),
-        ui.updateObject(),
-        ui.evalObject(),
+        m.pageJump(),
+        m.emit(),
+        m.goto(),
+        m.builtIn({ funcName: 'too' } as any),
+        m.refresh(),
+        m.saveObject(),
+        m.updateObject(),
+        m.evalObject(),
       ],
       {
         component: await nui.resolveComponents({
-          components: ui.view(),
+          components: m.view(),
           page,
         }),
         loadQueue: true,
@@ -88,10 +89,10 @@ describe(u.italic(`createActionChain`), () => {
     const page = nui.createPage()
     const ac = nui.createActionChain(
       'onHover',
-      [ui.builtIn('kitty'), ui.builtIn('cereal')],
+      [m.builtIn('kitty'), m.builtIn('cereal')],
       {
         component: await nui.resolveComponents({
-          components: ui.label(),
+          components: m.label(),
           page,
         }),
         loadQueue: true,
@@ -130,18 +131,18 @@ describe(u.italic(`createActionChain`), () => {
       const ac = nui.createActionChain(
         'onFocus',
         [
-          ui.pageJump(),
-          ui.emit(),
-          ui.goto(),
-          ui.builtIn('too'),
-          ui.refresh(),
-          ui.saveObject(),
-          ui.updateObject(),
-          ui.evalObject(),
+          m.pageJump(),
+          m.emit(),
+          m.goto(),
+          m.builtIn('too'),
+          m.refresh(),
+          m.saveObject(),
+          m.updateObject(),
+          m.evalObject(),
         ],
         {
           component: await nui.resolveComponents({
-            components: ui.view(),
+            components: m.view(),
             page,
           }),
           loadQueue: true,
@@ -159,7 +160,7 @@ describe(u.italic(`createActionChain`), () => {
 describe(u.italic(`createComponent`), () => {
   it(`should add the component to the component cache`, () => {
     // @ts-expect-error
-    const component = nui.createComponent(ui.button())
+    const component = nui.createComponent(m.button())
     expect(nui.cache.component.has(component)).to.be.true
   })
 })
@@ -243,8 +244,8 @@ describe(u.italic(`createPage`), () => {
     `should return the existing NuiPage if the component is a page component ` +
       `sharing the same id`,
     async () => {
-      const componentObject = ui.view({
-        children: [ui.page({ path: 'Cereal' })],
+      const componentObject = m.view({
+        children: [m.page({ path: 'Cereal' })],
       })
       const component = await nui.resolveComponents(componentObject)
       const pageComponent = component.child()
@@ -260,8 +261,8 @@ describe(u.italic(`createPage`), () => {
       `should not duplicate another instance when providing an ` +
         `existing page component`,
       async () => {
-        const componentObject = ui.view({
-          children: [ui.page({ path: 'Cereal' })],
+        const componentObject = m.view({
+          children: [m.page({ path: 'Cereal' })],
         })
         expect(nui.cache.page.length).to.eq(1)
         const component = await nui.resolveComponents(componentObject)
@@ -278,8 +279,8 @@ describe(u.italic(`createPage`), () => {
   it(`should not duplicate another instance`, async () => {
     nui.reset()
     nui.getRootPage()
-    const componentObject = ui.view({
-      children: [ui.page({ path: 'Cereal' })],
+    const componentObject = m.view({
+      children: [m.page({ path: 'Cereal' })],
     })
     expect(nui.cache.page.length).to.eq(1)
     const component = await nui.resolveComponents(componentObject)
@@ -361,11 +362,11 @@ describe(u.italic(`createSrc`), () => {
       createDataKeyReference({ pageObject: { info: { people: listObject } } })
       const page = nui.createPage()
       const component = await nui.resolveComponents({
-        components: ui.list({
+        components: m.list({
           contentType: 'listObject',
           listObject,
           iteratorVar: 'cereal',
-          children: [ui.listItem({ cereal: '', children: [ui.image(path)] })],
+          children: [m.listItem({ cereal: '', children: [m.image(path)] })],
         }),
         page,
       })
@@ -462,7 +463,7 @@ describe(u.italic(`getConsumerOptions`), () => {
   it(`should return the expected consumer options`, async () => {
     const page = nui.createPage()
     const component = await nui.resolveComponents({
-      components: ui.divider(),
+      components: m.divider(),
       page,
     })
     const consumerOptions = nui.getConsumerOptions({ component, page } as any)
@@ -492,9 +493,9 @@ describe(`when handling register objects`, () => {
   describe(`when emitting the register objects`, () => {
     it(`should call all the callbacks and return those results`, async () => {
       const spy = sinon.spy(async () => 'abc') as any
-      const component = ui.register({
+      const component = m.register({
         onEvent: 'helloEvent',
-        emit: ui.emit().emit as any,
+        emit: m.emit().emit as any,
       })
       nui.use({ register: component })
       const obj = nui.cache.register.get(component.onEvent as string)
@@ -511,7 +512,7 @@ describe(u.italic(`resolveComponents`), () => {
   it(`should return component instances`, async () => {
     const page = nui.createPage({ name: 'Hello' })
     expect(
-      await nui.resolveComponents({ page, components: ui.divider() }),
+      await nui.resolveComponents({ page, components: m.divider() }),
     ).to.be.instanceOf(Component)
   })
 })
@@ -588,23 +589,23 @@ describe(u.italic(`use`), () => {
   describe(u.italic(`plugin`), () => {
     it(`should set the plugin id`, async () => {
       expect(
-        (
-          await NUI.resolveComponents(ui.pluginBodyTail({ path: 'coffee' }))
-        ).get('plugin'),
+        (await NUI.resolveComponents(m.pluginBodyTail({ path: 'coffee' }))).get(
+          'plugin',
+        ),
       ).to.have.property('id', 'coffee')
     })
 
     it(`should not do anything if the plugin was previously added`, async () => {
       expect(NUI.getPlugins('body-bottom').size).to.eq(0)
-      await NUI.resolveComponents(ui.pluginBodyTail({ path: 'coffee' }))
+      await NUI.resolveComponents(m.pluginBodyTail({ path: 'coffee' }))
       expect(NUI.getPlugins('body-bottom').size).to.eq(1)
-      await NUI.resolveComponents(ui.pluginBodyTail({ path: 'coffee' }))
+      await NUI.resolveComponents(m.pluginBodyTail({ path: 'coffee' }))
       expect(NUI.getPlugins('body-bottom').size).to.eq(1)
     })
 
     it(`should set the fetched plugin contents on the "content" property`, async () => {
       const component = await NUI.resolveComponents(
-        ui.plugin({ path: 'coffee' } as any),
+        m.plugin({ path: 'coffee' } as any),
       )
       expect(component.has('content')).to.be.true
     })
@@ -645,7 +646,7 @@ describe(u.italic(`use`), () => {
 
   describe(u.italic(`globalRegister`), () => {
     it(`should add register components to the store`, () => {
-      const component = ui.register({ onEvent: 'helloEvent' })
+      const component = m.register({ onEvent: 'helloEvent' })
       nui._experimental.register(component)
       const storeObject = nui.cache.register.get(component.onEvent as string)
       expect(storeObject).to.have.property('name', 'helloEvent')
@@ -668,7 +669,7 @@ describe(u.italic(`use`), () => {
 
     it(`should default the page to "_global" if it is not provided`, () => {
       expect(nui.cache.register.has('hello')).to.be.false
-      const componentObject = ui.register('hello')
+      const componentObject = m.register('hello')
       nui.use({ register: componentObject })
       expect(nui.cache.register.has(componentObject.onEvent)).to.be.true
       expect(
@@ -700,7 +701,7 @@ describe(u.italic(`use`), () => {
     describe(u.magenta(`register`), () => {
       it(`should remove the default "fn" if a handler fn was provided`, () => {
         const spy = sinon.spy()
-        nui.use({ register: ui.register('hello') })
+        nui.use({ register: m.register('hello') })
         let register = nui.cache.register.get('hello')
         expect(register).to.have.property('fn').to.be.a('function')
         expect(register.handler).to.be.undefined
@@ -732,7 +733,7 @@ describe(u.italic(`use`), () => {
       })
 
       it(`should be able to process a register component object`, () => {
-        const register = nui._experimental.register(ui.register())
+        const register = nui._experimental.register(m.register())
         expect(register).to.exist
         expect(nui.cache.register.get(register.name)).to.eq(register)
       })
@@ -744,13 +745,13 @@ describe(u.italic(`use`), () => {
       })
 
       it(`should initiate a default "fn" function if "handler" is not provided`, () => {
-        const register = nui._experimental.register(ui.register())
+        const register = nui._experimental.register(m.register())
         expect(register).to.have.property('fn').is.a('function')
       })
 
       it(`should not initiate a "fn" function if "handler" is provided`, () => {
         const spy = sinon.spy()
-        const componentObject = ui.register()
+        const componentObject = m.register()
         const register = nui._experimental.register(componentObject, {
           handler: { fn: spy },
         })
@@ -759,9 +760,9 @@ describe(u.italic(`use`), () => {
       })
 
       it(`should convert emit objects to action chains`, async () => {
-        const component = ui.register({
+        const component = m.register({
           onEvent: 'helloEvent',
-          emit: ui.emit(),
+          emit: m.emit(),
         })
         const register = nui._experimental.register(component)
         expect(register.callbacks).to.have.length.greaterThan(0)
@@ -770,9 +771,9 @@ describe(u.italic(`use`), () => {
 
       it(`should insert any created action chains to the callbacks list`, () => {
         const spy = sinon.spy()
-        const component = ui.register({
+        const component = m.register({
           onEvent: 'helloEvent',
-          emit: ui.emit(),
+          emit: m.emit(),
         })
         const register = nui._experimental.register(component, {
           handler: { fn: spy },
@@ -788,7 +789,7 @@ describe(u.italic(`use`), () => {
           `ecos document id`,
         )}) received from onNewEcosDoc to the executor handler`, async () => {
           const event = 'helloAll'
-          const component = ui.register({ onEvent: event })
+          const component = m.register({ onEvent: event })
           nui.use({ register: component })
           const obj = nui.cache.register.get(event)
           const did = 'docId123'

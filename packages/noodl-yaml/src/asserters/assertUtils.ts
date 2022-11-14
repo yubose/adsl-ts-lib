@@ -47,7 +47,7 @@ export function hasBinding(
           visit(components, {
             Map: (_, n) => {
               if (hasPointer) return BREAK
-              if (has('type', type, n)) {
+              if (has(n, ['type', type])) {
                 const v = n.get(type, true)
                 if (is.reference(v)) {
                   const derefed = deref({ node: v, root, rootKey: page })
@@ -124,5 +124,6 @@ export function set(
     }
   }
 
+  // @ts-expect-error
   originalSet(root.get(rootk), paths, value, true)
 }

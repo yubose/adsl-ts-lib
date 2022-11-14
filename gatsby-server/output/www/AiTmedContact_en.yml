@@ -1,0 +1,891 @@
+AiTmedContact:
+  viewPort: top
+  formDataTemp:
+    ListData:
+      - key: 1. Self- Scheduling
+      - key: 2. HD Video Call
+      - key: 3. Cloud Waiting/Exam Room
+      - key: 4. E-prescription
+      - key: 5. Encrypted Document Sharing
+      - key: 6. E-Referral
+      - key: 7. Customized Telehealth Platform
+      - key: 8. E-Med Store
+    messageAitmed: 
+      - imagePath: customizedSmall.svg
+        imgName: Customized Telehealth Platform
+        hei: calc(100.91/1724.81*100vw)
+        fontSize: calc(15.98/1724.81*100vw)
+        color: '0x333333'
+      - imagePath: videoSmall.png
+        hei: calc(100.91/1724.81*100vw)
+        fontSize: calc(15.98/1724.81*100vw)
+        imgName: HD Video
+        color: '0x333333'
+      - imagePath: storeBig.svg
+        imgName: E-Med Store
+        hei: calc(168.19/1724.81*100vw)
+        fontSize: calc(25.24/1724.81*100vw)
+        color: '0x000000'
+        fontWeight: '600'
+      - imagePath: schdulingSmall.svg
+        imgName: Self-Schduling
+        fontSize: calc(15.98/1724.81*100vw)
+        hei: calc(100.91/1724.81*100vw)
+        color: '0x333333'
+      - imagePath: presciptionSmall.svg
+        imgName: E-Prescription
+        fontSize: calc(15.98/1724.81*100vw)
+        hei: calc(100.91/1724.81*100vw)
+        color: '0x333333'
+  productAitmedZero:
+    - imagePath: customizedSmall.svg
+      imgName: Customized Telehealth Platform
+      hei: calc(100.91/1724.81*100vw)
+      fontSize: calc(15.98/1724.81*100vw)
+      color: '0x333333'
+    - imagePath: videoSmall.png
+      hei: calc(100.91/1724.81*100vw)
+      fontSize: calc(15.98/1724.81*100vw)
+      imgName: HD Video
+      color: '0x333333'
+    - imagePath: storeBig.svg
+      imgName: E-Med Store
+      hei: calc(168.19/1724.81*100vw)
+      fontSize: calc(25.24/1724.81*100vw)
+      color: '0x000000'
+      fontWeight: '600'
+    - imagePath: schdulingSmall.svg
+      imgName: Self-Schduling
+      fontSize: calc(15.98/1724.81*100vw)
+      hei: calc(100.91/1724.81*100vw)
+      color: '0x333333'
+    - imagePath: presciptionSmall.svg
+      imgName: E-Prescription
+      fontSize: calc(15.98/1724.81*100vw)
+      hei: calc(100.91/1724.81*100vw)
+      color: '0x333333'
+  productAitmedOne:
+    - imagePath: referralSmall.png
+      imgName: E-Referral
+      hei: calc(100.91/1724.81*100vw)
+      fontSize: calc(15.98/1724.81*100vw)
+      color: '0x333333'
+    - imagePath: customizedSmall.svg
+      hei: calc(100.91/1724.81*100vw)
+      fontSize: calc(15.98/1724.81*100vw)
+      imgName: Customized Telehealth Platform
+      color: '0x333333'
+    - imagePath: videoBig.png
+      imgName: HD Video
+      hei: calc(168.19/1724.81*100vw)
+      fontSize: calc(25.24/1724.81*100vw)
+      color: '0x000000'
+      fontWeight: '600'
+    - imagePath: storeSmall.svg
+      imgName: E-Med Store
+      fontSize: calc(15.98/1724.81*100vw)
+      hei: calc(100.91/1724.81*100vw)
+      color: '0x333333'
+    - imagePath: schdulingSmall.svg
+      imgName: Self-Schduling
+      fontSize: calc(15.98/1724.81*100vw)
+      hei: calc(100.91/1724.81*100vw)
+      color: '0x333333'
+  productAitmedTwo:
+    - imagePath: cloudSmall.png
+      imgName: Cloud Waiting Room
+      hei: calc(100.91/1724.81*100vw)
+      fontSize: calc(15.98/1724.81*100vw)
+      color: '0x333333'
+    - imagePath: referralSmall.png
+      imgName: E-Referral
+      hei: calc(100.91/1724.81*100vw)
+      fontSize: calc(15.98/1724.81*100vw)
+      color: '0x333333'
+    - imagePath: customizedBig.svg
+      imgName: Customized Telehealth Platform
+      hei: calc(168.19/1724.81*100vw)
+      fontSize: calc(25.24/1724.81*100vw)
+      color: '0x000000'
+      fontWeight: '600'
+    - imagePath: videoSmall.png
+      imgName: HD Video
+      fontSize: calc(15.98/1724.81*100vw)
+      hei: calc(100.91/1724.81*100vw)
+      color: '0x333333'
+    - imagePath: storeSmall.svg
+      imgName: E-Med Store
+      fontSize: calc(15.98/1724.81*100vw)
+      hei: calc(100.91/1724.81*100vw)
+      color: '0x333333'
+  productAitmedThree:
+    - imagePath: documentSmall.png
+      imgName: Documentation
+      hei: calc(100.91/1724.81*100vw)
+      fontSize: calc(15.98/1724.81*100vw)
+      color: '0x333333'
+    - imagePath: cloudSmall.png
+      hei: calc(100.91/1724.81*100vw)
+      fontSize: calc(15.98/1724.81*100vw)
+      imgName: Cloud Waiting Room
+      color: '0x333333'
+    - imagePath: referralBig.png
+      imgName: E-Referral
+      hei: calc(168.19/1724.81*100vw)
+      fontSize: calc(25.24/1724.81*100vw)
+      color: '0x000000'
+      fontWeight: '600'
+    - imagePath: customizedSmall.svg
+      imgName: Customized Telehealth Platform
+      fontSize: calc(15.98/1724.81*100vw)
+      hei: calc(100.91/1724.81*100vw)
+      color: '0x333333'
+    - imagePath: videoSmall.png
+      imgName: HD Video
+      fontSize: calc(15.98/1724.81*100vw)
+      hei: calc(100.91/1724.81*100vw)
+      color: '0x333333'
+  productAitmedFour:
+    - imagePath: presciptionSmall.svg
+      imgName: E-Prescription
+      hei: calc(100.91/1724.81*100vw)
+      fontSize: calc(15.98/1724.81*100vw)
+      color: '0x333333'
+    - imagePath: documentSmall.png
+      hei: calc(100.91/1724.81*100vw)
+      fontSize: calc(15.98/1724.81*100vw)
+      imgName: Documentation
+      color: '0x333333'
+    - imagePath: cloudBig.png
+      imgName: Cloud Waiting Room
+      hei: calc(168.19/1724.81*100vw)
+      fontSize: calc(25.24/1724.81*100vw)
+      color: '0x000000'
+      fontWeight: '600'
+    - imagePath: referralSmall.png
+      imgName: E-Referral
+      fontSize: calc(15.98/1724.81*100vw)
+      hei: calc(100.91/1724.81*100vw)
+      color: '0x333333'
+    - imagePath: customizedSmall.svg
+      imgName: Customized Telehealth Platform
+      fontSize: calc(15.98/1724.81*100vw)
+      hei: calc(100.91/1724.81*100vw)
+      color: '0x333333'
+  productAitmedFive:
+    - imagePath: schdulingSmall.svg
+      imgName: Self-Schduling
+      hei: calc(100.91/1724.81*100vw)
+      fontSize: calc(15.98/1724.81*100vw)
+      color: '0x333333'
+    - imagePath: presciptionSmall.svg
+      hei: calc(100.91/1724.81*100vw)
+      fontSize: calc(15.98/1724.81*100vw)
+      imgName: E-Prescription
+      color: '0x333333'
+    - imagePath: documentBig.png
+      imgName: Documentation
+      hei: calc(168.19/1724.81*100vw)
+      fontSize: calc(25.24/1724.81*100vw)
+      color: '0x000000'
+      fontWeight: '600'
+    - imagePath: cloudSmall.png
+      imgName: Cloud Waiting Room
+      fontSize: calc(15.98/1724.81*100vw)
+      hei: calc(100.91/1724.81*100vw)
+      color: '0x333333'
+    - imagePath: referralSmall.png
+      imgName: E-Referral
+      fontSize: calc(15.98/1724.81*100vw)
+      hei: calc(100.91/1724.81*100vw)
+      color: '0x333333'
+  productAitmedSix:
+    - imagePath: storeSmall.svg
+      imgName: E-Med Store
+      hei: calc(100.91/1724.81*100vw)
+      fontSize: calc(15.98/1724.81*100vw)
+      color: '0x333333'
+    - imagePath: schdulingSmall.svg
+      hei: calc(100.91/1724.81*100vw)
+      fontSize: calc(15.98/1724.81*100vw)
+      imgName: Self-Schduling
+      color: '0x333333'
+    - imagePath: presciptionBig.svg
+      imgName: E-Prescription
+      hei: calc(168.19/1724.81*100vw)
+      fontSize: calc(25.24/1724.81*100vw)
+      color: '0x000000'
+      fontWeight: '600'
+    - imagePath: documentSmall.png
+      imgName: Documentation
+      fontSize: calc(15.98/1724.81*100vw)
+      hei: calc(100.91/1724.81*100vw)
+      color: '0x333333'
+    - imagePath: cloudSmall.png
+      imgName: Cloud Waiting Room
+      fontSize: calc(15.98/1724.81*100vw)
+      hei: calc(100.91/1724.81*100vw)
+      color: '0x333333'
+  productAitmedSeven:
+    - imagePath: videoSmall.png
+      imgName: HD Video
+      hei: calc(100.91/1724.81*100vw)
+      fontSize: calc(15.98/1724.81*100vw)
+      color: '0x333333'
+    - imagePath: storeSmall.svg
+      hei: calc(100.91/1724.81*100vw)
+      fontSize: calc(15.98/1724.81*100vw)
+      imgName: E-Med Store
+      color: '0x333333'
+    - imagePath: schdulingBig.svg
+      imgName: Self-Schduling
+      hei: calc(168.19/1724.81*100vw)
+      fontSize: calc(25.24/1724.81*100vw)
+      color: '0x000000'
+      fontWeight: '600'
+    - imagePath: presciptionSmall.svg
+      imgName: E-Prescription
+      fontSize: calc(15.98/1724.81*100vw)
+      hei: calc(100.91/1724.81*100vw)
+      color: '0x333333'
+    - imagePath: documentSmall.png
+      imgName: Documentation
+      fontSize: calc(15.98/1724.81*100vw)
+      hei: calc(100.91/1724.81*100vw)
+      color: '0x333333'
+  flag: "1"
+  tar: true
+  components:
+    - .BaseHeader:
+    - type: view
+      style:
+        left: "0"
+        width: calc(1514.77/1724.81*100vw)
+        height: "auto"
+        margin: "auto"
+        marginTop: calc(100.92/1724.81*100vw)
+      children:
+        - type: view
+          viewTag: topView
+          style:
+            left: "0"
+            marginTop: '0'
+            width: calc(1514.77/1724.81*100vw)
+            height: calc(260.71/1724.81*100vw)
+          children:
+            - type: image
+              path: backgroundBlue.png
+              style:
+                width: calc(1514.77/1724.81*100vw)
+                left: '0'
+            - type: label
+              text: "Expand Your Practice Online"
+              style:
+                left: calc(269.47/1724.81*100vw)
+                width: calc(823.34/1724.81*100vw)
+                top: calc(84.1/1724.81*100vw)
+                height: calc(67.28/1724.81*100vw)
+                fontSize: calc(37.85/1724.81*100vw)
+                fontFamily: Arial
+                fontWeight: "550"
+                color: '0xffffff'
+            - type: label
+              text: "Talk with us to get a powerful telehealth platform for"
+              style:
+                left: calc(269.46/1724.81*100vw)
+                width: calc(583.82/1724.81*100vw)
+                top: calc(151.38/1724.81*100vw)
+                height: calc(42.05/1724.81*100vw)
+                fontSize: calc(23.71/1724.81*100vw)
+                fontFamily: Arial
+                color: '0xffffff'
+            - type: label
+              text: "Free!"
+              style:
+                left: calc(820.85/1724.81*100vw)
+                width: calc(149.7/1724.81*100vw)
+                top: calc(151.38/1724.81*100vw)
+                height: calc(42.05/1724.81*100vw)
+                fontSize: calc(23.55/1724.81*100vw)
+                fontFamily: Arial
+                fontStyle: "bold"
+                color: '0xffffff'
+        - type: view
+          style: 
+            marginTop: calc(115.08/1724.81*100vw)
+            left: "0"
+            height: calc(479.5/1724.81*100vw)
+            width: calc(1514.77/1724.81*100vw)
+          children:
+            - type: label
+              text: Contact With Us!
+              style:
+                top: calc(20.46/1724.81*100vw)
+                left: calc(269.456/1724.81*100vw)
+                fontSize: calc(26.91/1724.81*100vw)
+                fontWeight: '700'
+            - type: list
+              contentType: listObject
+              listObject: ..formDataTemp.ListData
+              iteratorVar: itemObject
+              style:
+                left: calc(224.55/1724.81*100vw)
+                width: calc(449.1/1724.81*100vw)
+                height: calc(285.94/1724.81*100vw)
+                top: calc(75/1724.81*100vw)
+                fontSize: .Nfont.h2
+              children:
+                - type: listItem
+                  itemObject: ""
+                  style:
+                    left: "0"
+                    marginTop: calc(21/1724.81*100vw)
+                    width: calc(449.1/1724.81*100vw)
+                    height: 0.02
+                  children:
+                    - type: label
+                      dataKey: itemObject.key
+                      style:
+                        top: calc(8.41/1724.81*100vw)
+                        # width: calc(449/1724.81*100vw)
+                        left: calc(44.9/1724.81*100vw)
+                        # height: 20px               
+                        fontFamily: "Arial"
+                        # fontSize: calc(15.8/1724.81*100vw)
+                        fontWeight: "300"
+            - type: view
+              style:
+                left: calc(748.49/1724.81*100vw)
+                height: calc(336.4/1724.81*100vw)
+                width: calc(598.79/1724.81*100vw)
+                marginTop: calc(60/1724.81*100vw)
+                fontSize: .Nfont.h1
+              children:
+                - type: image
+                  path: onlineWorldPana.svg
+                  style:
+                    marginTop: "0.04"
+                    height: "0.253"
+                    # width: calc(598.79/1724.81*100vw*0.9)
+                - type: text
+                  style:
+                    marginTop: "0.04"
+                    width: calc(598.79/1724.81*100vw)
+                  children:
+                    - type: image
+                      path: aitmedInc.svg
+                      style:
+                        marginTop: "0.01"
+
+                    - type: label
+                      text: "AiTmed Inc."
+                      style:
+                        marginTop: "0.005"
+                        display: inline-block
+                        marginLeft: "0.01"
+                    # - type: label
+                    #   text: ""
+                    #   style:
+                    #     display: inline-block
+                    #     marginTop: "0.005"
+                    #     color: "0x114a8f"
+                    #     fontWeight: bold
+                - type: text
+                  style:
+                    width: calc(598.79/1724.81*100vw)
+                  children:
+                    - type: image
+                      path: location.svg
+                      style:
+                        marginTop: "0.01"
+                        # marginLeft: "0.003"
+
+                    - type: label
+                      text: "Address:"
+                      style:
+                        marginTop: "0.005"
+                        display: inline-block
+                        marginLeft: "0.01"
+                    - type: label
+                      text: "&nbsp;&nbsp;1000 S. Anaheim Blvd, Anaheim, CA 92805"
+                      style:
+                        display: inline-block
+                        marginTop: "0.009"
+                        color: "0x114a8f"
+                        fontFamily: "Arial"
+                        # fontWeight: bold
+                - type: text
+                  style:
+                    width: calc(598.79/1724.81*100vw)
+                  children:
+                    - type: image
+                      path: officeNumber.svg
+                      style:
+                        marginTop: "0.01"
+
+                    - type: label
+                      text: "Office Number:"
+                      style:
+                        display: inline-block
+                        marginLeft: "0.01"
+                        marginTop: "0.005"
+
+                    - type: label
+                      text: "&nbsp;&nbsp;657-220-5555"
+                      style:
+                        display: inline-block
+                        color: "0x114a8f"
+                        fontFamily: "Arial"
+                        marginTop: "0.009"
+
+                - type: text
+                  style:
+                    width: calc(598.79/1724.81*100vw)
+                  children:
+                    - type: image
+                      path: personalEmailContact.svg
+                      style:
+                        marginTop: "0.01"
+
+                    - type: label
+                      text: "Personal Email Contact:"
+                      style:
+                        marginTop: "0.005"
+                        display: inline-block
+                        marginLeft: "0.01"
+                    - type: label
+                      text: "&nbsp;&nbsp;britt@aitmed.com"
+                      style:
+                        display: inline-block
+                        marginTop: "0.009"
+                        color: "0x114a8f"
+                        fontFamily: "Arial"
+            #       text: Email
+            #       style:
+            #         left: calc(299.4/1724.81*100vw)
+            #     - .ContactText:
+            #       text: Phone
+            #       style:
+            #         top: calc(126.15/1724.81*100vw)
+            #     - .ContactText:
+            #       text: Address
+            #       style: 
+            #         left: calc(299.4/1724.81*100vw)
+            #         top: calc(126.15/1724.81*100vw)
+            #     - .ContactText:
+            #       text: Message
+            #       style:
+            #         top: calc(201.84/1724.81*100vw)
+            #     - .ContactField:
+            #     - .ContactField:
+            #       style:
+            #         left: calc(299.4/1724.81*100vw)
+            #     - .ContactField:
+            #       style: 
+            #         top: calc(159.79/1724.81*100vw)
+            #     - .ContactField:
+            #       style:
+            #         left: calc(299.4/1724.81*100vw)
+            #         top: calc(159.79/1724.81*100vw)
+            #     - .ContactField:
+            #       style:
+            #         top: calc(227.07/1724.81*100vw)
+            #         height: calc(67.28/1724.81*100vw)
+            #         width: calc(523.94/1724.81*100vw)
+            # - type: view
+            #   children:
+            #     - type: button
+            #       onClick:
+            #         # - goto: Send
+            #       text: "Send"
+            #       style:
+            #         fontSize: calc(15.98/1724.81*100vw)
+            #         color: '0xffffff'
+            #         fontFamily: 'Arial'
+            #         backgroundColor: "0x30b354" 
+            #         width: calc(112.27/1724.81*100vw)
+            #         zIndex: '99'
+            #         borderRadius: "3"
+            #         height: calc(37.85/1724.81*100vw)
+            #         left: calc(1179.62/1724.81*100vw)
+            #         top: calc(395.27/1724.81*100vw)
+            #         textAlign: 
+            #           x: center
+            #           y: center
+
+        - type: view
+          style: 
+            marginTop: calc(42.05/1724.81*100vw)
+            left: '0'
+            width: calc(1514.77/1724.81*100vw)
+            height: calc(504.6/1724.81*100vw)
+          children:
+            - type: image
+              path: IconIonicArrowBackL.png
+              onClick:
+                - actionType: evalObject
+                  object:
+                    - if:
+                      - ..tar
+                      - actionType: evalObject
+                        object:
+                        - if:
+                          - =.builtIn.string.equal:
+                              dataIn:
+                                string1: =..flag
+                                string2: "1"
+                          - actionType: evalObject
+                            object:
+                              - ..flag@: "2"
+                              - ..formDataTemp.messageAitmed@: =..productAitmedOne
+                              - ..tar@: false
+                          - continue
+                      - continue
+                - actionType: evalObject
+                  object:
+                    - if:
+                      - ..tar
+                      - actionType: evalObject
+                        object:
+                        - if:
+                          - =.builtIn.string.equal:
+                              dataIn:
+                                string1: =..flag
+                                string2: "2"
+                          - actionType: evalObject
+                            object:
+                              - ..flag@: "3"
+                              - ..formDataTemp.messageAitmed@: =..productAitmedTwo
+                              - ..tar@: false
+                          - continue
+                      - continue
+                - actionType: evalObject
+                  object:
+                    - if:
+                      - ..tar
+                      - actionType: evalObject
+                        object:
+                        - if:
+                          - =.builtIn.string.equal:
+                              dataIn:
+                                string1: =..flag
+                                string2: "3"
+                          - actionType: evalObject
+                            object:
+                              - ..flag@: "4"
+                              - ..formDataTemp.messageAitmed@: =..productAitmedThree
+                              - ..tar@: false
+                          - continue
+                      - continue
+                - actionType: evalObject
+                  object:
+                    - if:
+                      - ..tar
+                      - actionType: evalObject
+                        object:
+                        - if:
+                          - =.builtIn.string.equal:
+                              dataIn:
+                                string1: =..flag
+                                string2: "4"
+                          - actionType: evalObject
+                            object:
+                              - ..flag@: "5"
+                              - ..formDataTemp.messageAitmed@: =..productAitmedFour
+                              - ..tar@: false
+                          - continue
+                      - continue         
+                - actionType: evalObject
+                  object:
+                    - if:
+                      - ..tar
+                      - actionType: evalObject
+                        object:
+                        - if:
+                          - =.builtIn.string.equal:
+                              dataIn:
+                                string1: =..flag
+                                string2: "5"
+                          - actionType: evalObject
+                            object:
+                              - ..flag@: "6"
+                              - ..formDataTemp.messageAitmed@: =..productAitmedFive
+                              - ..tar@: false
+                          - continue
+                      - continue
+                - actionType: evalObject
+                  object:
+                    - if:
+                      - ..tar
+                      - actionType: evalObject
+                        object:
+                        - if:
+                          - =.builtIn.string.equal:
+                              dataIn:
+                                string1: =..flag
+                                string2: "6"
+                          - actionType: evalObject
+                            object:
+                              - ..flag@: "7"
+                              - ..formDataTemp.messageAitmed@: =..productAitmedSix
+                              - ..tar@: false
+                          - continue
+                      - continue           
+                - actionType: evalObject
+                  object:
+                    - if:
+                      - ..tar
+                      - actionType: evalObject
+                        object:
+                        - if:
+                          - =.builtIn.string.equal:
+                              dataIn:
+                                string1: =..flag
+                                string2: "7"
+                          - actionType: evalObject
+                            object:
+                              - ..flag@: "8"
+                              - ..formDataTemp.messageAitmed@: =..productAitmedSeven
+                              - ..tar@: false
+                          - continue
+                      - continue                        
+                - actionType: evalObject
+                  object:
+                    - if:
+                      - ..tar
+                      - actionType: evalObject
+                        object:
+                        - if:
+                          - =.builtIn.string.equal:
+                              dataIn:
+                                string1: =..flag
+                                string2: "8"
+                          - actionType: evalObject
+                            object:
+                              - ..flag@: "1"
+                              - ..formDataTemp.messageAitmed@: =..productAitmedZero
+                              - ..tar@: false
+                          - continue
+                      - continue      
+                - actionType: evalObject
+                  object: 
+                    - ..tar@: true
+                - actionType: builtIn
+                  funcName: redraw
+                  viewTag: aitmedList
+                - actionType: builtIn
+                  funcName: redraw
+                  viewTag: imgViewTag
+              style: 
+                top: calc(155.59/1724.81*100vw)
+                zIndex: '100'
+                height: calc(33.64/1724.81*100vw)
+                width: calc(29.94/1724.81*100vw)
+                left: calc(149.7/1724.81*100vw)
+            - type: view
+              style:
+                height: calc(336.4/1724.81*100vw)
+                width: calc(1197.58/1724.81*100vw)
+                top: '0'
+                left: calc(149.7/1724.81*100vw)
+              children: 
+                - type: list
+                  viewTag: aitmedList
+                  contentType: listObject
+                  listObject: ..formDataTemp.messageAitmed
+                  iteratorVar: itemObject
+                  style:
+                    width: calc(1122.74/1724.81*100vw)
+                    margin: '0'
+                    marginTop: '0'
+                    height: calc(336.4/1724.81*100vw)
+                    left: calc(37.43/1724.81*100vw)
+                    axis: horizontal
+                  children:
+                    - type: listItem
+                      itemObject: ''
+                      style:
+                        textAlign: 
+                          x: center
+                          y: center
+                        height: calc(336.4/1724.81*100vw)
+                        width: calc(224.55/1724.81*100vw)
+                        left: '0'
+                      children:
+                        - type: image
+                          path: itemObject.imagePath
+                          style:
+                            display: 'inline-block'
+                            height: itemObject.hei
+                        - type: label
+                          dataKey: itemObject.imgName
+                          style:
+                            top: calc(294.35/1724.81*100vw)
+                            width: calc(239.52/1724.81*100vw)
+                            textAlign:
+                              x: center
+                              y: center
+                            fontSize: itemObject.fontSize
+                            fontWeight: itemObject.fontWeight
+                            color: itemObject.color
+                            fontFamily: 'Arial'
+                            height: calc(67.28/1724.81*100vw)
+            - type: image
+              path: IconIonicArrowBack.png
+              onClick:
+                - actionType: evalObject
+                  object:
+                    - if:
+                      - ..tar
+                      - actionType: evalObject
+                        object:
+                        - if:
+                          - =.builtIn.string.equal:
+                              dataIn:
+                                string1: =..flag
+                                string2: "1"
+                          - actionType: evalObject
+                            object:
+                              - ..flag@: "8"
+                              - ..formDataTemp.messageAitmed@: =..productAitmedSeven
+                              - ..tar@: false
+                          - continue
+                      - continue
+                - actionType: evalObject
+                  object:
+                    - if:
+                      - ..tar
+                      - actionType: evalObject
+                        object:
+                        - if:
+                          - =.builtIn.string.equal:
+                              dataIn:
+                                string1: =..flag
+                                string2: "8"
+                          - actionType: evalObject
+                            object:
+                              - ..flag@: "7"
+                              - ..formDataTemp.messageAitmed@: =..productAitmedSix
+                              - ..tar@: false
+                          - continue
+                      - continue
+                - actionType: evalObject
+                  object:
+                    - if:
+                      - ..tar
+                      - actionType: evalObject
+                        object:
+                        - if:
+                          - =.builtIn.string.equal:
+                              dataIn:
+                                string1: =..flag
+                                string2: "7"
+                          - actionType: evalObject
+                            object:
+                              - ..flag@: "6"
+                              - ..formDataTemp.messageAitmed@: =..productAitmedFive
+                              - ..tar@: false
+                          - continue
+                      - continue
+                - actionType: evalObject
+                  object:
+                    - if:
+                      - ..tar
+                      - actionType: evalObject
+                        object:
+                        - if:
+                          - =.builtIn.string.equal:
+                              dataIn:
+                                string1: =..flag
+                                string2: "6"
+                          - actionType: evalObject
+                            object:
+                              - ..flag@: "5"
+                              - ..formDataTemp.messageAitmed@: =..productAitmedFour
+                              - ..tar@: false
+                          - continue
+                      - continue
+                - actionType: evalObject
+                  object:
+                    - if:
+                      - ..tar
+                      - actionType: evalObject
+                        object:
+                        - if:
+                          - =.builtIn.string.equal:
+                              dataIn:
+                                string1: =..flag
+                                string2: "5"
+                          - actionType: evalObject
+                            object:
+                              - ..flag@: "4"
+                              - ..formDataTemp.messageAitmed@: =..productAitmedThree
+                              - ..tar@: false
+                          - continue
+                      - continue
+                - actionType: evalObject
+                  object:
+                    - if:
+                      - ..tar
+                      - actionType: evalObject
+                        object:
+                        - if:
+                          - =.builtIn.string.equal:
+                              dataIn:
+                                string1: =..flag
+                                string2: "4"
+                          - actionType: evalObject
+                            object:
+                              - ..flag@: "3"
+                              - ..formDataTemp.messageAitmed@: =..productAitmedTwo
+                              - ..tar@: false
+                          - continue
+                      - continue         
+                - actionType: evalObject
+                  object:
+                    - if:
+                      - ..tar
+                      - actionType: evalObject
+                        object:
+                        - if:
+                          - =.builtIn.string.equal:
+                              dataIn:
+                                string1: =..flag
+                                string2: "3"
+                          - actionType: evalObject
+                            object:
+                              - ..flag@: "2"
+                              - ..formDataTemp.messageAitmed@: =..productAitmedOne
+                              - ..tar@: false
+                          - continue
+                      - continue               
+                - actionType: evalObject
+                  object:
+                    - if:
+                      - ..tar
+                      - actionType: evalObject
+                        object:
+                        - if:
+                          - =.builtIn.string.equal:
+                              dataIn:
+                                string1: =..flag
+                                string2: "2"
+                          - actionType: evalObject
+                            object:
+                              - ..flag@: "1"
+                              - ..formDataTemp.messageAitmed@: =..productAitmedZero
+                              - ..tar@: false
+                          - continue
+                      - continue
+                - actionType: evalObject
+                  object: 
+                    - ..tar@: true
+                - actionType: builtIn
+                  funcName: redraw
+                  viewTag: aitmedList
+              style: 
+                top: calc(155.58/1724.81*100vw)
+                height: calc(33.64/1724.81*100vw)
+                width: calc(29.94/1724.81*100vw)
+                left: calc(1317.34/1724.81*100vw)
+    - .BaseFooter1:

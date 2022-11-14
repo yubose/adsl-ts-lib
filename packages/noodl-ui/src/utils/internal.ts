@@ -161,7 +161,7 @@ export function safeMerge<O = any>(
   if (u.isObj(obj)) {
     value.unshift(obj2)
     const result = {} as O
-    value.forEach((val) => u.isObj(val) && u.merge(result, val))
+    value.forEach((val) => u.isObj(val) && u.merge(result as any, val))
     return result
   }
   if (u.isArr(obj)) {

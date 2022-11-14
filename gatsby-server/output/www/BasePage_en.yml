@@ -1,0 +1,2607 @@
+# pageName : BasePage: # This is page name
+BasePage:
+  pageNumber : "0"
+# start config
+SignInCheck:
+  if:
+    - =.Global.currentUser.vertex.sk  # 'true', 'false'
+    - continue
+    - goto: SignIn
+BaseCheckView:
+  type: popUp
+  viewTag: baseCheckView
+  message: "error code"
+  path: popUpAlert.png
+  style:
+    width: "0.3"
+    height: "0.4"
+    top: "0.3"
+    left: "0.35"
+    zIndex: "100000"
+    backgroundColor: "0xffffff"
+    borderRadius: "7"
+    border:
+      style: "3"
+    borderColor: "#f4f8fa"
+    boxShadow: "0px 0px  5px 2px #f4f8fa"
+  children:
+    - type: image
+      path: __.path
+      style:
+        left: "0.12"
+        width: "0.06"
+        top: "0.04"
+    - type: label
+      text: __.message
+      text2: _.text3 # "v'
+      text3: "v"
+      text4: __.children.1.text # "ok"
+      style:
+        .LabelStyle:
+          left: "0"
+          top: "0.18"
+          width: "0.3"
+          height: "0.06"
+          color: "0x000000"
+          fontSize: "2vh"
+          # fontStyle: "bold"
+          fontFamily: "sans-serif"
+          textAlign:
+            x: center
+            y: center
+    - type: button
+      text: ok
+      style:
+        width: "0.06"
+        left: "0.12"
+        height: "0.04"
+        top: "0.3"
+        color: "0xffffff"
+        backgroundColor: "#005795"
+        fontSize: "2.1vh"
+        border:
+          style: "3"
+          color: "#005795"
+        borderRadius: "5"
+      onClick:
+        - actionType: popUpDismiss
+          popUpView: ___.viewTag
+
+LoadingView:
+  type: popUp
+  viewTag: baseCheckView
+  message: "error code"
+  path: popUpAlert.png
+  style:
+    width: "0.3"
+    height: "0.3"
+    top: "0.3"
+    left: "0.35"
+    zIndex: "100000"
+    backgroundColor: "0xffffff"
+    borderRadius: "7"
+    border:
+      style: "3"
+    borderColor: "#f4f8fa"
+    boxShadow: "0px 0px  5px 2px #f4f8fa"
+  children:
+    - type: image
+      path: __.path
+      style:
+        left: "0.12"
+        width: "0.06"
+        top: "0.04"
+    - type: label
+      text: __.message
+      text2: _.text3 # "v'
+      text3: "v"
+      text4: __.children.1.text # "ok"
+      style:
+        .LabelStyle:
+          left: "0"
+          top: "0.18"
+          width: "0.3"
+          height: "0.06"
+          color: "0x000000"
+          fontSize: "2vh"
+          # fontStyle: "bold"
+          fontFamily: "sans-serif"
+          textAlign:
+            x: center
+            y: center
+
+BaseHeader:  # base top
+  type: view
+  style:
+    width: calc(1514.77/1724.81*100vw)
+    marginTop: "0"
+    height: calc(116.17/1724.81*100vw)
+    left: "0"
+    right: "0"
+    position: "fixed"
+    zIndex: "10000"
+    margin: "auto"
+    backgroundColor: "0xffffff"
+    boxShadow: "0px 2px 2px #dddddd"
+  children:
+    - type: view
+      style:
+        margin: auto
+        width: calc(1050.77/1724.81*100vw)
+      children:
+        - type: view
+          onClick:
+            - actionType: evalObject
+              object:
+                - =.builtIn.object.setProperty:
+                    dataIn:
+                      obj: =.Resource.baseHeaderData
+                      label: "title"
+                      text: "For Provider"
+                      arr: ["fontSize","fontWeight","fontColor"]
+                      valueArr: ["2.28vh","600","0x388fcd"]
+                      errorArr: ["2.28vh","400","0x000000"]
+                    dataOut: Resource.baseHeaderData
+            - actionType: builtIn
+              funcName: redraw
+              viewTag: headRightView
+            - goto: HomePage
+          style:
+            # left: calc(230.72/1724.81*100vw)
+            height: calc(116.28/1724.81*100vw)
+            # margin: auto
+            width: calc(200.28/1724.81*100vw)
+            # top: "0"
+          children:
+            - type: image
+              path: aitmednowords.svg
+              style:
+                # left: calc(50.35/1724.81*100vw)
+                # height: "0.08"
+                width: calc(57.09/1724.81*100vw)
+                top: calc(24.23/1724.81*100vw)
+            - type: label
+              text: AiTmed
+              style:
+                left: calc(65.96/1724.81*100vw)
+                # left: calc(344.94/1724.81*100vw)
+                width: calc(129.36/1724.81*100vw)
+                fontSize: calc(20/1724.81*100vw)
+                # fontWeight: "500"
+                fontStyle: bold
+                fontFamily: Arial
+                height: calc(116.28/1724.81*100vw)
+                marginRight: "0"
+                textAlign:
+                  y: center
+        - type: view
+          viewTag: headRightView
+          style:
+            left: calc(11.6vw)
+            width: calc(862.41/1724.81*100vw)
+            top: "0"
+            height: calc(116.28/1724.81*100vw)
+          children:
+            - type: list
+              contentType: listObject
+              listObject: .Resource.baseHeaderData
+              iteratorVar: itemObject
+              style:
+                width: calc(52vw)
+                margin: '0'
+                top: "0"
+                left: calc(1vw)
+                height: calc(116.28/1724.81*100vw)
+                axis: horizontal
+              children:
+                - type: listItem
+                  itemObject:
+                  onClick:
+                    - emit:
+                        dataKey:
+                          var: itemObject
+                        actions:
+                          - =.builtIn.object.setProperty:
+                              dataIn:
+                                obj: =.Resource.baseHeaderData
+                                label: "title"
+                                text: $var.title
+                                arr: ["fontSize","fontWeight","fontColor"]
+                                valueArr: ["2.28vh","600","0x388fcd"]
+                                errorArr: ["2.28vh","400","0x000000"]
+                          - if:
+                            - =.builtIn.string.equal:
+                                dataIn:
+                                  string1: $var.title
+                                  string2: "For Provider"
+                            - goto: AiTmedProvider
+                            - continue
+                          - if:
+                            - =.builtIn.string.equal:
+                                dataIn:
+                                  string1: $var.title
+                                  string2: "Find My Care"
+                            - goto: .WebsitePathSearch
+                            - continue
+                          - if:
+                            - =.builtIn.string.equal:
+                                dataIn:
+                                  string1: $var.title
+                                  string2: "For Business"
+                            - goto: AiTmedAdmin
+                            - continue
+                          - if:
+                            - =.builtIn.string.equal:
+                                dataIn:
+                                  string1: $var.title
+                                  string2: "Aitmed Care"
+                            - .Resource.productFlag@: "1"
+                            - .Resource.productFlag@: "0"
+                          - if:
+                            - =.builtIn.string.equal:
+                                dataIn:
+                                  string1: $var.title
+                                  string2: "FAQ"
+                            - goto: FAQ
+                            - continue
+                          - if:
+                            - =.builtIn.string.equal:
+                                dataIn:
+                                  string1: $var.title
+                                  string2: "Wellness"
+                            - .Resource.wellnessFlag@: "1"
+                            - .Resource.wellnessFlag@: "0"
+                          - if:
+                            - =.builtIn.string.equal:
+                                dataIn:
+                                  string1: $var.title
+                                  string2: "Sign in / Sign up"
+                            - .Resource.signInFlag@: "1"
+                            - .Resource.signInFlag@: "0"
+                    - actionType: evalObject
+                      object:
+                        - if:
+                          - =.builtIn.string.equal:
+                              dataIn:
+                                string1: =.Resource.productFlag
+                                string2: "1"
+                          - actionType: popUp
+                            popUpView: productView
+                          - continue
+                        - if:
+                          - =.builtIn.string.equal:
+                              dataIn:
+                                string1: =.Resource.productFlag
+                                string2: "0"
+                          - actionType: popUpDismiss
+                            popUpView: productView
+                          - continue
+                    # - actionType: evalObject
+                    #   object:
+                    #     - if:
+                    #       - =.builtIn.string.equal:
+                    #           dataIn:
+                    #             string1: =.Resource.wellnessFlag
+                    #             string2: "1"
+                    #       - actionType: popUp
+                    #         popUpView: wellnessView
+                    #       - continue
+                    #     - if:
+                    #       - =.builtIn.string.equal:
+                    #           dataIn:
+                    #             string1: =.Resource.wellnessFlag
+                    #             string2: "0"
+                    #       - actionType: popUpDismiss
+                    #         popUpView: wellnessView
+                    #       - continue
+                    - actionType: evalObject
+                      object:
+                        - if:
+                          - =.builtIn.string.equal:
+                              dataIn:
+                                string1: =.Resource.signInFlag
+                                string2: "1"
+                          - actionType: popUp
+                            popUpView: redict
+                            dismissOnTouchOutside: true
+                          - continue
+                        # - if:
+                        #   - =.builtIn.string.equal:
+                        #       dataIn:
+                        #         string1: =.Resource.signInFlag
+                        #         string2: "0"
+                        #   - actionType: popUpDismiss
+                        #     popUpView: redict
+
+                        #   - continue
+                    - actionType: builtIn
+                      funcName: redraw
+                      viewTag: headRightView
+
+                  style:
+                    width: itemObject.width
+                    height: calc(116.28/1724.81*100vw)
+                    left: itemObject.left
+                    marginLeft: itemObject.marginLeft
+                    textAlign:
+                      # x: center
+                      y: center
+                  children:
+                    - type: label
+                      dataKey: itemObject.title
+                      style:
+                        left: "0"
+                        top: "0"
+                        # width: calc(8vw)
+                        height: calc(116.28/1724.81*100vw)
+                        # color: "0x333333"
+                        fontWeight: itemObject.fontWeight
+                        color: itemObject.fontColor
+                        fontSize: calc(16/1724.81*100vw)
+                        fontFamily: Arial
+                        textDecoration: itemObject.textDecoration
+                        textAlign:
+                          y: center
+
+            # - type: button
+            #   text: Sign Up For Free
+            #   onClick:
+            #     - actionType: popUp
+            #       popUpView: JFreeTag
+            #     - actionType: popUp
+            #       popUpView: JFreeShadowPop
+            #   style:
+            #     left: calc(803.90/1724.81*100vw)
+            #     # width: calc(155.23/1724.81*100vw)
+            #     top: calc(38.76/1724.81*100vw)
+            #     height: calc(38.76/1724.81*100vw)
+            #     border:
+            #       style: '1'
+            #     borderRadius: 5
+            #     color: "0xffffff"
+            #     right: "0"
+            #     fontSize: calc(16/1724.81*100vw)
+            #     fontFamily: Arial
+            #     backgroundColor: '0x33b450'
+            #     padding: 0 calc(10/1724.81*100vw)
+            #     whiteSpace: nowrap
+            #     textAlign:
+            #       x: center
+            #       y: center
+    - type: popUp
+      viewTag: productView
+      onClick:
+        - actionType: popUpDismiss
+          popUpView: productView
+      style:
+        left: "0"
+        width: calc(1514.77/1724.81*100vw)
+        height: calc(969/1724.81*100vw)
+        top: "0"
+      children:
+        - type: view
+          style:
+            left: calc(50.1vw)
+            width: calc(172.482/1724.81*100vw)
+            height: calc(5.65vw)
+            top: calc(96.9/1724.81*100vw)
+            backgroundColor: "0xffffff"
+            zIndex: "10000"
+            border:
+              style: "3"
+            borderWidth: "1"
+            borderColor: "0xffffff"
+            borderRadius: "5"
+          children:
+            - type: list
+              contentType: listObject
+              listObject: .Resource.baseProduct
+              iteratorVar: itemObject
+              style:
+                width: calc(172.48/1724.81*100vw)
+                margin: '0'
+                height: calc(125.97/1724.81*100vw)
+              children:
+                - type: listItem
+                  onClick:
+                    - emit:
+                        dataKey:
+                          var: itemObject
+                        actions:
+                          - if:
+                            - =.builtIn.string.equal:
+                                dataIn:
+                                  string1: $var.title
+                                  string2: "Find Care"
+                            - goto: .WebsitePathSearch
+                            - continue
+                          - if:
+                            - =.builtIn.string.equal:
+                                dataIn:
+                                  string1: $var.title
+                                  string2: "Care App"
+                            - goto: AiTmedCare
+                            - continue
+                          - if:
+                            - =.builtIn.string.equal:
+                                dataIn:
+                                  string1: $var.title
+                                  string2: "Health A-Z"
+                            - goto: HealthAll
+                            - continue
+                          # - if:
+                          #   - =.builtIn.string.equal:
+                          #       dataIn:
+                          #         string1: $var.title
+                          #         string2: "Search & Referral"
+                          #   - goto: AitmedSearch
+                          #   - continue
+                  itemObject:
+                  style:
+                    width: calc(172.48/1724.81*100vw)
+                    height: calc(48.45/1724.81*100vw)
+                    left: '0'
+                  children:
+                    - type: label
+                      dataKey: itemObject.title
+                      style:
+                        left: calc(12.94/1724.81*100vw)
+                        width: calc(146.61/1724.81*100vw)
+                        top: "0"
+                        height: calc(48.45/1724.81*100vw)
+                        color: "0x333333"
+                        fontSize: calc(16/1724.81*100vw)
+                        fontFamily: Arial
+                        textAlign:
+                          x: center
+                          y: center
+                        border:
+                          style: "2"
+                        borderWidth: '1'
+                        borderColor: itemObject.val
+    - type: popUp
+      viewTag: wellnessView
+      onClick:
+        - actionType: popUpDismiss
+          popUpView: wellnessView
+      style:
+        left: "0"
+        width: calc(1514.77/1724.81*100vw)
+        height: calc(969/1724.81*100vw)
+        top: "0"
+      children:
+        - type: view
+          style:
+            left: calc(780.13/1724.81*100vw)
+            width: calc(172.48/1724.81*100vw)
+            height: calc(48.45/1724.81*100vw)
+            top: calc(96.9/1724.81*100vw)
+            backgroundColor: "0xffffff"
+            zIndex: "10000"
+            border:
+              style: "3"
+            borderWidth: "1"
+            borderColor: "0xffffff"
+            borderRadius: "5"
+          children:
+            - type: label
+              text: Health A-Z
+              onClick:
+                - goto: HealthAll
+              style:
+                left: "0"
+                width: calc(172.48/1724.81*100vw)
+                top: "0"
+                height: calc(38.76/1724.81*100vw)
+                color: "0x333333"
+                fontSize: calc(16/1724.81*100vw)
+                fontFamily: Arial
+                textAlign:
+                  x: center
+                  y: center
+    - type: popUp
+      viewTag: signInView
+      onClick:
+        - actionType: popUpDismiss
+          popUpView: signInView
+      style:
+        left: "0"
+        width: calc(1724.82/1724.81*100vw)
+        height: calc(969/1724.81*100vw)
+        top: "0"
+      children:
+        - type: view
+          style:
+            left: calc(1000.4/1724.81*100vw)
+            width: calc(172.48/1724.81*100vw)
+            height: calc(145.35/1724.81*100vw)
+            top: calc(96.9/1724.81*100vw)
+            backgroundColor: "0xffffff"
+            zIndex: "10000"
+            border:
+              style: "3"
+            borderWidth: "1"
+            borderColor: "0xffffff"
+            borderRadius: "5"
+          children:
+            - type: list
+              contentType: listObject
+              listObject: .Resource.baseSignIn
+              iteratorVar: itemObject
+              style:
+                width: calc(172.48/1724.81*100vw)
+                margin: '0'
+                height: calc(87.21/1724.81*100vw)
+              children:
+                - type: listItem
+                  onClick:
+                    - emit:
+                        dataKey:
+                          var: itemObject
+                        actions:
+                          - if:
+                            - =.builtIn.string.equal:
+                                dataIn:
+                                  string1: $var.title
+                                  string2: "Care"
+                            - goto: https://patient.aitmed.com/
+                            - continue
+                          - if:
+                            - =.builtIn.string.equal:
+                                dataIn:
+                                  string1: $var.title
+                                  string2: "Provider"
+                            - goto: https://provider.aitmed.com/
+                            - continue
+                          - if:
+                            - =.builtIn.string.equal:
+                                dataIn:
+                                  string1: $var.title
+                                  string2: "Admin"
+                            - goto: https://admin.aitmed.com/
+                            - continue
+                  itemObject:
+                  style:
+                    width: calc(172.48/1724.81*100vw)
+                    height: calc(48.45/1724.81*100vw)
+                    left: '0'
+                  children:
+                    - type: label
+                      dataKey: itemObject.title
+                      style:
+                        left: calc(12.94/1724.81*100vw)
+                        width: calc(146.61/1724.81*100vw)
+                        top: "0"
+                        height: calc(48.45/1724.81*100vw)
+                        color: "0x333333"
+                        fontSize: calc(16/1724.81*100vw)
+                        fontFamily: Arial
+                        border:
+                          style: "2"
+                        borderWidth: '1'
+                        borderColor: itemObject.val
+                        textAlign:
+                          x: center
+                          y: center
+    - type: popUp
+      viewTag: JFreeTag
+      style:
+        width: calc(689.93/1724.81*100vw)
+        height: calc(300.39/1724.81*100vw)
+        top: calc(330.01/1080*100vh)
+        left: calc(417.45/1724.81*100vw)
+        zIndex: "100000"
+        backgroundColor: "0xffffff"
+        borderRadius: "2"
+        borderColor: "#f4f8fa"
+        boxShadow: "0px 0px  8px 2px 0xCBCBCB"
+      children:
+        - type: image
+          path: dismiss2.png
+          style:
+            width: calc(17.25/1724.81*100vw)
+            top: calc(12.6/1724.81*100vw)
+            left: calc(646.8/1724.81*100vw)
+          onClick:
+            - actionType: popUpDismiss
+              popUpView: JFreeTag
+            - actionType: popUpDismiss
+              popUpView: JFreeShadowPop
+        - type: view
+          style:
+            width: calc(689.93/1724.81*100vw)
+            marginTop: calc(58.14/1724.81*100vw)
+          children:
+            - type: label
+              text: "Welcome To AiTmed"
+              style:
+                fontSize: calc(22.1/1724.81*100vw)
+                fontWeight: '600'
+                fontFamily: 'Helvetica Neue'
+                textAlign:
+                  x: center
+                height: calc(38.75/1724.81*100vw)
+            - type: label
+              text: "Choose Your Portal Please "
+              style:
+                fontSize: calc(22.1/1724.81*100vw)
+                # fontWeight: '600'
+                fontFamily: 'Helvetica Neue'
+                height: calc(38.75/1724.81*100vw)
+                textAlign:
+                  x: center
+        - type: view
+          style:
+            width: calc(689.93/1724.81*100vw)
+            marginTop: calc(48.45/1724.81*100vw)
+          children:
+            - type: view
+              style:
+                width: calc(172.48/1724.81*100vw)
+                left: calc(43.13/1724.81*100vw)
+                height: calc(38.76/1724.81*100vw)
+                top: '0'
+                border:
+                  style: '3'
+                borderColor: '#C9CCD0'
+                borderRadius: "4"
+              children:
+                - type: label
+                  text: "Care"
+                  onClick:
+                    - goto: https://patient.aitmed.com/
+                  style:
+                    fontSize: calc(18.4/1724.81*100vw)
+                    fontFamily: 'Helvetica Neue'
+                    height: calc(38.76/1724.81*100vw)
+                    textAlign:
+                      x: center
+                      y: center
+            - type: view
+              style:
+                width: calc(172.48/1724.81*100vw)
+                left: calc(260.48/1724.81*100vw)
+                height: calc(38.76/1724.81*100vw)
+                # marginTop: '0.01'
+                top: '0'
+                border:
+                  style: '3'
+                borderColor: '#C9CCD0'
+                borderRadius: "4"
+              children:
+                - type: label
+                  text: "Provider"
+                  onClick:
+                    - goto: https://provider.aitmed.com/
+                  style:
+                    fontSize: calc(18.4/1724.81*100vw)
+                    fontFamily: 'Helvetica Neue'
+                    height: calc(38.76/1724.81*100vw)
+                    textAlign:
+                      x: center
+                      y: center
+            - type: view
+              style:
+                width: calc(172.48/1724.81*100vw)
+                left: calc(474.33/1724.81*100vw)
+                height: calc(38.76/1724.81*100vw)
+                top: '0'
+                border:
+                  style: '3'
+                borderColor: '#C9CCD0'
+                borderRadius: "4"
+              children:
+                - type: label
+                  text: "Admin"
+                  onClick:
+                    - goto: https://admin.aitmed.com/
+                  style:
+                    fontSize: calc(18.4/1724.81*100vw)
+                    fontFamily: 'Helvetica Neue'
+                    height: calc(38.76/1724.81*100vw)
+                    textAlign:
+                      x: center
+                      y: center
+    - type: popUp
+      viewTag: JFreeShadowPop
+      style:
+        width: calc(1514.81/1724.81*100vw)
+        top: "0"
+        height: calc(890/1724.81*100vw)
+        left: "0"
+        # right: "0"
+        # position: "fixed"
+        zIndex: "100"
+        # margin: "auto"
+        backgroundColor: "0xeeeeee66"
+        boxShadow: "0px 2px 2px #dddddd"
+
+    - type: popUp
+      viewTag: redict
+      style:
+        width: calc(16.9vw)
+        height: calc(9vw)
+        marginTop: "0vw"
+        zIndex: 1000
+        marginLeft:
+        backgroundColor: "0xffffff"
+        border:
+          style: "3"
+        borderWidth: "1"
+        borderRadius: "5"
+        borderColor: "#E1E1E4"
+        display: flex
+        flexDirection: column
+        alignItems: center
+        top: "calc(6.7vw)"
+        left: "calc(62vw)"
+      children:
+        - type: view
+          style:
+            width: calc(16vw)
+            height: calc(3vw)
+            fontSize: "1.1vw"
+            color: "#143459"
+            borderBottom: 'solid #e8e8e8'
+            borderWidth: '1'
+            # marginLeft: calc(0.3vw)
+            display: flex
+            flexDirection: row
+            justifyContent: space-around
+            alignItems: center
+          children:
+            - type: label
+              text: "Patients"
+              style:
+                width: calc(5vw)
+                height: calc(1.5vw)
+                color: "0x333333"
+                fontSize: calc(16/1724.81*100vw)
+                # fontFamily: Arial
+                fontWeight: 500
+                display: flex
+                alignItems: center
+                marginLeft: calc(1.2vw)
+            - type: label
+              text: "Sign in"
+              style:
+                width: calc(5vw)
+                height: calc(1.5vw)
+                color: "0x333333"
+                fontSize: calc(16/1724.81*100vw)
+                fontFamily: Arial
+                display: flex
+                textDecoration: underline
+                alignItems: center
+              onClick:
+                - goto: .WebsitePath
+            - type: label
+              text: "Sign Up"
+              style:
+                # width: calc(5vw)
+                width: calc(5vw)
+                height: calc(1.5vw)
+                color: "0x333333"
+                fontSize: calc(16/1724.81*100vw)
+                fontFamily: Arial
+                display: flex
+                textDecoration: underline
+                alignItems: center
+              onClick:
+                - goto: .WebsitePath
+        - type: view
+          style:
+            width: calc(16vw)
+            height: calc(3vw)
+            fontSize: "1.1vw"
+            color: "#143459"
+            borderBottom: 'solid #e8e8e8'
+            borderWidth: '1'
+            display: flex
+            # marginLeft: calc(0.3vw)
+            flexDirection: row
+            justifyContent: space-around
+            alignItems: center
+          children:
+            - type: label
+              text: "Providers"
+              style:
+                width: calc(5vw)
+                height: calc(1.5vw)
+                fontWeight: 500
+                fontSize: calc(16/1724.81*100vw)
+                # fontFamily: Arial
+                color: "0x333333"
+                display: flex
+                marginLeft: calc(1.2vw)
+                alignItems: center
+            - type: label
+              text: "Sign in"
+              style:
+                width: calc(5vw)
+                height: calc(1.5vw)
+                color: "0x333333"
+                fontSize: calc(16/1724.81*100vw)
+                fontFamily: Arial
+                display: flex
+                alignItems: center
+                textDecoration: underline
+              onClick:
+                - goto: .WebsitePathProvider
+            - type: label
+              text: "Sign Up"
+              style:
+                width: calc(5vw)
+                height: calc(1.5vw)
+                color: "0x333333"
+                fontSize: calc(16/1724.81*100vw)
+                fontFamily: Arial
+                display: flex
+                alignItems: center
+                textDecoration: underline
+              onClick:
+                - goto: .WebsitePathProvider
+        - type: view
+          style:
+            width: calc(16vw)
+            height: calc(3vw)
+            fontSize: "1.1vw"
+            color: "#143459"
+            # marginLeft: calc(0.3vw)
+            display: flex
+            flexDirection: row
+            justifyContent: space-around
+            alignItems: center
+          children:
+            - type: label
+              text: "Admin"
+              style:
+                width: calc(5vw)
+                height: calc(1.5vw)
+                fontWeight: 500
+                color: "0x333333"
+                fontSize: calc(17/1724.81*100vw)
+                # fontFamily: Arial
+                display: flex
+                marginLeft: calc(1.2vw)
+                alignItems: center
+            - type: label
+              text: "Sign in"
+              style:
+                width: calc(5vw)
+                height: calc(1.5vw)
+                textDecoration: underline
+                color: "0x333333"
+                fontSize: calc(16/1724.81*100vw)
+                fontFamily: Arial
+                display: flex
+                alignItems: center
+              onClick:
+                - goto: .WebsitePathAdmin
+            - type: label
+              text: "Sign Up"
+              style:
+                width: calc(5vw)
+                height: calc(1.5vw)
+                textDecoration: underline
+                color: "0x333333"
+                fontSize: calc(16/1724.81*100vw)
+                fontFamily: Arial
+                display: flex
+                alignItems: center
+              onClick:
+                - goto: .WebsitePathAdmin
+
+
+BaseFooter:  # base footer
+  type: view
+  style:
+    left: "0"
+    marginTop: "0"
+    width: calc(1514.77/1724.81*100vw)
+    height: "0.56"
+    zIndex: "100"
+    margin: auto
+  children:
+    - type: view
+      # onClick:
+      #   - actionType: evalObject
+      #     object:
+      #       - =.builtIn.object.setProperty:
+      #           dataIn:
+      #             obj: =.Resource.baseHeaderData
+      #             label: "title"
+      #             text: "About"
+      #             arr: ["fontSize","fontWeight","fontColor"]
+      #             valueArr: ["2.28vh","400","0x000000"]
+      #             errorArr: ["2.28vh","400","0x000000"]
+      #           dataOut: Resource.baseHeaderData
+      #   - actionType: builtIn
+      #     funcName: redraw
+      #     viewTag: headRightView
+      style:
+        width: "1"
+        height: "0.45"
+        backgroundColor: "0xeeeeee"
+        display: flex
+        justifyContent: center
+        alignItems: center
+      children:
+        - type: view
+          style:
+            # left: "0"
+            width: "0.45"
+            height: "0.45"
+            # top: "0"
+            display: flex
+            justifyContent: center
+            alignItems: center
+            flexDirection: column
+            margin: '0'
+          children:
+            - type: view
+              style:
+                width: '0.2'
+                height: '0.2'
+                display: flex
+                justifyContent: center
+                alignItems: center
+              children:
+                - type: image
+                  path: aitmedLogo.png
+                  style:
+                    width: "0.065"
+
+            - type: view
+              style:
+                width: '0.23'
+                height: '0.08'
+                display: flex
+                justifyContent: space-evenly
+                alignItems: center
+              children:
+                - type: image
+                  path: externalLinkedin.png
+                  onClick:
+                    - goto: https://www.linkedin.com/company/aitmed
+                  style:
+                    width: '0.02'
+                - type: image
+                  path: socialFacebook.png
+                  onClick:
+                    - goto: https://www.facebook.com/AITMEDinc
+                  style:
+                    width: '0.02'
+                - type: image
+                  path: socialPinterest.png
+                  onClick:
+                    - goto: https://www.pinterest.com/aitmedinc/
+                  style:
+                    width: '0.02'
+                - type: image
+                  path: socialYoutube.png
+                  onClick:
+                    - goto: https://www.youtube.com/channel/UC1su9VCcj8-Ml02W9g35kpw
+                  style:
+                    width: '0.02'
+                - type: image
+                  path: socialTwitter.png
+                  onClick:
+                    - goto: https://twitter.com/AITmedInc
+                  style:
+                    width: '0.02'
+                - type: image
+                  path: externalTiktok.png
+                  onClick:
+                    - goto: https://www.tiktok.com/@aitmedinc?lang=en
+                  style:
+                    width: '0.02'
+
+        - type: view
+          style:
+            width: "0.55"
+            height: "0.45"
+            display: flex
+            justifyContent: center
+            alignItems: center
+          children:
+            - type: view
+              style:
+                width: "0.07"
+                height: "0.45"
+                display: flex
+                justifyContent: center
+                alignItems: center
+                flexDirection: column
+              children:
+                - .BaseFooterTitle1:
+                  text: About
+                  style:
+                    fontSize: .Sfont.h1
+                - .BaseFooterView1:
+                  children:
+                    - .BaseFooterText1:
+                      text: Company
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "About"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","600","0x388fcd"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: AboutAiTmed
+                    - .BaseFooterText1:
+                      text: Care
+                      style:
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "Products"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","600","0x388fcd"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: AiTmedCare
+                    - .BaseFooterText1:
+                      text: Provider
+                      style:
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "Products"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","600","0x388fcd"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: AiTmedProvider
+                    - .BaseFooterText1:
+                      text: Admin
+                      style:
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "Products"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","600","0x388fcd"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: AiTmedAdmin
+
+            - type: view
+              style:
+                width: "0.18"
+                height: "0.45"
+                display: flex
+                justifyContent: center
+                alignItems: center
+                flexDirection: column
+              children:
+                - .BaseFooterTitle1:
+                  text: Our Services
+                  style:
+                    fontSize: .Sfont.h1
+                    height: '0.06'
+                - .BaseFooterView1:
+                  style:
+                    width: "0.159"
+                  children:
+                    - .BaseFooterText1:
+                      text: Search & E-Referral
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "Products"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","600","0x388fcd"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: AitmedSearch
+                    - .BaseFooterText1:
+                      text: Cloud Waiting Room
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "About"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","400","0x000000"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: Cloudwaitingroom
+                    - .BaseFooterText1:
+                      text: Customized Telehealth Platform
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "About"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","400","0x000000"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: AiTmedCustomizedTelehealthPlatform
+                    - .BaseFooterText1:
+                      text: SelfScheduling
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "About"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","400","0x000000"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: AiTmedSelfScheduling
+                    - .BaseFooterText1:
+                      text: Documentation
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "About"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","400","0x000000"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: AiTmedDocumentation
+
+            - type: view
+              style:
+                width: "0.16"
+                height: "0.45"
+                display: flex
+                justifyContent: center
+                alignItems: center
+                flexDirection: column
+              children:
+                - .BaseFooterTitle1:
+                  text: Support
+                  style:
+                    fontSize: .Sfont.h1
+                - .BaseFooterView1:
+                  children:
+                    - .BaseFooterText1:
+                      text: Contact Us
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "About"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","400","0x000000"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: AiTmedContact
+                    - .BaseFooterText1:
+                      text: Terms of Service
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "About"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","400","0x000000"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: TermsOfService
+                      style:
+                    - .BaseFooterText1:
+                      text: Privacy Policy
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "About"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","400","0x000000"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: PrivacyPolicy
+                      style:
+    - type: view
+      style:
+        left: "0"
+        top: "0.45"
+        width: "1"
+        height: "0.11"
+        backgroundColor: "0x585858"
+        display: flex
+        justifyContent: space-evenly
+        alignItems: center
+      children:
+        - type: view
+          style:
+            width: '0.7'
+            display: flex
+            justifyContent: center
+            alignItems: center
+          children:
+            - type: label
+              text: "© 2021 AiTmed, Inc. All rights reserved. "
+              style:
+                height: "0.11"
+                width: "0.35"
+                fontFamily: Proxima Nova
+                fontSize: .Sfont.h1
+                color: "0xffffff"
+                display: flex
+                justifyContent: flex-start
+                alignItems: center
+
+        - type: view
+          style:
+            width: '0.3'
+            height: "0.11"
+            display: flex
+            justifyContent: center
+            alignItems: center
+          children:
+            - type: image
+              path:  bottom2.png
+              onClick:
+                - goto: ^topView
+              style:
+                width: "0.035"
+BaseFooter1:  # base footer
+  type: view
+  style:
+    left: "0"
+    marginTop: "0"
+    width: "calc(1514.77/1724.81*100vw)"
+    height: "calc(542.632/1724.81*100vw)"
+    zIndex: "100"
+    margin: auto
+  children:
+    - type: view
+      style:
+        width: calc(1514.77/1724.81*100vw)
+        height: calc(436.05/1724.81*100vw)
+        backgroundColor: "0xeeeeee"
+        display: flex
+        justifyContent: center
+        alignItems: center
+      children:
+        - type: view
+          style:
+            width: calc(776.16/1724.81*100vw)
+            height: calc(436.05/1724.81*100vw)
+            display: flex
+            justifyContent: center
+            alignItems: center
+            flexDirection: column
+            margin: '0'
+          children:
+            - type: view
+              style:
+                width: calc(344.95/1724.81*100vw)
+                height: calc(193.8/1724.81*100vw)
+                display: flex
+                justifyContent: center
+                alignItems: center
+              children:
+                - type: image
+                  path: aitmedLogo.png
+                  style:
+                    width: calc(112.11/1724.81*100vw)
+
+            - type: view
+              style:
+                width: calc(392.62/1724.81*100vw)
+                height: calc(76.72/1724.81*100vw)
+                display: flex
+                justifyContent: space-evenly
+                alignItems: center
+              children:
+                - type: image
+                  path: externalLinkedin.png
+                  onClick:
+                    - goto: https://www.linkedin.com/company/aitmed
+                  style:
+                    width: calc(34.5/1724.81*100vw)
+                - type: image
+                  path: socialFacebook.png
+                  onClick:
+                    - goto: https://www.facebook.com/AITMEDinc
+                  style:
+                    width: calc(34.5/1724.81*100vw)
+                - type: image
+                  path: socialPinterest.png
+                  onClick:
+                    - goto: https://www.pinterest.com/aitmedinc/
+                  style:
+                    width: calc(34.5/1724.81*100vw)
+                - type: image
+                  path: socialYoutube.png
+                  onClick:
+                    - goto: https://www.youtube.com/channel/UC1su9VCcj8-Ml02W9g35kpw
+                  style:
+                    width: calc(34.5/1724.81*100vw)
+                - type: image
+                  path: socialTwitter.png
+                  onClick:
+                    - goto: https://twitter.com/AITmedInc
+                  style:
+                    width: calc(34.5/1724.81*100vw)
+                - type: image
+                  path: externalTiktok.png
+                  onClick:
+                    - goto: https://www.tiktok.com/@aitmedinc?lang=en
+                  style:
+                    width: calc(34.5/1724.81*100vw)
+
+        - type: view
+          style:
+            width: calc(948.65/1724.81*100vw)
+            height: calc(436.05/1724.81*100vw)
+            display: flex
+            justifyContent: center
+            alignItems: center
+          children:
+            - type: view
+              style:
+                width: calc(117.73/1724.81*100vw)
+                height: calc(436.05/1724.81*100vw)
+                display: flex
+                justifyContent: center
+                alignItems: center
+                flexDirection: column
+              children:
+                - .BaseFooterTitle1:
+                  text: About
+                  style:
+                    fontSize: calc(19/1724.81*100vw)
+                - .BaseFooterView1:
+                  children:
+                    - .BaseFooterText1:
+                      text: Company
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "About"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","600","0x388fcd"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: AboutAiTmed
+                    - .BaseFooterText1:
+                      text: Care
+                      style:
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "Products"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","600","0x388fcd"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: AiTmedCare
+                    - .BaseFooterText1:
+                      text: Provider
+                      style:
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "Products"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","600","0x388fcd"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: AiTmedProvider
+                    - .BaseFooterText1:
+                      text: Admin
+                      style:
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "Products"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","600","0x388fcd"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: AiTmedAdmin
+
+            - type: view
+              style:
+                width: calc(310.47/1724.81*100vw)
+                height: calc(436.05/1724.81*100vw)
+                display: flex
+                justifyContent: center
+                alignItems: center
+                flexDirection: column
+              children:
+                - .BaseFooterTitle1:
+                  text: Our Services
+                  style:
+                    fontSize: calc(19/1724.81*100vw)
+                    height: calc(70.14/1724.81*100vw)
+                - .BaseFooterView1:
+                  style:
+                    width: calc(274.25/1724.81*100vw)
+                    # height: '0.15'
+                  children:
+                    - .BaseFooterText1:
+                      text: Search & E-Referral
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "Products"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","600","0x388fcd"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: AitmedSearch
+                    - .BaseFooterText1:
+                      text: Cloud Waiting Room
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "About"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","400","0x000000"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: Cloudwaitingroom
+                    - .BaseFooterText1:
+                      text: Customized Telehealth Platform
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "About"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","400","0x000000"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: AiTmedCustomizedTelehealthPlatform
+                    - .BaseFooterText1:
+                      text: SelfScheduling
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "About"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","400","0x000000"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: AiTmedSelfScheduling
+                    - .BaseFooterText1:
+                      text: Documentation
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "About"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","400","0x000000"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: AiTmedDocumentation
+
+            - type: view
+              style:
+                width: calc(275.97/1724.81*100vw)
+                height: calc(436.05/1724.81*100vw)
+                display: flex
+                justifyContent: center
+                alignItems: center
+                flexDirection: column
+              children:
+                - .BaseFooterTitle1:
+                  text: Support
+                  style:
+                    fontSize: calc(19/1724.81*100vw)
+                - .BaseFooterView1:
+                  children:
+                    - .BaseFooterText1:
+                      text: Contact Us
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "About"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","400","0x000000"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: AiTmedContact
+                    - .BaseFooterText1:
+                      text: Terms of Service
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "About"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","400","0x000000"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: TermsOfService
+                      style:
+                    - .BaseFooterText1:
+                      text: Privacy Policy
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "About"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","400","0x000000"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: PrivacyPolicy
+                    - .BaseFooterText1:
+                      text: FAQ
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "About"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","400","0x000000"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: FAQ
+                      style:
+                    - .BaseFooterText1:
+                      text: ONC Certification
+                      onClick:
+                        - actionType: evalObject
+                          object:
+                            - =.builtIn.object.setProperty:
+                                dataIn:
+                                  obj: =.Resource.baseHeaderData
+                                  label: "title"
+                                  text: "About"
+                                  arr: ["fontSize","fontWeight","fontColor"]
+                                  valueArr: ["2.28vh","400","0x000000"]
+                                  errorArr: ["2.28vh","400","0x000000"]
+                                dataOut: Resource.baseHeaderData
+                        - actionType: builtIn
+                          funcName: redraw
+                          viewTag: headRightView
+                        - goto: OncCertification
+                      style:
+
+
+    - type: view
+      style:
+        # left: "0"
+        # top: "0.45"
+        width: calc(1514.77/1724.81*100vw)
+        height: calc(106.59/1724.81*100vw)
+        backgroundColor: "0x585858"
+        display: flex
+        justifyContent: space-evenly
+        alignItems: center
+      children:
+        - type: view
+          style:
+            width: calc(1207.37/1724.81*100vw)
+            display: flex
+            justifyContent: center
+            alignItems: center
+          children:
+            - type: label
+              text: "© 2021 AiTmed, Inc. All rights reserved. "
+              style:
+                height: calc(106.59/1724.81*100vw)
+                width: calc(603.687/1724.81*100vw)
+                fontFamily: Proxima Nova
+                fontSize: calc(18/1724.81*100vw)
+                color: "0xffffff"
+                display: flex
+                justifyContent: flex-start
+                alignItems: center
+
+        - type: view
+          style:
+            width: calc(517.45/1724.81*100vw)
+            height: calc(106.59/1724.81*100vw)
+            display: flex
+            justifyContent: center
+            alignItems: center
+          children:
+            - type: image
+              path:  bottom2.png
+              onClick:
+                - goto: ^topView
+              style:
+                width: calc(60.37/1724.81*100vw)
+
+
+BaseFooterTitle:
+  type: label
+  style:
+    left: "0"
+    width: "0.15"
+    top: "0"
+    height: "0.04"
+    fontSize:  .Sfont.h2
+    fontStyle: "bold"
+    textAlign:
+      x: left
+BaseFooterTitle1:
+  type: label
+  style:
+    width: calc(275.97/1724.81*100vw)
+    height: calc(77.52/1724.81*100vw)
+    fontSize:  calc(20/1724.81*100vw)
+    fontStyle: "bold"
+    textAlign:
+      x: left
+    display: flex
+    justifyContent: flex-start
+    alignItems: center
+BaseFooterView:
+  type: view
+  style:
+    top: "0.06"
+    width: "0.14"
+    left: "0"
+    height: "0.14"
+BaseFooterView1:
+  type: view
+  style:
+    width: calc(275.97/1724.81*100vw)
+    height: calc(164.73/1724.81*100vw)
+
+BaseFooterText:
+  type: label
+  style:
+    left: "0"
+    top: "0"
+    height: "0.043"
+    width: "0.14"
+    # fontWeight: "450"
+    fontFamily: Arial
+    textAlign:
+      x: left
+    fontSize: '1.5vh'
+    color: "0x000000"
+BaseFooterText1:
+  type: label
+  style:
+    display: flex
+    justifyContent: flex-start
+    alignItems: center
+    height: calc(43.6/1724.81*100vw)
+    width: calc(275.97/1724.81*100vw)
+    # fontWeight: "450"
+    fontSize: calc(16/1724.81*100vw)
+    color: "0x000000"
+HealthNav:
+  type: view
+  trueColor: "0x30b354"
+  style:
+    width: "0.04"
+  children:
+    - type: label
+      text: __.key
+      style:
+        color: ____.trueColor
+        fontSize: "2.5vh"
+        width: "0.02"
+        height: "0.035"
+        backgroundColor: "0xf0f0f0"
+        border:
+          style: "3"
+        borderColor: ___.trueColor
+        borderRadius: "1000"
+        textAlign:
+          x: center
+          y: center
+# the nav button can not  be oncilck
+HealthNavFalse:
+  type: view
+  style:
+    width: calc(68.28/1724.81*100vw)
+  children:
+    - type: label
+      text: __.key
+      style:
+        color: "0xadadad"
+        fontSize: calc(20/1724.81*100vw)
+        width: calc(29.2/1724.81*100vw)
+        height: calc(29.73/1724.81*100vw)
+        backgroundColor: "0xfffffff"
+        border:
+          style: "3"
+        borderColor: "0xc5c5c5"
+        borderRadius: "1000"
+        textAlign:
+          x: center
+          y: center
+HealthNavTrue:
+  type: view
+  style:
+    width: calc(68.28/1724.81*100vw)
+  children:
+    - type: label
+      text: __.key
+      style:
+        color: "0x333333"
+        fontSize: calc(20/1724.81*100vw)
+        fontFamily: 'Arial'
+        width: calc(29.02/1724.81*100vw)
+        height: calc(28.77/1724.81*100vw)
+        backgroundColor: "0xffffff"
+        border:
+          style: "3"
+        borderColor: "0x707070"
+        borderRadius: "1000"
+        textAlign:
+          x: center
+          y: center
+  # trueColor: "0x30b354"
+MobHealthNavFalse:
+  type: view
+  style:
+    width: "0.04"
+  children:
+    - type: label
+      text: __.key
+      style:
+        color: "0xadadad"
+        fontSize: "2vh"
+        width: "0.068"
+        height: "0.031"
+        backgroundColor: "0xfffffff"
+        border:
+          style: "3"
+        borderColor: "0xc5c5c5"
+        borderRadius: "1000"
+        textAlign:
+          x: center
+          y: center
+MobHealthNavTrue:
+  type: view
+  style:
+    width: "0.04"
+  children:
+    - type: label
+      text: __.key
+      style:
+        color: "0x333333"
+        fontSize: "2vh"
+        fontFamily: 'Arial'
+        width: "0.068"
+        height: "0.03"
+        backgroundColor: "0xffffff"
+        border:
+          style: "3"
+        borderColor: "0x707070"
+        borderRadius: "1000"
+        textAlign:
+          x: center
+          y: center
+  # trueColor: "0x30b354"
+HealthAllTitle:
+  type: view
+  style:
+    # left: "0.4"
+    height: calc(95.9/1724.81*100vw)
+    textAlign:
+      y: center
+    backgroundColor: "#E5F0F9"
+    # paddingLeft: "25px"
+    fontSize: calc(28.78/1724.81*100vw)
+    fontFamily: Arial
+    fontWeight: bold
+
+HealthAllView:
+  type: view
+  style:
+    left: calc(51.21/1724.81*100vw)
+    width: calc(1263.19/1724.81*100vw)
+    height: calc(95.9/1724.81*100vw)
+    display: flex
+    fontSize: calc(17.27/1724.81*100vw)
+
+
+HealthallLink:
+  type: view
+  style:
+    height: calc(95.9/1724.81*100vw)
+    left: '0'
+    width: calc(289.34/1724.81*100vw)
+
+
+HealthAllCircle:
+  type: view
+  style:
+    width: calc(13.67/1724.81*100vw)
+    height: calc(13.67/1724.81*100vw)
+    top: calc(40.28/1724.81*100vw)
+    border:
+      style: "3"
+    borderWidth: '3'
+    borderColor: "#FECE55"
+    borderRadius: "50"
+    zIndex: 100
+
+
+HealthAllLittleLabel:
+  type: button
+  style:
+    left: calc(34.14/1724.81*100vw)
+    top: calc(27.02/1724.81*100vw)
+    height: calc(47.96/1724.81*100vw)
+    fontSize: calc(15.26/1724.81*100vw)
+    fontFamily: Arial
+    backgroundColor: "0xffffff"
+    zIndex: 10
+    border:
+      style: "1"
+    textAlign:
+      x: left
+ContactTextField:
+  type: textField
+  style:
+    width: "0.16"
+    height: "0.035"
+    left: "0.03"
+    border:
+      style: "3"
+    borderWidth: "1"
+    borderColor: "0x8dbcde"
+    borderRadius: "5"
+    textIndent: "20px"
+ContactImgLinkView:
+  type: view
+  style:
+    width: "0.125"
+    height: "0.17"
+    top: "0"
+ContactImg:
+  type: image
+  style:
+    width: "0.035"
+    left: "0.042"
+    top: "0.04"
+ContactLink:
+  type: label
+  style:
+    width: "0.125"
+    height: "0.03"
+    top: "0.12"
+    textAlign:
+      x: center
+    color: "0xffffff"
+    fontSize: "1.9vh"
+    textDecoration: "underline"
+Para:
+  type: label
+  text: Create your own availability profile for both telemedicine and office visits
+  style:
+    left: "0.7"
+    height: "0.08"
+    top: "0.2"
+    width: "0.25"
+    fontSize: "22"
+    fontWeight: "300"
+    color: "#ffffff"
+Icon:
+  type: image
+  path: circleOne.svg
+  style:
+    left: "0.65"
+    height: "0.06"
+    top: "0.20"
+    zIndex: 1000
+LiTileBigView:
+  type: view
+  style:
+    width: 'calc(400/1724.81*100vw)'
+    height: 'calc(200/1724.81*100vw)'
+    display: flex
+    alignItems: flex-start
+PicSty:
+  type: image
+  path: group1.svg
+  style:
+    top: "0.32"
+    width: "0.05"
+    left: "0.15"
+    zIndex: 100
+LiTileView:
+  type: view
+  style:
+    width: 'calc(320/1724.81*100vw)'
+    height: 'calc(200/1724.81*100vw)'
+    display: flex
+    justifyContent: flex-start
+    flexDirection: column
+LiTile:
+  type: label
+  text: "Flexbility"
+  style:
+    width: 'calc(320/1724.81*100vw)'
+    height: 'calc(45/1724.81*100vw)'
+    font-family: Arial
+    fontWeight: "600"
+    fontSize: calc(19.4/1724.81*100vw)
+    zIndex: 500
+LoTile:
+  type: label
+  text: Create your own availability most convenient to your time.
+  style:
+    width: 'calc(280/1724.81*100vw)'
+    # fontWeight: "600"
+    font-family: Arial
+    fontSize: calc(16.17/1724.81*100vw)
+    zIndex: 100
+Box:
+  type: view
+  style:
+    top: calc(229.77/1724.81*100vw)
+    left: calc(338/1724.81*100vw)
+    height: calc(382.95/1724.81*100vw)
+    width: calc(242.365/1724.81*100vw)
+    backgroundColor: "#FFFFFF"
+    opacity: '0.8'
+    zIndex: 100
+    borderRadius: "0.03"
+    display: flex
+    flexDirection: column
+    alignItems: center
+    justifyContent: center
+
+Ltitle:
+  type: label
+  text: "Simple schedule manager"
+  style:
+    height: calc(80/1724.81*100vw)
+    width: calc(200/1724.81*100vw)
+    marginTop: calc(5/1724.81*100vw)
+    fontFamily: Arial
+    fontWeight: "600"
+    fontSize: calc(18/1724.81*100vw)
+    color: "#333333"
+    zIndex: 100
+    # backgroundColor: red
+    textAlign:
+      x: center
+Lpara:
+    type: label
+    text: Manage your provider's availability for virtual or in-person appointments while allowing your patients to self schedule through our patient portal.
+    style:
+      height: calc(142.55/1724.81*100vw)
+      width: calc(200.774/1724.81*100vw)
+      fontSize: calc(16/1724.81*100vw)
+      fontFamily: Arial
+      color: "#333333"
+      zIndex: 100
+      textAlign:
+        x: center
+PatientChartView:
+  type: view
+  style:
+    width: calc(475/1724.81*100vw)
+    height: calc(180/1724.81*100vw)
+    display: flex
+    alignItems: flex-start
+
+
+PatientChartImgView:
+  type: view
+  style:
+    width: calc(95/1724.81*100vw)
+    display: flex
+PatientChartImg:
+  type: image
+  style:
+    width: calc(53.0173/1724.81*100vw)
+
+PatientChartInnerView:
+  type: view
+  style:
+    width: calc(400/1724.81*100vw)
+
+PatientChartTitle:
+  type: label
+  style:
+    width: calc(363.547/1724.81*100vw)
+    height: calc(75/1724.81*100vw)
+    color: "0xffffff"
+    fontSize: calc(25.53/1724.81*100vw)
+    fontStyle: bold
+    fontFamily: Arial
+
+PatientChartText:
+  type: label
+  style:
+    width: calc(378.69/1724.81*100vw)
+    height: ""
+    color: "0xffffff"
+    fontSize: calc(16/1724.81*100vw)
+    fontFamily: Arial
+ContactText:
+  type: label
+  text: Name
+  style:
+    left: calc(14.97/1724.81*100vw)
+    top: calc(50.46/1724.81*100vw)
+    height: calc(42.05/1724.81*100vw)
+    width: calc(119.76/1724.81*100vw)
+    fontFamily: "Arial"
+    fontSize: calc(15.98/1724.81*100vw)
+TextTitle:     # text in AboutAiTmed,Privacy and TermsOfUse.
+  type: label
+  style:
+    marginTop: calc(84.1/1724.81*100vw)
+    color: "0x000000"
+    fontSize: calc(33.64/1724.81*100vw)
+    lineHeight: calc(50/1724.81*100vw)
+    fontWeight: "500"
+    text-align: justify
+    width: calc(898.19/1724.81*100vw)
+ImageTitleView:
+  type: view
+  style:
+    width: calc(450/1724.81*100vw)
+    height: calc(260/1724.81*100vw)
+    display: flex
+    flexDirection: column
+    justifyContent: space-evenly
+    alignItems: center
+    alignContent: center
+ImageTitle:
+  type: image
+  style:
+    width: calc(136.32/1724.81*100vw)
+ImageText:
+  type: label
+  style:
+    width: calc(200/1724.81*100vw)
+    fontSize: calc(19.4/1724.81*100vw)
+    fontFamily: 'Arial'
+    display: flex
+    justifyContent: center
+    textAlign: center
+TextLabel:       # text in AboutAiTmed,Privacy and TermsOfUse.
+  type: label
+  style:
+    marginTop: 0.02
+    color: "0x000000cc"
+    fontSize: "2.8vh"
+    #lineHeight: "50px"
+    text-align: justify
+    width: "0.6"
+
+ContactField:
+  type: textField
+  style:
+    left: calc(14.97/1724.81*100vw)
+    top: calc(79.9/1724.81*100vw)
+    height: calc(22.7/1724.81*100vw)
+    width: calc(239.52/1724.81*100vw)
+    backgroundColor: "#e5f0f9"
+    border:
+      style: "5"
+PrivacyTextTitle:
+  type: label
+  style:
+    width: calc(1272.43/1724.81*100vw)
+    fontSize: calc(33.64/1724.81*100vw)
+    fontWeight: '630'
+    left: '0'
+PrivacyTextLabel:
+  type: label
+  style:
+    fontSize: calc(20.42/1724.81*100vw)
+    marginTop: calc(51.06/1724.81*100vw)
+    fontFamily: "Arial"
+    lineHeight: '1.5'
+    width: calc(908.868/1724.81*100vw)
+    text-align: justify
+PrivacyTextLabel1:
+  type: label
+  style:
+    fontSize: calc(20.42/1724.81*100vw)
+    marginTop: calc(51.06/1724.81*100vw)
+    fontFamily: "Arial"
+    lineHeight: '1.5'
+    width: calc(908.868/1724.81*100vw)
+    text-align: justify
+AboutTitle:
+  type: label
+  text: "Our Vision and Mission"
+  style:
+    color: "0x000000"
+    fontSize: calc(34.04/1724.81*100vw)
+    fontStyle: 'bold'
+    fontFamily: 'Arial'
+    textAlign:
+      x: left
+    height: calc(85.1/1724.81*100vw)
+    # left: '0.16'
+
+AboutPara:
+  type: label
+  # text: Our vision is to become the premier and world leader in telehealth service by using blockchain and Artificial Intelligence technology to give people the most secure and highest level of personal privacy in a faster, more convenient platform that will produce better outcomes for our consumers, physicians, employers, employees, and medical institutions that we serve.
+  style:
+    color: "0x000000cc"
+    fontSize: .Sfont.h3
+    lineHeight: "45px"
+    text-align: justify
+    fontFamily: 'Arial'
+    # lineHeight: "1.5"
+    # letterSpacing: "1.5px
+
+AboutST:
+  type: label
+  text: "For Providers:"
+  style:
+    color: "0x000000"
+    # lineHeight: "50px"
+    fontSize: .Sfont.h3
+    fontStyle: 'bold'
+    fontFamily: 'Arial'
+    textAlign:
+      x: left
+    # height: "0.1"
+    marginTop: "0.05"
+    # left: '0.16'
+    # letterSpacing: "1.5px"
+
+HomePageLabel:
+  type: label
+  style:
+    textAlign:
+      x: center
+    width: '0.12'
+    color: '0xffffff'
+    fontSize: .Sfont.h2
+    fontWeight: '600'
+    fontFamily: 'Arial'
+    marginTop: "0.04"
+    left: "0.16"
+    top: '0.48'
+HomePageSignin:
+  type: label
+  text: Sign In
+  onClick:
+    - goto: SignIn
+  style:
+    left: '0.172'
+    top: '0.57'
+    fontSize: .Sfont.h1
+    fontFamily: 'Arial'
+    color: '0xbfe6ff'
+    width: '0.056'
+HomePageSignup:
+  type: label
+  text: Sign Up
+  style:
+    left: '0.23'
+    top: '0.57'
+    fontSize: .Sfont.h1
+    fontFamily: 'Arial'
+    color: '0xbfe6ff'
+    width: '0.056'
+  onClick:
+    - goto: SignUp
+
+
+
+
+# Health Page
+
+
+HaHeaderView:
+  type: view
+  style:
+    width: '1'
+    height: '0.3'
+    margin: auto
+    marginTop: '0.12'
+    textAlign:
+      x: center
+    backgroundColor: '0xe5f0f9'
+
+HaHeaderViewNew:
+  type: view
+  style:
+    width: calc(1514.77/1724.81*100vw)
+    height: calc(301.67/1724.81*100vw)
+    margin: auto
+    marginTop: '0.134'
+    textAlign:
+      x: center
+ImageHa:
+  type: image
+  path: backgroundBlue.png
+  style:
+    width: calc(1514.77/1724.81*100vw)
+    left: '0'
+    # width: '1'
+    # height: '0.3'
+HaHeaderBigLabel:
+  type: label
+  text: Abdominal pain
+  style:
+    top: '0.08'
+    left: "0.16"
+    height: auto
+    fontSize: .Sfont.h6
+    fontFamily: "Arial"
+    fontStyle: "bold"
+    color: "0xffffff"
+    textAlign:
+      x: left
+HaHeaderBigLabel1:
+  type: label
+  text: Abdominal pain
+  style:
+    top: '0.08'
+    left: "0.16"
+    height: auto
+    fontSize: .Sfont.h6
+    fontFamily: "Arial"
+    fontStyle: "bold"
+    color: "0x000000"
+    textAlign:
+      x: left
+HaHeaderLittleLabel:
+  type: label
+  text: Abdominal pain has many potential causes. The most common causes- such as gas pains, indigestion or a pulled muscle -usually aren't serious.
+  style:
+    top: "0.16"
+    left: "0.16"
+    width: "0.72"
+    fontSize: .Sfont.h3
+    fontFamily: "Arial"
+    color: "0xffffff"
+    lineHeight: "1.5"
+    textAlign:
+      x: left
+HaHeaderLittleLabel1:
+  type: label
+  text: Abdominal pain has many potential causes. The most common causes- such as gas pains, indigestion or a pulled muscle -usually aren't serious.
+  style:
+    top: "0.16"
+    left: "0.16"
+    width: "0.72"
+    fontSize: .Sfont.h3
+    fontFamily: "Arial"
+    color: "0x000000"
+    lineHeight: "1.5"
+    textAlign:
+      x: left
+HaBodyImg:
+  type: image
+  style:
+    left: "0.695"
+    top: "0.015"
+    height: "0.25"
+
+HaBodyTitle:
+  type: label
+  text: "Seek immediate medical help if pain is accompanied by other worrisome signs and symptoms, including:"
+  style:
+    left: "0.16"
+    width: "0.75"
+    fontSize: .Sfont.h4
+    fontStyle: "bold"
+    fontFamily: "Arial"
+    color: "0x333333"
+HaBodyCon:
+  type: view
+  style:
+    margin: auto
+    marginTop: '0.15'
+    height: "0.38"
+    left: "0"
+    width: "1"
+# HaBodyContentList:
+#   type: label
+#   style:
+#     height: "auto"
+#     left: "0.16"
+#     fontSize: .Sfont.h2
+#     fontFamily: "Arial"
+#     marginTop: '0.03'
+#     width: "0.4"
+HaBodyContent:
+  type: label
+  style:
+    # height: '0.03'
+    textAlign:
+      x: left
+      y: center
+    left: "0.16"
+    fontSize: .Sfont.h2
+    fontFamily: "Arial"
+    text-align: justify
+    width: "0.68"
+HaBottomTag:
+  type: button
+  onClick:
+    - goto: .WebsitePath
+  text: "Sign In"
+  style:
+    fontSize: .Sfont.h3
+    color: '0xffffff'
+    backgroundColor: "0x30b354"
+    width: '0.1'
+    zIndex: '99'
+    borderRadius: "5"
+    height: '0.05'
+    left: '0.453'
+    top: '0'
+    textAlign:
+      x: center
+      y: center
+HaBottomTagname:
+  type: button
+  onClick:
+    - goto: .WebsitePath
+  text: "Sign Up"
+  style:
+    fontSize: .Sfont.h3
+    color: '0xffffff'
+    backgroundColor: "0x30b354"
+    width: '0.1'
+    zIndex: '99'
+    borderRadius: "5"
+    height: '0.05'
+    left: '0.587'
+    top: '0'
+    textAlign:
+      x: center
+      y: center
+
+HaBodyTagView:
+  type: view
+  text: 'Tag:'
+  style:
+    fontWeight: '600'
+    fontSize: .Sfont.h2
+    fontFamily: "Arial"
+    top: '0.47'
+    left: '0.23'
+
+HaBodyTagButton1:
+  type: button
+  text: 'Abdominal Pain'
+  style:
+    left: '0.01'
+    width: '0.09'
+    height: '0.035'
+    backgroundColor: '#FECE55'
+    border:
+      style: "5"
+    borderRadius: '5'
+    fontSize: .Sfont.h1
+
+HaBodyTagButton2:
+  type: button
+  text: 'Abdominal Pain'
+  style:
+    left: '0.02'
+    width: '0.09'
+    height: '0.035'
+    backgroundColor: '#FEE7AB'
+    border:
+      style: "5"
+    borderRadius: '5'
+    fontSize: .Sfont.h1
+
+MobLLabel:
+  type: label
+  style:
+    fontSize: "1.5vh"
+    marginTop: "0.04"
+    left: "0.07"
+    lineHeight: "1.5"
+    width: "0.86"
+    fontFamily: "Arial"
+    text-align: justify
+    backgroudColor: "green"
+MobTitle:
+  type: label
+  style:
+    fontSize: "2.2vh"
+    marginTop: "0.17"
+    left: "0.07"
+    fontFamily: "Arial"
+    fontWeight: "550"
+    width: '0.8'
+
+othersSignIn:
+    type: button
+    text: 'Sign In'
+    onClick:
+      - goto: .WebsitePath
+    style:
+      backgroundColor: '#30B354'
+      marginTop: calc(71.93/1724.81*100vw)
+      left: calc(221.91/1724.81*100vw)
+      width: calc(233.86/1724.81*100vw)
+      height: calc(65.21/1724.81*100vw)
+      color: 'white'
+      fontSize: calc(30.69/1724.81*100vw)
+      border:
+        style: "5"
+      borderRadius: '5'
+      zIndex: 100
+othersSignUp:
+    type: button
+    text: 'Sign Up'
+    onClick:
+      - goto: .WebsitePath
+    style:
+      backgroundColor: '#30B354'
+      # top: '0.59'
+      left: calc(276.54/1724.81*100vw)
+      width: calc(233.86/1724.81*100vw)
+      height: calc(65.21/1724.81*100vw)
+      color: 'white'
+      fontSize: calc(30.69/1724.81*100vw)
+      border:
+        style: "5"
+      borderRadius: '5'
+      zIndex: 100

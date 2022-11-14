@@ -1,0 +1,177 @@
+HaNasalCongestion:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Nasal congestion
+        - .HaHeaderLittleLabel:
+          text: Nasal obstruction characterized by insufficient airflow through the nose.
+    - .HaBodyTagView:
+      style: 
+        marginTop: '0.09'
+      children:
+        - .HaBodyTagButton1:
+          text: "nasal"
+        - .HaBodyTagButton2:
+          text: "congestion"
+        - .HaBodyTagButton1:
+          style:
+            left: '0.03'
+          text: "nasal congestion"
+    - .HaBodyCon:
+      style:
+        height: '0.72'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "See your doctor if:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Difficulty breathing."
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ High fever or persistent fever."
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Green or bloody nose."
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Earache."
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Chilly and sweat."
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+                width: '0.5'
+              text: "⦁ Nausea or vomiting."
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+              text: "⦁ Abnormal sleepiness.."
+            - .HaBodyContent:
+              style:
+                top: '0.35'
+              text: "⦁ Severe headache.."            
+            - .HaBodyContent:
+              style:
+                top: '0.4'
+                width: '0.5'
+              text: "Nasal obstruction characterized by felling insufficient airflow through the nose. It can be a subjective sensation or the result of objective pathology. It is difficult to quantify by subjective complaints or clinical examinations alone, hence both clinicians and researchers depend both on concurrent subjective assessment and on objective measurement of the nasal airway. Potential causes of nasal congestion include:"        
+            - .HaBodyContent:
+              style:
+                top: '0.55'
+                width: '0.5'
+              text: "Common cold: The common cold is a viral infection of your nose and throat (upper respiratory tract). It's usually harmless, although it might not feel that way. Many types of viruses can cause a common cold. Most people recover from a common cold In a week or 10 days. Symptoms might last longer in people who smoke. If symptoms don't improve, see your doctor"
+            
+
+        - .HaBodyImg:
+          style:  
+            top: '0.11'
+            left: '0.69'
+            width: '0.16'
+          path: healthAZ/nasal-congestion.png
+    - .HaBodyCon:
+      style:
+        height: '0.4'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Chronic sinusitis:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Common symptoms of chronic sinusitis include stuffy nose, and facial pain. Other symptoms include fever, headache, and decreased sense of smell, sore throat, and cough. Sinusitis is a common condition, and about 20 to 30 million people in the United States have symptoms of sinusitis every year. About 12.5% of people will be affected by chronic sinusitis"
+            - .HaBodyContent:
+              style:
+                top: '0.12'
+              text: "Nasal polyps: Nasal polyps are soft, painless, noncancerous growths on the lining of your nasal passages or sinuses. They hang down like teardrops or grapes. They result from chronic inflammation due to asthma, recurring infection, allergies, drug sensitivity or certain immune disorders .Small nasal polyps may not cause symptoms. Larger growths or groups of nasal polyps can block your nasal passages or lead to breathing problems, a lost sense of smell and frequent infections."
+            - .HaBodyContent:
+              style:
+                top: '0.27'
+              text: "Other cause include: Pregnancy, Allergies, smoke, Thyroid disorders, Stress, Respiratory syncytial virus (RSV)."             
+           
+    
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Nasal congestion is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname:
+        #   text: "nasal"
+        # - .HaBottomTagname:
+        #   text: "congestion"
+        #   style: 
+        #     left: "0.25"     
+        # - .HaBottomTagname:
+        #   text: "nasal congestion"
+        #   style: 
+        #     left: "0.45"     
+    - .BaseFooter1:
+
+
+
+
+
+
+
+
+
+
+
+

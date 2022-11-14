@@ -1,10 +1,11 @@
 // @ts-nocheck
 import { expect } from 'chai'
 import { waitFor } from '@testing-library/dom'
+import m from 'noodl-test-utils'
 import * as nt from 'noodl-types'
 import sinon from 'sinon'
 import * as u from '@jsmanifest/utils'
-import { createOn, nui, ui } from '../../utils/test-utils'
+import { createOn, nui } from '../../utils/test-utils'
 import { emitHooks } from '../../resolvers/resolveSetup'
 
 let on: ReturnType<typeof createOn>
@@ -82,7 +83,7 @@ describe(u.yellow(`resolveSetup`), () => {
 
     it(`should not cause an infinite loop when the value can't be found`, async () => {
       await nui.resolveComponents({
-        components: [ui.image({ style: { fontSize: '_____.topo' } })],
+        components: [m.image({ style: { fontSize: '_____.topo' } })],
       })
       expect(true).to.be.true
     })
@@ -103,7 +104,7 @@ describe(u.yellow(`resolveSetup`), () => {
     describe(`if`, () => {
       it(`should return value at index 1 if true`, async () => {
         const [component] = await nui.resolveComponents({
-          components: [ui.label({ text: { if: [1, 'abc', 'wow'] } })],
+          components: [m.label({ text: { if: [1, 'abc', 'wow'] } })],
           on: { if: () => true },
         })
         // @ts-expect-error
@@ -112,7 +113,7 @@ describe(u.yellow(`resolveSetup`), () => {
 
       it(`should return value at index 2 if false`, async () => {
         const component = await nui.resolveComponents({
-          components: ui.label({ text: { if: [1, 'abc', 'wow'] } }),
+          components: m.label({ text: { if: [1, 'abc', 'wow'] } }),
           on: { if: () => false },
         })
         expect(component.get('text')).to.eq('wow')
@@ -121,7 +122,7 @@ describe(u.yellow(`resolveSetup`), () => {
       it(`should be able to deeply resolve references`, async () => {
         nui.getRoot().Power = { patientInfoPage: '.Sun.viewTag' }
         const component = await nui.resolveComponents({
-          components: ui.label({
+          components: m.label({
             text: { if: [1, '.Power.patientInfoPage', 'wow'] },
           }),
         })
@@ -137,7 +138,7 @@ describe(u.yellow(`resolveSetup`), () => {
           Power: { patientInfoPage: 'Rawr' },
         })
         const component = await nui.resolveComponents({
-          components: ui.label({
+          components: m.label({
             goto: '.Power.patientInfoPage@Sun#..formData.password',
           }),
         })
@@ -166,7 +167,7 @@ describe(u.yellow(`resolveSetup`), () => {
       const spy = sinon.spy()
       nui.use({ evalObject: spy })
       const { component } = await resolveComponent(
-        ui.label({ onClick: [ui.evalObject(), ui.evalObject()] }),
+        m.label({ onClick: [m.evalObject(), m.evalObject()] }),
       )
       // @ts-expect-error
       await component.get('onClick').execute({})
@@ -178,8 +179,8 @@ describe(u.yellow(`resolveSetup`), () => {
       const spy = sinon.spy()
       nui.use({ emit: { [trigger]: spy } })
       const { component } = await resolveComponent(
-        ui.label({
-          [trigger]: [ui.evalObject, ui.emit(), ui.evalObject],
+        m.label({
+          [trigger]: [m.evalObject, m.emit(), m.evalObject],
         }),
       )
       // @ts-expect-error
@@ -192,8 +193,8 @@ describe(u.yellow(`resolveSetup`), () => {
       it(`should call on.emit.createActionChain hook with the expected args for "${hookName}"`, async () => {
         const spy = sinon.spy()
         await nui.resolveComponents({
-          components: ui.label({
-            [hookName]: ui.emit({
+          components: m.label({
+            [hookName]: m.emit({
               dataKey: { var1: 'itemObject' },
               actions: [],
             }),

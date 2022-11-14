@@ -1,0 +1,160 @@
+HaEyeDiscomfortAndRednessInChild:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Eye Discomfort and Redness in Child
+        - .HaHeaderLittleLabel:
+          text: The ears are very delicate structures, especially in children.
+    - .HaBodyTagView:
+      style:
+        top: '0.55'
+      children:
+        - .HaBodyTagButton1:
+          text: Ear
+        - .HaBodyTagButton2:
+          text: Earache
+    - .HaBodyCon:
+      style:
+        height: '0.48'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Get emergency care if your child experiences:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Severe eye pain or irritation"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Direct injury to the eye."
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Swelling in or around your eyes."
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Discharge of blood or pus from your eyes."
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Double vision or loss of vision."      
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ Sudden or new appearance of halos around lights."
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+              text: "⦁ Nausea or vomiting."
+            - .HaBodyContent:
+              style:
+                top: '0.35'
+              text: "⦁ Sudden, severe headache."
+                 
+        - .HaBodyImg:
+          style:  
+            top: '0.06'
+            left: '0.68'
+            width: '0.16'
+          path: healthAZ/eye_discomfort_and_redness-in-child.png
+    - .HaBodyCon:
+      style:
+        height: '0.2'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Find possible causes of eye discomfort and redness based on specific factors. Use our patient Questionnaire."       
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Many children have minor eye problems, such as eyestrain, irritated eyes, or itchy eyes.Watching a lot of television, playing video games, or using the computer a lot can decrease your child's natural blink reflex. This can cause dry, red, and irritated eyes. Sometimes a dry climate, allergies, contact lenses, smoke, or pollution can bother the eyes. Common disease include:"
+            
+    - .HaBodyCon:
+      style:
+        height: '0.37'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Pink eye (conjunctivitis)" 
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "is an inflammation or infection of the transparent membrane (conjunctiva) that lines your eyelid and covers the white part of your eyeball. When small blood vessels in the conjunctiva become inflamed, they're more visible. This is what causes the whites of your eyes to appear reddish or pink. Pink eye is commonly caused by a bacterial or viral infection, an allergic reaction, or — in babies — an incompletely opened tear duct.Though pink eye can be irritating, it rarely affects your vision. Treatments can help ease the discomfort of pink eye. Because pink eye can be contagious, early diagnosis and treatment can help limit its spread."
+            - .HaBodyContent:
+              style:
+                top: '0.17'
+              text: "Hay fever, also called allergic rhinitis, causes cold-like signs and symptoms, such as a runny nose, itchy eyes, congestion, sneezing and sinus pressure. But unlike a cold, hay fever isn't caused by a virus. Hay fever is caused by an allergic response to outdoor or indoor allergens, such as pollen, dust mites, or tiny flecks of skin and saliva shed by cats, dogs, and other animals with fur or feathers"
+            
+    
+
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Eye discomfort and redness in child is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname: 
+    - .BaseFooter1:
+
+
+
+
+
+
+
+

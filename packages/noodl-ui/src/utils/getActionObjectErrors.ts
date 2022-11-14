@@ -69,6 +69,8 @@ function getActionObjectErrors(obj: NUIActionObjectInput | undefined) {
       //
     } else if (Identify.action.scanCamera(obj)) {
       //
+    } else if (Identify.action?.['updateGlobal']?.(obj)) {
+      //
     } else {
       results.push(
         `Encountered an unsupported action object of type "${obj.actionType}". ` +

@@ -2,6 +2,7 @@
 import { expect } from 'chai'
 import { waitFor } from '@testing-library/dom'
 import sinon from 'sinon'
+import m from 'noodl-test-utils'
 import * as u from '@jsmanifest/utils'
 import * as nt from 'noodl-types'
 import * as i from '../utils/internal'
@@ -11,7 +12,6 @@ import {
   baseUrl,
   getDefaultViewportWidthHeight,
   nui,
-  ui,
 } from '../utils/test-utils'
 import NuiPage from '../Page'
 import log from '../utils/log'
@@ -29,10 +29,10 @@ describe.only('normalizeProps', () => {
         pageName: 'SignIn',
       }
       expect(
-        parse(ui.textField({ dataKey: 'formData.password' }), opts),
+        parse(m.textField({ dataKey: 'formData.password' }), opts),
       ).to.have.property('data-value', '123')
       expect(
-        parse(ui.textField({ dataKey: 'SignIn.formData.password' }), opts)[
+        parse(m.textField({ dataKey: 'SignIn.formData.password' }), opts)[
           'data-value'
         ],
       ).to.eq('123')
@@ -44,10 +44,10 @@ describe.only('normalizeProps', () => {
         pageName: 'SignIn',
       }
       expect(
-        parse(ui.label({ dataKey: 'formData.password' }), opts),
+        parse(m.label({ dataKey: 'formData.password' }), opts),
       ).to.have.property('data-value', '123')
       expect(
-        parse(ui.label({ dataKey: 'SignIn.formData.password' }), opts)[
+        parse(m.label({ dataKey: 'SignIn.formData.password' }), opts)[
           'data-value'
         ],
       ).to.eq('123')
@@ -80,10 +80,7 @@ describe.only('normalizeProps', () => {
           },
           pageName: 'SignIn',
         }
-        expect(parse(ui.view({ [key]: ref }), opts)).to.have.property(
-          key,
-          value,
-        )
+        expect(parse(m.view({ [key]: ref }), opts)).to.have.property(key, value)
       })
     }
   })
@@ -91,7 +88,7 @@ describe.only('normalizeProps', () => {
   describe(`select`, () => {
     let root: Record<string, any>
     let normalize = (comp: Partial<nt.SelectComponentObject>) =>
-      parse(ui.select(comp), { root, pageName: 'SignIn' })
+      parse(m.select(comp), { root, pageName: 'SignIn' })
 
     beforeEach(() => {
       root = {
@@ -105,7 +102,7 @@ describe.only('normalizeProps', () => {
     it(`should set resolved options as data-options`, () => {
       const opts = { root, pageName: 'SignIn' }
       const result = parse(
-        ui.select({ dataKey: '..profile.options', options: '' }),
+        m.select({ dataKey: '..profile.options', options: '' }),
         opts,
       )
       expect(result)
@@ -123,7 +120,7 @@ describe.only('normalizeProps', () => {
 
     it(`should parse options references`, () => {
       expect(
-        parse(ui.select({ options: '.SignIn.profile.options' }), {
+        parse(m.select({ options: '.SignIn.profile.options' }), {
           root: { SignIn: { profile: { options: ['1AM', '2AM', '3AM'] } } },
           pageName: 'SignIn',
         }),
@@ -141,7 +138,7 @@ describe.only('normalizeProps', () => {
             `{ display: 'flex', flexWrap: 'nowrap' }`,
           () => {
             expect(
-              parse(ui.button({ style: { axis: 'horizontal' } })).style,
+              parse(m.button({ style: { axis: 'horizontal' } })).style,
             ).to.satisfy((s) => s.display === 'flex' && s.flexWrap === 'nowrap')
           },
         )
@@ -151,7 +148,7 @@ describe.only('normalizeProps', () => {
             `{ display: 'flex', flexDirection: 'column' }`,
           () => {
             expect(
-              parse(ui.button({ style: { axis: 'vertical' } })).style,
+              parse(m.button({ style: { axis: 'vertical' } })).style,
             ).to.satisfy(
               (s: any) => s.display === 'flex' && s.flexDirection === 'column',
             )
@@ -160,7 +157,7 @@ describe.only('normalizeProps', () => {
 
         it(`should remove the property after being consumed`, () => {
           expect(
-            parse(ui.button({ style: { axis: 'vertical' } })).style,
+            parse(m.button({ style: { axis: 'vertical' } })).style,
           ).not.to.have.property('axis')
         })
       })
@@ -168,34 +165,34 @@ describe.only('normalizeProps', () => {
       const leftCenterRightKeys = ['left', 'center', 'right'] as const
 
       it(`should change { textAlign: 'centerX' } to { textAlign: 'center' }`, () => {
-        const component = parse(ui.button({ style: { textAlign: 'centerX' } }))
+        const component = parse(m.button({ style: { textAlign: 'centerX' } }))
         expect(component.style).to.have.property('textAlign', 'center')
       })
 
       describe(`{ textAlign: 'centerY' }`, () => {
         it(`should change to { display: 'flex', alignItems: 'center' }`, () => {
           expect(
-            parse(ui.button({ style: { textAlign: 'centerY' } })).style,
+            parse(m.button({ style: { textAlign: 'centerY' } })).style,
           ).to.satisfy((s) => s.display === 'flex' && s.alignItems === 'center')
         })
 
         it(`should delete the textAlign property`, () => {
           expect(
-            parse(ui.button({ style: { textAlign: 'centerY' } })).style,
+            parse(m.button({ style: { textAlign: 'centerY' } })).style,
           ).not.to.have.property('textAlign')
         })
       })
 
       leftCenterRightKeys.forEach((key) => {
         it(`should change { textAlign: '${key}' } to { textAlign: '${key}' }`, () => {
-          expect(parse(ui.button({ style: { textAlign: key } })).style)
+          expect(parse(m.button({ style: { textAlign: key } })).style)
             .to.have.property('textAlign')
             .eq(key)
         })
       })
 
       it(`should change { textAlign: { x: 'left' } } to { textAlign: 'left' }`, () => {
-        expect(parse(ui.button({ style: { textAlign: { x: 'left' } } })).style)
+        expect(parse(m.button({ style: { textAlign: { x: 'left' } } })).style)
           .to.have.property('textAlign')
           .eq('left')
       })
@@ -209,7 +206,7 @@ describe.only('normalizeProps', () => {
               `{ textAlign: '${key}', display:'flex', alignItems: 'center }`,
             () => {
               const { style } = parse(
-                ui.button({
+                m.button({
                   style: { textAlign: { x: key, y: 'center' } },
                 }),
               )
@@ -235,7 +232,7 @@ describe.only('normalizeProps', () => {
       u.keys(presets.border).forEach((borderPresetKey) => {
         it(`should apply the styles from the border preset "${borderPresetKey}"`, () => {
           expect(
-            parse(ui.textField({ style: { border: borderPresetKey as any } }))
+            parse(m.textField({ style: { border: borderPresetKey as any } }))
               .style,
           ).to.satisfy((s) => u.entries(s).every(([k, v]) => s[k] === v))
         })
@@ -243,41 +240,41 @@ describe.only('normalizeProps', () => {
 
       it(`should format the borderColor to hex format`, () => {
         expect(
-          parse(ui.textField({ style: { border: { color: '0x33004433' } } }))
+          parse(m.textField({ style: { border: { color: '0x33004433' } } }))
             .style,
         ).to.have.property('borderColor', '#33004433')
       })
 
       it(`should set the borderStyle to the value of border.line`, () => {
         expect(
-          parse(ui.textField({ style: { border: { line: 'thin' } } })).style,
+          parse(m.textField({ style: { border: { line: 'thin' } } })).style,
         ).to.have.property('borderStyle', 'thin')
       })
 
       it(`should set the borderWidth to the value of border.width`, () => {
         expect(
-          parse(ui.textField({ style: { border: { width: 'thin' } } })).style,
+          parse(m.textField({ style: { border: { width: 'thin' } } })).style,
         ).to.have.property('borderWidth', 'thin')
       })
 
       it('should attach px if borderRadius is a number string with no unit', () => {
-        let result = parse(ui.textField({ style: { borderRadius: '0' } }))
+        let result = parse(m.textField({ style: { borderRadius: '0' } }))
         expect(result.style.borderRadius).to.eq('0px')
-        result = parse(ui.textField({ style: { borderRadius: '12' } }))
+        result = parse(m.textField({ style: { borderRadius: '12' } }))
         expect(result.style.borderRadius).to.eq('12px')
       })
 
       it('should attach px if borderWidth is a number string with no unit', () => {
-        let result = parse(ui.textField({ style: { borderWidth: '0' } }))
+        let result = parse(m.textField({ style: { borderWidth: '0' } }))
         expect(result.style.borderWidth).to.eq('0px')
-        result = parse(ui.textField({ style: { borderWidth: '12' } }))
+        result = parse(m.textField({ style: { borderWidth: '12' } }))
         expect(result.style.borderWidth).to.eq('12px')
       })
     })
 
     describe(`Color`, () => {
       it('should rename textColor to color and remove textColor', () => {
-        const result = parse(ui.view({ style: { textColor: '0x33445566' } }))
+        const result = parse(m.view({ style: { textColor: '0x33445566' } }))
         expect(result.style).to.have.property('color', '#33445566')
         expect(result.style).not.to.have.property('textColor')
       })
@@ -292,7 +289,7 @@ describe.only('normalizeProps', () => {
           background: '0x33210299',
           borderColor: '0x33210299',
         }
-        const result = parse(ui.view({ style }))
+        const result = parse(m.view({ style }))
         expect(result.style?.abc).to.eq('#33210299')
         u.keys(style).forEach((k) => {
           if (k !== 'textColor') {
@@ -305,25 +302,25 @@ describe.only('normalizeProps', () => {
     describe(`Display`, () => {
       it(`should always keep { display: 'inline' } if it was provided`, () => {
         expect(
-          ui.button({ style: { display: 'inline' } }).style,
+          m.button({ style: { display: 'inline' } }).style,
         ).to.have.property('display', 'inline')
       })
     })
 
     describe(`fontSize`, () => {
       it(`should always append px`, () => {
-        let result = parse(ui.scrollView({ style: { fontSize: '14' } }))
+        let result = parse(m.scrollView({ style: { fontSize: '14' } }))
         expect(result.style).to.have.property('fontSize', '14px')
-        result = parse(ui.scrollView({ style: { fontSize: '10' } }))
+        result = parse(m.scrollView({ style: { fontSize: '10' } }))
         expect(result.style).to.have.property('fontSize', '10px')
-        result = parse(ui.scrollView({ style: { fontSize: 10 } as any }))
+        result = parse(m.scrollView({ style: { fontSize: 10 } as any }))
         expect(result.style).to.have.property('fontSize', '10px')
-        result = parse(ui.scrollView({ style: { fontSize: 0 } as any }))
+        result = parse(m.scrollView({ style: { fontSize: 0 } as any }))
         expect(result.style).to.have.property('fontSize', '0px')
       })
 
       const getComponent = (fontSize: string) =>
-        ui.button({ style: { fontSize } })
+        m.button({ style: { fontSize } })
 
       const getOptions = (opts?: Parameters<typeof normalizeProps>[2]) => ({
         viewport: getDefaultViewportWidthHeight(),
@@ -385,11 +382,11 @@ describe.only('normalizeProps', () => {
             Topo: {
               font1: '.Nfont.h1',
               components: [
-                ui.label({
+                m.label({
                   viewTag: 'helloTag',
                   style: { top: '0.0125', left: '0.05', fontSize: '.Sfont.h4' },
                 }),
-                ui.view({
+                m.view({
                   style: { fontSize: '..font1' },
                 }),
               ],
@@ -406,7 +403,7 @@ describe.only('normalizeProps', () => {
         })
 
         it(`should keep the values in vp unit if keepVpUnit === true`, () => {
-          let componentObject = ui.label({ style: { fontSize: '2.8vh' } })
+          let componentObject = m.label({ style: { fontSize: '2.8vh' } })
           let component = parse(componentObject)
           expect(component.style).to.have.property('fontSize', '18.676px')
           component = parse(componentObject, { keepVpUnit: true })
@@ -417,7 +414,7 @@ describe.only('normalizeProps', () => {
 
     describe(`fontWeight`, () => {
       it('should return a fontWeight with bold if fontStyle was bold', () => {
-        const result = parse(ui.scrollView({ style: { fontStyle: 'bold' } }))
+        const result = parse(m.scrollView({ style: { fontStyle: 'bold' } }))
         expect(result.style).to.have.property('fontWeight', 'bold')
         expect(result.style).not.to.have.property('fontStyle')
       })
@@ -425,23 +422,23 @@ describe.only('normalizeProps', () => {
 
     describe(`Positioning`, () => {
       it('should append the unit if missing', () => {
-        let result = parse(ui.video({ style: { top: '0' } }))
+        let result = parse(m.video({ style: { top: '0' } }))
         expect(result.style).to.have.property('top', '0px')
-        result = parse(ui.video({ style: { left: '0' } }))
+        result = parse(m.video({ style: { left: '0' } }))
         expect(result.style).to.have.property('left', '0px')
       })
 
       it('should change to "667px" for top and "375px" for left', () => {
-        let result = parse(ui.video({ style: { top: '1' } }))
+        let result = parse(m.video({ style: { top: '1' } }))
         expect(result.style).to.have.property('top', '667px')
-        result = parse(ui.video({ style: { left: '1' } }))
+        result = parse(m.video({ style: { left: '1' } }))
         expect(result.style).to.have.property('left', '375px')
       })
 
       it('should get correct results for decimal strings like "0.23"', () => {
-        let result = parse(ui.video({ style: { top: '0.23' } }))
+        let result = parse(m.video({ style: { top: '0.23' } }))
         expect(result.style).to.have.property('top', '153.41px')
-        result = parse(ui.video({ style: { left: '0.89' } }))
+        result = parse(m.video({ style: { left: '0.89' } }))
         expect(result.style).to.have.property('left', '333.75px')
       })
     })
@@ -449,16 +446,16 @@ describe.only('normalizeProps', () => {
     describe(`Sizes`, () => {
       // '0.45' --> '168.75px'
       it('should return the string decimal as px', () => {
-        let result = parse(ui.select({ style: { width: '0.45' } }))
+        let result = parse(m.select({ style: { width: '0.45' } }))
         expect(result.style).to.have.property('width', '168.75px')
-        result = parse(ui.select({ style: { height: '0.29' } }))
+        result = parse(m.select({ style: { height: '0.29' } }))
         expect(result.style).to.have.property('height', '193.43px')
       })
 
       // '23px' --> '23px'
       it('should return the same value if px was already appended', () => {
         const style = { width: '23px', height: '0.27px' }
-        const result = parse(ui.select({ style }))
+        const result = parse(m.select({ style }))
         expect(result.style).to.have.property('width', '23px')
         expect(result.style).to.have.property('height', '0.27px')
       })
@@ -466,7 +463,7 @@ describe.only('normalizeProps', () => {
       // '0' --> 0
       it('should return a value of 0 and append px to it', () => {
         const style = { width: '0', height: '0' }
-        const result = parse(ui.select({ style }))
+        const result = parse(m.select({ style }))
         expect(result.style.width).to.equal('0px')
         expect(result.style.height).to.equal('0px')
       })
@@ -474,23 +471,23 @@ describe.only('normalizeProps', () => {
       // '1' --> 375px
       it('should just return the viewport size with px appended if value is "1"', () => {
         const style = { width: '1', height: '1' }
-        const result = parse(ui.select({ style }))
+        const result = parse(m.select({ style }))
         expect(result.style.width).to.equal('375px')
         expect(result.style.height).to.equal('667px')
       })
 
       // 1 --> '375px'
       it('should return the the size with px appended if value is a number 1', () => {
-        let result = parse(ui.select({ style: { width: 1 } as any }))
+        let result = parse(m.select({ style: { width: 1 } as any }))
         expect(result.style.width).to.equal('375px')
-        result = parse(ui.select({ style: { height: 1 } as any }))
+        result = parse(m.select({ style: { height: 1 } as any }))
         expect(result.style.height).to.equal('667px')
       })
 
       // 0 --> '0px'
       it('should keep it at 0 but convert to string and append px', () => {
         const result = parse(
-          ui.select({ style: { width: 0, height: 0 } as any }),
+          m.select({ style: { width: 0, height: 0 } as any }),
         )
         expect(result.style.width).to.equal('0px')
         expect(result.style.height).to.equal('0px')
@@ -499,7 +496,7 @@ describe.only('normalizeProps', () => {
       // 35 --> 35px
       it('should return the value with px appended', () => {
         const result = parse(
-          ui.select({ style: { width: 38, height: 203 } as any }),
+          m.select({ style: { width: 38, height: 203 } as any }),
         )
         expect(result.style.width).to.equal('38px')
         expect(result.style.height).to.equal('203px')
@@ -508,7 +505,7 @@ describe.only('normalizeProps', () => {
       // 0.45 --> '168.75px'
       it('should treat 0.45 as "0.45" (divide by total viewport size)', () => {
         const result = parse(
-          ui.select({ style: { width: 0.45, height: 0.23 } as any }),
+          m.select({ style: { width: 0.45, height: 0.23 } as any }),
         )
         expect(result.style.width).to.equal('168.75px')
         expect(result.style.height).to.equal('153.41px')
@@ -518,7 +515,7 @@ describe.only('normalizeProps', () => {
     describe.skip(`Visibility`, () => {
       it('should turn visibility to hidden if "isHidden" is true', () => {
         expect(
-          parse(ui.image({ style: { isHidden: true } })).style,
+          parse(m.image({ style: { isHidden: true } })).style,
         ).to.have.property('visibility', 'hidden')
       })
     })
@@ -527,7 +524,7 @@ describe.only('normalizeProps', () => {
   describe(`Component specific`, () => {
     describe(`header`, () => {
       it(`should set zIndex to 100`, () => {
-        expect(parse(ui.header()).style).to.have.property('zIndex', 100)
+        expect(parse(m.header()).style).to.have.property('zIndex', 100)
       })
     })
 
@@ -536,18 +533,18 @@ describe.only('normalizeProps', () => {
         `should remove the "height" if it does not explicitly have ` +
           `a height set to maintain the aspect ratio`,
         () => {
-          expect(parse(ui.image()).style).not.to.have.property('height')
+          expect(parse(m.image()).style).not.to.have.property('height')
         },
       )
 
       it(`should set objectFit to "contain"`, () => {
-        expect(parse(ui.image()).style).to.have.property('objectFit', 'contain')
+        expect(parse(m.image()).style).to.have.property('objectFit', 'contain')
       })
     })
 
     describe(`list`, () => {
       it(`should disable listStyle and padding`, () => {
-        const styles = parse(ui.list()).style
+        const styles = parse(m.list()).style
         expect(styles).to.have.property('listStyle', 'none')
         expect(styles).to.have.property('padding', '0px')
       })
@@ -555,7 +552,7 @@ describe.only('normalizeProps', () => {
 
     describe(`listItem`, () => {
       it(`should remove listStyle and set padding to 0`, () => {
-        expect(parse(ui.listItem({})).style).to.satisfy(
+        expect(parse(m.listItem({})).style).to.satisfy(
           (s) => s.listStyle === 'none',
         )
       })
@@ -563,7 +560,7 @@ describe.only('normalizeProps', () => {
 
     describe(`popUp`, () => {
       it(`should set the visibility to hidden`, () => {
-        expect(parse(ui.popUpComponent()).style).to.have.property(
+        expect(parse(m.popUpComponent()).style).to.have.property(
           'visibility',
           'hidden',
         )
@@ -572,22 +569,19 @@ describe.only('normalizeProps', () => {
 
     describe(`scrollView`, () => {
       it(`should set the display to "block"`, () => {
-        expect(parse(ui.scrollView()).style).to.have.property(
-          'display',
-          'block',
-        )
+        expect(parse(m.scrollView()).style).to.have.property('display', 'block')
       })
     })
 
     describe(`textView`, () => {
       it(`should set the default "rows" to 10`, () => {
-        expect(parse(ui.textView()).style).to.have.property('rows', 10)
+        expect(parse(m.textView()).style).to.have.property('rows', 10)
       })
     })
 
     describe(`video`, () => {
       it(`should set objectFit to "contain"`, () => {
-        expect(parse(ui.video()).style).to.have.property('objectFit', 'contain')
+        expect(parse(m.video()).style).to.have.property('objectFit', 'contain')
       })
     })
   })

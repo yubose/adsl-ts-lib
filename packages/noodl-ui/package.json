@@ -1,10 +1,11 @@
 {
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
   "dependencies": {
-    "noodl-action-chain": "^0.0.139",
+    "noodl-action-chain": "^0.0.140",
     "noodl-common": "^0.0.58",
-    "noodl-types": "*",
-    "noodl-utils": "^0.0.121",
+    "noodl-test-utils": "^0.0.12",
+    "noodl-types": "^1.0.258",
+    "noodl-utils": "^0.0.126",
     "signature_pad": "^4.0.7"
   },
   "description": "NOODL JavaScript library",
@@ -24,7 +25,7 @@
     "tsconfig.json",
     "tsconfig.test.json"
   ],
-  "gitHead": "8d25fcb1c7079abb8c5afaf063fb945f2eace127",
+  "gitHead": "0b9e684034928e0e7dbd3f056ba3fc39dc8e6320",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -37,8 +38,9 @@
     "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --file src/setupTests.ts --extensions ts --watch --watch-files \"src/**/*.ts\" \"src/**/*.test.ts\" --ignore \"src/__tests__/dom/**/*\"",
     "test:file": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json --file src/setupTests.ts -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\"",
     "types": "tsc --declaration --declarationDir dist --emitDeclarationOnly",
-    "watch": "cross-env NODE_ENV=development NODE_OPTIONS=\"--stack-trace-limit=10000\" rollup -c -w"
+    "watch": "cross-env NODE_ENV=development NODE_OPTIONS=\"--stack-trace-limit=10000\" rollup -c -w",
+    "publish": "npm version patch && npm publish -f"
   },
   "typings": "dist/index.d.ts",
-  "version": "0.1.190"
+  "version": "0.1.1064"
 }

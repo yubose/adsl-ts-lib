@@ -1,13 +1,13 @@
 // @ts-nocheck
 import * as u from '@jsmanifest/utils'
-import * as mock from 'noodl-ui-test-utils'
+import m from 'noodl-test-utils'
 import { prettyDOM } from '@testing-library/dom'
 import sinon from 'sinon'
 import { NuiComponent, createComponent, flatten } from 'noodl-ui'
 import { waitFor } from '@testing-library/dom'
 import { expect } from 'chai'
 import { coolGold, italic, magenta, white } from 'noodl-common'
-import { createRender, ndom, ui } from '../test-utils'
+import { createRender, ndom } from '../test-utils'
 import { nui } from '../nui'
 import NOODLDOM from '../noodl-ui-dom'
 import * as i from '../utils/internal'
@@ -17,7 +17,7 @@ import Timer from '../global/Timer'
 
 describe(coolGold(`resolvers`), () => {
   it(`should attach the component id as the element id`, async () => {
-    const { render } = createRender(ui.label())
+    const { render } = createRender(m.label())
     const component = await render()
     expect(n.findFirstByElementId(component))
       .to.have.property('id')
@@ -29,7 +29,7 @@ describe(coolGold(`resolvers`), () => {
     const { render } = createRender({
       pageName: 'F',
       pageObject: { formData: { password: dataValue } },
-      components: ui.label({ dataKey: 'F.formData.password' }),
+      components: m.label({ dataKey: 'F.formData.password' }),
     })
     expect(n.findFirstByElementId(await render()).textContent).to.eq(dataValue)
   })
@@ -37,7 +37,7 @@ describe(coolGold(`resolvers`), () => {
   describe(italic(`button`), () => {
     it('should have a pointer cursor if it has an onClick', async () => {
       const { render } = createRender(
-        ui.button({ text: 'hello', onClick: [mock.getFoldedEmitObject()] }),
+        m.button({ text: 'hello', onClick: [m.emitObject()] }),
       )
       expect(n.findFirstByElementId(await render()).style)
         .to.have.property('cursor')
@@ -63,22 +63,25 @@ describe(coolGold(`resolvers`), () => {
         const iteratorVar = 'orange'
         const { request } = createRender({
           components: [
-            ui.list({
-              listObject: mock.getGenderListObject().slice(0, 1),
+            m.list({
+              listObject: [
+                { key: 'gender', value: 'Female' },
+                { key: 'gender', value: 'Male' },
+              ],
               contentType: 'listObject',
               iteratorVar,
               children: [
-                ui.listItem({
+                m.listItem({
                   children: [
-                    ui.label({ dataKey: `${iteratorVar}.value` }),
-                    ui.popUpComponent({
+                    m.label({ dataKey: `${iteratorVar}.value` }),
+                    m.popUpComponent({
                       viewTag: 'bagTag',
                       popUpView: 'color',
                     }),
-                    ui.button({ global: true }),
-                    ui.image({ path: '99.png' } as any),
-                    ui.textField({ placeholder: 'sun' } as any),
-                    ui.select({
+                    m.button({ global: true }),
+                    m.image({ path: '99.png' } as any),
+                    m.textField({ placeholder: 'sun' } as any),
+                    m.select({
                       optionKey: `${iteratorVar}.value`,
                       options: [],
                     }),
@@ -102,9 +105,9 @@ describe(coolGold(`resolvers`), () => {
 
 describe(italic(`ecosDoc`), () => {
   it(`should create an iframe as a direct child`, async () => {
-    const ecosObj = mock.getEcosDocObject('image')
+    const ecosObj = m.ecosObj('image')
     const { pageObject, render } = createRender(
-      ui.ecosDocComponent({ id: 'hello', ecosObj }),
+      m.ecosDocComponent({ id: 'hello', ecosObj }),
     )
     await render()
     const node = n.findFirstByElementId('hello')
@@ -119,9 +122,9 @@ describe(italic(`ecosDoc`), () => {
   })
 
   it(`should render ecosDoc image documents`, async () => {
-    const imageComponentObject = ui.ecosDocComponent({
+    const imageComponentObject = m.ecosDocComponent({
       id: 'hello',
-      ecosObj: mock.getEcosDocObject('image'),
+      ecosObj: m.ecosObj('image'),
     })
     const { render } = createRender(imageComponentObject)
     await render()
@@ -139,8 +142,8 @@ describe(italic(`ecosDoc`), () => {
 
   describe(`pdf`, () => {
     it(`should render pdf documents`, async () => {
-      const componentObject = ui.ecosDocComponent({
-        ecosObj: ui.ecosDoc('pdf'),
+      const componentObject = m.ecosDocComponent({
+        ecosObj: m.ecosDoc('pdf'),
       })
       const { render } = createRender(componentObject)
       const component = await render()
@@ -163,9 +166,9 @@ describe(italic(`ecosDoc`), () => {
 
     describe(`plain`, () => {
       it(`should render plain text documents`, async () => {
-        const componentObject = ui.ecosDocComponent({
+        const componentObject = m.ecosDocComponent({
           id: 'hello',
-          ecosObj: mock.getEcosDocObject('text'),
+          ecosObj: m.ecosObj('text'),
         })
         const { render } = createRender(componentObject)
         const component = await render()
@@ -199,7 +202,7 @@ describe(italic(`ecosDoc`), () => {
     describe(white('note'), () => {
       it(`should only display the note's body content and not the title`, async () => {
         const component = await createRender(
-          ui.ecosDocComponent('note'),
+          m.ecosDocComponent('note'),
         ).render()
         const node = n.findFirstByElementId(component)
         const iframe = node.firstElementChild as HTMLIFrameElement
@@ -222,14 +225,14 @@ describe(italic(`ecosDoc`), () => {
 
 describe(italic(`image`), () => {
   it('should attach the pointer cursor if it has onClick', async () => {
-    const { render } = createRender(ui.image({ onClick: [] }))
+    const { render } = createRender(m.image({ onClick: [] }))
     expect(n.findFirstByElementId(await render())?.style)
       .to.have.property('cursor')
       .eq('pointer')
   })
 
   it('should set width and height to 100% if it has children (deprecate soon)', async () => {
-    const { render } = createRender(ui.image({ children: [] }))
+    const { render } = createRender(m.image({ children: [] }))
     const node = n.findFirstByElementId(await render())
     expect(node?.style).to.have.property('width').eq('100%')
     expect(node?.style).to.have.property('height').eq('100%')
@@ -238,7 +241,7 @@ describe(italic(`image`), () => {
 
 describe(italic(`label`), () => {
   it('should attach the pointer cursor if it has onClick', async () => {
-    const { render } = createRender(ui.image({ onClick: [] }))
+    const { render } = createRender(m.image({ onClick: [] }))
     expect(n.findFirstByElementId(await render()).style)
       .to.have.property('cursor')
       .eq('pointer')
@@ -255,8 +258,12 @@ describe(italic(`list`), () => {
   )
 
   xit(`should remove removed list items from the component cache`, async () => {
-    const listObject = mock.getGenderListObject()
-    const { ndom, render } = createRender(ui.list({ listObject }))
+    const listObject = [
+      { key: 'gender', value: 'Female' },
+      { key: 'gender', value: 'Male' },
+      { key: 'gender', value: 'Other' },
+    ]
+    const { ndom, render } = createRender(m.list({ listObject }))
     const component = await render()
     const flattened = flatten(component)
     expect(ndom.cache.component.length).to.eq(flattened.length)
@@ -266,7 +273,7 @@ describe(italic(`list`), () => {
   })
 
   it(`should remove the corresponding list item's DOM node from the DOM`, async () => {
-    const { render } = createRender(ui.list())
+    const { render } = createRender(m.list())
     const component = await render()
     const child2 = component.child(1)
     const child2Node = document.getElementById(child2?.id || '')
@@ -289,10 +296,10 @@ describe(italic(`page`), () => {
   xit(`should render the page component as an iframe`, async () => {
     const { render } = createRender({
       root: { Dog: { components: [] } },
-      components: mock.getPageComponent({
+      components: m.page({
         path: 'Dog' as any,
         children: [
-          mock.getTextViewComponent({
+          m.textView({
             placeholder: 'Type something here',
           } as any),
         ],
@@ -498,13 +505,13 @@ describe(italic(`text=func`), () => {
     const spy = sinon.spy(() => date)
     const ctime = 'abc'
     const { render } = createRender(
-      ui.list({
+      m.list({
         listObject: [{ ctime }],
         iteratorVar: 'itemObject',
         children: [
-          ui.listItem({
+          m.listItem({
             children: [
-              ui.label({
+              m.label({
                 dataKey: 'itemObject.ctime',
                 'text=func': spy,
               } as any),
@@ -526,7 +533,7 @@ describe(italic(`text=func`), () => {
       pageName: 'Hello',
       pageObject: {
         components: [
-          ui.label({ dataKey: 'formData.ctime', 'text=func': spy } as any),
+          m.label({ dataKey: 'formData.ctime', 'text=func': spy } as any),
         ],
         formData: { ctime: date },
       },
@@ -542,7 +549,7 @@ describe(italic(`text=func`), () => {
       const { render } = createRender({
         pageObject: {
           components: [
-            ui.label({
+            m.label({
               dataKey: 'itemObject.ctime',
               'text=func': (v: any) => v,
             } as any),
@@ -564,7 +571,7 @@ describe(italic(`timer`), () => {
   it(`should create a new Timer using the dataKey as the key`, async () => {
     const textFuncResult = Date.now()
     const { ndom, nui, render } = createRender({
-      components: ui.label({
+      components: m.label({
         contentType: 'timer',
         dataKey: 'Global.date',
         'text=func': () => textFuncResult,
@@ -584,7 +591,7 @@ describe(italic(`timer`), () => {
         Global: { date: textFuncResult, components: [] },
       },
       components: [
-        ui.label({
+        m.label({
           contentType: 'timer',
           dataKey: 'Global.date',
           'text=func': () => textFuncResult,
@@ -608,7 +615,7 @@ describe(italic(`timer`), () => {
         Global: { date: textFuncResult, components: [] },
       },
       components: [
-        ui.label({
+        m.label({
           contentType: 'timer',
           dataKey: 'Global.date',
           'text=func': () => textFuncResult,
@@ -628,10 +635,10 @@ describe(italic(`timer`), () => {
     const { ndom, render, request } = createRender({
       root: {
         Global: { date: textFuncResult } as any,
-        Cereal: { components: [ui.button()] },
+        Cereal: { components: [m.button()] },
       },
       components: [
-        ui.label({
+        m.label({
           contentType: 'timer',
           dataKey,
           'text=func': () => textFuncResult,

@@ -1,0 +1,259 @@
+HaNauseaAndVomting:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Nausea and vomiting
+        - .HaHeaderLittleLabel:
+          text: Nausea and vomiting are not diseases, but they are symptoms of many conditions
+    - .HaBodyTagView:
+      style: 
+        marginTop: '0.09'
+      children:
+        - .HaBodyTagButton1:
+          text: abdominal
+    - .HaBodyCon:
+      style:
+        height: '0.87'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Get emergency medical care if:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Blurred vision"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Ambiguous"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Extremely thirsty or urinating less than usual"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Severe abdominal pain"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Severe headaches, especially if you have not had such headaches before"
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+                width: '0.5'
+              text: "⦁ Rectal bleeding"
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+              text: "⦁ Have stomach or chest pain"
+            - .HaBodyContent:
+              style:
+                top: '0.35'
+              text: "⦁ Have diabetes and take insulin"
+            - .HaBodyContent:
+              style:
+                # width: '0.5'
+                top: '0.4'
+              text: "⦁ With chest pain lasting more than a few minutes"
+            - .HaBodyContent:
+              style:
+                top: '0.45'
+              text: "⦁ Pregnant or think you may be pregnant"
+            - .HaBodyContent:
+              style:
+                top: '0.5'
+              text: "⦁ Have had bouts of nausea and vomiting for longer than one month"
+            - .HaBodyContent:
+              style:
+                top: '0.55'
+                width: '0.5'
+              text: "⦁ With unexplained weight loss"
+            - .HaBodyContent:
+              style:
+                top: '0.6'
+              text: "⦁ High fever and stiff neck"
+            - .HaBodyContent:
+              style:
+                top: '0.65'
+              text: "⦁ accompanied by shortness of breath"
+            - .HaBodyContent:
+              style:
+                top: '0.7'
+              text: "⦁ Vomit that contains blood, resembles coffee grounds or is green"
+            - .HaBodyContent:
+              style:
+                top: '0.75'
+              text: "⦁ Are unable to drink anything for 24 hours"
+           
+
+        - .HaBodyImg:
+          style:  
+            top: '0.11'
+            left: '0.7'
+            width: '0.16'
+          path: healthAZ/nausea-and-vomiting.png
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Find possible causes of nausea and vomiting based on specific factors. Use our patient Questionnaire."
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Nausea is a special subjective feeling, manifested as stomach discomfort and fullness, often a prelude to vomiting and accompanied by salivation and repeated swallowing movements; vomiting is a kind of reflexive strong contraction of the stomach, force the contents of the stomach to be rapidly excreted from the stomach and esophagus through the oral cavity. Nausea and vomiting can be caused by a variety of distinct diseases and pathophysiological mechanisms."
+              
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Motion sickness:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Any type of transportation can cause motion sickness. It can strike suddenly, progressing from a feeling of uneasiness to a cold sweat, dizziness and vomiting. It usually quiets down as soon as the motion stops. The more you travel, the more easily you' Ll adjust to being in motion."
+            - .HaBodyContent:
+              style:
+                top: '0.09'
+              text: "You might avoid motion sickness by planning ahead. When traveling, avoid sitting in seats in the rear of the vehicle or seats that face backward."
+            
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Viral gastroenteritis (stomach flu)"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Viral gastroenteritis is an intestinal infection marked by watery diarrhea, abdominal cramps, nausea or vomiting, and sometimes fever. The most common way to develop viral gastroenteritis — often called stomach flu — is through contact with an infected person or by ingesting contaminated food or water. If you're otherwise healthy, you'll likely recover without complications. But for infants, older adults And people with compromised immune systems, viral gastroenteritis can be deadly."          
+
+
+    - .HaBodyCon:
+      style:
+        height: '0.5'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Other cause include:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Morning sickness"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Intestinal obstruction"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Vestibular neuritis"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Acute liver failure"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ General anesthesia"
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+                width: '0.5'
+              text: "⦁ Migraine"
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+              text: "⦁ Anaphylaxis"
+            - .HaBodyContent:
+              style:
+                top: '0.35'
+              text: "⦁ Gastroparesis (a condition in which the muscles of the stomach wall don't function properly, erfering with digestion)"
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Nausea and vomiting is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname: 
+          # text: "abdominal"   
+    - .BaseFooter1:
+
+
+
+
+
+
+
+
+
+
+
+

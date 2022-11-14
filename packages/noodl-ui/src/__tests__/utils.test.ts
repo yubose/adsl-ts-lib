@@ -2,7 +2,8 @@ import sinon from 'sinon'
 import { expect } from 'chai'
 import { waitFor } from '@testing-library/dom'
 import * as n from '../utils/noodl'
-import { createDataKeyReference, ui } from '../utils/test-utils'
+import m from 'noodl-test-utils'
+import { createDataKeyReference } from '../utils/test-utils'
 import NUI from '../noodl-ui'
 import NUIPage from '../Page'
 import Viewport from '../Viewport'
@@ -13,21 +14,21 @@ import log from '../utils/log'
 /** REMINDER: Total components created should be 9 for this func */
 const getResolvedListComponentPreset = async () =>
   NUI.resolveComponents(
-    ui.list({
+    m.list({
       contentType: 'listObject',
       iteratorVar: 'iceCream',
       listObject: [{ key: 'Gender', value: 'Male' }],
       children: [
-        ui.listItem({
+        m.listItem({
           iceCream: '',
           children: [
-            ui.view({
+            m.view({
               children: [
-                ui.select([]),
-                ui.button(),
-                ui.textField(),
-                ui.view({ children: [] }),
-                ui.view({ children: [ui.label()] }),
+                m.select([]),
+                m.button(),
+                m.textField(),
+                m.view({ children: [] }),
+                m.view({ children: [m.label()] }),
               ],
             }),
           ],
@@ -53,26 +54,26 @@ describe(`utils`, () => {
     it(`should get the iteratorVar if its a list`, async () => {
       expect(
         n.findIteratorVar(
-          await NUI.resolveComponents(ui.list({ iteratorVar: 'hello' })),
+          await NUI.resolveComponents(m.list({ iteratorVar: 'hello' })),
         ),
       ).to.eq('hello')
     })
 
     it(`should get the iteratorVar if its a listItem`, async () => {
-      const list = await NUI.resolveComponents(ui.list({ iteratorVar: 'trap' }))
+      const list = await NUI.resolveComponents(m.list({ iteratorVar: 'trap' }))
       const listItem = list.child()
       expect(n.findIteratorVar(listItem)).to.eq('trap')
     })
 
     it(`should get the iteratorVar if its a deeply nested descendant`, async () => {
       const list = await NUI.resolveComponents(
-        ui.list({
+        m.list({
           iteratorVar: 'iceCream',
           children: [
-            ui.listItem({
+            m.listItem({
               children: [
-                ui.view({
-                  children: [ui.button],
+                m.view({
+                  children: [m.button],
                 }),
               ],
             }),
@@ -107,12 +108,11 @@ describe(`utils`, () => {
 
   describe(`isListConsumer`, () => {
     it(`should return true for list components`, async () => {
-      expect(n.isListConsumer(await NUI.resolveComponents(ui.list()))).to.be
-        .true
+      expect(n.isListConsumer(await NUI.resolveComponents(m.list()))).to.be.true
     })
 
     it(`should return true for listItem components`, async () => {
-      expect(n.isListConsumer((await NUI.resolveComponents(ui.list())).child()))
+      expect(n.isListConsumer((await NUI.resolveComponents(m.list())).child()))
         .to.be.true
     })
 
@@ -137,10 +137,10 @@ describe(`utils`, () => {
       expect(
         n.isListLike(
           await NUI.resolveComponents(
-            ui.list({
+            m.list({
               contentType: 'listObject',
               iteratorVar: 'itemObject',
-              children: [ui.listItem({ itemObject: '' })],
+              children: [m.listItem({ itemObject: '' })],
             }),
           ),
         ),

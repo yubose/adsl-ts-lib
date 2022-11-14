@@ -1,0 +1,258 @@
+
+HaHeadacheInChild:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Headaches in children
+        - .HaHeaderLittleLabel:
+          text: Headaches in children are common and usually aren't serious.
+    - .HaBodyTagView:
+      style:
+        marginTop: '0.09'
+      children:
+        - .HaBodyTagButton1:
+          text: Headaches
+    - .HaBodyCon:
+      style:
+        height: '0.48'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Get emergency medical care if:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Is sudden and severe or the 'worst headache ever' "
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ A headache, fever, and a stiff neck are present (Meningitis)"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+                width: "0.5"
+              text: "⦁ Changes in sensation, vision, sudden weakness, loss of coordination, seizures, difficulty speaking or understanding speech,and drowsiness or confusion"
+            - .HaBodyContent:
+              style:
+                top: '0.18'
+                width: '0.5'
+              text: "⦁ Red eyes and halos around lights"
+            - .HaBodyContent:
+              style:
+                top: '0.23'
+              text: "⦁ Headaches in people with cancer or weakened immune system (AIDS)"
+            - .HaBodyContent:
+              style:
+                top: '0.27'
+                width: '0.5'
+              text: "Headache can be a pain in any part of the head, including the face, skull, etc. Headaches may interfere with one's ability to work or do ones normal daily activities. Some people have headaches on a daily basis while others hardly ever get them at all. Though headaches can be painful and stressful, they are rarely due to any serious conditions. Headaches not caused by another disorder are usually classified as primary headaches. Headaches caused by another disorder are classified a secondary headaches. Primary headache disorders include migraine, tension type headaches, and cluster headaches. Secondary headaches may result from disorders of the brain, eyes, nose, teeth, sinuses, throat, jaws, ears, and or neck."
+            
+                 
+        - .HaBodyImg:
+          style:  
+            top: '0.1'
+            left: '0.69'
+            width: '0.16'
+          path: healthAZ/headache-in-a-child.png
+    - .HaBodyCon:
+      style:
+        height: '0.12'
+        marginTop: "0.15"
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Common Causes of Headache:"          
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "⦁ Tension headache (stress related)"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Migraine"
+
+    - .HaBodyCon:
+      style:
+        height: "1.1"
+        marginTop: "0.12"
+
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Less common causes of headache:"          
+        - type: view
+          style:
+            marginTop: '0.05'   
+          children:
+            - .HaBodyContent:
+              text: "⦁ Cluster headache"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Meningitis"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Brain tumor"       
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+              text: "⦁ Bleeding in the brain (intracerebral or subarachnoid hemorrhage)"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Lyme disease"   
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ Influenza"
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+              text: "⦁ Caffeine withdrawal"       
+            - .HaBodyContent:
+              style:
+                top: '0.35'
+              text: "⦁ Withdrawal from pain medication"
+            - .HaBodyContent:
+              style:
+                top: '0.4'
+              text: "⦁ High blood pressure"    
+            - .HaBodyContent:
+              style:
+                top: '0.45'
+              text: "⦁ Eye straining"
+            - .HaBodyContent:
+              style:
+                top: '0.5'
+              text: "⦁ Temporal giant cell arteritis"       
+            - .HaBodyContent:
+              style:
+                top: '0.55'
+              text: "⦁ Glaucoma– Red eyes and halos seen around lights"
+            - .HaBodyContent:
+              style:
+                top: '0.6'
+              text: "⦁ Sinusitis"
+            - .HaBodyContent:
+              style:
+                top: '0.65'
+              text: "⦁ Head injury"
+            - .HaBodyContent:
+              style:
+                top: '0.7'
+              text: "⦁ Tooth pain"    
+            - .HaBodyContent:
+              style:
+                top: '0.75'
+              text: "Headache is a big concern when it occurs suddenly. A severe headache that includes fever and stiff neck suggests Meningitis, which is life-threatening if untreated. A sudden worst headache of your life headache may suggest bleeding in the brain. People should see a doctor if headaches occur as doctors can determine the type and causes headaches based on medical history, symptoms and exam.If your healthcare provider suspect’s that the cause of headache is severe in nature, further testing may be warranted. Treatment may be necessary in some causes of headaches. Pain medication is prescribed but must be taken cautiously."
+            - .HaBodyContent:
+              style:
+                top: '0.93'
+              text: "If you are experiencing a headache, Connect with one of our Healthcare professionals immediately and be seen within minutes from the comfort of your own home, work, or anywhere you may be. Often times our doctors can diagnose, treat, and make recommendations within 15 minutes or less."
+    - .HaBodyCon:
+      style:
+        height: '0.47'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "How to prepare and get the most for your AITMED Ⓡ online visit following these helpful tips:"          
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Find a quiet, private place for your visit"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Tell the provider who the visit is for, you or someone else"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Write down your questions for the visit before your appointment time"       
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Bleeding in the brain (intracerebral or subarachnoid hemorrhage)"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Be specific about your concerns, symptoms, and questions"   
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ Stay engaged and follow post-visit instructions if any are provided"
+            
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Headaches in children is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname: 
+          # text: "headaches"
+    - .BaseFooter1:
+
+
+
+
+
+
+
+
+

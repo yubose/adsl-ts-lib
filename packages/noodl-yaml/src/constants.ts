@@ -1,6 +1,7 @@
 export const _symbol = {
   fs: Symbol('fileSystem'),
   root: Symbol('DocRoot'),
+  propsNode: Symbol('props.node'),
 } as const
 
 export enum EmitCode {}
@@ -93,4 +94,22 @@ export enum VisitorQueueStatus {
   Visited = 0,
   Pending = 1,
   Error = 2,
+}
+
+/**
+ * Reserved noodl style keys (incompatible with the DOM)
+ */
+export const reservedStyleKeys = [
+  'align',
+  'axis',
+  'contentSize',
+  'isHidden',
+  'shadow',
+] as const
+
+export enum ProxyHandlerType {
+  Has = 'has',
+  Get = 'get',
+  Set = 'set',
+  Del = 'delete',
 }

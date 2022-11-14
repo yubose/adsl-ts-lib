@@ -272,7 +272,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
             textAlign,
             verticalAlign,
           } = originalValue
-          
+
           /* -------------------------------------------------------
             ---- COMPONENTS
           -------------------------------------------------------- */
@@ -378,6 +378,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                     ['left', 'flex-start'],
                     ['right', 'flex-end'],
                     ['center', 'center'],
+                    ['centerX', 'center'],
                   ])
                   // convert (left ,center ,right) to (flex-start | flex-end | center)
                   set(value, 'display', 'flex')
@@ -671,13 +672,16 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                           ),
                         )
                       : undefined
-                      if (s.isNoodlUnit(styleValue)) {
-                        if(styleValue.includes("%")&&styleKey === "borderRadius"){
+                    if (s.isNoodlUnit(styleValue)) {
+                      if (
+                        styleValue.includes('%') &&
+                        styleKey === 'borderRadius'
+                      ) {
                         set(value, styleKey, styleValue)
-                        }else{
+                      } else {
                         set(value, styleKey, computedValue)
-                        }
-                      }  else if (s.isKeyRelatedToHeight(styleKey)) {
+                      }
+                    } else if (s.isKeyRelatedToHeight(styleKey)) {
                       if (styleKey == 'borderRadius' && isStr(styleValue)) {
                         if (styleValue.includes('px')) {
                           set(value, styleKey, `${styleValue}`)
@@ -772,7 +776,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                 rootKey: is.localReference(value) ? pageName : undefined,
               }),
             )
-          : value
+          : value || originalValue
         set(props, 'data-viewtag', viewTag)
       } else if (originalKey === 'dataOption') {
         // @ts-expect-error
@@ -827,7 +831,6 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
         }
       }
     }
-
 
     /* -------------------------------------------------------
       ---- OTHER / UNCATEGORIZED

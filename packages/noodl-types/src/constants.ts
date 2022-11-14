@@ -2,6 +2,7 @@ export const action = {
   builtIn: 'builtIn',
   evalObject: 'evalObject',
   getLocationAddress: 'getLocationAddress',
+  updateGlobal: 'updateGlobal',
   openCamera: 'openCamera',
   openPhotoLibrary: 'openPhotoLibrary',
   openDocumentManager: 'openDocumentManager',

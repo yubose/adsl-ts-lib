@@ -1,0 +1,173 @@
+
+HaEyeProblemsInChild:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Eye Problems in Children
+        - .HaHeaderLittleLabel:
+          text: Vision is fundamental for so many aspects of learning, from recognizing faces and shapes to reading.
+    - .HaBodyTagView:
+      style:
+        top: '0.55'
+      children:
+        - .HaBodyTagButton1:
+          text: Eye
+        - .HaBodyTagButton2:
+          text: Vision
+    - .HaBodyCon:
+      style:
+        height: '0.96'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Get emergency medical care if:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Severe eye pain or irritation"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Swelling or redness in or around the eyes"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Discharge of blood or pus from the eyes"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Unequal pupil sizes"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Problems with eye movement"             
+            - .HaBodyContent:
+              style:
+                top: '0.24'
+                width: '0.5'
+              text: "Good vision is important for a child’s educational, physical and social development. With many children suffering from an undetected vision problem, it’s important to be aware of the signs to give every child the best chance of reaching their full potential."
+            - .HaBodyContent:
+              style:
+                top: '0.34'
+                width: '0.5'
+              text: "Children who are struggling with undetected vision problems often fail to progress well in school."
+            - .HaBodyContent:
+              style:
+                top: '0.415'
+                width: '0.5'
+              text: "You can use the following checklist to look for the common symptoms that children with vision problems exhibit."
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+                top: '0.48'
+              text: "⦁ One eye turns in or out while the other points straight ahead"
+            - .HaBodyContent:
+              style:
+                top: '0.53'
+              text: "⦁ Frequent blinking"
+            - .HaBodyContent:
+              style:
+                top: '0.58'
+              text: "⦁ Red or watery eyes"
+            - .HaBodyContent:
+              style:
+                top: '0.63'
+                width: '0.5'
+              text: "⦁ Difficulty concentrating"
+            - .HaBodyContent:
+              style:
+                top: '0.68'
+              text: "⦁ Covering or closing one eye"
+            - .HaBodyContent:
+              style:
+                top: '0.73'
+              text: "⦁ Holding a book very close to read"
+            - .HaBodyContent:
+              style:
+                top: '0.78'
+              text: "⦁ Squinting or sitting very close when watching television"
+            - .HaBodyContent:
+              style:
+                top: '0.83'
+              text: "⦁ Complaints of headaches"
+            - .HaBodyContent:
+              style:
+                top: '0.88'
+              text: "⦁ Complaints of blurred or double vision."
+
+        - .HaBodyImg:
+          style:  
+            top: '0.1'
+            left: '0.69'
+            width: '0.16'
+          path: healthAZ/eye_problems_in_child.png
+    
+   
+    
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.27'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Eye Problems in children is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.07'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname:                                                                                                           
+    - .BaseFooter1:
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,135 @@
+HaDifficultySwallowing:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Difficulty Swallowing
+        - .HaHeaderLittleLabel:
+          text: Refers to the obstruction of pharyngeal, sternal, or esophageal stagnation caused by food from the mouth to the stomach and during the transportation.
+    - .HaBodyTagView:
+      style:
+        top: '0.55'
+      children:
+        - .HaBodyTagButton1:
+          style:
+            width: '0.12'
+          text: Difficulty Swallowing
+        - .HaBodyTagButton2:
+          text: Swallowing
+    - .HaBodyCon:
+      style:
+        height: '0.65'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Get emergency care if:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Have something stuck in your throat."
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Can't swallow at all."
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Have trouble breathing."
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "Difficulty in swallowing also known as dysphagia, means that when swallowing food or drinking water, it feels laborious or obstructive. Usually, the main performance is that it is laborious to swallow food. The food has a feeling of obstruction when passing through the mouth or the throat. The swallowing time is too long. And in seriously situation, even the food and water cannot be swallowed."
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+                width: '0.5'
+              text: "The diseases that cause difficulty in swallowing can be roughly divided into two categories: mechanical and dynamic:"
+            - .HaBodyContent:
+              style:
+                top: '0.38'
+                width: '0.5'
+              text: "⦁ Mechanical: any cause of smaller esophageal diameter may cause difficulty in swallowing, including stenosis caused by disease of the esophagus itself and enlargement of the esophagus outside the esophagus, common diseases include throat, esophagus Inflammation, esophageal tumors, thyroid neoplasms, mediastinal tumors, etc."
+            - .HaBodyContent:
+              style:
+                top: '0.51'
+                width: '0.5'
+              text: "⦁ Dynamic: normal swallowing is accomplished by a combination of nerves and muscles. If there is a problem with the nerves or muscles, dysphagia happened. Disease include: cerebrovascular accident (stroke), myasthenia gravis, Parkinson's disease, achalasia, dermatomyositis, etc."
+            - .HaBodyContent:
+              style:
+                top: '0.63'
+                width: '0.5'
+              text: "In addition to the above causes, mental illnesses such as snoring, anxiety, and depression can also cause difficulty swallowing."
+            
+        - .HaBodyImg:
+          style:  
+            top: '0.09'
+            left: '0.68'
+            width: '0.16'
+          path: healthAZ/difficulty_swallowing.png
+    
+    
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Difficulty swallowing is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag:
+        - .HaBottomTagname: 
+          # style: 
+          #   width: '0.2'
+          #   left: '0.5'
+          # text: "difficulty swallowing"
+    - .BaseFooter1:
+
+
+
+
+
+
+

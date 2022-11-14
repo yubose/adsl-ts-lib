@@ -1,25 +1,12 @@
-import inv from 'invariant'
 import type { LiteralUnion } from 'type-fest'
 import type { ReferenceString } from 'noodl-types'
-import { fp, is, trimReference } from 'noodl-core'
-import {
-  isCollection,
-  isMap,
-  isScalar,
-  isPair,
-  isSeq,
-  isNode,
-} from '../utils/yaml'
+import { is } from 'noodl-core'
 import deref from '../utils/deref'
-import get from '../utils/get'
-import set from '../utils/set'
-import unwrap from '../utils/unwrap'
 import { getRefInstructions } from './get-ref-instructions'
 import { createProducer } from './producer'
 import type { Produce } from './producer'
 import type { Emit } from './machineTypes'
 import * as c from '../constants'
-import * as mu from './machineUtils'
 import * as t from './machineTypes'
 
 export type EmitterOptions = t.ResolveOptions & {
@@ -48,7 +35,7 @@ function handleRef(
           const _res = {} as Emit.AwaitReferenceResolution
           const _meta = meta as t.AwaitReferenceMeta
           const _instructions = getRefInstructions(_meta.value)
-          const { value: awaitValue } = _meta
+          // const { value: awaitValue } = _meta
           console.log({ _instructions })
           return { instructions: _instructions, meta: _meta, resolution: _res }
         }
@@ -111,7 +98,7 @@ export function createEmitter({
       }
     }
 
-    const resolve = _options?.resolve || ((value) => value)
+    // const resolve = _options?.resolve || ((value) => value)
 
     if (is.str(_value)) {
       if (is.reference(_value)) {

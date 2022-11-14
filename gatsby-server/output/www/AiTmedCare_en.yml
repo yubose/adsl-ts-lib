@@ -1,0 +1,576 @@
+AiTmedCare:
+  viewPort: top
+  init: #Page initialization
+  patientCareList1:
+    - img: ture.png
+      text: Schedule a virtual or in-office appointment.
+    - img: ture.png
+      text: Upload secure medical documents into your virtual appointment room.
+    - img: ture.png
+      text: Check in to your appointment from anywhere.
+    - img: ture.png
+      text: Create and share your visit concerns.
+  patientCareList2:
+    First:
+      - img: inCircle1.svg
+        text: Connect with your provider or medical facility 
+        number: "1"
+      - img: circle2.svg
+        text: Schedule your appointment at a time convenient for you
+        number: "2"
+      - img: patientCaren3.svg
+        text: Check in to your appointment virtually and see your physician.
+        number: "3" 
+      - img: patientCaren4.svg
+        text: Share any medical documents with your provider at any time
+        number: "4"
+    Second:
+      - img: patientCaren1.svg
+        text: Connect with your provider or medical facility
+        number: "1"
+      - img: inCircle2.svg
+        text: Schedule your appointment at a time convenient for you
+        number: "2"
+      - img: patientCaren3.svg
+        text: Check in to your appointment virtually and see your physician.  
+        number: "3"
+      - img: patientCaren4.svg
+        text: Share any medical documents with your provider at any time
+        number: "4"
+    Third:
+      - img: patientCaren1.svg
+        text: Connect with your provider or medical facility
+        number: "1"
+      - img: circle2.svg
+        text: Schedule your appointment at a time convenient for you
+        number: "2"
+      - img: inCircle3.svg
+        text: Check in to your appointment virtually and see your physician.  
+        number: "3"
+      - img: patientCaren4.svg
+        text: Share any medical documents with your provider at any time
+        number: "4"
+    Fourst:
+      - img: patientCaren1.svg
+        text: Connect with your provider or medical facility
+        number: "1"
+      - img: circle2.svg
+        text: Schedule your appointment at a time convenient for you
+        number: "2"
+      - img: patientCaren3.svg
+        text: Check in to your appointment virtually and see your physician.
+        number: "3"
+      - img: inCircle4.svg
+        text: Share any medical documents with your provider at any time
+        number: "4"
+  formData:
+    show:
+      - img: inCircle1.svg
+        text: Connect with your provider or medical facility 
+        number: "1" 
+      - img: circle2.svg
+        text: Schedule your appointment at a time convenient for you
+        number: "2"
+      - img: patientCaren3.svg
+        text: Check in to your appointment virtually and see your physician.
+        number: "3"
+      - img: patientCaren4.svg
+        text: Share any medical documents with your provider at any time
+        number: "4"
+  imgPath: c_animation2.png
+  components:
+    - .BaseHeader:
+    - type: view
+      style:
+        width: calc(1514.77/1724.81*100vw)
+        left: "0"
+        margin: auto
+        marginTop:  calc(116.17/1724.81*100vw)
+      children:
+        - type: view
+          viewTag: topView
+          style: 
+            left: "0"
+            marginTop: "0"
+            width: calc(1514.77/1724.81*100vw)
+            height: calc(772/1724.81*100vw)
+            zIndex: "100"
+          children: 
+            - type: image
+              path: careNew.png
+              style:
+                width: calc(1514.77/1724.81*100vw)
+                height: 'auto'
+                left: "0"
+            - type: label
+              text: AiTmed Care
+              style:
+                top: calc(217.005/1724.81*100vw)
+                width: auto
+                height: auto
+                textShadow: '2px 2px 3px #999999'
+                left: calc(242.365/1724.81*100vw)
+                fontSize: calc(38.3/1724.81*100vw)
+                # fontWeight: '600'
+                fontStyle: bold
+            - type: label
+              text: 'The doctor is one-click away  Take control of your health'
+              style:
+                top: calc(300.403/1724.81*100vw)
+                textShadow: '1px 1px 2px #999999'
+                width: calc(378.695/1724.81*100vw)
+                height: calc(170.2/1724.81*100vw)
+                fontSize: calc(25.53/1724.81*100vw)
+                fontFamily: Arial
+                left: calc(242.365/1724.81*100vw)
+            - type: button
+              onClick:
+                - goto: .WebsitePath
+              text: "Get Started - For FREE"
+              style:
+                fontSize: calc(31/1920*100vw)
+                color: '0xffffff'
+                fontFamily: 'Arial'
+                backgroundColor: "0x30b354" 
+                zIndex: '99'
+                fontWeight: 'Regular'
+                borderRadius: calc(4.85/1920*100vw)
+                borderWidth: "0"
+                boxShadow: 1px 1px 2px 0x000000
+                height: calc(65.89/1920*100vw)
+                left: calc(275.97/1920*100vw)
+                top: calc(544.58/1920*100vw)
+                # width: calc(384.64/1920*100vw)
+                padding: "0 20px"
+                textAlign: 
+                  x: center
+                  y: center
+        - type: view
+          style:
+            # marginTop: "0.242"
+            background: "linear-gradient(to top , #074e92, #348ac9)"
+            width: calc(1514.77/1724.81*100vw)
+            height: calc(782.92/1724.81*100vw)
+            # left: "0"
+            zIndex: "100"
+            display: flex
+            flexDirection: column
+            justifyContent: center
+            alignItems: center
+          children:
+            - type: label
+              text: "Your Patient Care Platform"
+              style:
+                height: calc(250/1724.81*100vw)
+                color: '0xffffff'
+                fontSize: calc(34.04/1724.81*100vw)
+                fontFamily: 'Arial'
+                fontWeight: '600'
+                width: calc(1514.77/1724.81*100vw)
+                textAlign: center
+                display: flex
+                justifyContent: center
+                alignItems: center
+            - type: view
+              style:
+                width: calc(1100/1724.81*100vw)
+                height: calc(680.8/1724.81*100vw)
+                display: flex
+                flexWrap: wrap
+                alignItems: center
+                alignContent: center
+                justifyContent: space-evenly
+              children:
+                - .PatientChartView: 
+                  children: 
+                    - .PatientChartImgView:
+                      children:
+                        - .PatientChartImg:
+                          path: patientCare1.svg
+                    - .PatientChartInnerView:
+                      children: 
+                        - .PatientChartTitle:
+                          text: Self-schedule virtual & in-office appointments
+                        - .PatientChartText: 
+                          text: Schedule your own appointment on your own time
+                - .PatientChartView:
+                  children: 
+                    - .PatientChartImgView:
+                      children:
+                        - .PatientChartImg:
+                          path: patientCare5.svg
+                    - .PatientChartInnerView:
+                      children: 
+                        - .PatientChartTitle:
+                          text: Manage your own medical documents
+                          style: 
+                            width: calc(378.695/1724.81*100vw)
+                        - .PatientChartText: 
+                          text: Keep your medical documents in one place and share with anyone in one click.
+                - .PatientChartView:
+                  children: 
+                    - .PatientChartImgView:
+                      children:
+                        - .PatientChartImg:
+                          path: patientCare2.svg
+                    - .PatientChartInnerView:
+                      children: 
+                        - .PatientChartTitle:
+                          text: Blockchain secure and privacy
+                        - .PatientChartText: 
+                          text: Protecting your medical documents and secure appointments with your provider. 
+                - .PatientChartView:
+                  children: 
+                    - .PatientChartImgView:
+                      children:
+                        - .PatientChartImg:
+                          path: patientCare6.svg
+                    - .PatientChartInnerView:
+                      children: 
+                        - .PatientChartTitle:
+                          style:
+                            height: calc(45/1724.81*100vw)
+                          text: Online specialist referrals 
+                        - .PatientChartText: 
+                          text: Get instant access to the top-rated specialists.
+                - .PatientChartView:
+                  children: 
+                    - .PatientChartImgView:
+                      children:
+                        - .PatientChartImg:
+                          path: patientCare4.svg
+                    - .PatientChartInnerView:
+                      children: 
+                        - .PatientChartTitle:
+                          style:
+                            height: calc(45/1724.81*100vw)
+                          text: Cloud waiting room
+                        - .PatientChartText: 
+                          text: Skip the drive and check in using the AiTmed Care app.
+                - .PatientChartView:
+                  children: 
+                    - .PatientChartImgView:
+                      children:
+                        - .PatientChartImg:
+                          path: patientCare8.svg
+                    - .PatientChartInnerView:
+                      children: 
+                        - .PatientChartTitle:
+                          style:
+                            height: calc(45/1724.81*100vw)
+                          text: Easy to use
+                        - .PatientChartText: 
+                          text: Simple, easy, and secure.
+        - type: view
+          style:
+            marginTop: "0"
+            width: calc(1514.77/1724.81*100vw)
+            height: calc(713.138/1724.81*100vw)
+            left: "0"
+            backgroundColor: "#ffffff"
+            zIndex: "100"
+            display: flex
+            alignItems: center
+            justifyContent: center
+          children:
+            - type: view
+              style:
+                width: calc(350/1724.81*100vw)
+                height: "auto"
+                display: flex
+              children:
+                - type: image
+                  path: c_animation3.png
+                  style:
+                    width: calc(272.66/1724.81*100vw)
+            - type: view
+              style:
+                width: calc(600/1724.81*100vw)
+                height: "auto"
+                display: flex
+                flexDirection: column
+              children:
+                - type: label
+                  text: Create Your Own Appointments Around Your Own Schedule
+                  style:
+                    width: calc(545.321/1724.81*100vw)
+                    height: calc(70/1724.81*100vw)
+                    fontSize: calc(25.53/1724.81*100vw)
+                    fontWeight: "600" 
+                    fontFamily: 'Arial'
+                - type: label
+                  text: Never wait for an appointment again. With AiTmed Care you have access to see what date and time works best for you
+                  style:
+                    width: calc(545.321/1724.81*100vw)
+                    height: calc(70/1724.81*100vw)
+                    lineHeight: '1.8'
+                    fontSize: calc(16.17/1724.81*100vw)
+                    fontFamily: 'Arial'
+
+                - type: view
+                  style:
+                    width: calc(600/1724.81*100vw)
+                    height: "auto"
+                  children:
+                    - type: list
+                      contentType: listObject
+                      listObject: ..patientCareList1
+                      iteratorVar: itemObject
+                      style:
+                        width: calc(600/1724.81*100vw)
+                        height: auto
+                        # float: left                    
+                      children:
+                        - type: listItem
+                          itemObject: ""
+                          style:
+                            width: calc(600/1724.81*100vw)
+                            height: calc(34.04/1724.81*100vw)
+                            left: '0'
+                            display: inline-block
+                          children:
+                            - type: image
+                              path: 
+                                emit:
+                                  dataKey: 
+                                    var: itemObject
+                                  actions:
+                                    - if: 
+                                      - true
+                                      - $var.img
+                                      - $var.img
+                                      
+                              style:
+                                left: "0"
+                                top: calc(4.255/1724.81*100vw)
+                                width: calc(30.2956/1724.81*100vw)
+                            - type: label
+                              dataKey: itemObject.text
+                              style:
+                                top: calc(8.51/1724.81*100vw)
+                                left: calc(53.0173/1724.81*100vw)
+                                fontSize: calc(16.17/1724.81*100vw)
+                                fontFamily: 'Arial'
+
+        - type: view
+          style:
+            marginTop: "0"
+            width: calc(1514.77/1724.81*100vw)
+            left: "0"
+            height: calc(765.9/1724.81*100vw)
+            zIndex: "100"
+          children:
+            - type: view
+              style:
+                background: "linear-gradient(to bottom , #378ecc, #054c92)"
+                width: calc(1514.77/1724.81*100vw)
+                height: calc(765.9/1724.81*100vw)
+                left: "0"
+                top: "0"
+                display: flex
+                flexDirection: column
+                justifyContent: center
+              children:
+                - type: label
+                  text: How It Works
+                  style:
+                    display: flex
+                    justifyContent: center
+                    color: '0xffffff'
+                    height: calc(100/1724.81*100vw)
+                    fontSize: calc(34.04/1724.81*100vw)
+                    fontFamily: 'Arial'
+                    fontWeight: '600'
+                    textAlign: 
+                      x: center 
+                - type: view
+                  style:
+                    width: calc(1500/1724.81*100vw)
+                    height: calc(450/1724.81*100vw)
+                    display: flex
+                    justifyContent: center
+                  children:
+                    - type: view
+                      style:
+                        width: calc(450/1724.81*100vw)
+                        height: calc(500/1724.81*100vw)
+                      children:
+                        - type: list
+                          viewTag: TempList
+                          contentType: listObject
+                          listObject: ..formData.show
+                          iteratorVar: itemObject
+                          style:
+                            width: calc(450/1724.81*100vw)
+                            height: 'auto'
+                            left: "0"
+                          children:
+                            - type: listItem
+                              itemObject: ""
+                              onClick:
+                                - emit:
+                                    dataKey:
+                                      var: itemObject
+                                    actions:
+                                      - if:
+                                        - =.builtIn.string.equal:
+                                            dataIn:
+                                              string1: $var.number
+                                              string2: '1'
+                                        - ..formData.show@: =..patientCareList2.First
+                                        - continue
+                                      - if:
+                                        - =.builtIn.string.equal:
+                                            dataIn:
+                                              string1: $var.number
+                                              string2: '2'
+                                        - ..formData.show@: =..patientCareList2.Second
+                                        - continue
+                                      - if:
+                                        - =.builtIn.string.equal:
+                                            dataIn:
+                                              string1: $var.number
+                                              string2: '3'
+                                        - ..formData.show@: =..patientCareList2.Third
+                                        - continue
+                                      - if:
+                                        - =.builtIn.string.equal:
+                                            dataIn:
+                                              string1: $var.number
+                                              string2: '4'
+                                        - ..formData.show@: =..patientCareList2.Fourst
+                                        - continue
+                                      - if:
+                                        - =.builtIn.string.equal:
+                                            dataIn:
+                                              string1: $var.number
+                                              string2: '1'
+                                        - ..imgPath@: c_animation2.png
+                                        - continue
+                                      - if:
+                                        - =.builtIn.string.equal:
+                                            dataIn:
+                                              string1: $var.number
+                                              string2: '2'
+                                        - ..imgPath@: c_animation3.png
+                                        - continue
+                                      - if:
+                                        - =.builtIn.string.equal:
+                                            dataIn:
+                                              string1: $var.number
+                                              string2: '3'
+                                        - ..imgPath@: c_animation4.png
+                                        - continue
+                                      - if:
+                                        - =.builtIn.string.equal:
+                                            dataIn:
+                                              string1: $var.number
+                                              string2: '4'
+                                        - ..imgPath@: c_animation5.png
+                                        - continue
+                                - actionType: builtIn
+                                  funcName: redraw
+                                  viewTag: imgView
+                                - actionType: builtIn
+                                  funcName: redraw
+                                  viewTag: TempList
+                              style:
+                                width: calc(450/1724.81*100vw)
+                                height: calc(102.12/1724.81*100vw)
+                                color: '0xffffff'
+                                display: flex
+                                alignItems: center
+                              children:
+                                - type: view
+                                  style:
+                                    width: calc(70/1724.81*100vw)
+                                  children:
+                                    - type: image
+                                      path: 
+                                        emit:
+                                          dataKey: 
+                                            var: itemObject
+                                          actions:
+                                            - if: 
+                                              - true
+                                              - $var.img
+                                              - $var.img
+                                      style:
+                                        width: calc(48.473/1724.81*100vw)
+                                - type: label
+                                  dataKey: itemObject.text
+                                  style:
+                                    width: calc(272.66/1724.81*100vw)
+                                    fontFamily: 'Arial'
+                                    fontSize: calc(16.17/1724.81*100vw)
+                    - type: view
+                      viewTag: imgView
+                      style:
+                        width: calc(302.956/1724.81*100vw)
+                        height: calc(500/1724.81*100vw) #378ecc
+                      children:
+                        - type: image
+                          path: 
+                            emit:
+                              actions:
+                                - if:
+                                  - true
+                                  - ..imgPath
+                                  - ..imgPath
+                          style:
+                            width: calc(302.956/1724.81*100vw)
+                            # left: calc(151.478/1724.81*100vw) 
+        - type: view
+          style:
+            marginTop: "0"
+            width: calc(1514.77/1724.81*100vw)
+            left: "0"
+            height: calc(425.5/1724.81*100vw)
+            backgroundColor: "transparent"
+          children:
+            - type: label
+              text: Find Your Provider Today!
+              style:
+                left: calc(484.73/1724.81*100vw)
+                top: calc(170.2/1724.81*100vw)
+                height: calc(42.55/1724.81*100vw)
+                width : calc(1030.05/1724.81*100vw)
+                fontWeight: "600"
+                fontSize: calc(42.55/1724.81*100vw)
+                zIndex: "100"
+                color: "#000000"
+            - type: button
+              onClick:
+                - goto: https://patient.aitmed.com/
+              text: "Sign Up For Free"
+              style:
+                color: '0xffffff'
+                backgroundColor: "0x30b354"
+                zIndex: '100'
+                borderRadius: "0.005"
+                borderWidth: "0"
+                width: calc(302.956/1724.81*100vw)
+                height: calc(42.55/1724.81*100vw)
+                fontSize: calc(25.53/1724.81*100vw)
+                left: calc(575.616/1724.81*100vw)
+                top: calc(255.3/1724.81*100vw)
+                textAlign:
+                  x: center
+                  y: center
+        - type: view
+          style:
+            width: calc(1514.77/1724.81*100vw)
+            left: "0"
+            top: calc(2723.2/1724.81*100vw)
+            height: calc(425.5/1724.81*100vw)
+            margin: "auto"
+          children:
+            - type: image
+              path: bottomPhoto.png
+              style:
+                top: "0"
+                width: calc(1514.5/1724.81*100vw)
+                zIndex: "1"
+                position: "fixed"
+                opacity: "0.6"
+    - .BaseFooter1:

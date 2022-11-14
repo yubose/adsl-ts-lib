@@ -1,0 +1,639 @@
+AitmedSearch:
+  viewPort: top
+  pageNumber: "5"
+  title: "Aitmed Search"
+  patientList:
+    First:
+      - img: inCircle1.svg
+        text: Search for top-rated providers based on you or your patient’s needs including location, date, and insurance plan 
+        number: "1"
+      - img: circle2.svg
+        text: Choose a specialist that best works for you or your patient by matching the symptoms
+        number: "2"
+      - img: patientCaren3.svg
+        text: Make an appointment directly with the selected provider 
+        number: "3" 
+      - img: patientCaren4.svg
+        text: Create an AiTmed account to directly connect with the chosen provider
+        number: "4"
+    Second:
+      - img: patientCaren1.svg
+        text: Search for top-rated providers based on you or your patient’s needs including location, date, and insurance plan 
+        number: "1"
+      - img: inCircle2.svg
+        text: Choose a specialist that best works for you or your patient by matching the symptoms
+        number: "2"
+      - img: patientCaren3.svg
+        text: Make an appointment directly with the selected provider  
+        number: "3"
+      - img: patientCaren4.svg
+        text: Create an AiTmed account to directly connect with the chosen provider
+        number: "4"
+    Third:
+      - img: patientCaren1.svg
+        text: Search for top-rated providers based on you or your patient’s needs including location, date, and insurance plan 
+        number: "1"
+      - img: circle2.svg
+        text: Choose a specialist that best works for you or your patient by matching the symptoms
+        number: "2"
+      - img: inCircle3.svg
+        text: Make an appointment directly with the selected provider  
+        number: "3"
+      - img: patientCaren4.svg
+        text: Create an AiTmed account to directly connect with the chosen provider
+        number: "4"
+    Fourth:
+      - img: patientCaren1.svg
+        text: Search for top-rated providers based on you or your patient’s needs including location, date, and insurance plan 
+        number: "1"
+      - img: circle2.svg
+        text: Choose a specialist that best works for you or your patient by matching the symptoms
+        number: "2"
+      - img: patientCaren3.svg
+        text: Make an appointment directly with the selected provider  
+        number: "3"
+      - img: inCircle4.svg
+        text: Create an AiTmed account to directly connect with the chosen provider
+        number: "4"
+  formData:
+    show:
+      - img: inCircle1.svg
+        text: Search for top-rated providers based on you or your patient’s needs including location, date, and insurance plan
+        number: "1" 
+      - img: circle2.svg
+        text: Choose a specialist that best works for you or your patient by matching the symptoms
+        number: "2"
+      - img: patientCaren3.svg
+        text: Make an appointment directly with the selected provider 
+        number: "3"
+      - img: patientCaren4.svg
+        text: Create an AiTmed account to directly connect with the chosen provider
+        number: "4"
+  imgPath: how1.png
+  components:
+    - .BaseHeader:
+    - type: view
+      style:
+        left: "0"
+        width: calc(1514.77/1724.81*100vw) 
+        # height: "3.72"
+        margin: auto
+        marginTop: calc(102.12/1724.81*100vw) 
+      children: 
+        - type: view
+          viewTag: topView
+          style:
+            width: calc(1514.77/1724.81*100vw) 
+            marginTop: "0"
+            left: "0"
+            height: calc(773/1724.81*100vw) 
+            # height: "0.72"
+          children:
+            - type: image
+              path: searchNew.png
+              style:
+                top: "0"
+                left: "0"
+                width: calc(1514.77/1724.81*100vw) 
+                # zIndex: "1000"
+            - type: label
+              text: "AiTmed Search and E-Referral"
+              style:
+                fontSize: calc(38.3/1724.81*100vw) 
+                top: calc(222.111/1724.81*100vw) 
+                textShadow: '2px 2px 3px #999999'
+                left: calc(242.365/1724.81*100vw) 
+                width: calc(757.39/1724.81*100vw) 
+                height: calc(85.1/1724.81*100vw) 
+                fontStyle: "bold"
+                fontFamily: Arial
+                color: '0xffffff'
+            - type: label
+              text: "Connecting healthcare resources to everyone"
+              style:
+                fontSize: calc(25.53/1724.81*100vw) 
+                fontFamily: Arial
+                top: calc(302.105/1724.81*100vw) 
+                left: calc(242.365/1724.81*100vw) 
+                width: calc(681.651/1724.81*100vw) 
+                height: calc(59.57/1724.81*100vw) 
+                color: '0xffffff'
+        - type: view
+          style:
+            width: calc(1514.77/1724.81*100vw) 
+            height: "auto"
+            left: "0"
+          children:
+            - type: view
+              style:
+                marginTop: '0'
+                width: calc(1514.77/1724.81*100vw) 
+                height: calc(336.145/1724.81*100vw)
+              children:
+                - type: image
+                  path: rectangle.png
+                  style: 
+                    top: "0"
+                    left: "0"
+                    width: calc(1514.77/1724.81*100vw) 
+                - type: image
+                  path: personOn.svg
+                  style: 
+                    top: "0"
+                    left: calc(242.365/1724.81*100vw) 
+                    width: calc(378.695/1724.81*100vw) 
+                - type: image
+                  path: medical.svg
+                  style: 
+                    top: calc(119.14/1724.81*100vw) 
+                    left: calc(245.394/1724.81*100vw) 
+                    width: calc(106.035/1724.81*100vw) 
+                - type: label
+                  text: "Patients"
+                  style:
+                    top: calc(153.18/1724.81*100vw) 
+                    left: calc(378.695/1724.81*100vw) 
+                    width: calc(151.478/1724.81*100vw) 
+                    height: calc(68.08/1724.81*100vw) 
+                    fontFamily: 'Arial'
+                    fontSize: calc(28/1724.81*100vw) 
+                    color: "#ffffff"
+                - type: view
+                  style:
+                    top: "0"
+                    width: calc(1287.56/1724.81*100vw) 
+                    left: calc(227.217/1724.81*100vw) 
+                    height: calc(331.89/1724.81*100vw) 
+                  children:
+                    - type: image
+                      path: IconAwesomeCheck.png
+                      style: 
+                        top: calc(85.1/1724.81*100vw) 
+                        left: calc(484.73/1724.81*100vw) 
+                        width: calc(30.2956/1724.81*100vw) 
+                    - type: label
+                      text: "AiTmed medical search engine is designed for you to find the right provider to take care of your healthcare needs"
+                      style:
+                        top: calc(85.1/1724.81*100vw) 
+                        left: calc(545.321/1724.81*100vw) 
+                        width: calc(454.434/1724.81*100vw) 
+                        height: calc(85.1/1724.81*100vw) 
+                        lineHeight: '1.5'
+                        fontSize: calc(16.17/1724.81*100vw) 
+                        fontFamily: 'Arial'
+                        color: "#ffffff"
+                    - type: image
+                      path: IconAwesomeCheck.png
+                      style: 
+                        top: calc(153.18/1724.81*100vw) 
+                        left: calc(484.73/1724.81*100vw) 
+                        width: calc(30.2956/1724.81*100vw) 
+                    - type: label
+                      text: 'Search for doctors by symptoms, location, dates, and insurance plan'
+                      style:
+                        top: calc(153.18/1724.81*100vw) 
+                        left: calc(545.321/1724.81*100vw) 
+                        width: calc(454.434/1724.81*100vw) 
+                        height: calc(85.1/1724.81*100vw) 
+                        fontSize: calc(16.17/1724.81*100vw) 
+                        fontFamily: 'Arial'
+                        color: "#ffffff"
+                        lineHeight: '1.5'
+                    - type: image
+                      path: IconAwesomeCheck.png
+                      style: 
+                        top: calc(221.26/1724.81*100vw) 
+                        left: calc(484.73/1724.81*100vw) 
+                        width: calc(30.2956/1724.81*100vw) 
+                    - type: label
+                      text: 'Manage your appointments and see your specialist in the most convenient way possible'
+                      style:
+                        top: calc(221.26/1724.81*100vw) 
+                        left: calc(545.321/1724.81*100vw) 
+                        width: calc(454.434/1724.81*100vw) 
+                        height: calc(85.1/1724.81*100vw) 
+                        fontSize: calc(16.17/1724.81*100vw) 
+                        fontFamily: 'Arial'
+                        lineHeight: '1.5'
+                        color: "#ffffff"      
+            - type: view
+              style:
+                marginTop: '0'
+                width: calc(1514.77/1724.81*100vw) 
+                height: calc(336.145/1724.81*100vw) 
+                left: "0"
+              children:
+                - type: view
+                  style:
+                    top: "0"
+                    width: calc(1514.77/1724.81*100vw) 
+                    height: calc(680.8/1724.81*100vw) 
+                  children:
+                    - type: image
+                      path: rectangleWhite.png
+                      style: 
+                        top: "0"
+                        left: "0"
+                        width: calc(1514.77/1724.81*100vw) 
+                    - type: image
+                      path: doctor.svg
+                      style: 
+                        top: '0'
+                        # top: "1.217"
+                        left: calc(908.868/1724.81*100vw) 
+                        width: calc(302.956/1724.81*100vw) 
+                    - type: image
+                      path: doctorBlue.svg
+                      style: 
+                        # top: "1.36"
+                        left: calc(1120.94/1724.81*100vw)
+                        top: calc(170.2/1724.81*100vw)
+                        width: calc(83.3129/1724.81*100vw)
+                    - type: label
+                      text: "Providers"
+                      style:
+                        top: calc(195.73/1724.81*100vw)
+                        left: calc(1014.9/1724.81*100vw)
+                        width: calc(227.217/1724.81*100vw)
+                        height: calc(68.08/1724.81*100vw)
+                        fontSize: calc(28/1724.81*100vw) 
+                        fontFamily: 'Arial'
+                        color: "#114a8f"
+                    - type: view
+                      style:
+                        top: "0"
+                        width: calc(605.912/1724.81*100vw)
+                        left: calc(242.365/1724.81*100vw)
+                        height: calc(336.145/1724.81*100vw)
+                      children:
+                        - type: image
+                          path: IconAwesomeCheckBlue.png
+                          style: 
+                            top: calc(85.1/1724.81*100vw)
+                            width: calc(30.2956/1724.81*100vw)
+                        - type: label
+                          text: "Build your own healthcare network with all of your healthcare professionals"
+                          style:
+                            top: calc(85.1/1724.81*100vw)
+                            left: calc(53.0173/1724.81*100vw)
+                            width: calc(454.434/1724.81*100vw)
+                            height: calc(59.57/1724.81*100vw)
+                            fontSize: calc(16.17/1724.81*100vw) 
+                            lineHeight: '1.5'
+                            fontFamily: 'Arial'
+                            color: "#114A8F"
+                            
+                        - type: image
+                          path: IconAwesomeCheckBlue.png
+                          style: 
+                            top: calc(153.18/1724.81*100vw)
+                            # left: "0.32"
+                            width: calc(30.2956/1724.81*100vw)
+                        - type: label
+                          text: "Share your professional profile and availability to leverage our healthcare e-referral platform"
+                          style:
+                            top: calc(153.18/1724.81*100vw)
+                            left: calc(53.0173/1724.81*100vw)
+                            width: calc(454.434/1724.81*100vw)
+                            height: calc(59.57/1724.81*100vw)
+                            lineHeight: '1.5'
+                            fontSize: calc(16.17/1724.81*100vw) 
+                            fontFamily: 'Arial'
+                            color: "#114A8F"
+                        - type: image
+                          path: IconAwesomeCheckBlue.png
+                          style: 
+                            top: calc(221.26/1724.81*100vw) 
+                            # left: "0.32"
+                            width: calc(30.2956/1724.81*100vw)
+                        - type: label
+                          text: "Come be a part of our new and improved medical practice marketing, reputation management, and patient e-referral program"
+                          style:
+                            top: calc(221.26/1724.81*100vw) 
+                            left: calc(53.0173/1724.81*100vw)
+                            width: calc(454.434/1724.81*100vw)
+                            height: calc(59.57/1724.81*100vw)
+                            lineHeight: '1.5'
+                            # height: "0.07"
+                            fontSize: calc(16.17/1724.81*100vw) 
+                            fontFamily: 'Arial'
+                            color: "#114A8F"
+            - type: view
+              style:
+                marginTop: '0'
+                width: calc(1514.77/1724.81*100vw) 
+                height: calc(336.145/1724.81*100vw)
+              children:
+                - type: image
+                  path: rectangleBule.png
+                  style: 
+                    top: "0"
+                    left: "0"
+                    width: calc(1514.77/1724.81*100vw) 
+                - type: image
+                  path: hospital.svg
+                  style: 
+                    top: "0"
+                    left: calc(242.365/1724.81*100vw) 
+                    width: calc(378.695/1724.81*100vw) 
+                - type: image
+                  path: hospitalWhite.svg
+                  style: 
+                    top: calc(119.14/1724.81*100vw) 
+                    left: calc(245.394/1724.81*100vw) 
+                    width: calc(106.035/1724.81*100vw) 
+                - type: label
+                  text: "Organizations"
+                  style:
+                    top: calc(153.18/1724.81*100vw) 
+                    left: calc(378.695/1724.81*100vw) 
+                    width: calc(151.478/1724.81*100vw) 
+                    height: calc(68.08/1724.81*100vw) 
+                    fontFamily: 'Arial'
+                    fontSize: calc(28/1724.81*100vw) 
+                    color: "#ffffff"
+                - type: view
+                  style:
+                    top: "0"
+                    width: calc(1287.56/1724.81*100vw) 
+                    left: calc(227.217/1724.81*100vw) 
+                    height: calc(331.89/1724.81*100vw) 
+                  children:
+                    - type: image
+                      path: IconAwesomeCheck.png
+                      style: 
+                        top: calc(85.1/1724.81*100vw) 
+                        left: calc(484.73/1724.81*100vw) 
+                        width: calc(30.2956/1724.81*100vw) 
+                    - type: label
+                      text: 'Reach more providers with AiTmed search to best accommodate all of your patient’s healthcare needs'
+                      style:
+                        top: calc(85.1/1724.81*100vw) 
+                        left: calc(545.321/1724.81*100vw) 
+                        width: calc(454.434/1724.81*100vw) 
+                        height: calc(85.1/1724.81*100vw) 
+                        lineHeight: '1.5'
+                        fontSize: calc(16.17/1724.81*100vw) 
+                        fontFamily: 'Arial'
+                        color: "#ffffff"
+                    - type: image
+                      path: IconAwesomeCheck.png
+                      style: 
+                        top: calc(153.18/1724.81*100vw) 
+                        left: calc(484.73/1724.81*100vw) 
+                        width: calc(30.2956/1724.81*100vw) 
+                    - type: label
+                      text: 'Deliver the highest quality care by improving the coordination between the patient and specialist'
+                      style:
+                        top: calc(153.18/1724.81*100vw) 
+                        left: calc(545.321/1724.81*100vw) 
+                        width: calc(454.434/1724.81*100vw) 
+                        height: calc(85.1/1724.81*100vw) 
+                        fontSize: calc(16.17/1724.81*100vw) 
+                        fontFamily: 'Arial'
+                        color: "#ffffff"
+                        lineHeight: '1.5'
+                    - type: image
+                      path: IconAwesomeCheck.png
+                      style: 
+                        top: calc(221.26/1724.81*100vw) 
+                        left: calc(484.73/1724.81*100vw) 
+                        width: calc(30.2956/1724.81*100vw) 
+                    - type: label
+                      text: 'Maximize the power of AiTmed’s ecosystem with advanced schedule management and patient-provider-organization communication tools'
+                      style:
+                        top: calc(221.26/1724.81*100vw) 
+                        left: calc(545.321/1724.81*100vw) 
+                        width: calc(454.434/1724.81*100vw) 
+                        height: calc(85.1/1724.81*100vw) 
+                        fontSize: calc(16.17/1724.81*100vw) 
+                        fontFamily: 'Arial'
+                        lineHeight: '1.5'
+                        color: "#ffffff"      
+            - type: view
+              style:
+                width: calc(1514.77/1724.81*100vw)
+                # left: "0"
+                display: flex
+                justifyContent: center
+                alignItems: center
+                height: calc(723.35/1724.81*100vw)
+                zIndex: "1000"
+                backgroundColor: "#ffffff"
+              children:
+                - type: view
+                  style:
+                    width: calc(530.173/1724.81*100vw)
+                    display: flex
+                    height: calc(300/1724.81*100vw)
+                    flexDirection: column
+                    justifyContent: center
+                  children:
+                    - type: image
+                      path: lock_bg.png
+                      style: 
+                        height: calc(256.07/1724.81*100vw)
+                        display: flex
+                - type: view
+                  style:
+                    width: calc(550/1724.81*100vw)
+                    display: flex
+                    height: calc(650/1724.81*100vw)
+                    flexDirection: column
+                    justifyContent: center
+                  children:        
+                    - type: label
+                      text: "Our Blockchain Technology Secures Documentation Exchange Between Facilities"
+                      style:
+                        width: calc(550/1724.81*100vw)
+                        height: calc(95/1724.81*100vw)
+                        display: flex
+                        fontSize: calc(25.53/1724.81*100vw)
+                        fontFamliy: 'Arial'
+                        fontWeight: "650"
+                        alignItems: center
+                    - type: label     
+                      text: "Never let a referral get lost again. AiTmed’s Search & E-Referral platform secures data, making the medical documentation exchange from patient to provider the most convenient, and breaking the barriers of healthcare organizations."
+                      style: 
+                        height: calc(119.14/1724.81*100vw)
+                        width: calc(490/1724.81*100vw)
+                        fontSize: calc(16.17/1724.81*100vw)
+                        fontWeight: "450"
+                        fontFamliy: 'Arial'
+                        # lineHeight: "1.5" 
+            - type: view
+              style:
+                marginTop: '0'
+                width: calc(1514.77/1724.81*100vw) 
+                # height: "1"
+                height: calc(680.8/1724.81*100vw) 
+                left: "0"
+              children: 
+                - view:
+                  style:
+                    # top: "0"
+                    marginTop: '0'
+                    width: calc(1514.77/1724.81*100vw) 
+                    height: "auto"
+                    left: "0"
+                  children: 
+                    - type: image
+                      path: wholeBlue.png
+                      style:
+                        marginTop: "0"
+                        width: calc(1514.77/1724.81*100vw) 
+                        height: "auto"
+                        left: "0"
+                    - type: label
+                      text: How it works
+                      style:
+                        top: calc(85.1/1724.81*100vw) 
+                        width: calc(757.39/1724.81*100vw) 
+                        left: calc(378.695/1724.81*100vw) 
+                        height: "auto"
+                        fontSize: calc(34.04/1724.81*100vw) 
+                        fontFamily: 'Arial'
+                        color: "#ffffff"
+                        fontStyle: "bold"
+                        textAlign: 
+                          x: center 
+                    - type: view
+                      style:
+                        top: "0"
+                        width: calc(1514.77/1724.81*100vw) 
+                        height: "auto"
+                        left: "0"
+                      children: 
+                        - type: list
+                          viewTag: TempList
+                          contentType: listObject
+                          listObject: =..formData.show
+                          iteratorVar: itemObject
+                          style:
+                            width: calc(757.39/1724.81*100vw) 
+                            margin: '1'
+                            height: auto
+                            left: "0" 
+                            top: "0"
+                          children:
+                            - type: listItem
+                              itemObject: ""
+                              onClick:
+                                - emit:
+                                    dataKey:
+                                      var: itemObject
+                                    actions:
+                                      - if:
+                                        - =.builtIn.string.equal:
+                                            dataIn:
+                                              string1: $var.number
+                                              string2: '1'
+                                        - ..formData.show@: =..patientList.First
+                                        - continue
+                                      - if:
+                                        - =.builtIn.string.equal:
+                                            dataIn:
+                                              string1: $var.number
+                                              string2: '2'
+                                        - ..formData.show@: =..patientList.Second
+                                        - continue
+                                      - if:
+                                        - =.builtIn.string.equal:
+                                            dataIn:
+                                              string1: $var.number
+                                              string2: '3'
+                                        - ..formData.show@: =..patientList.Third
+                                        - continue
+                                      - if:
+                                        - =.builtIn.string.equal:
+                                            dataIn:
+                                              string1: $var.number
+                                              string2: '4'
+                                        - ..formData.show@: =..patientList.Fourth
+                                        - continue
+                                      - if:
+                                        - =.builtIn.string.equal:
+                                            dataIn:
+                                              string1: $var.number
+                                              string2: '1'
+                                        - ..imgPath@: product1.png
+                                        - continue
+                                      - if:
+                                        - =.builtIn.string.equal:
+                                            dataIn:
+                                              string1: $var.number
+                                              string2: '2'
+                                        - ..imgPath@: how2.png
+                                        - continue
+                                      - if:
+                                        - =.builtIn.string.equal:
+                                            dataIn:
+                                              string1: $var.number
+                                              string2: '3'
+                                        - ..imgPath@: how3.png
+                                        - continue
+                                      - if:
+                                        - =.builtIn.string.equal:
+                                            dataIn:
+                                              string1: $var.number
+                                              string2: '4'
+                                        - ..imgPath@: how4.png
+                                        - continue
+                                - actionType: builtIn
+                                  funcName: redraw
+                                  viewTag: imgView
+                                - actionType: builtIn
+                                  funcName: redraw
+                                  viewTag: TempList
+                              style:
+                                width: calc(757.39/1724.81*100vw) 
+                                height: calc(85.1/1724.81*100vw) 
+                                left: '0'
+                                display: inline-block
+                              children:
+                                - type: image
+                                  path: 
+                                    emit:
+                                      dataKey: 
+                                        var: itemObject
+                                      actions:
+                                        - if: 
+                                          - true
+                                          - $var.img
+                                          - $var.img
+                                  style:
+                                    left: calc(833.129/1724.81*100vw) 
+                                    height: calc(42.55/1724.81*100vw) 
+                                    top: calc(221.26/1724.81*100vw) 
+                                - type: label
+                                  dataKey: itemObject.text
+                                  style:
+                                    top: calc(221.26/1724.81*100vw) 
+                                    left: calc(893.72/1724.81*100vw) 
+                                    width: calc(333.252/1724.81*100vw) 
+                                    height: calc(76.59/1724.81*100vw) 
+                                    fontSize: calc(16.17/1724.81*100vw) 
+                                    fontFamily: 'Arial'
+                                    color: "#ffffff"
+                    - type: view
+                      viewTag: imgView
+                      style:
+                        top: calc(110.63/1724.81*100vw) 
+                        width: calc(757.39/1724.81*100vw) 
+                        height: auto
+                        left: calc(45.4434/1724.81*100vw) 
+                      children:
+                        - type: image
+                          path: 
+                            emit:
+                              actions:
+                                - if:
+                                  - true
+                                  - ..imgPath
+                                  - ..imgPath
+                          style:
+                            top: calc(119.14/1724.81*100vw) 
+                            width: calc(454.434/1724.81*100vw) 
+                            left: calc(227.217/1724.81*100vw) 
+                          
+    - .BaseFooter1:

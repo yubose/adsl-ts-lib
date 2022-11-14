@@ -64,7 +64,7 @@ function set(...[arg1, arg2, arg3, arg4]: unknown[]) {
     } else if (coreIs.index(key)) {
       node.set(key, createNode(value))
     } else {
-      node.setIn(key as string[], createNode(value))
+      node.setIn(key as any, createNode(value))
     }
   } else if (node instanceof Map) {
     node.set(key, createNode(value))

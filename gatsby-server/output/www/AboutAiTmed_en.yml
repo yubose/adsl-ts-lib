@@ -1,0 +1,161 @@
+AboutAiTmed: 
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - type: popUp
+      viewTag: topView
+    - type: view
+      # viewTag: topView
+      style:
+        width: calc(1514.77/1724.81*100vw)
+        left: "0"
+        margin: auto
+        marginTop: calc(102.12/1724.81*100vw)
+      children:
+        - type: image
+          path: aboutUsNew.png
+          style:
+            left: "0"
+            width: calc(1514.77/1724.81*100vw)
+            zIndex: 10
+        - type: label
+          text: 'About Us'
+          style: 
+            left: calc(242.365/1724.81*100vw)
+            textShadow: '2px 2px 3px #999999'
+            top: calc(222.111/1724.81*100vw)
+            fontSize: calc(38.3/1724.81*100vw)
+            fontStyle: 'bold'
+            fontFamily: 'Arial'
+            color: '0x333333'
+            width: calc(272.66/1724.81*100vw)
+            zIndex: 100
+        - type: label
+          text: 'Learn more about our company'
+          style: 
+            left: calc(242.365/1724.81*100vw)
+            top: calc(300.403/1724.81*100vw)
+            width: calc(530.173/1724.81*100vw)
+            fontSize: calc(25.53/1724.81*100vw)
+            fontWeight: '500'
+            textShadow: '1px 1px 2px #999999'
+            fontFamily: 'Arial'
+            color: '0x333333'
+            zIndex: 100
+
+    - type: view
+      style:
+        marginTop: "0"
+        width: calc(1060.35/1724.81*100vw)
+        margin: "auto"
+        left: calc(75.739/1724.81*100vw)
+        # height: "auto"
+      children:
+        - .AboutTitle:
+          style:
+            marginTop: calc(59.57/1724.81*100vw)
+            textAlign:
+              y: center
+          text: 'Introduction'
+        - .PrivacyTextLabel:
+          text: Our vision is to become the premier and world leader in telehealth service by using blockchain and Artificial Intelligence technology to give people the most secure and highest level of personal privacy in a faster, more convenient platform that will produce better outcomes for our consumers, physicians, employers, employees, and medical institutions that we serve.
+          style:
+            lineHeight: '1.5'
+            marginTop: calc(8.51/1724.81*100vw)  
+        # - .PrivacyTextLabel:
+        #   text:
+        #     In 2015, AiTmed set out to develop a telemedicine platform based on a 24/7 online urgent care, and since 2019, AiTmed has advanced our technologies to establish itself as the global leading e-health platform with the highest level of security, privacy and convenience in the healthcare industry. 
+        #   style:
+        #     marginTop: calc(8.51/1724.81*100vw)  
+        #     lineHeight: '1.5'
+        # - .PrivacyTextLabel:
+        #   text: AiTmed’s mission and vision ensures the highest quality of life by providing convenient access to vital health resources worldwide through our revolutionary bionic AI blockchain platform. 
+        #   style:
+        #     marginTop: calc(8.51/1724.81*100vw)  
+        #     lineHeight: '1.5'
+        - .AboutTitle:
+          text: History and Milestones 
+          style:
+            marginTop: calc(59.57/1724.81*100vw) 
+            textAlign:
+              y: center
+        - .AboutPara: 
+        - .PrivacyTextLabel:
+          text: April 2015 - April 2019 AiTmed developed a telemedicine platform incorporating AI technology and released public Version 1.0. AiTmed 1.0 provides 24/7 provider-to-patient service, which covers primary care services such as doctor’s appointments and other common services; 
+          style:
+            marginTop: calc(8.51/1724.81*100vw)  
+            lineHeight: '1.5'
+        - .PrivacyTextLabel1:
+          text: November 27, 2019 - AiTmed built the innovative Edge Computing Operating System (ECOS) to start a new era of software development. 
+          style:
+            lineHeight: '1.5'
+        - .PrivacyTextLabel1:
+          text: On March 26, 2020 - AiTmed created the revolutionary Neural Organic Object Description Language (NOODL), which significantly increased the efficiency and compatibility of the programming process compared to traditional text mark-up languages. 
+          style:
+            lineHeight: '1.5' 
+        - .PrivacyTextLabel1:
+          text: August 2020 – AiTmed launched AiTmeet 1.0, a blockchain-encrypted video conference platform which allows everyone and anyone to communicate virtually with each other securely and privately via a secure connection.
+          style:
+            lineHeight: '1.5'
+        - .PrivacyTextLabel1:
+          text: 'April 2021 - AiTmed released alpha testing version for AiTmed V2.0 including four new products: AiTmed Care, AiTmed Provider, AiTmed Admin, and AiTmed Search & E-Referral.'
+          style: 
+            lineHeight: '1.5'
+        - .AboutTitle:
+          text: Technology 
+          style:
+            marginTop: calc(59.57/1724.81*100vw) 
+            textAlign:
+              y: center
+        - .AboutPara: 
+        - .PrivacyTextLabel:
+          text: At AiTmed, our blockchain technology and Edge Computing Operating System (ECOS) allow us to create the most secure e-health platform. Our blockchain technology is able to store and exchange data trustworthily and securely to protect users’ data and create a smoother exchange of information, all under HIPAA compliance. AiTmed’s creation of ECOS is compatible with existing Electronic Health Record (EHR) systems to improve the continuum of care process for the consumer, patient, insurance companies, medical providers, and any related parties involved in patient care. These technologies enable the medical community to share critical information in a secured, private setting at high speeds, changing the landscape of the healthcare industry. 
+          style:
+            marginTop: calc(8.51/1724.81*100vw)  
+            lineHeight: '1.5'
+        - .AboutTitle:
+          text: Products
+          style:
+            marginTop: calc(59.57/1724.81*100vw) 
+            textAlign:
+              y: center 
+        - .AboutPara: 
+        - .PrivacyTextLabel:
+          text: AiTmed’s goal is to provide a seamless flow between patients, providers, and healthcare facilities. 
+          style:
+            marginTop: calc(8.51/1724.81*100vw)   
+            lineHeight: '1.5'
+        - .PrivacyTextLabel1:
+          text: Patients, have the peace of mind that all your information is secure. With our simple platform, find the care you need and manage your wellness with just one click. 
+          style: 
+            lineHeight: '1.5' 
+        - .PrivacyTextLabel1:
+          text: Providers, connect with your patients and provide the best care possible using our AI-assisted documentation and one-click e-referral.
+          style:  
+            lineHeight: '1.5'
+        - .PrivacyTextLabel1:
+          text: Healthcare administrators, improve your management system with AiTmed Admin. Our simple schedule manager, EHR and patient management system, and one-click e-referral will allow you to create an uninterrupted workflow for your practice. 
+          style:   
+            lineHeight: '1.5'
+        - .PrivacyTextLabel1:
+          text: AiTmed’s search & e-referral platform allows all three parties to find providers and specialists that best fit your needs. Our blockchain technology ensures you never lose a referral again.
+          style:  
+            lineHeight: '1.5'
+        - .AboutTitle:
+          text: 'Our Future'
+          style:
+            marginTop: calc(59.57/1724.81*100vw) 
+            textAlign:
+              y: center 
+        - .AboutPara: 
+          style:
+            marginTop: calc(8.51/1724.81*100vw)  
+        - .PrivacyTextLabel:
+          text: AiTmed is continuously expanding our business to bring more providers and medical organizations online. Our ultimate goal is to build connections for all types of healthcare resources worldwide including medical providers, medical clinics, hospitals, senior houses, insurance companies etc. AiTmed also provides a comprehensive EHR system for all to use at a low cost. Meanwhile, API, function modules, and templates will be available to help providers and medical facilities customize their own platform.
+          style:
+            marginTop: calc(8.51/1724.81*100vw)  
+            height: calc(300.79/1724.81*100vw) 
+            lineHeight: '1.5'
+    - .BaseFooter1:
+      style: 
+        marginTop: calc(59.57/1724.81*100vw) 

@@ -28,6 +28,7 @@ export { default as NUI } from './noodl-ui'
 export { default as Page } from './Page'
 export { default as Viewport } from './Viewport'
 export {
+  presets,
   nuiEvent as event,
   groupedActionTypes as nuiGroupedActionTypes,
   nuiEmitType,
@@ -73,6 +74,7 @@ export { default as GlobalTimers } from './dom/global/Timers'
 export { default as NDOM } from './dom/noodl-ui-dom'
 export { default as NDOMPage } from './dom/Page'
 export { default as NDOMResolver } from './dom/Resolver'
+export { default as revert } from './revert'
 
 export { BASE_PAGE_URL, eventId } from './constants'
 export {

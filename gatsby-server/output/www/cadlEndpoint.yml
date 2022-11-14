@@ -1,0 +1,84 @@
+baseUrl: ${cadlBaseUrl}
+assetsUrl: ${cadlBaseUrl}assets/
+languageSuffix:
+  zh_CN : _cn
+  es_ES : _es
+  unknown : _en
+fileSuffix: .yml
+startPage: HomePage
+preload:
+  - BasePage  
+  - BaseCSS
+  - BaseDataModel
+  - Resource
+page:
+  - DownloadCare
+  - OncCertification
+  - HaNauseaAndVomtingInChild
+  - HaNeckPain
+  - HaNumbnessOrTinglingInHands
+  - HaPelvicPainFemale
+  - HaPelvicPainMale
+  - HaShortnessOfBreath
+  - HaShoulderPain
+  - HaSkinRashesInChild
+  - HaSoreThroat
+  - HaSoreThroatInChild
+  - HaUrinaryProblems
+  - HaWheezing
+  - HaWheezingInChild
+  - HealthAll
+  - HomePage
+  - PrivacyPolicy
+  - AboutAiTmed
+  - AiTmedAdmin
+  - AiTmedCare
+  - AiTmedContact
+  - AiTmedCustomizedTelehealthPlatform
+  - AiTmedDocumentation
+  - AiTmedProvider
+  - AitmedSearch
+  - AiTmedSelfScheduling
+  - BaseCSS
+  - BaseDataModel
+  - BasePage
+  - Cloudwaitingroom
+  - CreateNewAccount
+  - HaAbdominalPain
+  - HaAbdominalPainInChildren
+  - HaBloodInTheStool
+  - HaChestPain
+  - HaConstipation
+  - HaConstipationInChild
+  - HaCough
+  - HaCoughInChild
+  - HaDiarrheaInAdult
+  - HaDiarrheaInChild
+  - HaDifficultySwallowing
+  - HaDizziness
+  - HaEaracheInChild
+  - HaEarProblemsInChild
+  - HaEyeDiscomfortAndRedness
+  - HaEyeDiscomfortAndRednessInChild
+  - HaEyeProblems
+  - HaEyeProblemsInChild
+  - HaFeverInChild
+  - HaFootPainOrAnklePain
+  - HaHeadacheInChild
+  - HaHeadaches
+  - HaHeartPalpitions
+  - HaHipPain
+  - HaJointPainOrMusclePainInChild
+  - HaKneePain
+  - HaLegOrFootSwelling
+  - HaLowBackPain
+  - HaMenopause
+  - HaNasalCongestion
+  - HaNasalCongestionC
+  - HaNauseaAndVomting
+  - SignUp
+  - TermsOfService
+  - Resource # 各个页面的资源
+  - SignIn
+  - FAQ
+  - FAQQuestionOne

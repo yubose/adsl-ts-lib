@@ -1,13 +1,18 @@
 {
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
   "dependencies": {
-    "noodl-core": "^0.1.42",
-    "noodl-types": "^1.0.248",
-    "noodl-ui": "^0.1.176",
-    "noodl-ui-test-utils": "^0.0.43",
-    "noodl-utils": "^0.0.121"
+    "is-proxy": "^1.0.6",
+    "noodl-core": "^0.1.53",
+    "noodl-test-utils": "*",
+    "noodl-types": "^1.0.258",
+    "noodl-ui": "^0.1.609",
+    "noodl-utils": "^0.0.126",
+    "rambda": "^7.3.0"
   },
   "description": "YAML bindings for noodl-core",
+  "devDependencies": {
+    "sinon": "^14.0.1"
+  },
   "directories": {
     "dist": "dist",
     "test": "__tests__"
@@ -15,7 +20,7 @@
   "files": [
     "dist"
   ],
-  "gitHead": "8d25fcb1c7079abb8c5afaf063fb945f2eace127",
+  "gitHead": "0b9e684034928e0e7dbd3f056ba3fc39dc8e6320",
   "homepage": "",
   "keywords": [
     "noodl",
@@ -40,11 +45,11 @@
     "dev": "concurrently \"npm run types:watch\" \"rollup -c -w\"",
     "postbuild": "npm run types",
     "start": "npx tsc -w",
-    "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" --watch-files \"../noodl-core/dist\" --watch-files \"../noodl-ui-test-utils/dist\" \"src/**/*.test.ts\" --file src/__tests__/setup.ts",
-    "test:file": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" --watch-files \"../noodl-ui-test-utils/dist\" --file src/__tests__/setup.ts",
+    "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" --watch-files \"../noodl-core/dist\" --watch-files \"../noodl-test-utils/dist\" --watch-files \"../noodl-ui/dist\" \"src/**/*.test.ts\" --file src/__tests__/setup.ts",
+    "test:file": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" --watch-files \"../noodl-test-utils/dist\" --watch-files \"../noodl-ui/dist\" --file src/__tests__/setup.ts",
     "types": "npx tsc --emitDeclarationOnly --esModuleInterop --declaration --declarationDir dist --project tsconfig.json",
     "types:watch": "npm run types -- -w"
   },
   "types": "dist/index.d.ts",
-  "version": "0.0.38"
+  "version": "0.0.47"
 }

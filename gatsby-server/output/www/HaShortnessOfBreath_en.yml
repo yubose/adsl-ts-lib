@@ -1,0 +1,220 @@
+HaShortnessOfBreath:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Shortness of breath
+        - .HaHeaderLittleLabel:
+          text: Shortness of breath is an uncomfortable condition that makes it difficult to fully get air into your lungs. Problems with your heart and lungs can harm your breathing.
+
+    - .HaBodyTagView:
+      style:
+        marginTop: '0.09'
+      children:
+        - .HaBodyTagButton1:
+          text: Breath
+          style:
+            width: '0.10'
+        - .HaBodyTagButton2:
+          text: Shortness
+          style:
+            width: '0.10'
+    - .HaBodyCon:
+      style:
+        height: '0.4'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Find possible causes of shortness of breath based on specific factors. Use our patient Questionnaire."
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "Your heart and lungs are involved in transporting oxygen to your tissues and removing carbon dioxide, and problems with either of these processes affect your breathing."
+            - .HaBodyContent:
+              style:
+                top: '0.08'
+                width: '0.5'
+              text: "Sometimes, shortness of breath gets better or worse with certain body positions. For example, lying down can trigger shortness of breath in people who have certain types of heart and lung disease. Keeping track of your symptoms can help your doctor figure out what's wrong and recommend the best treatment."
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+                width: '0.5'
+              text: "According to the time, dyspnea could divide into acute and chronic. The most common causes of acute dyspnea are:"
+            
+        - .HaBodyImg:
+          style:  
+            top: '0.13'
+            left: '0.7'
+            width: '0.16'
+          path: healthAZ/shortness-of-breath.png
+    - .HaBodyCon:
+      style:
+        height: '0.2'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Asthma"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Asthma is a condition in which your airways narrow and swell and produce extra mucus. This can make breathing difficult and trigger coughing, wheezing and shortness of breath. For some people, asthma is a minor nuisance. For others, it can be a major problem that interferes with daily activities and may lead to a life-threatening asthma attack."
+           
+    - .HaBodyCon:
+      style:
+        height: '0.2'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Pneumonia"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Pneumonia is an infection that inflames the air sacs in one or both lungs. The air sacs may fill with fluid or pus (purulent material), causing cough with phlegm or pus, fever, chills, and difficulty breathing. A variety of organisms, including bacteria, viruses and fungi, can cause pneumonia."
+            
+    - .HaBodyCon:
+      style:
+        height: '0.4'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Other cause included"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Blood clot in your lungs (pulmonary embolism)"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Choking (blocking of the respiratory tract)"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Collapsed lung (pneumothorax)"
+            - .HaBodyContent:
+              style:
+                width: '0.15'
+                top: '0.15'
+              text: "⦁ Heart attack"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Heart failure"
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ Pregnancy"
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+              text: "⦁ Severe allergic reaction"
+    - .HaBodyCon:
+      style:
+        height: '0.3'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "For chronic dyspnea common causes in clued:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ COPD (chronic obstructive pulmonary disease)"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Heart dysfunction"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Interstitial lung disease"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+              text: "⦁ Obesity"
+   
+    
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Shortness of breath is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname: 
+        #   text: "breath"
+        # - .HaBottomTagname: 
+        #   text: "shortness"
+        #   style: 
+        #     left: "0.3"  
+    - .BaseFooter1:
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,163 @@
+
+
+
+HaEaracheInChild:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Earache in Child
+        - .HaHeaderLittleLabel:
+          text: The ears are very delicate structures, especially in children.
+    - .HaBodyTagView:
+      style:
+        top: '0.55'
+      children:
+        - .HaBodyTagButton1:
+          text: Ear
+        - .HaBodyTagButton2:
+          text: Earache
+    - .HaBodyCon:
+      style:
+        height: '0.3'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Get emergency care if your child:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Has discharge of blood or pus from the ear"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Has an earache accompanied by a fever"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Pulls or scratches at his or her ears"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Isn't responding to sounds consistently"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Is an infant and exhibits sleeplessness or painful crying during a cold"
+            
+        - .HaBodyImg:
+          style:  
+            top: '0.097'
+            left: '0.68'
+            width: '0.16'
+          path: healthAZ/earache_in_child.png
+    - .HaBodyCon:
+      style:
+        height: '0.2'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Find possible causes of earache based on specific factors. Use our patient Questionnaire."
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Earache is one of the most common reasons that children visit the GP or emergency department. Earache can have several causes. It’s a good idea to see your GP if your child complains of a sore ear, or your baby shows signs of ear pain."
+            
+    - .HaBodyCon:
+      style:
+        height: '0.3'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Causes of earache"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "The most common cause of earache is infection, like a middle ear infection or an external ear infection."
+            - .HaBodyContent:
+              style:
+                top: '0.045'
+              text: "Children will sometimes put things in their ears, which can cause pain. A build-up of ear wax can block the ear canal and also give your child a sore ear. Less commonly, the cause of the earache might be a burst eardrum because of an accident, or because a cotton bud or something similar has been pushed too far into your child’s ear."
+            - .HaBodyContent:
+              style:
+                top: '0.145'  
+              text: "Your child might also have an earache because there’s an injury or infection somewhere near her ear, and she feels the pain in her ear. This could happen with sinusitis or tonsillitis, for example."
+          
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Earache in child is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag:
+        - .HaBottomTagname: 
+        #   style:
+        #     left: '0.3' 
+        # - .HaBottomTagname: 
+        #   text: "ear"
+        #   style: 
+        #     left: '0.455'
+        # - .HaBottomTagname: 
+        #   text: "earache"
+        #   style: 
+        #     # top: "850px"
+        #     left: "0.62"
+    - .BaseFooter1:
+
+
+
+
+
+
+

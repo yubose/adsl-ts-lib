@@ -1,0 +1,158 @@
+HaSoreThroatInChild:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Sore throat in child
+          style: 
+            top: '0.06'
+        - .HaHeaderLittleLabel:
+          text: Sore throat is very common in children. Most of the time, it’s nothing to worry about.
+    - .HaBodyTagView:
+      style:
+        marginTop: '0.09'
+      children:
+        - .HaBodyTagButton1:
+          text: Urinary
+          style:
+            width: '0.10'
+    - .HaBodyCon:
+      style:
+        height: '0.7'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.5'
+          text: 'Get emergency medical care if your child has a sore throat and also:'
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.4'
+              text: "⦁ Has difficulty breathing"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Is drooling or has difficulty swallowing"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Cannot tolerate liquids"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+              text: "⦁ Fever"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Red, swollen tonsils"      
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ White patches or pus on the back of the throat"
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+              text: "⦁ Swollen lymph nodes in the neck"
+            - .HaBodyContent:
+              style:
+                top: '0.35'
+              text: "⦁ Blood in saliva or phlegm"
+            - .HaBodyContent:
+              style:
+                top: '0.4'
+              text: "⦁ Skin rash"
+            - .HaBodyContent:
+              style:
+                top: '0.45'
+              text: "⦁ Hoarse voice"
+            - .HaBodyContent:
+              style:
+                top: '0.5'
+                width: '0.4'
+              text: "⦁ Signs of dehydration, such as no wet diapers or urine production 'in eight hours, dry skin, dry mouth, or crying without tears"
+        - .HaBodyImg:
+          style:  
+            top: '0.155'
+            left: '0.7'
+            width: '0.16'
+          path: healthAZ/sore_throat_in_child.png
+    - .HaBodyCon:
+      style:
+        height: '0.32'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: Find possible causes of sore throat based on specific factors.
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Viruses that cause the common cold and flu (influenza) also cause most sore throats. Less often, bacterial infections cause sore throats."
+            - .HaBodyContent:
+              style:
+                top: '0.07'
+              text: "Viral illnesses that cause a sore throat include:"
+            - .HaBodyContent:
+              style:
+                top: '0.12'
+              text: "⦁ Common cold most common caused by rhinoviruses"
+          
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            marginTop: '0'
+            top: '0'
+            left: '0.16'
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Sore throat in child is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+    - type: view
+      style:
+        height: '0.2'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+          style: 
+            top: '0'
+        - .HaBottomTagname: 
+          style: 
+            top: '0'
+    - .BaseFooter1:

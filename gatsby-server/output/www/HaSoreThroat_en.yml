@@ -1,0 +1,202 @@
+HaSoreThroat:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Sore throat
+          style: 
+            top: '0.06'
+        - .HaHeaderLittleLabel:
+          text: Symptoms include pain, burning, or scratching sensations at throat.
+    - .HaBodyTagView:
+      style: 
+        marginTop: '0.09'
+      children:
+        - .HaBodyTagButton1:
+          text: Wheezing
+          style:
+            width: '0.10'
+    - .HaBodyCon:
+      style:
+        height: '0.45'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.5'
+          text: 'Get emergency care if you experience:'
+        - type: view
+          style:
+            # top: '0.18'
+            marginTop: '0.05'
+            left: '0'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: " ⦁ Difficulty breathing"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Difficulty swallowing"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Fever of 103 F (39.4 C) or higher"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: " ⦁ Hoarse voice for more than one week"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Pus on the back of your throat"    
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ Blood in your saliva or phlegm"
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+                width: '0.5'
+              text: "⦁ Skin rash"
+            - .HaBodyContent:
+              style:
+                top: '0.35'
+              text: "⦁ Signs of dehydration"
+        - .HaBodyImg:
+          style:
+            top: '0.11'
+            left: '0.69'
+            width: '0.16'
+          path: healthAZ/sore_throat.png
+    - .HaBodyCon:
+      style:
+        height: '0.95'
+        marginTop: '0'
+        # width: '0.68'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+            
+            marginTop: '0.14'
+          text: Find possible causes of sore throat based on specific factors.
+        - type: view
+          children:
+            - .HaBodyContent:
+              style: 
+                top: '0.02'
+                width: '0.6'
+              text: "Viruses that cause the common cold and flu (influenza) also cause most sore throats. Less often, bacterial infections cause sore throats."
+            - .HaBodyContent:
+              style:
+                top: '0.09'
+              text: "Viral illnesses that cause a sore throat include:"
+            - .HaBodyContent:
+              style:
+                top: '0.14'
+              text: "⦁ Common cold most common caused by rhinoviruses"
+            - .HaBodyContent:
+              style:
+                top: '0.19'
+              text: "⦁ Flu"
+            - .HaBodyContent:
+              style:
+                top: '0.24'
+              text: "⦁ Mononucleosis (mono) most common caused by EBV"
+            - .HaBodyContent:
+              style:
+                top: '0.29'
+              text: "⦁ Chickenpox most common cause by varicella-zoster virus"
+            - .HaBodyContent:
+              style:
+                top: '0.34'
+                # width: '0.6'
+              text: "Bacterial infections. A number of bacterial infections can cause a sore throat. The most common is Streptococcus pyogenes, or group A streptococcus, which causes strep throat."
+            - .HaBodyContent:
+              style:
+                top: '0.41'
+              text: "Other causes of a sore throat include:"
+            - .HaBodyContent:
+              style:
+                top: '0.46'
+                # width: '0.6'
+              text: "⦁ Allergies. Allergies to pet dander, molds, dust and pollen can cause a sore throat. The problem may be complicated by postnasal drip, which can irritate and inflame the throat."
+            - .HaBodyContent:
+              style:
+                top: '0.53'
+                # width: '0.6'
+              text: "⦁ Irritants. Outdoor air pollution can cause ongoing throat irritation. Indoor pollution — tobacco smoke or chemicals — also can cause a chronic sore throat. Chewing tobacco, drinking alcohol and eating spicy foods also can irritate your throat."
+            - .HaBodyContent:
+              style:
+                top: '0.62'
+                # width: '0.6'
+              text: "⦁ Muscle strain. You can strain muscles in your throat by yelling, such as at a sporting event; talking loudly; or talking for long periods without rest."
+            - .HaBodyContent:
+              style:
+                top: '0.69'
+                # width: '0.6'
+              text: "⦁ Gastroesophageal reflux disease (GERD). GERD is a digestive system disorder in which stomach acids or other contents of the stomach back up in the food pipe (esophagus). Other signs or symptoms may include heartburn, hoarseness, regurgitation of stomach contents and the sensation of a lump in your throat."
+            - .HaBodyContent:
+              style:
+                top: '0.78'
+                # width: '0.6'
+              text: "⦁ Tumors. Cancerous tumors of the throat, tongue or voice box (larynx) can cause a sore throat. Other signs or symptoms may include hoarseness, difficulty swallowing, noisy breathing, a lump in the neck, and blood in saliva or phlegm"
+    
+    
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            marginTop: '0'
+            top: '0'
+            left: '0.16'
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Sore throat is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+          style: 
+            top: '0'
+        - .HaBottomTagname: 
+          style: 
+            top: '0'
+    - .BaseFooter1:

@@ -173,7 +173,7 @@ function deref({
 }: DerefOptions) {
   const reference = unwrap(node) as ReferenceString
   const rootKey = getRootKey(reference, rootKeyProp)
-  const derefer = createDerefReducer(root, { rootKey, ...subscribe })
+  const derefer = createDerefReducer(root as any, { rootKey, ...subscribe })
   const { dispatch, getState } = derefer
   dispatch({ type: ActionType.Start, reference, depth: ++depth })
   getState().paths.forEach(() => dispatch({ type: ActionType.Next }))

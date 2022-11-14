@@ -1,0 +1,151 @@
+HaKneePain:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Knee pain
+        - .HaHeaderLittleLabel:
+          text: The knee joint is a large and complex flexion joint of the human body. It is subjected to large stresses and is structurally stable and flexible. Because of the high stress, knee pain occurs sometimes.
+    - .HaBodyTagView:
+      style:  
+        marginTop: '0.09'
+      children:
+        - .HaBodyTagButton1:
+          text: Knee Pain
+        - .HaBodyTagButton2:
+          text: Knee
+    - .HaBodyCon:
+      style:
+        height: '0.95'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Get emergency medical care if:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ You are bleeding or severe pain after an injury"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Bone or tendons are exposed"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ There's sudden swelling or redness"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ You can't bend your knee or put weight on it"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ You heard a popping sound or felt a snapping sensation"
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ The pain is associated with fever and chills"
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+                width: '0.5'
+              text: "The knee joint is a large and complex flexion joint of the human body. It is subjected to large stresses and is structurally stable and flexible. Because of the high stress, knee pain occurs sometimes. And this pain is often neglected or arbitrarily considered to be arthritis and other diseases. In fact, there are many reasons for knee pain. Following is some common conditions that can cause knee pain:"        
+            - .HaBodyContent:
+              style:
+                top: '0.45'
+                width: '0.5'
+              text: "⦁ Osteoarthritis is one of the most common arthritis and is an asymmetrical, non-inflammatory, disease. It is characterized by primary or secondary degenerative changes in articular cartilage, and osteophyte formation at the edge of the joint. The pathological changes are mainly cartilage degeneration and subchondral bone lesions. Most occur in the middle and old age after the age of 50, more women than men."
+            - .HaBodyContent:
+              style:
+                top: '0.6'
+                width: '0.5'
+              text: "⦁ Meniscus injury. A torn meniscus is one of the most common knee injuries. Any activity that causes you to forcefully twist or rotate your knee, especially when putting your full weight on it, can lead to a torn meniscus. Each of your knees has two menisci — C-shaped pieces of cartilage that act like a cushion between your shinbone and your thighbone. A torn meniscus causes pain, swelling and stiffness. You also feel a block to knee motion and have trouble extending your Knee fully."
+            - .HaBodyContent:
+              style:
+                top: '0.78'
+                width: '0.5'
+              text: "⦁ ACL injury (tearing of the anterior cruciate ligament in your knee) The anterior cruciate ligament is an important stabilizing structure of the knee joint. After injury, the knee became instability, which seriously affects knee function. If not treated in time, Repeated sprains in the joints can easily cause damage to other important structures such as articular cartilage and meniscus, leading to premature joint aging and osteoarthrosis."       
+            - .HaBodyContent:
+              style:
+                top: '0.935'
+                width: '0.5'
+              text: "Other cause include Baker's cyst. Gout (arthritis related to excess uric acid).Patellar tendinitis, Broken leg, Dislocation, Septic arthritis, Sprains and strains, Tendinitis, etc."       
+            
+                 
+        - .HaBodyImg:
+          style:  
+            top: '0.08'
+            left: '0.69'
+            width: '0.16'
+          path: healthAZ/knee-pain.jpg
+    
+            
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Knee pain is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname: 
+        #   text: "knee pain"
+        # - .HaBottomTagname: 
+        #   text: "knee"
+        #   style: 
+        #     left: "0.3"
+    - .BaseFooter1:
+
+
+
+
+
+
+
+
+
+

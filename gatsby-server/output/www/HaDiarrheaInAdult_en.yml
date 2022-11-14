@@ -1,0 +1,192 @@
+HaDiarrheaInAdult:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Diarrhea
+        - .HaHeaderLittleLabel:
+          text: Frequent, and differ from the individual's normal pattern of bowel movements.
+    - .HaBodyTagView:
+      style:
+        top: '0.55'
+      children:
+        - .HaBodyTagButton1:
+          text: Diarrhea
+    - .HaBodyCon:
+      style:
+        height: '0.47'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Signs of dehydration, decreased urination, lethargic, listless, dry mouth, increased thirst."
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "⦁ Blood or Pus in stool"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Black tarry stool"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Bloody Vomit"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Extreme pain in the abdomen when touched"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ If Diarrhea has lasted more than 3 days"    
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+                width: '0.5'
+              text: "Diarrhea is an increase in the the volume, wateriness and or frequency of bowel movements."
+            - .HaBodyContent:
+              style:
+                top: '0.325'
+                width: '0.5'
+              text: "Diarrhea has many causes, but can usually diagnosed and treated by talking to a medical professional. Causes of diarrhea differ depending on time. Less than 2 weeks (acute) or greater than 2 weeks (chronic). Acute causes or more commonly seen."
+        - .HaBodyImg:
+          style:  
+            top: '0.15'
+            left: '0.69'
+            width: '0.18'
+          path: healthAZ/diarrhea_in_adult.png
+    - .HaBodyCon:
+      style:
+        height: '0.28'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Acute Causes:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "⦁ Viral, bacterial, or Parasitic"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Food poisoning"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Drugs"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Recent Travel"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Other causes..." 
+    - .HaBodyCon:
+      style:
+        height: '0.47'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Chronic Causes:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "⦁ Irritable bowel syndrome"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Dietary factors"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Drugs"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Previous surgery"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Genetic or inherited diseases"
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ Other causes..."     
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+              text: "Acute watery diarrhea in an otherwise healthy person may be self-limited, however, explosive diarrhea and acute bloody diarrhea require medical management ASAP. Diarrhea may present with vomiting, fever, and bloating. Dehydration is a great concern in a patient with diarrhea as it can be life threatening is severe cases. If you are having diarrhea severely, Schedule a visit now with a Medical Professional that can evaluate and treat you immediately."
+            
+    
+    
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Diarrhea is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname: 
+          # style: 
+          #   width: '0.15'
+          #   left: '0.5'
+          # text: "Diarrhea"
+    - .BaseFooter1:
+
+
+
+
+
+

@@ -8,11 +8,11 @@ import { _symbol } from '../constants'
  * @returns The unwrapped scalar or value
  */
 
-function unwrap<N extends y.Document>(node: N): N['contents']
-function unwrap<N extends y.Scalar>(node: N): N['value']
-function unwrap<R extends DocRoot>(root: R): R['value']
-function unwrap<V = unknown>(root: V): V
-function unwrap(node: unknown) {
+export function unwrap<N extends y.Document>(node: N): N['contents']
+export function unwrap<N extends y.Scalar>(node: N): N['value']
+export function unwrap<R extends DocRoot>(root: R): R['value']
+export function unwrap<V = unknown>(root: V): V
+export function unwrap(node: unknown) {
   if (node !== null && typeof node === 'object') {
     if (y.isScalar(node)) return node.value
     if (y.isDocument(node)) return node.contents

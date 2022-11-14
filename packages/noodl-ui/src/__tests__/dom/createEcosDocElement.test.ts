@@ -1,5 +1,6 @@
 // @ts-nocheck
 import * as u from '@jsmanifest/utils'
+import m from 'noodl-test-utils'
 import { NuiComponent } from 'noodl-ui'
 import { waitFor } from '@testing-library/dom'
 import { expect } from 'chai'
@@ -13,7 +14,6 @@ import {
 import { classes } from '../constants'
 import createEcosDocElement from '../utils/createEcosDocElement'
 import { nui } from '../nui'
-import { ui } from '../test-utils'
 import * as c from '../constants'
 
 async function getEcosDocLoadResult(
@@ -21,7 +21,7 @@ async function getEcosDocLoadResult(
     | NuiComponent.Instance
     | ComponentObject
     | undefined
-    | null = ui.ecosDocComponent('image'),
+    | null = m.ecosDocComponent('image'),
   container = document.body,
 ) {
   return createEcosDocElement(
@@ -33,8 +33,8 @@ async function getEcosDocLoadResult(
 }
 
 async function getEcosDocRenderResults<N extends NameField = NameField>({
-  ecosObj = ui.ecosDoc(),
-  component: componentProp = ui.ecosDocComponent({
+  ecosObj = m.ecosDoc(),
+  component: componentProp = m.ecosDocComponent({
     id: 'hello',
     ecosObj,
   }),
@@ -67,13 +67,13 @@ describe(coolGold(`createEcosDocElement`), () => {
   describe(italic('Rendering'), () => {
     describe(white(`image documents`), () => {
       it(`should render the image element into its body and set the src`, async () => {
-        const customEcosObj = ui.ecosDoc({
+        const customEcosObj = m.ecosDoc({
           name: {
             data: 'blob:https://www.google.com/abc.png',
           },
           subtype: { mediaType: 4 },
         })
-        const componentObject = ui.ecosDocComponent({
+        const componentObject = m.ecosDocComponent({
           ecosObj: customEcosObj,
         })
         const { iframe } = await getEcosDocLoadResult(componentObject)
@@ -91,10 +91,8 @@ describe(coolGold(`createEcosDocElement`), () => {
 
     describe(white(`pdf documents`), () => {
       it(`should render the pdf element into its body and set the src`, async () => {
-        const ecosObj = ui.ecosDoc('pdf')
-        const component = await nui.resolveComponents(
-          ui.ecosDocComponent('pdf'),
-        )
+        const ecosObj = m.ecosDoc('pdf')
+        const component = await nui.resolveComponents(m.ecosDocComponent('pdf'))
         const node = document.createElement('div')
         node.id = component.id
         const { iframe } = await getEcosDocLoadResult(component)
@@ -108,7 +106,7 @@ describe(coolGold(`createEcosDocElement`), () => {
     describe(white(`text documents`), () => {
       describe(white(`plain text`), async () => {
         it(`should show the title and content`, async () => {
-          const customEcosObj = ui.ecosDoc({
+          const customEcosObj = m.ecosDoc({
             name: {
               type: 'text/plain',
               title: 'my title',
@@ -119,7 +117,7 @@ describe(coolGold(`createEcosDocElement`), () => {
             },
           })
           const { iframe, node } = await getEcosDocRenderResults({
-            component: ui.ecosDocComponent({ ecosObj: customEcosObj }),
+            component: m.ecosDocComponent({ ecosObj: customEcosObj }),
             ecosObj: customEcosObj,
           })
           await waitFor(() => {
@@ -154,7 +152,7 @@ describe(coolGold(`createEcosDocElement`), () => {
     describe(white(`image`), () => {
       it(`should attach the class name "${c.classes.ECOS_DOC_IMAGE}"`, async () => {
         const { iframe } = await getEcosDocLoadResult(
-          ui.ecosDocComponent('image'),
+          m.ecosDocComponent('image'),
         )
         await waitFor(() => {
           expect(
@@ -174,7 +172,7 @@ describe(coolGold(`createEcosDocElement`), () => {
           let iframe: HTMLIFrameElement
           iframe = (
             await getEcosDocLoadResult(
-              ui.ecosDocComponent('note'),
+              m.ecosDocComponent('note'),
               document.body,
             )
           ).iframe
@@ -193,7 +191,7 @@ describe(coolGold(`createEcosDocElement`), () => {
           `note body elements`,
         async () => {
           let loadResult = await getEcosDocLoadResult(
-            ui.ecosDocComponent('note'),
+            m.ecosDocComponent('note'),
           )
           await waitFor(() => {
             expect(
@@ -212,7 +210,7 @@ describe(coolGold(`createEcosDocElement`), () => {
           `the iframe`,
         async () => {
           let loadResult = await getEcosDocLoadResult(
-            ui.ecosDocComponent('pdf'),
+            m.ecosDocComponent('pdf'),
             document.body,
           )
           await waitFor(() => {

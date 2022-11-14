@@ -16,8 +16,8 @@ export default function copyAttributes<N extends HTMLElement>(
   return elem
     ? u.reduce(
         u.entries(elem),
-        (acc, [k, v]) => {
-          if (k === 'style') u.assign(acc.style, copyStyles(elem))
+        (acc, [k, v]: any) => {
+          if (k === 'style') u.assign(acc.style as any, copyStyles(elem))
           else acc[k] = v
           return acc
         },

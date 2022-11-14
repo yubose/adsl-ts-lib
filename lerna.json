@@ -2,31 +2,19 @@
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "bootstrap": true,
   "command": {
-    "bootstrap": {},
     "create": {
       "license": "MIT"
     },
     "publish": {
       "bump": "patch",
-      "ignore": "noodl-{loader,loader-docs,yaml}",
+      "ignore": "noodl-{loader,loader-docs}",
       "message": "Update"
-    },
-    "run": {}
+    }
   },
   "forceLocal": true,
-  "ignore": "noodl-{loader,loader-docs,yaml}",
+  "ignore": "noodl-{loader,loader-docs}",
   "loglevel": "verbose",
   "message": "Update",
-  "packages": [
-    "packages/noodl-types",
-    "packages/noodl-action-chain",
-    "packages/noodl-utils",
-    "packages/noodl-ui-test-utils",
-    "packages/noodl-ui",
-    "packages/noodl-file",
-    "packages/noodl-core",
-    "packages/gatsby-plugin-noodl"
-  ],
   "useNx": true,
   "useWorkspaces": true,
   "version": "independent"

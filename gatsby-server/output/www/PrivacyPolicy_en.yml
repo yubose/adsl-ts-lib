@@ -1,0 +1,243 @@
+PrivacyPolicy:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - type: view
+      viewTag: topView
+      style:
+        width: calc(1514.77/1724.81*100vw)
+        height: calc(269.12/1724.81*100vw)
+        left: '0'
+        margin: "auto"
+        marginTop: calc(100.92/1724.81*100vw)
+      children:
+        - type: image
+          path: backgroundBlue.png
+          style:
+            width: calc(1514.77/1724.81*100vw)
+            left: '0'
+        - type: view
+          style:
+            top: calc(90/1724.81*100vw)
+            left: calc(239.52/1724.81*100vw)
+          children:
+          - type: label
+            text: Privacy Policy  
+            style:
+              fontSize: calc(37.85/1724.81*100vw)
+              fontWeight: '700'
+              color: '0xffffff'
+        - type: view
+          style:
+            left: calc(523.94/1724.81*100vw)
+            top: calc(100.92/1724.81*100vw)
+          children:
+            - type: label
+              text: Last Updated：May 22, 2020
+              style:
+                fontSize: calc(26.85/1724.81*100vw)
+                fontWeight: "680"   
+                color: '0xffffff' 
+    - type: view
+      style:
+        width: calc(1200.62/1724.81*100vw)
+        left: calc(150/1724.81*100vw)
+        margin: auto
+      children:  
+        - .TextTitle:
+          text: "I. Introduction"
+          style:
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: AITMED INCORPORATED (“AITMED”, "Company", "we", or “us”) respect your privacy and are committed to protecting it through our compliance with this policy.
+            - br:
+            - text: This policy describes the types of information we may collect from you or that you may provide when you visit the website
+            - text: https://www.aitmed.com" (the "Website") and our practices for collecting, using, maintaining, protecting, and disclosing that information.
+            - br:
+            - text: "This policy applies to information we collect:"
+            - br:
+            - text: "- On the Website."            
+            - text: "- In email, text, and other electronic messages between you and the Website."     
+            - text: "- Through mobile and desktop applications you download from the Website, which provides a dedicated non-browser-based interaction between you and the Website."            
+            - text: "- When you interact with our advertising and applications on third-party websites and services, if those applications or advertising include links to this policy."            
+            - br: 
+            - text: "Please read this policy carefully to understand our policies and practices regarding your information and how we treat it. If you do not agree with our policies and practices, do not use the Website. By accessing or using the Website, you agree to the terms and conditions set forth in this privacy policy. This policy may change from time to time. Your continued use of the Website after we make changes is deemed to be an acceptance of those changes, so please check the policy periodically for updates."
+          style:
+            lineHeight: calc(35/1724.81*100vw)
+        - .TextTitle:
+          text: "II. Children Under the Age of 13"
+          style:
+            # fontSize: .Sfont.h6  
+            # color: "0x000000"
+            # # fontWeight: '650' 
+            # fontFamily: Arial   
+            # left: '0.035' 
+        # - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: "The Website is not intended for children under 13 years of age. No one under age 13 may provide any personal information to or on the Website."
+          style:
+            lineHeight: calc(35/1724.81*100vw)
+        - .TextTitle:
+          text: "III. Access to Applications"
+          style:
+            color: "0x000000"
+            # fontSize: .Sfont.h6
+            # fontWeight: '650' 
+            # left: '0.035'      
+        # - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: "In order to facilitate appointments and speak to the appropriately licensed healthcare provider, we will require access to your calendar, microphone, camera and real-time location services located on the device used to contact AITMED."   
+          style:
+            lineHeight: calc(35/1724.81*100vw)
+        - .TextTitle:
+          text: "IV. Information You Provide to Us"
+          style:
+              color: "0x000000"
+              # fontSize: .Sfont.h6
+              # fontWeight: '650'  
+              # left: '0.035'  
+        # - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: "We collect several types of information from and about users of the Website, including, but not limited to, the following information:"
+            - br:
+            - text: "- Contact information, such as your full name, email address, phone number, and address."
+            - text: "- Username and password."
+            - text: "- For healthcare providers, information about your employment, such as your job title, practice area, primary specialty, and medical license status, gender, date of birth, languages spoken, educational background, address, photograph, social security number, tax ID number, NPI number, professional license information and bank account information."
+            - text: "- Personal health information, including information about your diagnosis, previous treatments, general health, and health insurance; and"
+            - text: "- Any other information you provide to us."
+            - br: 
+            - text: "We have collected personal information from each of the foregoing categories during the past 12 months. We collect this information directly from you when you provide it to us as well as automatically as you navigate through the Website. Information collected automatically mayinclude usage details, IP addresses, and information collected through cookies. The technologies we use for automatic data collection may include cookies (or browser cookies), flash cookies, web beacons, third-party use of cookies, and other technologies."
+            # - br:
+            #- text: "We strive to maintain the confidentiality of your health information and to abide with applicable federal and state privacy guidelines. All collected information is stored with TrueVault, Inc. (“TrueVault”). For TrueVault’s privacy policy, see"
+            #- text: "https://www.truevault.com/privacypolicy.html"
+              #color: "0x1110ff"
+            # - text: "For information regarding TrueVault’s HIPAA compliance,see."
+            # - text: "https://www.truevault.com/solutions/hipaa-compliance.html."
+              # color: "0x1110ff"
+          style:
+            lineHeight: calc(35/1724.81*100vw)
+        - .TextTitle:
+          text: "V. Disclosure of Your Information"
+          style:
+              # fontSize: .Sfont.h6
+              # fontWeight: '650' 
+              # left: '0.035'   
+        # - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: "We may disclose aggregated information about our users, and information that does not identify any individual, without restrictions."
+            - br:
+            - text: "Subject to applicable federal and state law, we may disclose personal information that we collect or you provide as described in this privacy policy:"
+            - br:
+            - text: "- To our subsidiaries and affiliates."
+            - text: "- To contractors and other third parties we use to support our business and who are bound by contractual obligations to keep personal information confidential and use it only for the purposes for which we disclose it to them. Service providers can use personal information that are shared with them in accordance with their privacy policies."
+            - text: "- To a buyer or other successor in the event of a merger, divestiture, restructuring, reorganization, dissolution, or other sale or transfer of some or all of AITMEDs assets, whether as a going concern or as part of bankruptcy, liquidation, or similar proceeding, in which personal information held by AITMED about the Website users is among the assets transferred."
+            - text: "- To third parties to market their products or services to you if you have consented to these disclosures. We contractually require these third parties to keep personal information confidential and use it only for the purposes for which we disclose it to them."
+            - text: "- To fulfill the purpose for which you provide it. For example, if you give us an email address to use the 'email a friend' feature of the Website, we will transmit the contents of that email and your email address to the recipients."
+            - text: "- For any other purpose disclosed by us when you provide the information."
+            - text: "- With your consent."
+            - br:
+            - text: "We may also disclose your personal information:"
+            - br:
+            - text: "- To comply with any court order, law, or legal process, including to respond to any government or regulatory request."
+            - text: "- Subject to applicable federal and state law, to enforce or apply the Terms of Use and other agreements."
+            - text: "- Subject to applicable federal and state law, if we believe disclosure is necessary or appropriate to protect the rights, property, or safety of AITMED, our customers, or others. This includes exchanging information with other companies and organizations for the purposes of fraud protection and credit risk reduction."
+          style:
+            lineHeight: calc(35/1724.81*100vw)
+        - .TextTitle:
+          text: "VI. Your California Privacy Rights"
+          style:
+              # fontSize: .Sfont.h6
+              # fontWeight: '650' 
+              # left: '0.035'   
+        # - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: "The California Consumer Privacy Act of 2018 (“CCPA”) provides California residents with specific rights regarding their personal information. This section describes your CCPA rights and explains how to exercise those rights. If you have any questions about this section or whether any of the following applies to you, please contact us at contact@aitmed.com and indicate “CCPA” in the subject line of your communication."
+            - br:
+            - text: "You have the right to request certain information about our collection and use of your personal information over the past 12 months, including the following:"
+            - br:
+            - text: "- The categories of personal information that we have collected about you."
+            - text: "- The categories of sources from which that personal information was collected."
+            - text: "- The business or commercial purpose for collecting or selling your personal information."
+            - text: "- The categories of third parties with whom we have shared your personal information."
+            - text: "- The specific pieces of personal information that we have collected about you."
+            - br: 
+            - text: "If we have disclosed your personal information for a business purpose over the past 12 months, we will identify the categories of personal information shared with each category of third-party recipient. "
+            - br: 
+            - text: "If we have sold your personal information over the past 12 months, we will identify the categories of personal information purchased by each category of third-party recipient. Over the past 12 months, we have sold the following categories of your personal information to third parties: demographic data and web analytics or other similar network activity information"
+            - br:
+            - text: "You have the right to opt-out of the sale of your personal information. You can find more information at the page entitled “Do Not Sell My Personal Information” at [link]. You also have the right to request that we delete the personal information that we have collected from you. Under the CCPA, this right is subject to certain exceptions. For instance, we may need to retain your personal information to provide you with services or complete other action you have requested. If your deletion request is subject to one of these exceptions, we may deny your deletion request. "
+            - br:
+            - text: "To exercise the rights described above, you must send us a request that (1) provides sufficientinformation to allow us to verify that you are the person about whom we have collected personalinformation, and (2) describes your request in sufficient detail to allow us to understand, evaluate, and respond to it. We will work to respond to your request within 45 days of receipt. You may submit a request through (a) telephone at [telephone number]; (b) email at contact@aitmed.com; or (c) mail at AITMED INCORPORATED (attn: Legal Department) at 1000 S. Anaheim Blvd., Anaheim, CA 92805."
+            - br:
+            - text: "Under California Civil Code Sections 1798.83-1798.84, California residents are entitled to contact us to prevent disclosure of personal information to third parties for such third parties’ direct marketing purposes. To submit such a request, please contact us at "
+            - br:
+            - text: "contact@aitmed.com."
+              # color: "0x1110ff" 
+          style:
+            lineHeight: calc(35/1724.81*100vw)
+        - .TextTitle:
+          text: "VII. Data Security"
+          style:
+            # fontSize: .Sfont.h6
+            # fontWeight: '650'   
+            # left: '0.035' 
+        # - .TextLabel:
+        - .PrivacyTextLabel: 
+          textBoard:
+            - text: "We have implemented measures designed to secure your personal information from accidental loss and from unauthorized access, use, alteration, and disclosure. All information you provide to us is stored on our secure servers behind firewalls."
+            - br:
+            - text: "The safety and security of your information also depends on you. Where we have given you (or where you have chosen) a password for access to certain parts of the Website, you are responsible for keeping this password confidential. We ask you not to share your password with anyone. We urge you to be careful about giving out information in public areas of the Website like message boards. The information you share in public areas may be viewed by any user of the Website. Unfortunately, the transmission of information via the internet is not completely secure. Although we do our best to protect your personal information, we cannot guarantee the security of your personal information transmitted to the Website. Any transmission of personal information is at your own risk. We are not responsible for circumvention of any privacy settings or security measures contained on the Website."
+          style:
+            lineHeight: calc(35/1724.81*100vw)
+        - .TextTitle:
+          text: "VIII. Changes to Our Privacy Policy "
+          style:
+            # fontSize: .Sfont.h6
+            # fontWeight: '650'  
+            # left: '0.035'  
+        # - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: "It is our policy to post any changes we make to our privacy policy on this page with a notice that the privacy policy has been updated on the Website home page. We reserve the right to advise of any changes to the Terms of Use via the email address on file and/or by means of an alert upon logging into the Website. The date the privacy policy was last revised is identified at the top of the page. You are responsible for ensuring we have an up-to-date active and deliverable email address for you, and for periodically visiting the Website and this privacy policy to check for any changes. " 
+          style:
+            lineHeight: calc(35/1724.81*100vw)
+        - .TextTitle:
+          text: "IX. Contact Information "
+          style:
+            # fontSize: .Sfont.h6
+            # fontWeight: '650'   
+            # left: '0.035' 
+        # - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: "To ask questions or comment about this privacy policy and our privacy practices, contact us through (a) telephone at [telephone number]; (b) email at contact@aitmed.com; or (c) mail at AITMED INCORPORATED (attn: Legal Department) at 1000 S. Anaheim Blvd., Anaheim, CA 92805. "   
+          style:
+            lineHeight: calc(35/1724.81*100vw)
+        - .TextTitle:
+          text: "XI. Complaint "
+          style:
+            # fontSize: .Sfont.h6
+            # fontWeight: '650' 
+            # left: '0.035' 
+        - type: view
+          style:
+            height: calc(420.5/1724.81*100vw)
+            weight: calc(1514.77/1724.81*100vw)
+          children:  
+          # - .TextLabel: 
+          - .PrivacyTextLabel:
+            textBoard:
+              - text: "If you believe your privacy has been violated you may file a complaint with us at email:contact@aitmed.com or write us at: Legal/Compliance Department, AITMED Inc., 1000 S. Anaheim Blvd., Anaheim, CA 92805. "
+              - br:
+              - text: "You may also file a complaint with the Secretary of Health and Human Services online at" 
+              - text: "https://ocrportal.hhs.gov/ocr/smartscreen/main.jsf" 
+              - br:
+              - text: "or call 1-800-537-7697"
+            style:
+              lineHeight: calc(35/1724.81*100vw)
+    - .BaseFooter1

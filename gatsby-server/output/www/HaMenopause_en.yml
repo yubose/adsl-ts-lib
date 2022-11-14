@@ -1,0 +1,131 @@
+HaMenopause:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Menopause
+        - .HaHeaderLittleLabel:
+          text: Womens Health - Menopause is the time in a woman's life when her period stops.
+    - .HaBodyTagView:
+      style: 
+        marginTop: '0.09'
+      children:
+        - .HaBodyTagButton1:
+          text: menopause
+    - .HaBodyCon:
+      style:
+        height: '0.96'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Get emergency care if your child:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "Menopause, also known as the climacteric, is the time in most women's lives when menstrual periods stop permanently, and they are no longer able to bear children."
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+                width: '0.5'
+              text: "Menopause typically occurs between 49 and 52 years of age."
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+                width: '0.5'
+              text: "Medical professionals often define menopause as having occurred when a woman has not had any vaginal bleeding for a year."
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "It may also be defined by a decrease in hormone production by the ovaries."
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+                width: '0.5'
+              text: "In those who have had surgery to remove their uterus but still have ovaries, menopause may be considered to have occurred at the time of the surgery or when their hormone levels fell."
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+                width: '0.5'
+              text: "Following the removal of the uterus, symptoms typically occur earlier, at an average of 45 years of age."
+
+        - type: video
+          videoFormat: mp4
+          path: https://public.aitmed.com/commonRes/video/aitmed147.mp4
+          poster: videoBack.png
+          controls: true
+          style: 
+            top: "0.48"
+            height: "0.4"
+            left: '0.28'
+    
+   
+    
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Menopause is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname:                                                                                                         
+          # text: "menopause"
+          
+       
+    - .BaseFooter1:
+
+
+
+
+
+
+
+
+
+
+
+

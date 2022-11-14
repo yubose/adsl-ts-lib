@@ -1,0 +1,947 @@
+SignIn:
+  viewPort: top
+  
+  pageNumber: "30"
+  init:
+    
+    - if:
+      - =.Global.currentUser.vertex.sk #.builtIn.SignInOk
+      - goto: Overview
+      - continue
+  save:
+    - =.builtIn.eccNaCl.decryptAES:
+        dataIn:
+          key: =..formData.password
+          message: =.Global.currentUser.vertex.esk
+        dataOut: SignIn.formData.sk  
+    - =.builtIn.eccNaCl.skCheck:
+        dataIn:
+          pk: =.Global.currentUser.vertex.pk
+          sk: =..formData.sk
+        dataOut: SignIn.formData.pass
+    - if:
+      - =..formData.pass
+      - .Global.currentUser.vertex.sk@: =..formData.sk
+      - actionType: popUp
+        popUpView: wrongPassword
+        wait: true       
+  check:
+    - =.SignIn.loginNewDevice.edgeAPI.store: ""
+    - actionType: evalObject
+      object: 
+        .Global._nonce@: 
+          =.builtIn.math.random: ""     
+    - if:
+        - =.builtIn.string.equal:
+            dataIn:
+              string1: =..loginNewDevice.response.code
+              string2: 1020   #unregistered user signin
+        - actionType: popUp
+          popUpView: userCannotfind
+          wait: true
+        - continue
+    - if:
+      - =.builtIn.string.equal:
+          dataIn:
+            string1: =..loginNewDevice.response.code
+            string2: 0
+      - continue
+      - actionType: popUp
+        popUpView: wrongCode
+        wait: true
+  update: 
+    - =.SignIn.loginUser.edgeAPI.store: ""
+    - =.SignIn.retrieveVertex.vertexAPI.get: ""
+    - .Global.currentUser.vertex@: =..retrieveVertex.response.vertex.0
+    - .Global.currentUser.JWT@: =..loginUser.response.jwt
+    - =.builtIn.storeCredentials:
+        dataIn:
+          sk: =.Global.currentUser.vertex.sk
+          pk: =.Global.currentUser.vertex.pk
+          userId: =.Global.currentUser.vertex.id
+          esk: =.Global.currentUser.vertex.esk
+    - .Global.currentUser.dataCache.loadingDateTime@: =.Global.currentDateTime
+    - .Global.rootNotebookID@: =.Global.currentUser.vertex.deat.rnb64ID
+    - .Global.currentUser.dataCache.loadingDateTime@ : =.Global.currentDateTime
+  formData:
+    checkOk: "false"
+    checkMessage: "no message"
+    countryCode: "+1"   
+    phoneNumber: ""
+    password: ""
+    code: ""
+    sk: ""
+    pass: ""
+  retrieveVertex:
+    response: ""
+    vertex:
+      .Vertex: ""
+      id: =..loginNewDevice.response.edge.deat.user_id
+    vertexAPI:
+      get:
+        api: rv
+        dataIn: SignIn.retrieveVertex.vertex
+        dataOut: SignIn.retrieveVertex.response  
+  verificationCode:
+    response: ""
+    edge:
+      .Edge: ""
+      type: 1010
+      _nonce: =.Global._nonce
+      name:
+        phone_number: =..apiData.phoneNumber
+    edgeAPI:
+      .EdgeAPI: ""
+      store:
+        api: ce
+        dataIn: SignIn.verificationCode.edge
+        dataOut: SignIn.verificationCode.response
+  loginNewDevice:
+    response: ""
+    edge:
+      .Edge: ""
+      type: 1040
+      _nonce: =.Global._nonce
+      name:
+        phone_number: =..apiData.phoneNumber
+        verification_code: =..formData.code
+      deat:
+        UserId: ""
+        Pk: ""
+        Esk: ""
+    edgeAPI:
+      .EdgeAPI: ""
+      store:
+        api: ce
+        dataIn: SignIn.loginNewDevice.edge
+        dataOut: SignIn.loginNewDevice.response
+  loginUser:
+    response: ""
+    edge:
+      .Edge: ""
+      type: 1030
+      _nonce: =.Global._nonce
+      bvid: =..loginNewDevice.response.edge.deat.user_id
+    edgeAPI:
+      .EdgeAPI: ""
+      store:
+        api: ce
+        dataIn: SignIn.loginUser.edge
+        dataOut: SignIn.loginUser.response
+  apiData:
+    phoneNumber: ""  
+
+  initFocus: phoneNumberVT
+
+  components:
+    - .BaseCheckView: ""
+      message: "Incorrect Password"
+      viewTag: wrongPassword
+    - .BaseCheckView: ""
+      message: "Incorrect verificationCode"
+      viewTag: wrongCode
+    - .BaseCheckView: ""
+      message: "Cannot Find the User"
+      viewTag: userCannotfind
+    - type: view
+      style:
+        width: "0.66"
+        height: "1"
+      children:
+        - type: view
+          style:
+            width: "0.66"
+            height: "1"
+            left: "0"
+            top: "0"
+            background: "linear-gradient(to right , #133458 , #205085)"
+          children:
+            - type: image
+              path: aitmedLogoWhite.png
+              style:
+                width: "0.16"
+                left: "0.25"
+                top: '0.14'
+            - type: label
+              textBoard: 
+                - text: WELCOME TO 
+                - br: 
+                - text: AITMED 
+              style: 
+                left: "0.1"
+                width: "0.46"
+                top: "0.67"
+                height: "0.3"
+                color: "0xffffff"
+                textAlign: 
+                  x: center
+                fontSize: "5.7vh"
+                lineHeight: "1.5"
+                letterSpacing: "2.5px"
+    - type: view
+      style:
+        left: "0.66"
+        top: "0"
+        width: "0.34"
+        height: "1"
+        display: 
+      children:
+        - type: image
+          path: AiTmed.png
+          style:
+            left: "0.06"
+            top: "0.05"
+            width: "0.07"
+        - type: view
+          style:
+            width: "0.26"
+            left: "0.04"
+            height: "0.65"
+            top: "0.23"
+            borderRadius: "5px"
+            boxShadow: "0 0 20px #ecf4f8"
+          children:
+            - type: view
+              style:
+                width: "0.26"
+                left: '0'
+                height: "0.2"
+                top: "0"
+              children:
+                - type: label
+                  text: Welcome
+                  style:
+                    width: "0.16"
+                    left: "0.03"
+                    height: '0.05'
+                    top: "0.03"
+                    fontSize: "25"
+                    fontWeight: "500"
+                    textAlign:
+                      y: center
+                - type: label
+                  text: Sign in to continue
+                  style:
+                    width: "0.16"
+                    left: "0.03"
+                    height: '0.05'
+                    top: "0.08"
+                    fontSize: "19"
+                    textAlign:
+                      y: center
+            - type: view
+              viewTag: usePhoneNumber
+              style:
+                width: "0.26"
+                left: '0'
+                height: "0.12"
+                top: "0.1" 
+                isHidden: false
+              children:
+                - type: label
+                  text: "Country"
+                  style:
+                    top: "0.05"
+                    left: "0.03"    
+                    width: "0.05"
+                    height: "0.01"
+                    fontSize: "11" 
+                    fontWeight: "500"
+                    #fontFamily: "Poppins"     
+                - type: label
+                  text: "Phone"
+                  style:
+                    top: "0.05"
+                    left: "0.08"    
+                    width: "0.05"
+                    height: "0.01"
+                    fontSize: "11" 
+                    fontWeight: "500"
+                    #fontFamily: "Poppins"           
+                - type: view
+                  style:
+                    width: "0.043"
+                    left: "0.03"
+                    height: "0.047"
+                    top: "0.075"
+                    border: '1px solid #000000'
+                    borderWidth: "1px"
+                    borderRadius: "5px"
+                    borderColor: "#C4C4C4"
+                  children:
+                    - type: select
+                      contentType: countryCode
+                      placeholder: ..formData.countryCode
+                      dataKey: formData.countryCode # formData.countryCode : inputValue
+                      options:
+                        .CountryCode
+                      required: "true"
+                      style:
+                        left: "0.0008"
+                        width: "0.04"
+                        top: '0.002'
+                        height: "0.04"
+                        fontSize: "14"
+                        borderWidth: "1"
+                        box-sizing: "border-box"
+                        border: "none"
+                        # borderColor: '#C4C3C4'          
+                - type: view
+                  style:
+                    width: "0.15"
+                    left: "0.08"
+                    height: "0.047"
+                    top: "0.075"
+                    border: '1px solid #000000'
+                    borderWidth: "1px"
+                    borderRadius: "5px"
+                    borderColor: "#C4C4C4"
+                  children:          
+                    - type: textField # take users' input
+                      viewTag: phoneNumberVT
+                      contentType: phoneNumber
+                      placeholder: "Your phone number"
+                      dataKey: formData.phoneNumber  # users' input will be saved to this key
+                      required: "true"
+                      onChange:
+                        - emit:
+                            actions:
+                              - =.builtIn.typeCheck.phoneNumber:
+                                  dataIn:
+                                    phoneNumber: =..formData.phoneNumber
+                                    countryCode: =..formData.countryCode
+                                  dataOut: SignIn.formData.checkOk
+                              - if:
+                                - =..formData.checkOk
+                                - continue
+                                - ..formData.checkMessage@: "Unacceptible phone number format example: 888-999-0000"
+                      style:
+                        textAlign:
+                          x: left
+                        fontSize: "14"
+                        left: "0.007"
+                        top: "0.003"
+                        width: "0.11"
+                        height: "0.04"
+                        required: "true"
+                        borderWidth: "1"
+                        box-sizing: "border-box"
+                        border: "none"
+                - type: button
+                  text: Username Sign In
+                  onClick: 
+                    - actionType: evalObject
+                      object:
+                        - ..apiData.phoneNumber@: ""
+                        - ..formData.phoneNumber@: "8888888888"
+                        #- ..rvCondition@: "0"
+                    - actionType: builtIn
+                      funcName: hide
+                      viewTag: usePhoneNumber
+                    - actionType: builtIn
+                      funcName: show
+                      viewTag: useUserName
+                    - actionType: builtIn
+                      funcName: redraw
+                      viewTag: useUserName
+                  style: 
+                    left: "0.03"
+                    width: "0.1"
+                    top: "0.135"
+                    height: "0.045"
+                    fontSize: "12"
+                    border: 
+                      style: '3'
+                    borderColor: "0xf0f0f0"
+                    color: "0xffffff"
+                    backgroundColor: "0x003254"
+                    box-sizing: "border-box"
+                    borderRadius: "5"
+                - type: label
+                  text: "Password"
+                  style:
+                    top: "0.21"
+                    left: "0.03"    
+                    width: "0.05"
+                    height: "0.01"
+                    fontSize: "11" 
+                    fontWeight: "500"
+                    # fontStyle: bold
+                    # fontFamily: "Poppins"   
+            - type: view
+              viewTag: useUserName
+              style:
+                width: "0.26"
+                left: '0'
+                height: "0.12"
+                top: "0.1" 
+                display: none
+              children:
+                - type: label
+                  text: "Username"
+                  style:
+                    top: "0.05"
+                    left: "0.03"    
+                    width: "0.05"
+                    height: "0.01"
+                    fontSize: "11" 
+                    fontWeight: "500"
+                    # fontFamily: "Poppins"               
+                - type: view
+                  style:
+                    width: "0.2"
+                    left: "0.03"
+                    height: "0.047"
+                    top: "0.075"
+                    border: '1px solid #000000'
+                    borderWidth: "1px"
+                    borderRadius: "5px"
+                    borderColor: "#C4C4C4"
+                  children:
+                    - type: textField # take users' input
+                      dataKey: apiData.phoneNumber
+                      style:
+                        textAlign:
+                          x: left
+                        fontSize: "14"
+                        left: "0.005"
+                        top: "0.004"
+                        width: "0.12"
+                        height: "0.04"
+                        required: "true"
+                        borderWidth: "1"
+                        box-sizing: "border-box"
+                        border: "none"        
+          
+                - type: button
+                  text: Phone Number Sign In
+                  onClick: 
+                    - actionType: evalObject
+                      object:
+                        - ..apiData.phoneNumber@: ""
+                        - ..formData.phoneNumber@: ""
+                    - actionType: builtIn
+                      funcName: hide
+                      viewTag: useUserName
+                    - actionType: builtIn
+                      funcName: show
+                      viewTag: usePhoneNumber
+                    - actionType: builtIn
+                      funcName: redraw
+                      viewTag: usePhoneNumber
+                  style: 
+                    left: "0.03"
+                    width: "0.12"
+                    top: "0.135"
+                    height: "0.045"
+                    fontSize: "12"
+                    border: 
+                      style: '3'
+                    borderColor: "0xf0f0f0"
+                    color: "0xffffff"
+                    backgroundColor: "0x003254"
+                    box-sizing: "border-box"
+                    borderRadius: "5"
+                - type: label
+                  text: "Password"
+                  style:
+                    top: "0.21"
+                    left: "0.03"    
+                    width: "0.05"
+                    height: "0.01"
+                    fontSize: "11" 
+                    fontWeight: "500"
+                    # fontStyle: bold
+                    # fontFamily: "Poppins"      
+            - type: view
+              style: 
+                width: "0.26"
+                left: '0'
+                height: "0.2"
+                top: "0.295" 
+              children: 
+                - type: view
+                  style:
+                    width: "0.2"
+                    left: "0.03"
+                    height: "0.047"
+                    top: "0.04"
+                    border: '1px solid #000000'
+                    borderWidth: "1px"
+                    borderRadius: 5px
+                    borderColor: "#C4C4C4"
+                  children:
+                    - type: textField
+                      contentType: password
+                      placeholder: "Your password"
+                      dataKey: formData.password
+                      required: "true"
+                      style:
+                        textAlign:
+                            x: left
+                        fontSize: "14"
+                        left: "0.007"
+                        top: "0.003"
+                        width: "0.18"
+                        height: "0.04"
+                        backgroundColor: "0x388ecc00"
+                        borderWidth: "1"
+                        border: "none"
+                - type: view
+                  style:
+                    height: "0.0001"
+                    width: "0.09"
+                    left: "0.14"
+                    top: "0.24"
+                    backgroundColor: "#C4C4C4"        
+                - type: view
+                  style:
+                    height: "0.0001"
+                    width: "0.09"
+                    left: "0.03"
+                    top: "0.24"
+                    backgroundColor: "#C4C4C4" 
+                - type: label
+                  text: OR
+                  style:
+                    left: "0.125"
+                    top: "0.24"
+                    width: "0.1"
+                    height: "0.041"
+                    fontSize: "13"
+                    display: inline
+                    fontWeight: "500"
+                    textAlign: 
+                      x: left
+                      y: center            
+                - type: label
+                  text: Forgot Password
+                  onClick:
+                    - actionType: popUp
+                      popUpView: resetUser  
+                  style:
+                    left: "0.05"
+                    top: "0.1"
+                    width: "0.18"
+                    height: "0.041"
+                    fontSize: "13"
+                    display: inline
+                    fontWeight: "500"
+                    textAlign: 
+                      x: right
+                      y: center
+                - type: button
+                  text: Sign In
+                  style:
+                    color: "0xffffffff"
+                    fontSize: "16"
+                    left: "0.03"
+                    top: "0.16"
+                    width: "0.2"
+                    height: "0.05"
+                    backgroundColor: "#235591"
+                    border:
+                      style: "1"
+                    display: inline
+                    borderRadius: "5px"
+                    textAlign:
+                      x: center
+                      y: center
+                  onClick: 
+                    - actionType: evalObject
+                      object: 
+                        =.builtIn.string.concat:
+                          dataIn:
+                            - =.SignIn.formData.countryCode
+                            - " "
+                            - =.SignIn.formData.phoneNumber
+                          dataOut: SignIn.apiData.phoneNumber  
+                    - actionType: evalObject
+                      object: 
+                        - if: 
+                            - =.Global.currentUser.vertex.esk  
+                            - actionType: evalObject
+                              object: ..save
+                            - continue
+                    - actionType: evalObject
+                      object:
+                        - if:
+                            - =.Global.currentUser.vertex.sk
+                            - goto: Overview
+                            - continue  
+                    - actionType: evalObject
+                      object: 
+                        - if:
+                          - =.Global.currentUser.vertex.sk
+                          - continue 
+                          - =.SignIn.verificationCode.edgeAPI.store : ""
+                    - actionType: evalObject
+                      object: 
+                        .Global._nonce@: 
+                          =.builtIn.math.random: ""        
+                    - actionType: popUp
+                      popUpView: inputVerificationCode
+                # - type: view
+                #   style:
+                #     width: "0.2"
+                #     left: "0.03"
+                #     top: "0.34"
+                #     height: "0.08"
+                #   children:
+                #     - type: label
+                #       text: By continuing, you agree to accept our 
+                #       style:
+                #         width: "0.2"
+                #         height: "30px"
+                #         color: "0x000000"
+                #         fontSize: "13"
+                #         textAlign:
+                #           x: center
+                    # - type: view
+                    #   style:
+                    #     display: flex
+                    #     flexWrap: wrap
+                    #     justifyContent: "center"
+                    #     width: '0.2'
+                    #     top: "30px"
+                    #   children:
+                    #     - type: label
+                    #       text: Privacy Policy
+                    #       style:
+                    #         display: block
+                    #         position: static
+                    #         fontSize: "12px"
+                    #         color: "#1A83F9"
+                    #     - type: label
+                    #       text: ","
+                    #       style:
+                    #         display: block
+                    #         position: static
+                    #         fontSize: "12px"
+                    #     - type: label
+                    #       text: User Agreement
+                    #       style:
+                    #         display: block
+                    #         position: static  
+                    #         fontSize: "12px"
+                    #         color: "#1A83F9"
+                    #       onClick:
+                    #         - goto: TermsOfUse
+                    #     - type: label
+                    #       text: " & "
+                    #       style:
+                    #         display: block
+                    #         position: static
+                    #         fontSize: "12px"
+                    #     - type: label
+                    #       text: Master Subscription
+                    #       style:
+                    #         display: block
+                    #         position: static
+                    #         fontSize: "12px"
+                    #         color: "#1A83F9"
+              # wait: true
+        - type: popUp # view
+          viewTag: resetUser
+          style:
+            top: "0"
+            width: "0.34"
+            height: "1" 
+            backgroundColor: '0x00000088' 
+          children:
+            - type: view
+              style:
+                left: "0.06"
+                top: "0.3"
+                width: "0.24"
+                height: "0.3" 
+                borderRadius: "10"
+                backgroundColor: '0xffffff'
+              children:
+                - type: label
+                  text: "Forget your password?"
+                  style:
+                    left: "0"
+                    top: "0.02"
+                    width: "0.24"
+                    height: "0.04"
+                    color: "0x000000"
+                    fontWeight: "600"
+                    fontSize: "1.7vh"
+                    fontFamily: "sans-serif"
+                    textAlign:  
+                      x: center
+
+                - type: label
+                  text: "When using blockchain technology, there is no way for us at AiTmed to recover your password. It is blockchain-encrypted for your security and privacy."
+                  style:
+                    .LabelStyle:
+                      left: "0.008"
+                      top: "0.06"
+                      width: "0.225"
+                      height: "0.065"
+                      color: "0x000000"
+                      fontSize: "1.5vh"
+                      display: inline
+                      fontFamily: "sans-serif"
+                      textAlign:
+                        x: center
+                - type: label
+                  text: "To reset your password, you must create a new account."
+                  style:
+                    .LabelStyle:
+                      left: "0.008"
+                      top: "0.135"
+                      width: "0.224"
+                      height: "0.02"
+                      color: "0x000000"
+                      fontSize: "1.5vh"
+                      fontFamily: "sans-serif"
+                      textAlign:
+                        x: center
+                - type: label
+                  text: "THIS WILL RESET YOUR ACCOUNT AND DELETE ANY PREVIOUSLY STORED INFORMATION"
+                  style:
+                    .LabelStyle:
+                      left: "0"
+                      top: "0.16"
+                      width: "0.24"
+                      height: "0.045"
+                      color: "0x000000"
+                      fontSize: "1.5vh"
+                      fontFamily: "sans-serif"
+                      textAlign:
+                        x: center
+                - type: label
+                  text: "This action cannot be undone."
+                  style:
+                    .LabelStyle:
+                      left: "0.01"
+                      top: "0.21"
+                      width: "0.23"
+                      height: "0.03"
+                      color: "0x000000"
+                      fontSize: "1.5vh"
+                      fontFamily: "sans-serif"
+                      textAlign:
+                        x: center
+                - type: divider
+                  style:
+                    left: "0"
+                    top: "0.24"
+                    width: "0.239"
+                    height: "0.0001"
+                    backgroundColor: "0x00000088"
+                - type: divider
+                  style:
+                    left: "0.12"
+                    top: "0.24"
+                    width: "0.0001"
+                    height: "0.05"
+                    backgroundColor: "0x00000088"
+                - type: button
+                  onClick: 
+                    - actionType: popUpDismiss
+                      popUpView: resetUser
+                  text: Cancel
+                  style:
+                    .LabelStyle:
+                      left: "0.01"
+                      top: "0.255"
+                      width: "0.1"
+                      height: "0.04"
+                      fontSize: "18"
+                      color: '#0062FF'
+                      backgroundColor: "0xffffff"
+                      display: inline
+                      fontWeight: "600"
+                      textAlign:
+                        x: center
+                        y: center
+                      border:
+                        style: "5"
+                        borderRadius: "5"         
+                - type: button
+                  onClick: 
+                    - actionType: popUpDismiss
+                      popUpView: resetUser
+                    - goto: SignUp  
+                  text: Continue
+                  style:
+                    .LabelStyle:
+                      left: "0.13"
+                      top: "0.255"
+                      width: "0.1"
+                      height: "0.04"
+                      color: "#0062FF"
+                      fontSize: "18"
+                      display: inline
+                      fontWeight: "600"
+                      backgroundColor: "0xffffff"
+                      textAlign:
+                        x: center
+                        y: center
+                      border:
+                        style: "5"
+                        borderRadius: "5"
+        - type: popUp
+          viewTag: inputVerificationCode
+          style:
+            top: "0"
+            width: "0.34"
+            height: "1" 
+            backgroundColor: '0x00000088'
+          children:
+            - type: view
+              style:
+                left: "0.05"
+                top: "0.3"
+                width: "0.24"
+                height: "0.35" 
+                borderRadius: "10px"
+                backgroundColor: '0xffffff'
+              children:
+                - type: label
+                  text: "Enter the 6-digit verification code"
+                  style:
+                    .LabelStyle:
+                      left: "0"
+                      top: "0.06"
+                      width: "0.24"
+                      height: "0.05"
+                      color: "0x000000"
+                      fontSize: "16"
+                      display: inline
+                      # fontStyle: "bold"
+                      fontFamily: "sans-serif"
+                      textAlign:
+                        x: center
+                        y: center
+                - type: textField
+                  contentType: text
+                  dataKey: formData.code
+                  required: "true"
+                  style:
+                    .LabelStyle:
+                      left: "0.04"
+                      top: "0.14"
+                      width: "0.16"
+                      height: "0.05"
+                      color: "0x00000088"
+                      fontSize: "20"
+                      display: inline
+                      border: 
+                        style: "3"
+                        color: "0xb5b5b8"
+                      borderWidth: "1"
+                      textAlign:
+                        x: center
+                        y: center              
+                - type: button
+                  onClick:
+                    - actionType: popUpDismiss
+                      popUpView: inputVerificationCode
+                  text: CANCEL
+                  style:
+                    .LabelStyle:
+                      left: "0.03"
+                      top: "0.24"
+                      width: "0.08"
+                      height: "0.06"
+                      fontSize: "19"
+                      color: '0x000000cc'
+                      backgroundColor: "0xffffff"
+                      display: inline
+                      textAlign:
+                        x: center
+                        y: center
+                      border:
+                        style: "5"
+                        borderRadius: "5" 
+                - type: button
+                  onClick:
+                    - actionType: popUpDismiss
+                      popUpView: inputVerificationCode
+                    - actionType: evalObject
+                      object: ..check
+                    - actionType: evalObject
+                      object:
+                        =.builtIn.eccNaCl.decryptAES:
+                          dataIn:
+                            key: =..formData.password
+                            message: =..loginNewDevice.response.edge.deat.esk
+                          dataOut: SignIn.formData.sk  
+                    - actionType: evalObject
+                      object:
+                        =.builtIn.eccNaCl.skCheck:
+                          dataIn:
+                            pk: =..loginNewDevice.response.edge.deat.pk
+                            sk: =..formData.sk
+                          dataOut: SignIn.formData.pass
+                    - actionType: evalObject
+                      object:
+                        - if:
+                          - =..formData.pass
+                          - .Global.currentUser.vertex.sk@: =..formData.sk
+                          - actionType: popUp
+                            popUpView: wrongPassword
+                            wait: true
+                    - actionType: evalObject
+                      object: ..update
+                    - actionType: evalObject
+                      object:
+                        - if:
+                          - =.Global.currentUser.vertex.sk 
+                          - goto: SelectOrganization
+                          - continue
+                  text: SUBMIT
+                  style:
+                    .LabelStyle:
+                      left: "0.125"
+                      top: "0.24"
+                      width: "0.08"
+                      height: "0.06"
+                      color: "0xffffff"
+                      fontSize: "19"
+                      display: inline
+                      backgroundColor: "0x388ecc"
+                      textAlign:
+                        x: center
+                        y: center
+                      border:
+                        style: "5"
+                        borderRadius: "5"
+        - type: view
+          style:
+            left: "0.02"
+            top: "0.81"
+            width: "0.22"
+            height: "0.054"
+            display: "flex"
+            justifyContent: "flex-end"
+          children:
+            - type: label
+              text: Don't have an account? 
+              style:
+                color: "0x000000"
+                fontSize: "12"
+                top: "0"
+                left: "0.07"
+                # fontFamily: "Poppins"
+                position: "static"
+                height: "30px"
+                display: "block"
+            - type: label
+              text: Sign Up
+              style:
+                color: "#233975"
+                fontSize: "12"
+                # fontFamily: "Poppins"
+                position: "static"
+                fontWeight: '550'
+                top: "0"
+                height: "30px"
+                display: "block"
+                marginLeft: "10px"
+              onClick: 
+                - goto: SignUp

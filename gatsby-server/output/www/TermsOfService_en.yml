@@ -1,0 +1,376 @@
+TermsOfService:
+  pageNumber: "20"
+  title: TermsOfService
+  viewPort: top
+  components: 
+    - .BaseHeader:
+    - type: view
+      style:
+        width: calc(1514.77/1724.81*100vw)
+        left: "0"
+        margin: auto
+        height: auto
+        marginTop: calc(100.92/1724.81*100vw)
+      children:
+        - type: view
+          viewTag: topView
+          style:
+            width: calc(1514.77/1724.81*100vw)
+            height: calc(269.12/1724.81*100vw)
+            left: '0'
+          children:
+          - type: image
+            path: backgroundBlue.png
+            style:
+              width: calc(1514.77/1724.81*100vw)
+              left: '0'
+          - type: view
+            style:
+              top: calc(84.1/1724.81*100vw)
+              left: calc(194.61/1724.81*100vw)
+            children:
+            - type: label
+              text: 'Terms of Use'
+              style:
+                fontSize: calc(33.64/1724.81*100vw)
+                fontWeight: '700'
+                left: calc(52.4/1724.81*100vw)
+                color: '0xffffff'
+          - type: view
+            style:
+              left: calc(508.97/1724.81*100vw)
+              top: calc(96.72/1724.81*100vw)
+            children:
+              - type: label
+                text: 'Last Updated: August 17, 2020'
+                style:
+                  fontSize: calc(21.87/1724.81*100vw)
+                  fontWeight: "680"  
+                  color: '0xffffff'
+          - type: view
+            style:
+              left: calc(194.61/1724.81*100vw)
+              top: calc(142.97/1724.81*100vw)
+              fontSize: calc(22.7/1724.81*100vw)
+            children:
+              - type: label
+                textBoard:
+                  - text: "IF YOU ARE EXPERIENCING A MEDICAL EMERGENCY, CALL “911” IMMEDIATELY AND/OR"
+                  - br:
+                  - text: 'PROCEED TO THE EMERGENCY ROOM FOR IMMEDIATE CARE.'
+                style:
+                  left: calc(52.4/1724.81*100vw)
+                  color: '0xffffff'
+    - type: view
+      style: 
+        width: calc(1197.58/1724.81*100vw)
+        left: calc(157.18/1724.81*100vw)
+        margin: auto
+      children: 
+        - .TextTitle:
+        - .PrivacyTextTitle:
+          text: "Acceptance of these Terms of Use"
+        - .TextLabel:
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: 'These terms of use are entered into by and between you and AITMED INCORPORATED (AITMED, Company, we, or us). The following terms and conditions, together with any documents they expressly incorporate by reference (collectively, these “Terms of Use”), govern your access to and use of www.aitmed.com, including any content, functionality, and services offered on or through www.aitmed.com (the Website), whether as a guest or a registered user.'
+            - br: 
+            - text: 'Please read these Terms of Use carefully before you start to use the Website. By using the Website or by clicking to accept or agree to these Terms of Use when this option is made available to you, you accept and agree to be bound and abide by these Terms of Use and our Privacy Policy, found at www.aitmed.com/privacy-policy, incorporated herein by reference. If you do not agree to these Terms of Use or the Privacy Policy, do not access or use the Website.'
+            - br: 
+            - text: 'The Website is intended for users who are 18 years of age or older and are located within the United States of America or any of its territories or possessions at the time of use. By using the Website, you represent and warrant that you are of legal age and sound mind to form a binding contract with the Company and meet all of the foregoing eligibility requirements. If you do not meet all of these requirements, you agree not to access or use the Website.'
+            - br: 
+            - text: 'The Website is available for use by children who are 13 years of age or older, but the registered user for all patients under the age of 18 must be the patient’s parent or legal guardian. Any patient under the age of 18 should be accompanied by a parent or legal guardian for visits with the health care provider. The registered user is fully responsible for complying with these Terms of Use set forth herein.'
+            - br: 
+            - text: 'AITMED IS NOT A HEALTHCARE PROVIDER NOR IS IT ENGAGED IN, OR AFFILIATED WITH, THE RENDERING OF MEDICAL OR SIMILAR PROFESSIONAL SERVICES OR ADVICE. THE HEALTHCARE PROVIDERS ACCESSED THROUGH AITMED ARE INDEPENDENT CONTRACTORS. BY ACCEPTING THESE TERMS OF USE, YOU RECOGNIZE THAT THE HEALTHCARE PROVIDERS FURNISHING SERVICES TO YOU ARE INDEPENDENT CONTRACTORS AND ARE NOT EMPLOYEES OR AGENTS OF AITMED. AITMED DOES NOT RECOMMEND OR ENDORSE ANY SPECIFIC HEALTHCARE PROVIDER OR MEDICAL TREATMENT ADVICE PROVIDED BY THE HEALTHCARE PROVIDER.'
+            - br: 
+            - text: 'AITMED IS A PLATFORM FOR CONNECTION TO HEALTHCARE PROVIDERS. AITMED HAS NO INVOLVEMENT WITH, AND IS NOT RESPONSIBLE FOR, ANY IN PERSON INTERACTIONS BETWEEN YOU AND ANY HEALTHCARE PROVIDER THAT OCCUR OUTSIDE THE AITMED PLATFORM. BY AGREEING TO THESE TERMS OF USE YOU AGREE TO HOLD AITMED HARMLESS WITH REGARD TO ANY INTERACTIONS WITH HEALTHCARE PROVIDERS OUTSIDE OF THE AITMED PLATFORM.'
+            - br: 
+            - text: 'AITMED DOES NOT PROVIDE ACCESS TO ANY DENTAL OR VETERINARY SERVICES. AITMED CHARGES A FEE FOR THE SERVICES PROVIDED.'
+            - br: 
+            - text: 'AITMED CHARGES A FEE FOR THE SERVICES PROVIDED.'
+        - .TextTitle:
+          text: Accurate and Complete Medical History
+          style:
+            # fontSize: .Sfont.h6 
+            # fontWeight: '650'  
+        - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: The services provided by the healthcare providers are not a substitution for your primary care physician relationship but are intended to supplement that relationship for non-emergency medical needs. In order for the healthcare providers to address your needs, you agree to provide the most up-to-date and accurate information regarding your medical history,  including, but not limited to, current prescriptions and allergies.
+        - .TextTitle:
+        - .PrivacyTextTitle:
+          text: Changes to the Website and these Terms of Use
+        - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: We may update the content on the Website from time to time, but its content is not necessarily complete or up-to-date at the time it is reviewed and is provided for informational purposes  only. The information provided is not a substitute for information provided by a qualified healthcare professional, and the information on the Website should not be used to disregard    or delay seeking medical advice.
+            - br: 
+            - text: We also may revise and update these Terms of Use from time to time in our sole discretion.  All changes are effective immediately when we post them, and apply to all access to and use of the Website thereafter. However, any changes to the dispute resolution provisions set out   in Governing Law and Jurisdiction section contained herein will not apply to any disputes for which the parties have actual written notice on or before the date the change is posted on the Website.
+            - br: 
+            - text: Your continued use of the Website following the posting of revised Terms of Use means that you accept and agree to the changes. You are expected to check this page from time to time so you are aware of any changes, as they are binding on you. We reserve the right to advise of any changes to these Terms of Use via the email address on file and/or by means of an alert upon logging into the Website.
+        - .TextTitle:
+        - .PrivacyTextTitle:
+          text: Accessing the Website and Account Security
+        - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: We reserve the right to withdraw or amend the Website, and any service or material we provide on the Website, in our sole discretion without notice.
+            - br: 
+            - text: We will not be liable if for any reason all or any part of the Website is unavailable at any time or for any period. We are not liable for unforeseen circumstances out of our control that prevent access to the Website, or interrupt contact with any of the healthcare providers through the Website. It is your responsibility to obtain contact information from the healthcare provider with whom you are consulting to complete the consultation outside of the Website in the event of unavailability of the Website.
+            - br: 
+            - text: From time to time, we may restrict access to some parts of the Website, or the entire Website, to users, including registered users.
+            - br: 
+            - text: You are responsible for making all arrangements necessary for you to have uninterrupted access to the Website.
+            - br: 
+            - text: To access the Website or some of the resources it offers, you may be asked to provide certain registration details or other information. It is a condition of your use of the Website that all the information you provide on the Website is correct, current, and complete. You agree that all information you provide to register with the Website or otherwise, including, but not limited to, through the use of any interactive features on the Website, is governed by our Privacy Policy (www.aitmed.com/privacy-policy), and you consent to all actions we take with respect to your information consistent with our Privacy Policy.
+            - br: 
+            - text: If you choose, or are provided with, a user name, password, or any other piece of information  as part of our security procedures, you must treat such information as confidential, and agree not to disclose it to any other person or entity. You also acknowledge that your account is personal to you and agree not to provide any other person with access to the Website or portions of it using your user name, password, or other security information. You agree to   notify us immediately of any unauthorized access to or use of your user name or password or any other breach of security. You also agree to ensure that you exit from your account at the end of each session. You should use particular caution when accessing your account from a public or shared computer so that others are not able to view or record your password or other personal information.
+        - .TextTitle:
+        - .PrivacyTextTitle:
+          text: Information About You and Your Visits to the Website
+        - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: All information we collect on the Website is subject to our Privacy.Policy (www.aitmed.com/privacy-policy). By using the Website, you consent to all actions taken by us with respect to your information in compliance with the Privacy Policy.
+        - .TextTitle:
+        - .PrivacyTextTitle:
+          text: Termination of Account
+        - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: We have the right to disable any user name, password, or other identifier, whether chosen by you or provided by us, at any time in our sole discretion for any or no reason, including, if, in our opinion, you have violated any provision of these Terms of Use. Subject to applicable federal and state law, AITMED reserves the right to maintain, delete and destroy all materials posted or uploaded to the Website pursuant to our internal record retention policies and Privacy Policy.
+            - br: 
+            - text: You may terminate your account and end your registration at any time by sending an email to contact@aitmed.com.
+        - .TextTitle:
+        - .PrivacyTextTitle:
+          text: Intellectual Property Rights
+        - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: The Website and all its contents, features, and functionality (including, but not limited to, all information, software, text, displays, images, video, audio, and the design, selection, and arrangement thereof) are owned by the Company, its licensors, or other providers of such material and are protected by United States and international copyright, trademark, patent, trade secret, and other intellectual property or proprietary rights laws. These Terms of Use permit you to use the Website for your personal, non-commercial use only. You must agree  not to reproduce, distribute, modify, create derivative works of, publicly display, publicly perform, republish, download, store, or transmit any of the material on our Website, except as follows：
+            - br: 
+            - text: -Your computer may temporarily store copies of such materials in RAM incidental to your accessing and viewing those materials.
+            - br: 
+            - text: -You may store files that are automatically cached by your web browser for display enhancement purposes.
+            - br: 
+            - text: -If we provide desktop, mobile, or other applications for download, you may download a copy to your computer or mobile device solely for your own personal, non-commercial use,   provided you agree to be bound by our end user license agreement for such applications.
+            - br: 
+            - text: -If we provide social media features with certain content, you may take such actions as are enabled by such features.
+            - br: 
+            - text: You agree not to：
+            - br: 
+            - text: -Modify copies of any materials from the Website.
+            - br: 
+            - text: -Use any illustrations, photographs, video or audio sequences, or any graphics separately from the accompanying text.
+            - br: 
+            - text: -Delete or alter any copyright, trademark, or other proprietary rights notices from copies of materials from the Website.
+            - br: 
+            - text: You must not access or use for any commercial purposes any part of the Website or any services or materials available through the Website. If you wish to make any use of material on the Website other than as set forth in this section, please address your request to contact@aitmed.com.
+            - br: 
+            - text: If you modify, or otherwise use or provide any other person with access to any part of the Website that is not public and not specific to you and in breach of these Terms of Use, your right to use the Website will stop immediately and you must, at our option, return or destroy any copies of the materials you have made. No right, title, or interest in or to the Website or any content on the Website is transferred to you, and all rights not expressly granted are reserved by the Company. Any use of the Website not expressly permitted by these Terms of Use is a breach of these Terms of Use and may violate copyright, trademark, and other laws.
+        - .TextTitle:
+        - .PrivacyTextTitle:
+          text: Trademarks
+        - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: The Company name, the terms AITMED, and all related names, logos, product and service names, designs, and slogans are trademarks of the Company or its affiliates or licensors. All other names, logos, product and service names, designs, and slogans on the Website are the trademarks of their respective owners.
+        - .TextTitle:
+        - .PrivacyTextTitle:
+          text: Prohibited Uses
+        - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: You may use the Website only for lawful purposes and in accordance with these Terms of Use. You agree not to use the Website：
+            - br: 
+            - text: -In any way that violates any applicable federal, state, local, or international law or regulation (including, without limitation, any laws regarding the export of data or software to and from the United States or other countries).
+            - br: 
+            - text: -For the purpose of exploiting, harming, or attempting to exploit or harm minors in any way by exposing them to inappropriate content, asking for personally identifiable information, or otherwise.
+            - br: 
+            - text: -To transmit, or procure the sending of, any advertising or promotional material without our prior written consent, including any "junk mail", "chain letter", "spam", or any other similar solicitation.
+            - br: 
+            - text: -To impersonate or attempt to impersonate the Company, a Company employee, another user, or any other person or entity (including, without limitation, by using email addresses or screen names associated with any of the foregoing).
+            - br: 
+            - text: -To engage in any other conduct that restricts or inhibits anyone's use or enjoyment of the Website, or which, as determined by us, may harm the Company or users of the Website or expose them to liability.
+            - br: 
+            - text: Additionally, you agree not to：
+            - br: 
+            - text: -Use the Website in any manner that could disable, overburden, damage, or impair the site or interfere with any other party's use of the Website, including, but not limited to, such other party’s ability to engage in real time activities through the Website.
+            - br: 
+            - text: -Use any robot, spider, or other automatic device, process, or means to access the Website for any purpose, including, but not limited to, monitoring or copying any of the material on the Website.
+            - br: 
+            - text: -Use any manual process to monitor or copy any of the material on the Website or for any other unauthorized purpose without our prior written consent.
+            - br: 
+            - text: -Use any device, software, or routine that interferes with the proper function of the Website.
+            - br: 
+            - text: -Introduce any viruses, Trojan horses, worms, logic bombs, or other material that is malicious or technologically harmful.
+            - br: 
+            - text: -Attempt to gain unauthorized access to, interfere with, damage, or disrupt any parts of the Website, the server on which the Website is stored, or any server, computer, or database connected to the Website.
+            - br: 
+            - text: -Attack the Website via a denial-of-service attack or a distributed denial-of-service attack.
+            - br: 
+            - text: -Otherwise attempt to interfere with the proper function of the Website.
+        - .TextTitle:
+        - .PrivacyTextTitle:
+          text: Monitoring and Enforcement; Termination
+        - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: We have the right to：
+            - br: 
+            - text: -Remove or refuse to post any user contributions for any or no reason in our sole discretion.
+            - br: 
+            - text: -Take any action with respect to any user contribution that we deem necessary or appropriate in our sole discretion, including if we believe that such user contribution violates these Terms   of Use, including the Content Standards, infringes any intellectual property right or other right   of any person or entity, threatens the personal safety of users of the Website or the public, or could create liability for the Company.
+            - br: 
+            - text: -Disclose your identity or other information about you that is not protected by federal or state privacy laws to any third party who claims that material posted by you violates their rights, including their intellectual property rights or their right to privacy.
+            - br: 
+            - text: -Take appropriate legal action, including, without limitation, referral to law enforcement, for any illegal or unauthorized use of the Website.
+            - br: 
+            - text: -Terminate or suspend your access to all or part of the Website for any or no reason, including, without limitation, any violation of these Terms of Use.
+            - br: 
+            - text: Without limiting the foregoing, we have the right to cooperate fully with any law enforcement authorities or court order requesting or directing us to disclose the identity or other information of anyone posting any materials on or through the Website. YOU WAIVE AND HOLD HARMLESS THE COMPANY AND ITS AFFILIATES, LICENSEES, AND SERVICE PROVIDERS FROM ANY CLAIMS RESULTING FROM ANY ACTION TAKEN BY ANY OF THE FOREGOING PARTIES DURING, OR TAKEN AS A CONSEQUENCE OF, INVESTIGATIONS BY EITHER SUCH PARTIES OR LAW ENFORCEMENT AUTHORITIES.
+            - br: 
+            - text: However, we do not undertake to review all material before it is posted on the Website, and cannot ensure prompt removal of objectionable material after it has been posted. Accordingly, we assume no liability for any action or inaction regarding transmissions, communications, or content provided by any user or third party. You agree to waive liability or responsibility to anyone for performance or nonperformance of the activities described in this section.
+        - .TextTitle:
+        - .PrivacyTextTitle:
+          text: Content Standards
+        - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: These content standards apply to any and all user contributions and use of interactive  services. User contributions must in their entirety comply with all applicable federal, state,  local, and international laws and regulations. Without limiting the foregoing, user contributions must not：
+            - br: 
+            - text: -Contain any material that is defamatory, obscene, indecent, abusive, offensive, harassing, violent, hateful, inflammatory, or otherwise objectionable.
+            - br: 
+            - text: -Promote sexually explicit or pornographic material, violence, or discrimination based on race, sex, religion, nationality, disability, sexual orientation, or age.
+            - br: 
+            - text: -Infringe any patent, trademark, trade secret, copyright, or other intellectual property or other rights of any other person.
+            - br: 
+            - text: -Violate the legal rights (including the rights of publicity and privacy) of others or contain any material that could give rise to any civil or criminal liability under applicable laws or regulations or that otherwise may be in conflict with these Terms of Use and our Privacy. Policy (www.aitmed.com/privacy-policy).
+            - br: 
+            - text: -Be likely to deceive any person.
+            - br: 
+            - text: -Promote any illegal activity, or advocate, promote, or assist any unlawful act.
+            - br: 
+            - text: -Impersonate any person, or misrepresent your identity or affiliation with any person or organization.
+            - br: 
+            - text: -Involve commercial activities or sales, such as contests, sweepstakes, and other sales promotions, barter, or advertising.
+            - br: 
+            - text: -Give the impression that they emanate from or are endorsed by us or any other person or entity, if this is not the case.
+            - br: 
+            - text: Copyright Infringement Notice
+            - br: 
+            - text: If you believe that any content violates your copyright, please send us a notice of copyright infringement to contact@aitmed.com. It is the policy of the Company to terminate the user accounts of repeat infringers.
+        - .TextTitle:
+          text: Reliance on Information Posted
+          style:
+            # fontSize: .Sfont.h6 
+            # fontWeight: '650'  
+        - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: The information presented on or through the Website is made available solely for general information purposes. We do not warrant the accuracy, completeness, or usefulness of this information. Any reliance you place on such information is strictly at your own risk. We disclaim all liability and responsibility arising from any reliance placed on such materials by you or any other visitor to the Website, or by anyone who may be informed of any of its contents.
+            - br: 
+            - text: This Website may include content provided by third parties, including materials provided by other users, bloggers, and third-party licensors, syndicators, aggregators, and/or reporting services. All statements and/or opinions expressed in these materials, and all articles and responses to questions and other content, other than the content provided by the Company, are solely the opinions and the responsibility of the person or entity providing those materials. These materials do not necessarily reflect the opinion of the Company. We are not  responsible, or liable to you or any third party, for the content or accuracy of any materials provided by any third parties.
+        - .TextTitle:
+        - .PrivacyTextTitle:
+          text: Changes to the Website
+        - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: We may update the content on this Website from time to time, but its content is not necessarily complete or up-to-date at the time it is reviewed and is provided for informational purposes only. The information provided is not a substitute for information provided by a qualified healthcare professional, and the information on the website should not be used to disregard or delay seeking medical advice.
+        - .TextTitle:
+        - .PrivacyTextTitle:
+          text: Information About You and Your Visits to the Website
+        - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: All information we collect on this Website is subject to our Privacy Policy . By using the Website, you consent to all actions taken by us with respect to your information in compliance with the Privacy Policy.
+        - .TextTitle:
+        - .PrivacyTextTitle:
+          text: Links from the Website
+        - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: If the Website contains links to other sites and resources provided by third parties, these links are provided for your convenience only. This includes links contained in advertisements, including banner advertisements and sponsored links. We have no control over the contents   of those sites or resources and accept no responsibility for them or for any loss or damage  that may arise from your use of them. If you decide to access any of the third-party websites linked to the Website, you do so entirely at your own risk and subject to the terms and conditions of use for such websites.
+        - .TextTitle:
+        - .PrivacyTextTitle:
+          text: Geographic Restrictions
+        - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: We make no claims that the Website or any of its content is accessible or appropriate outside of the United States. Access to the Website may not be legal by certain persons or in certain countries. If you access the Website from outside the United States, you do so on your own initiative and are responsible for checking and complying with local laws.
+        - .TextTitle:
+        - .PrivacyTextTitle:
+          text: Disclaimer of Warranties
+        - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: You agree that we cannot and do not guarantee or warrant that files available for downloading from the internet or the Website will be free of viruses or other destructive code. You are responsible for implementing sufficient procedures and checkpoints to satisfy your particular requirements for anti-virus protection and accuracy of data input and output, and for  maintaining a means external to the Website for any reconstruction of any lost data.
+            - br: 
+            - text: TO THE FULLEST EXTENT PROVIDED BY LAW, WE WILL NOT BE LIABLE FOR ANY LOSS OR DAMAGE CAUSED BY A DISTRIBUTED DENIAL-OF-SERVICE ATTACK, VIRUSES, OR OTHER TECHNOLOGICALLY HARMFUL MATERIAL THAT MAY INFECT YOUR COMPUTER EQUIPMENT, COMPUTER PROGRAMS, DATA, OR OTHER PROPRIETARY MATERIAL DUE TO YOUR USE OF THE WEBSITE OR ANY SERVICES OR ITEMS OBTAINED THROUGH THE WEBSITE OR TO YOUR DOWNLOADING OF ANY MATERIAL POSTED ON IT, OR ON ANY WEBSITE LINKED TO IT.
+            - br: 
+            - text: YOUR USE OF THE WEBSITE, ITS CONTENT, AND ANY SERVICES OR ITEMS OBTAINED THROUGH THE WEBSITE IS AT YOUR OWN RISK. THE WEBSITE, ITS CONTENT, AND ANY SERVICES OR ITEMS OBTAINED THROUGH THE WEBSITE ARE PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS, WITHOUT ANY WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED.
+            - br: 
+            - text: NEITHER THE COMPANY NOR ANY PERSON ASSOCIATED WITH THE COMPANY  MAKES ANY WARRANTY OR REPRESENTATION WITH RESPECT TO THE COMPLETENESS, SECURITY, RELIABILITY, QUALITY,  ACCURACY,  OR  AVAILABILITY OF THE WEBSITE. WITHOUT LIMITING THE FOREGOING, NEITHER THE COMPANY   NOR ANYONE ASSOCIATED WITH THE COMPANY REPRESENTS OR WARRANTS THAT THE WEBSITE, ITS CONTENT, OR ANY SERVICES OR ITEMS OBTAINED THROUGH THE WEBSITE WILL BE ACCURATE, RELIABLE, ERROR-FREE, OR UNINTERRUPTED, THAT DEFECTS WILL BE CORRECTED, THAT OUR WEBSITE OR THE SERVER THAT MAKES  IT AVAILABLE ARE FREE OF VIRUSES OR OTHER HARMFUL COMPONENTS, OR THAT
+            - br: 
+            - text: THE WEBSITE, ITS CONTENT, OR ANY SERVICES OR ITEMS OBTAINED THROUGH THE WEBSITE WILL OTHERWISE MEET YOUR NEEDS OR EXPECTATIONS. TO THE   FULLEST EXTENT PROVIDED BY LAW, THE COMPANY HEREBY DISCLAIMS ALL WARRANTIES OF ANY KIND, WHETHER EXPRESS OR IMPLIED, STATUTORY, OR OTHERWISE, INCLUDING, BUT NOT LIMITED TO, ANY WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT, AND FITNESS FOR A PARTICULAR PURPOSE. THE FOREGOING DOES NOT AFFECT ANY WARRANTIES THAT CANNOT BE EXCLUDED OR LIMITED UNDER APPLICABLE LAW.
+        - .TextTitle:
+        - .PrivacyTextTitle:
+          text: Indemnification
+        - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: You agree to defend, indemnify, and hold harmless the Company, its affiliates, licensors, and service providers, and its and their respective officers, directors, employees, contractors, agents, licensors, suppliers, successors, and assigns from and against any claims, liabilities, damages, judgments, awards, losses, costs, expenses, or fees arising out of or relating to    your violation of these Terms of Use or your use of the Website, including, but not limited to, your user contributions, any use of the Website's content, services, and products other than    as expressly authorized in these Terms of Use, your use of any information obtained from the Website, use of the Website from a location outside the United States, and/or use of your user name, password or other security information that you provided intentionally or inadvertently    to a third party.
+        - .TextTitle:
+        - .PrivacyTextTitle:
+          text: Governing Law and Jurisdiction
+        - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: All matters relating to the Website and these Terms of Use and any dispute or claim arising therefrom or related thereto (in each case, including non-contractual disputes or claims), shall be governed by and construed in accordance with the internal laws of the State of California without giving effect to any choice or conflict of law provision or rule (whether of the State of California or any other jurisdiction).
+            - br: 
+            - text: Any legal suit, action, or proceeding arising out of, or related to, these Terms of Use or the Website shall be instituted exclusively in the federal courts of the United States or the courts  of the State of California in each case located in the City of Santa Ana and County of Orange although we retain the right to bring any suit, action, or proceeding against you for breach of these Terms of Use in your state or country of residence or any other relevant country. You waive any and all objections to the exercise of jurisdiction over you by such courts and to venue in such courts.
+        - .TextTitle:
+        - .PrivacyTextTitle:
+          text: Arbitration
+        - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: At the Company's sole discretion, it may require you to submit any disputes arising from the use of these Terms of Use or the Website, including disputes arising from or concerning their interpretation, violation, invalidity, non-performance, or termination, to final and binding arbitration under the Rules of Arbitration of the American Arbitration Association applying California law.
+        - .TextTitle:
+        - .PrivacyTextTitle:
+          text: Limitation on Time to File Claims
+        - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: ANY CAUSE OF ACTION OR CLAIM YOU MAY HAVE ARISING OUT OF OR RELATING TO THESE TERMS OF USE OR THE WEBSITE MUST BE COMMENCED WITHIN ONE (1) YEAR AFTER THE CAUSE OF ACTION ACCRUES, OTHERWISE, SUCH CAUSE OF ACTION OR CLAIM IS PERMANENTLY BARRED.
+        - .TextTitle:
+        - .PrivacyTextTitle:
+          text: Waiver and Severability
+        - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: No waiver by the Company of any term or condition set out in these Terms of Use shall be deemed a further or continuing waiver of such term or condition or a waiver of any other term or condition, and any failure of the Company to assert a right or provision under these Terms of Use shall not constitute a waiver of such right or provision.
+            - br: 
+            - text: If any provision of these Terms of Use is held by a court or other tribunal of competent jurisdiction to be invalid, illegal, or unenforceable for any reason, such provision shall be eliminated or limited to the minimum extent such that the remaining provisions of these Terms of Use will continue in full force and effect.
+        - .TextTitle:
+        - .PrivacyTextTitle:
+          text: Entire Agreement
+        - .TextLabel: 
+        - .PrivacyTextLabel:
+          textBoard:
+            - text: These Terms of Use and our Privacy Policy constitute the sole and entire agreement between you and AITMED regarding the Website and supersede all prior and contemporaneous understandings, agreements, representations, and warranties, both written and oral, regarding the Website.
+        - .TextTitle:
+        - .PrivacyTextTitle:
+          text: Your Comments and Concerns
+        - type: view
+          style:
+            height: calc(336.4/1724.81*100vw)
+            weight: calc(1514.77/1724.81*100vw)
+          children:  
+          - .TextLabel: 
+          - .PrivacyTextLabel:
+            textBoard:
+              - text: This Website is operated by AITMED INCORPORATED, which has its principal place of business at 1000 S. Anaheim Blvd., Anaheim, CA 92805. All notices of copyright infringement claims should be sent to contact@aitmed.com in the manner and by the means set out  therein. All other feedback, comments, requests for technical support, and other communications relating to the Website should be directed to contact@aitmed.com.
+              - br:                 
+    - .BaseFooter1

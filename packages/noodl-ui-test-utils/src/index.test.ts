@@ -5,7 +5,7 @@ import componentFactory from './factories/component'
 
 const ui = { ...actionFactory, ...componentFactory }
 
-describe(u.yellow(`noodl-ui-test-utils`), () => {
+describe(u.yellow(`noodl-test-utils`), () => {
   it(`should create a goto object`, () => {
     const goto = actionFactory.goto('SignIn')
     expect(goto).to.be.an('object').to.have.property('goto', 'SignIn')

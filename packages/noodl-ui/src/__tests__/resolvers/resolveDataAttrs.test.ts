@@ -1,11 +1,12 @@
 // @ts-nocheck
 import sinon from 'sinon'
+import m from 'noodl-test-utils'
 import { ComponentObject } from 'noodl-types'
 import { waitFor } from '@testing-library/dom'
 import { expect } from 'chai'
 import { coolGold, italic } from 'noodl-common'
 import NUI from '../../noodl-ui'
-import { createDataKeyReference, ui } from '../../utils/test-utils'
+import { createDataKeyReference } from '../../utils/test-utils'
 
 async function resolveComponent(component: ComponentObject) {
   const page = NUI.createPage({
@@ -28,7 +29,7 @@ describe(coolGold(`resolveDataAttrs`), () => {
   describe(italic(`data-key`), () => {
     it('should set the data-key and remove the dataKey property', async () => {
       const { component } = await resolveComponent(
-        ui.label({ dataKey: 'formData.password' }),
+        m.label({ dataKey: 'formData.password' }),
       )
       expect(component.get('data-key')).to.eq('formData.password')
       expect('dataKey' in component.props).to.be.false
@@ -41,14 +42,14 @@ describe(coolGold(`resolveDataAttrs`), () => {
         pageObject: { info: { gender: getGenderListObject() } },
       })
       const { component } = await resolveComponent(
-        ui.list({
+        m.list({
           listObject: getGenderListObject(),
           iteratorVar: 'cereal',
           children: [
-            ui.listItem({
+            m.listItem({
               children: [
-                ui.label({ dataKey: 'cereal.key' }),
-                ui.textField({ dataKey: 'cereal.value' }),
+                m.label({ dataKey: 'cereal.key' }),
+                m.textField({ dataKey: 'cereal.value' }),
               ],
             }),
           ],
@@ -69,7 +70,7 @@ describe(coolGold(`resolveDataAttrs`), () => {
     expect(
       (
         await NUI.resolveComponents({
-          components: ui.label({
+          components: m.label({
             type: 'label',
             dataKey: 'formData.email',
           }),
@@ -96,14 +97,14 @@ describe(coolGold(`resolveDataAttrs`), () => {
     describe(`when options is provided through a reference string`, () => {
       it(`should use options as the dataKey to get its options`, async () => {
         const component = await NUI.resolveComponents(
-          ui.list({
+          m.list({
             contentType: 'listObject',
             iteratorVar,
             listObject,
             children: [
-              ui.listItem({
+              m.listItem({
                 [iteratorVar]: '',
-                children: [ui.select({ options: 'itemObject.doc' } as any)],
+                children: [m.select({ options: 'itemObject.doc' } as any)],
               }),
             ],
           }),
@@ -124,14 +125,14 @@ describe(coolGold(`resolveDataAttrs`), () => {
       const spy2 = sinon.spy()
       const spy3 = sinon.spy()
       const component = await NUI.resolveComponents(
-        ui.list({
+        m.list({
           contentType: 'listObject',
           iteratorVar,
           listObject,
           children: [
-            ui.listItem({
+            m.listItem({
               [iteratorVar]: '',
-              children: [ui.select({ options: 'itemObject.doc' })],
+              children: [m.select({ options: 'itemObject.doc' })],
             }),
           ],
         }),
@@ -154,7 +155,7 @@ describe(coolGold(`resolveDataAttrs`), () => {
       expect(
         (
           await NUI.resolveComponents({
-            components: ui.label({ type: 'label', viewTag: 'hello' }),
+            components: m.label({ type: 'label', viewTag: 'hello' }),
           })
         ).get('data-viewtag'),
       ).to.eq('hello')
@@ -166,7 +167,7 @@ describe(coolGold(`resolveDataAttrs`), () => {
       expect(
         (
           await NUI.resolveComponents({
-            components: ui.list({
+            components: m.list({
               type: 'list',
               listObject: [{ george: 'what' }],
               children: [],
@@ -183,7 +184,7 @@ describe(coolGold(`resolveDataAttrs`), () => {
         `components and its value as passwordHidden`,
       async () => {
         const label = await NUI.resolveComponents({
-          components: ui.label({
+          components: m.label({
             type: 'label',
             contentType: 'passwordHidden',
           }),
@@ -201,7 +202,7 @@ describe(coolGold(`resolveDataAttrs`), () => {
       expect(
         (
           await resolveComponent(
-            ui.label({
+            m.label({
               type: 'label',
               text: '2020/08/02',
               dataKey: 'hello12345',
@@ -219,7 +220,7 @@ describe(coolGold(`resolveDataAttrs`), () => {
     expect(
       (
         await NUI.resolveComponents(
-          ui.label({ type: 'label', dataKey: 'hello.gender' }),
+          m.label({ type: 'label', dataKey: 'hello.gender' }),
         )
       ).get('data-value'),
     ).to.eq('Female')
@@ -234,7 +235,7 @@ describe(coolGold(`resolveDataAttrs`), () => {
       expect(
         (
           await NUI.resolveComponents(
-            ui.label({
+            m.label({
               type: 'label',
               dataKey: 'SignIn.hello.gender',
             }),
@@ -285,7 +286,7 @@ describe(coolGold(`resolveDataAttrs`), () => {
         },
       }
       list = await resolveComponent(
-        ui.list({
+        m.list({
           type: 'list',
           iteratorVar,
           listObject,

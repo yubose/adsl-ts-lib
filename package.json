@@ -16,9 +16,6 @@
   "keywords": [],
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "lerna": "^5.2.0"
-  },
   "devDependencies": {
     "@babel/core": "^7.18.9",
     "@jsmanifest/typefest": "^1.0.9",
@@ -43,13 +40,14 @@
     "fs-extra": "^10.1.0",
     "jsdom": "^20.0.0",
     "jsdom-global": "^3.0.2",
+    "lerna": "^6.0.1",
     "lodash": "^4.17.21",
     "loglevel": "^1.8.0",
     "mocha": "^10.0.0",
     "mock-fs": "^5.1.2",
     "nock": "^13.2.9",
     "noodl": "^0.0.50",
-    "nx": "^14.4.3",
+    "nx": "^15.0.3",
     "rollup": "^2.77.1",
     "rollup-plugin-esbuild": "^4.9.1",
     "rollup-plugin-filesize": "^9.1.2",
@@ -64,7 +62,13 @@
     "yaml": "^2.1.1"
   },
   "workspaces": [
-    "packages/*"
+    "packages/noodl-types",
+    "packages/noodl-action-chain",
+    "packages/noodl-utils",
+    "packages/noodl-ui",
+    "packages/noodl-core",
+    "packages/noodl-yaml",
+    "packages/gatsby-plugin-noodl"
   ],
   "prettier": {
     "arrowParens": "always",

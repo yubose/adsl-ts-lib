@@ -1,0 +1,220 @@
+HaJointPainOrMusclePainInChild:
+  viewPort: top
+  components:
+    - .BaseHeader:
+    - .HaHeaderViewNew:
+      viewTag: topView
+      children: 
+        - .ImageHa:
+        - .HaHeaderBigLabel:
+          text: Joint pain or muscle pain in child
+        - .HaHeaderLittleLabel:
+          text: When a child complains of joint or muscle pains, parents or caregivers may be concerned. Usually, the discomfort will simply be growing pains that will go away on their own. However, people should be aware of the signs and symptoms that may indicate something more serious.
+    - .HaBodyTagView:
+      style:
+        marginTop: '0.09'
+      children:
+        - .HaBodyTagButton1:
+          text: Joint
+        - .HaBodyTagButton2:
+          text: Joint Pain
+        - .HaBodyTagButton1:
+          style:
+            left: '0.03'
+          text: Muscle Pain
+        - .HaBodyTagButton2:
+          style:
+            left: '0.04'
+          text: Child
+    - .HaBodyCon:
+      style:
+        height: '0.58'
+        marginTop: '0.23'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Get emergency medical care if:"
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              style:
+                width: '0.5'
+              text: "⦁ Limping or impaired activity"
+            - .HaBodyContent:
+              style:
+                top: '0.05'
+              text: "⦁ Persistent decreased energy or fatigue"
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ Swollen glands (lymph nodes) in the neck, groin or underarms"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+                width: '0.5'
+              text: "⦁ Swelling or stiffness"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+              text: "⦁ Persistent fever or fever with no clear cause"
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ Rash"
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+              text: "⦁ Abdominal pain"
+            - .HaBodyContent:
+              style:
+                top: '0.35'
+              text: "⦁ Unexplained weight loss"
+            - .HaBodyContent:
+              style:
+                top: '0.4'
+                width: '0.5'
+              text: "30 percent of school children experience chronic musculoskeletal pain. In around half of these children, the pain is due to growing pains.Growing pains most often occur during a child's preschool and preteen years, and they usually disappear by their teenage years. These pains are harmless and are not a sign of a serious condition.Growing pains typically occur in the thigh and calf muscles or behind the knees, but sometimes can also happen in the arms."        
+                 
+        - .HaBodyImg:
+          style:  
+            top: '0.11'
+            left: '0.7'
+            width: '0.16'
+          path: healthAZ/joint-pain-or-muscle-pain-in-a-child.png
+    - .HaBodyCon:
+      style:
+        height: '0.55'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Other causes of joint pain in children including:"
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Lyme disease" 
+        - type: view
+          style:
+            marginTop: '0.05'
+          children:
+            - .HaBodyContent:
+              text: "Insects called ticks can spread a bacterial infection known as Lyme disease. The ticks carry a bacterium called Borrelia burgdorferi that they pass onto people when they bite them. These ticks tend to live in grassy areas and woodlands in particular regions and feed on animals, such as mice and deer. Symptoms of Lyme disease include:"                 
+            - .HaBodyContent:
+              style:
+                top: '0.1'
+              text: "⦁ a circular rash around a tick bite, sometimes known as a bull's-eye rash"
+            - .HaBodyContent:
+              style:
+                top: '0.15'
+              text: "⦁ fatigue"
+            - .HaBodyContent:
+              style:
+                top: '0.2'
+                width: '0.5'
+              text: "⦁ fever or chills"       
+            - .HaBodyContent:
+              style:
+                top: '0.25'
+              text: "⦁ joint or muscle pain"
+            - .HaBodyContent:
+              style:
+                top: '0.3'
+              text: "⦁ facial paralysis"      
+            - .HaBodyContent:
+              style:
+                top: '0.35'
+              text: "Anyone who lives or spends time in an area where Lyme disease occurs can become infected, but children who spend a lot of time playing outside are at greater risk."       
+
+    - .HaBodyCon:
+      style:
+        height: '0.28'
+      children:
+        - .HaBodyTitle:
+          style:
+            width: '0.68'
+          text: "Juvenile idiopathic arthritis"
+        - type: view
+          style:
+            marginTop: '0.05'   
+          children:
+            - .HaBodyContent:
+              text: "If a child frequently complains of joint pain, then juvenile idiopathic arthritis or JIA may be the cause. JIA can cause pain and swelling in one or more joints. Unlike growing pains, it can also affect a child's movement or strength."
+            - .HaBodyContent:
+              style:
+                top: '0.07'
+              text: "There are several different types of JIA and symptoms can vary, so it can be difficult for a doctor to diagnose. However, early diagnosis and treatment are vital because JIA can affect bone growth and lead to permanent complications."                 
+            
+            
+    - .HaBodyCon:
+      style:
+        height: '0.25'
+      children:
+        - .HaHeaderView:
+          style: 
+            width: '0.68'
+            height: '0.25'
+          children:
+            - .HaHeaderBigLabel1:
+              style: 
+                top: '0.0125'
+                left: '0.05'
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontFamily: "Arial"
+                fontStyle: "bold"
+                fontSize: .Sfont.h4
+              text: SPEAK WITH A DOCTOR
+            - .HaHeaderLittleLabel1:
+              style: 
+                top: '0.1'
+                width: '0.58'
+                fontFamily: "Arial"
+                height: '0.125'
+                textAlign: 
+                  y: center
+                fontStyle: "bold"
+                fontSize: .Sfont.h3
+                left: '0.05'
+              text: If Joint pain or muscle pain in child is interfering with your daily life, log on AITMED and talk to a doctor to receive a treatment plan customized for you.
+
+    - type: view
+      style:
+        height: '0.25'
+        left: '0'
+        marginTop: '0.05'
+        width: '1'
+      children:
+        - .HaBottomTag: 
+        - .HaBottomTagname: 
+        #   text: "joint"
+        # - .HaBottomTagname: 
+        #   text: "pain"
+        #   style: 
+        #     left: "0.25"     
+        # - .HaBottomTagname: 
+        #   text: "joint pain"
+        #   style: 
+        #     left: "0.5"     
+        # - .HaBottomTagname: 
+        #   text: "muscle pain "
+        #   style: 
+        #     left: "0.7"     
+        # - .HaBottomTagname: 
+        #   text: "child"
+        #   style: 
+        #     left: "0.90"      
+    - .BaseFooter1:
+
+
+
+
+
+
+
+
+
+

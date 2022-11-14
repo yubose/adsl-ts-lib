@@ -2,6 +2,7 @@
 import * as u from '@jsmanifest/utils'
 import * as nc from 'noodl-common'
 import * as nt from 'noodl-types'
+import m from 'noodl-test-utils'
 import sinon from 'sinon'
 import { prettyDOM, waitFor } from '@testing-library/dom'
 import { expect } from 'chai'
@@ -12,14 +13,14 @@ import {
   findFirstByViewTag,
   findFirstByGlobalId,
 } from '../utils'
-import { ndom, createRender, ui, waitMs } from '../test-utils'
+import { ndom, createRender, waitMs } from '../test-utils'
 import GlobalComponentRecord from '../global/GlobalComponentRecord'
 
 describe(nc.coolGold(`noodl-ui-dom`), () => {
   describe(nc.italic(`createGlobalRecord`), () => {
     it(`should add the GlobalComponentRecord to the global store`, async () => {
       const { render } = createRender({
-        components: [ui.popUpComponent({ global: true })],
+        components: [m.popUpComponent({ global: true })],
       })
       const component = await render()
       const globalId = component.get('data-globalid')
@@ -62,13 +63,13 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
   describe(nc.italic(`draw`), () => {
     it(`should have all components in the component cache`, async () => {
       const rawComponents = [
-        ui.list({
+        m.list({
           children: [
-            ui.listItem({
+            m.listItem({
               children: [
-                ui.label({ text: 'red' }),
-                ui.textField(),
-                ui.label({ text: 'blue' }),
+                m.label({ text: 'red' }),
+                m.textField(),
+                m.label({ text: 'blue' }),
               ],
             }),
           ],
@@ -86,7 +87,7 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
           `doesn't exist`,
         async () => {
           const pageName = 'Hello'
-          const popUpComponentObj = ui.popUpComponent({
+          const popUpComponentObj = m.popUpComponent({
             popUpView: 'cerealView',
             global: true,
           })
@@ -116,7 +117,7 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
           const { ndom, render } = createRender({
             pageName: 'Abc',
             components: [
-              ui.popUpComponent({
+              m.popUpComponent({
                 popUpView: 'cerealView',
                 global: true,
               }),
@@ -152,7 +153,7 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
         `should update the componentId and nodeId in the global object it if ` +
           `drawing the same global component`,
         async () => {
-          const globalPopUpComponent = ui.popUpComponent({
+          const globalPopUpComponent = m.popUpComponent({
             popUpView: 'cerealView',
             global: true,
           })
@@ -160,7 +161,7 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
           const { page, ndom, request, render } = createRender({
             pageName,
             pageObject: {
-              components: [ui.select(), ui.button(), globalPopUpComponent],
+              components: [m.select(), m.button(), globalPopUpComponent],
             },
           })
           const req = await request()
@@ -171,7 +172,7 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
           expect(globalRecord).to.have.property('componentId', popUp.id)
           expect(globalRecord).to.have.property('nodeId', globalPopUpNode.id)
           page.components = [
-            ui.popUpComponent({
+            m.popUpComponent({
               popUpView: 'cerealView',
               global: true,
             }),
@@ -190,7 +191,7 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
         `should remove the old nodes/components from the DOM/cache and replace ` +
           `them with the new one if encountering the same global component object`,
         async () => {
-          const globalPopUpComponent = ui.popUpComponent({
+          const globalPopUpComponent = m.popUpComponent({
             popUpView: 'cerealView',
             global: true,
           })
@@ -198,7 +199,7 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
           const { page, ndom, request, render } = createRender({
             pageName,
             pageObject: {
-              components: [ui.select(), ui.button(), globalPopUpComponent],
+              components: [m.select(), m.button(), globalPopUpComponent],
             },
           })
           const req = await request()
@@ -207,7 +208,7 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
           expect(document.body.contains(globalPopUpNode)).to.be.true
           expect(ndom.cache.component.has(popUp)).to.be.true
           page.components = [
-            ui.popUpComponent({
+            m.popUpComponent({
               popUpView: 'cerealView',
               global: true,
             }),
@@ -229,7 +230,7 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
         `doesn't exist`,
       async () => {
         const { page, ndom } = createRender({
-          components: ui.textField(),
+          components: m.textField(),
         })
         ndom.reset('transactions')
         return expect(await ndom.request(page)).to.be.rejectedWith(
@@ -243,7 +244,7 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
       const newPage = 'Cereal'
       const { page, ndom } = createRender({
         pageName,
-        components: [ui.popUpComponent()],
+        components: [m.popUpComponent()],
       })
       expect(page.previous).to.eq('')
       expect(page.requesting).to.eq(pageName)
@@ -260,13 +261,13 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
   describe(nc.italic(`redraw`), () => {
     xit(`should delete all components involved in the redraw from the component cache`, async () => {
       const rawComponents = [
-        ui.list({
+        m.list({
           children: [
-            ui.listItem({
+            m.listItem({
               children: [
-                ui.label({ text: 'red' }),
-                ui.textField(),
-                ui.label({ text: 'blue' }),
+                m.label({ text: 'red' }),
+                m.textField(),
+                m.label({ text: 'blue' }),
               ],
             }),
           ],
@@ -292,7 +293,7 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
   describe(nc.italic(`render`), () => {
     it(`should render noodl components to the DOM`, async () => {
       const { render } = createRender({
-        components: [ui.button(), ui.textField(), ui.select(), ui.video()],
+        components: [m.button(), m.textField(), m.select(), m.video()],
       })
       const elemTypes = ['input', 'button', 'select', 'video']
       elemTypes.forEach((t) => {
@@ -312,10 +313,10 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
         pageObject: {
           formData: { password: 'hello123' },
           components: [
-            ui.button(),
-            ui.textField(),
-            ui.select(),
-            ui.video({ global: true }),
+            m.button(),
+            m.textField(),
+            m.select(),
+            m.video({ global: true }),
           ],
         },
       })
@@ -383,90 +384,90 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
             },
           },
           components: [
-            ui.view({
+            m.view({
               children: [
-                ui.popUpComponent({
+                m.popUpComponent({
                   children: [
-                    ui.view({ children: [ui.label('Appointment Details')] }),
-                    ui.button({
+                    m.view({ children: [m.label('Appointment Details')] }),
+                    m.button({
                       text: 'Close',
-                      onClick: [ui.popUpDismiss('inviteSuccess')],
+                      onClick: [m.popUpDismiss('inviteSuccess')],
                     }),
                   ],
                 }),
-                ui.view({
+                m.view({
                   viewTag: APPOINTMENT_VIEWTAG,
                   children: [
-                    ui.view({ children: [ui.label('Room Appointments')] }),
-                    ui.view({
+                    m.view({ children: [m.label('Room Appointments')] }),
+                    m.view({
                       children: [
-                        ui.view({
+                        m.view({
                           viewTag: 'appointmentLengthTag',
                           children: [
-                            ui.label('Appointment Request'),
-                            ui.label({ dataKey: 'formData.appointmentLength' }),
-                            ui.label('Pending Request'),
-                            ui.view({ viewTag: 'imgView' }),
+                            m.label('Appointment Request'),
+                            m.label({ dataKey: 'formData.appointmentLength' }),
+                            m.label('Pending Request'),
+                            m.view({ viewTag: 'imgView' }),
                           ],
                         }),
-                        ui.scrollView({
+                        m.scrollView({
                           children: [
-                            ui.list({
+                            m.list({
                               contentType: 'listObject',
                               iteratorVar,
                               listObject: '..formData.appointment',
                               children: [
-                                ui.listItem({
+                                m.listItem({
                                   [iteratorVar]: '',
                                   children: [
-                                    ui.label({
+                                    m.label({
                                       dataKey: `${iteratorVar}.name.patientName`,
                                       onClick: [
-                                        ui.emitObject({
+                                        m.emitObject({
                                           dataKey: { var: iteratorVar },
                                         }),
-                                        ui.builtIn({
+                                        m.builtIn({
                                           funcName: 'hide',
                                           viewTag: CALENDAR_TABLE_VIEWTAG,
                                         }),
-                                        ui.builtIn({
+                                        m.builtIn({
                                           funcName: 'show',
                                           viewTag: PATIENT_INFO_VIEWTAG,
                                         }),
-                                        ui.builtIn({
+                                        m.builtIn({
                                           funcName: 'redraw',
                                           viewTag: PATIENT_INFO_VIEWTAG,
                                         }),
-                                        ui.builtIn({
+                                        m.builtIn({
                                           funcName: 'redraw',
                                           viewTag: 'MeetingDocTag',
                                         }),
                                       ],
                                     }),
-                                    ui.label({
+                                    m.label({
                                       dataKey: `${iteratorVar}.name.visitType`,
                                     }),
-                                    ui.image('schedule.svg'),
+                                    m.image('schedule.svg'),
                                     // @ts-expect-error
-                                    ui.label({
+                                    m.label({
                                       'text=func': (s) => s,
                                       dataKey: `${iteratorVar}.stime`,
                                     }),
-                                    ui.image('history.svg'),
+                                    m.image('history.svg'),
                                     // @ts-expect-error
-                                    ui.label({
+                                    m.label({
                                       'text=func': (s) => s,
                                       dataKey: `${iteratorVar}.stime`,
                                     }),
-                                    ui.label({
+                                    m.label({
                                       text: 'Visit Questionnaire',
                                       onClick: [
-                                        ui.popUpDismiss('MeetingDocTag'),
-                                        ui.emitObject({
+                                        m.popUpDismiss('MeetingDocTag'),
+                                        m.emitObject({
                                           dataKey: { var: iteratorVar },
                                           actions: [],
                                         }),
-                                        ui.evalObject({
+                                        m.evalObject({
                                           object: async () => {
                                             try {
                                               getPageObject().patientInfoPage =
@@ -477,19 +478,19 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
                                             }
                                           },
                                         }),
-                                        ui.builtIn({
+                                        m.builtIn({
                                           funcName: 'hide',
                                           viewTag: CALENDAR_TABLE_VIEWTAG,
                                         }),
-                                        ui.builtIn({
+                                        m.builtIn({
                                           funcName: 'show',
                                           viewTag: PATIENT_INFO_VIEWTAG,
                                         }),
-                                        ui.builtIn({
+                                        m.builtIn({
                                           funcName: 'redraw',
                                           viewTag: TITLE_VIEWTAG,
                                         }),
-                                        ui.builtIn({
+                                        m.builtIn({
                                           funcName: 'redraw',
                                           viewTag: INFO_VIEWTAG,
                                         }),
@@ -505,44 +506,44 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
                     }),
                   ],
                 }),
-                ui.scrollView({
+                m.scrollView({
                   children: [
-                    ui.view({}),
-                    ui.view({
+                    m.view({}),
+                    m.view({
                       viewTag: PATIENT_INFO_VIEWTAG,
                       children: [
-                        ui.label({ dataKey: 'patdInfo.fullName' }),
-                        ui.image({
+                        m.label({ dataKey: 'patdInfo.fullName' }),
+                        m.image({
                           path: 'goBack.svg',
-                          onClick: [ui.builtIn('show'), ui.builtIn('hide')],
+                          onClick: [m.builtIn('show'), m.builtIn('hide')],
                         }),
-                        ui.view({
+                        m.view({
                           viewTag: TITLE_VIEWTAG,
                           children: [
-                            ui.list({
+                            m.list({
                               contentType: 'listObject',
                               iteratorVar,
                               listObject,
                               children: [
-                                ui.listItem({
+                                m.listItem({
                                   [iteratorVar]: '',
                                   onClick: [
-                                    ui.emitObject({
+                                    m.emitObject({
                                       dataKey: { var: iteratorVar },
                                       actions: ['hello'],
                                     }),
-                                    ui.evalObject(),
-                                    ui.builtIn({
+                                    m.evalObject(),
+                                    m.builtIn({
                                       funcName: 'redraw',
                                       viewTag: TITLE_VIEWTAG,
                                     }),
-                                    ui.builtIn({
+                                    m.builtIn({
                                       funcName: 'redraw',
                                       viewTag: INFO_VIEWTAG,
                                     }),
                                   ],
                                   children: [
-                                    ui.label({
+                                    m.label({
                                       dataKey: `${iteratorVar}.title`,
                                     }),
                                   ],
@@ -551,10 +552,10 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
                             }),
                           ],
                         }),
-                        ui.view({
+                        m.view({
                           viewTag: INFO_VIEWTAG,
                           children: [
-                            ui.page({
+                            m.page({
                               path: {
                                 if: [
                                   true,
@@ -569,47 +570,47 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
                     }),
                   ],
                 }),
-                ui.popUpComponent({
+                m.popUpComponent({
                   viewTag: PROVIDER_LIST_POPUPVIEW,
                   children: [
-                    ui.view({
+                    m.view({
                       children: [
-                        ui.label('Invite'),
-                        ui.button({
+                        m.label('Invite'),
+                        m.button({
                           onClick: [
-                            ui.popUpDismiss({
+                            m.popUpDismiss({
                               popUpView: PROVIDER_LIST_POPUPVIEW,
                             }),
                           ],
                         }),
                       ],
                     }),
-                    ui.view({
+                    m.view({
                       viewTag: PROVIDER_DATA_POPUPVIEW,
                       children: [
-                        ui.view({
+                        m.view({
                           children: [
-                            ui.textField({ placeholder: 'Search' }),
-                            ui.button({ text: 'Search' }),
+                            m.textField({ placeholder: 'Search' }),
+                            m.button({ text: 'Search' }),
                           ],
                         }),
-                        ui.label('Provider List'),
-                        ui.list({
+                        m.label('Provider List'),
+                        m.list({
                           contentType: 'listObject',
                           iteratorVar,
                           listObject: '..providerList.list.doc',
                           children: [
-                            ui.listItem({
+                            m.listItem({
                               onClick: [
-                                ui.emitObject({
+                                m.emitObject({
                                   dataKey: { var: iteratorVar },
                                 }),
-                                ui.popUpDismiss(PROVIDER_LIST_POPUPVIEW),
-                                ui.builtIn({
+                                m.popUpDismiss(PROVIDER_LIST_POPUPVIEW),
+                                m.builtIn({
                                   funcName: 'redraw',
                                   viewTag: 'Next2',
                                 }),
-                                ui.popUp('Next2'),
+                                m.popUp('Next2'),
                               ],
                             }),
                           ],
@@ -618,29 +619,29 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
                     }),
                   ],
                 }),
-                ui.view({
+                m.view({
                   viewTag: CONTACTS_VIEWTAG_VIEW,
                   children: [
-                    ui.view({
+                    m.view({
                       children: [
-                        ui.label('Invite'),
-                        ui.button({
+                        m.label('Invite'),
+                        m.button({
                           text: 'Close',
-                          onClick: [ui.popUpDismiss(CONTACTS_VIEWTAG_VIEW)],
+                          onClick: [m.popUpDismiss(CONTACTS_VIEWTAG_VIEW)],
                         }),
                       ],
                     }),
-                    ui.view({
+                    m.view({
                       viewTag: CONTACTS_VIEWTAG_VIEW_CHILD,
                       children: [
-                        ui.view({
-                          children: [ui.textField({ placeholder: 'Search' })],
+                        m.view({
+                          children: [m.textField({ placeholder: 'Search' })],
                         }),
                       ],
                     }),
                   ],
                 }),
-                ui.label('Patient List'),
+                m.label('Patient List'),
               ],
             }),
           ],
@@ -658,29 +659,29 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
             },
           },
           components: [
-            ui.view({
+            m.view({
               children: [
-                ui.view({
+                m.view({
                   children: [
-                    ui.label('Basic Info'),
-                    ui.view({
+                    m.label('Basic Info'),
+                    m.view({
                       children: [
-                        ui.label('Patient Name'),
-                        ui.label({ dataKey: 'profile.name.data.fullName' }),
-                        ui.label('PhoneNumber'),
-                        ui.label({ dataKey: 'profile.name.data.phone' }),
-                        ui.label('Date of Birth'),
-                        ui.label({ dataKey: 'profile.name.data.birth' }),
-                        ui.label('Gender'),
-                        ui.label({ dataKey: 'profile.name.data.gender' }),
-                        ui.label('Email'),
-                        ui.label({ dataKey: 'profile.name.data.email' }),
-                        ui.label('Address'),
-                        ui.textView({
+                        m.label('Patient Name'),
+                        m.label({ dataKey: 'profile.name.data.fullName' }),
+                        m.label('PhoneNumber'),
+                        m.label({ dataKey: 'profile.name.data.phone' }),
+                        m.label('Date of Birth'),
+                        m.label({ dataKey: 'profile.name.data.birth' }),
+                        m.label('Gender'),
+                        m.label({ dataKey: 'profile.name.data.gender' }),
+                        m.label('Email'),
+                        m.label({ dataKey: 'profile.name.data.email' }),
+                        m.label('Address'),
+                        m.textView({
                           isEditable: false,
                           dataKey: 'profile.name.data.Address.St',
                         }),
-                        ui.label('City,State,Zip code'),
+                        m.label('City,State,Zip code'),
                       ],
                     }),
                   ],
@@ -691,14 +692,14 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
         },
         VisitQuestionnaire: {
           components: [
-            ui.view({
+            m.view({
               children: [
-                ui.view({
+                m.view({
                   children: [
-                    ui.label("Today's Visit"),
-                    ui.scrollView({
+                    m.label("Today's Visit"),
+                    m.scrollView({
                       children: [
-                        ui.view({
+                        m.view({
                           viewTag: 'sunTag',
                           children: [],
                         }),
@@ -711,37 +712,37 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
           ],
         },
         MedicalRecords: {
-          formData: { docList: [ui.ecosDoc(), ui.ecosDoc()] },
+          formData: { docList: [m.ecosDoc(), m.ecosDoc()] },
           components: [
-            ui.view({
+            m.view({
               children: [
-                ui.scrollView({
+                m.scrollView({
                   children: [
-                    ui.list({
+                    m.list({
                       contentType: 'listObject',
                       iteratorVar,
                       listObject: '..formData.docList',
                       children: [
-                        ui.listItem({
+                        m.listItem({
                           [iteratorVar]: '',
                           onClick: [
-                            ui.updateObject(),
-                            ui.evalObject(),
-                            ui.emitObject({
+                            m.updateObject(),
+                            m.evalObject(),
+                            m.emitObject({
                               dataKey: { var: iteratorVar },
                               actions: [{ if: [true, '', ''] }],
                             }),
                           ],
                           children: [
-                            ui.view({
+                            m.view({
                               children: [
-                                ui.label({
+                                m.label({
                                   dataKey: `${iteratorVar}.name.title`,
                                 }),
-                                ui.label({
+                                m.label({
                                   dataKey: `${iteratorVar}.ctime`,
                                 }),
-                                ui.image('enterIn.svg'),
+                                m.image('enterIn.svg'),
                               ],
                             }),
                           ],

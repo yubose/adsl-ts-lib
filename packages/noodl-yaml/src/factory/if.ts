@@ -1,6 +1,6 @@
 import y from 'yaml'
-import { fp, is as coreIs } from 'noodl-core'
-import { isMap, isPair, isScalar, isSeq } from '../utils/yaml'
+import { is as coreIs } from 'noodl-core'
+import { isMap, isSeq } from '../utils/yaml'
 import createNode from '../utils/createNode'
 import type { If } from '../types'
 
