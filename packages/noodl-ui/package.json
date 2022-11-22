@@ -42,5 +42,5 @@
     "publish": "npm version patch && npm publish -f"
   },
   "typings": "dist/index.d.ts",
-  "version": "0.1.1064"
+  "version": "0.1.1077"
 }
