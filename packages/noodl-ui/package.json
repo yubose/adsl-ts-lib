@@ -39,8 +39,8 @@
     "test:file": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json --file src/setupTests.ts -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\"",
     "types": "tsc --declaration --declarationDir dist --emitDeclarationOnly",
     "watch": "cross-env NODE_ENV=development NODE_OPTIONS=\"--stack-trace-limit=10000\" rollup -c -w",
-    "publish": "npm version patch && npm publish -f"
+    "publish-ui": "npm version patch && npm publish -f"
   },
   "typings": "dist/index.d.ts",
-  "version": "0.1.1077"
+  "version": "0.1.1086"
 }
