@@ -527,6 +527,9 @@ componentResolver.setResolver(async (component, options, next) => {
                 ...('color' in item
                   ? { color: formatColor(item.color || '') }
                   : undefined),
+                  ...('textDecoration' in item
+                  ? { textDecoration: item.textDecoration || '' }
+                  : undefined),
                 ...('fontSize' in item
                   ? {
                       fontSize:
