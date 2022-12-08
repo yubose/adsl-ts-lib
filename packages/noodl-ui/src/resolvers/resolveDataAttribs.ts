@@ -156,7 +156,6 @@ dataAttribsResolver.setResolver(async (component, options, next) => {
     let fieldParts = dataKey?.split?.('.')
     let field = fieldParts?.shift?.() || ''
     let fieldValue = getRoot()?.[page?.page]?.[field]
-
     if (fieldParts?.length) {
       while (fieldParts.length) {
         field = (fieldParts?.shift?.() as string) || ''
@@ -188,7 +187,9 @@ dataAttribsResolver.setResolver(async (component, options, next) => {
             component.style,
             n.parseReference(value, { page: page?.page, root: getRoot() }),
           )
-        } else {
+        }else if(key === 'data-value' && Identify.reference(value) ){
+          component.edit({[key]:''})
+        }else {
           component.edit(
             n.parseReference(value, { page: page?.page, root: getRoot() }),
           )
