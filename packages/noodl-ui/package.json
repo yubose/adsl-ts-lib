@@ -42,5 +42,5 @@
     "publish-ui": "npm version patch && npm publish -f"
   },
   "typings": "dist/index.d.ts",
-  "version": "0.1.1087"
+  "version": "0.1.1089"
 }
