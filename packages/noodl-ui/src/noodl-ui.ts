@@ -462,7 +462,7 @@ const NUI = (function () {
       }
     } else if (u.isObj(arg1)) {
       if ('type' in arg1 || 'children' in arg1 || 'style' in arg1) {
-        components = [arg1]
+        components = [arg1 as any]
         if (is.nuiPage(arg2)) {
           page = arg2
         } else if (u.isObj(arg2)) {
@@ -576,7 +576,7 @@ const NUI = (function () {
 
     const componentsList = u.array(components)
     const numComponents = componentsList.length
-    
+
     for (let index = 0; index < numComponents; index++) {
       let componentObject = componentsList[index]
       // { components: ['.BaseHeader'] }

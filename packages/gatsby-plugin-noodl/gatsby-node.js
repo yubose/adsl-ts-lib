@@ -457,7 +457,7 @@ const onPluginInit = function onPluginInit(args, pluginOpts = {}) {
             catch (error) {
                 const err = error instanceof Error ? error : new Error(String(error));
                 if ('response' in err) {
-                    if (((_p = err['response']) === null || _p === void 0 ? void 0 : _p.status) === 404) {
+                    if (((_p = err['response']) === null || _p === void 0 ? void 0 : _p['status']) === 404) {
                         const logMsg = `The asset "${asset.url}" `;
                         warn(logMsg + `returned a ${red(`404 Not Found`)} error`);
                     }
