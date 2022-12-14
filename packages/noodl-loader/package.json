@@ -4,7 +4,7 @@
     "axios": "^0.27.2",
     "invariant": "^2.2.4",
     "noodl-core": "^0.1.42",
-    "noodl-types": "^1.0.248",
+    "noodl-types": "*",
     "rambda": "^7.2.1",
     "type-fest": "^2.18.0",
     "yaml": "^2.1.1"

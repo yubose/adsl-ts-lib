@@ -4,7 +4,7 @@
     "url": "https://github.com/pfftdammitchris/noodl-cli/issues"
   },
   "dependencies": {
-    "noodl-types": "^1.0.261"
+    "noodl-types": "*"
   },
   "directories": {
     "dist": "dist",

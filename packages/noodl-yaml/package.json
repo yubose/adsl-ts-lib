@@ -4,7 +4,7 @@
     "is-proxy": "^1.0.6",
     "noodl-core": "^0.1.56",
     "noodl-test-utils": "*",
-    "noodl-types": "^1.0.261",
+    "noodl-types": "*",
     "noodl-ui": "^0.1.1092",
     "noodl-utils": "^0.0.126",
     "rambda": "^7.3.0"

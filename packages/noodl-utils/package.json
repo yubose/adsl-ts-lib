@@ -2,7 +2,7 @@
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
   "bugs": {},
   "dependencies": {
-    "noodl-types": "^1.0.261"
+    "noodl-types": "*"
   },
   "description": "Utility/helpers for working with NOODL values",
   "engines": {
