@@ -17,7 +17,7 @@ const configs = [
     output: {
       dir: './dist',
       exports: 'named',
-      format: 'umd',
+      format: 'cjs',
       name: 'nui',
       sourcemap: true,
       globals: {
@@ -43,7 +43,7 @@ const configs = [
       esbuild({
         include: /\.ts$/,
         exclude: /node_modules/,
-        minify: false,
+        minify: true,
         // minify: !_DEV_,
         minifyIdentifiers: false,
         target: 'es2018',

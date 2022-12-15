@@ -1,7 +1,7 @@
 {
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
   "dependencies": {
-    "noodl-action-chain": "^0.0.140",
+    "noodl-action-chain": "^0.0.160",
     "noodl-common": "^0.0.58",
     "noodl-test-utils": "^0.0.12",
     "noodl-types": "*",
@@ -42,5 +42,5 @@
     "watch": "cross-env NODE_ENV=development NODE_OPTIONS=\"--stack-trace-limit=10000\" rollup -c -w"
   },
   "typings": "dist/index.d.ts",
-  "version": "0.1.1093"
+  "version": "0.1.1100"
 }

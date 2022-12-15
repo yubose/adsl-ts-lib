@@ -16,7 +16,7 @@ const configs = [
       {
         dir: './dist',
         exports: 'named',
-        format: 'umd',
+        format: 'cjs',
         name: 'nac',
         sourcemap: true,
       },
@@ -24,6 +24,7 @@ const configs = [
     context: 'window',
     plugins: [
       resolve({
+        browser: true,
         extensions,
         preferBuiltins: true,
       }),
@@ -33,7 +34,7 @@ const configs = [
       esbuild({
         include: /\.ts$/,
         exclude: /node_modules/,
-        minify: false,
+        minify: true,
         minifyIdentifiers: false,
         target: 'es2018',
       }),
