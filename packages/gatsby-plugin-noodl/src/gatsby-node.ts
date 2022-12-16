@@ -658,7 +658,7 @@ export const onPluginInit = async function onPluginInit(
       } catch (error) {
         const err = error instanceof Error ? error : new Error(String(error))
         if ('response' in err) {
-          if (err['response']?.status === 404) {
+          if (err['response']?.['status'] === 404) {
             const logMsg = `The asset "${asset.url}" `
             warn(logMsg + `returned a ${red(`404 Not Found`)} error`)
           }

@@ -7,12 +7,12 @@
     },
     "publish": {
       "bump": "patch",
-      "ignore": "noodl-{loader,loader-docs}",
+      "ignore": "{gatsby-plugin-noodl,noodl-loader,noodl-loader-docs}",
       "message": "Update"
     }
   },
   "forceLocal": true,
-  "ignore": "noodl-{loader,loader-docs}",
+  "ignore": "{gatsby-plugin-noodl,noodl-loader,noodl-loader-docs}",
   "loglevel": "verbose",
   "message": "Update",
   "useNx": true,

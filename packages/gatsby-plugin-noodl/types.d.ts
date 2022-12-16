@@ -60,7 +60,7 @@ export declare namespace InternalData {
 /**
  * Component static objects used in the client side to render react elements
  */
-export declare type StaticComponentObject = ComponentObject & Partial<Record<NUITrigger, {
+export type StaticComponentObject = ComponentObject & Partial<Record<NUITrigger, {
     actions: (NUIActionObject & Record<string, any>)[];
     trigger: LiteralUnion<NUITrigger, string>;
     injected: (NUIActionObject & Record<string, any>)[];
@@ -111,7 +111,7 @@ export interface ListComponentsContext {
         listObject: ReferenceString | any[];
     };
 }
-export declare type ComponentPath = (string | number)[];
+export type ComponentPath = (string | number)[];
 /**
  * NOTE: Currently not being used
  */

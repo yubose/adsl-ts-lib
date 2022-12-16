@@ -4,8 +4,9 @@
     "url": "https://github.com/pfftdammitchris/noodl-cli/issues"
   },
   "dependencies": {
-    "noodl-types": "^1.0.258"
+    "noodl-types": "*"
   },
+  "devDependencies": {},
   "directories": {
     "dist": "dist",
     "test": "__tests__"
@@ -25,7 +26,7 @@
     "url": "git+https://github.com/pfftdammitchris/noodl-cli.git"
   },
   "scripts": {
-    "build": "rollup -c",
+    "build": "tsc",
     "postbuild": "npm run types",
     "poststart": "npm run types",
     "start": "concurrently \"rollup -c -w\" \"npm run types\"",
@@ -33,5 +34,5 @@
     "types": "tsc --declaration --declarationDir dist --emitDeclarationOnly"
   },
   "types": "dist/index.d.ts",
-  "version": "0.0.153"
+  "version": "0.0.160"
 }

@@ -31,7 +31,7 @@ function downloadFile(log, url, filename, dir) {
             const err = error instanceof Error ? error : new Error(String(error));
             // log.error(`[${u.yellow(err.name)}] ${u.red(err.message)}`)
             if ('response' in err) {
-                if (((_a = err['response']) === null || _a === void 0 ? void 0 : _a.status) === 404) {
+                if (((_a = err['response']) === null || _a === void 0 ? void 0 : _a['status']) === 404) {
                     log.warn(`The file "${url}" returned a ${u.red(`404 Not Found`)} error`);
                 }
             }
