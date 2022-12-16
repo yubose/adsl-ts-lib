@@ -736,7 +736,10 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
 
                       if (s.isKeyRelatedToWidthOrHeight(styleKey)) {
                         _styleValue = String(_styleValue)
-                        if (s.isNoodlUnit(_styleValue)) {
+                        if(/(px|em|cm|mm|rem|in|%)/.test(_styleValue)){
+                          set(value, styleKey, _styleValue)
+
+                        }else if (s.isNoodlUnit(_styleValue)) {
                           const newValue = String(
                             NuiViewport.getSize(
                               _styleValue,
@@ -761,6 +764,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                   }
                 }
               }
+              
             }
           }
         } else if (isStr(originalValue)) {
