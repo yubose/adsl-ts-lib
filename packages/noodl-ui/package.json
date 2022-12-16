@@ -42,9 +42,5 @@
     "watch": "cross-env NODE_ENV=development NODE_OPTIONS=\"--stack-trace-limit=10000\" rollup -c -w"
   },
   "typings": "dist/index.d.ts",
-<<<<<<< HEAD
-  "version": "0.1.1091"
-=======
-  "version": "0.1.1100"
->>>>>>> a1be4962a8e0e54e37ab0e97affc14506d27331e
+  "version": "0.1.1102"
 }
