@@ -83,9 +83,9 @@ describe(`resolveComponents (ComponentResolver)`, () => {
       { type: 'list' },
       { type: 'listItem' },
       { type: 'label' },
-      { type: 'textField' },
       { type: 'listItem' },
       { type: 'label' },
+      { type: 'textField' },
       { type: 'textField' },
       { type: 'button' },
       { type: 'button' },
@@ -93,6 +93,11 @@ describe(`resolveComponents (ComponentResolver)`, () => {
     expect(spy).to.have.property('callCount').to.eq(expectedCallsInOrder.length)
     const calls = spy.getCalls()
     expectedCallsInOrder.forEach((res, index) => {
+      console.log({
+        resType: res.type,
+        expectedType: calls[index]?.args?.[0]?.type,
+      })
+
       expect(res.type).to.eq(calls[index]?.args?.[0]?.type)
     })
   })
@@ -106,7 +111,7 @@ describe(`resolveComponents (ComponentResolver)`, () => {
           await nui.resolveComponents({
             components: m.button({
               text: ifObj,
-              onClick: [m.emit()],
+              onClick: [m.emitObject()],
               style: { border: { style: '2' }, shadow: 'true' },
             }),
             on: { if: spy },
@@ -124,7 +129,7 @@ describe(`resolveComponents (ComponentResolver)`, () => {
             await nui.resolveComponents({
               components: m.button({
                 text: { if: [{}, 'hello', 'bye'] },
-                onClick: [m.emit()],
+                onClick: [m.emitObject()],
                 style: { border: { style: '2' }, shadow: 'true' },
               }),
               on: { if: () => true },
@@ -136,7 +141,7 @@ describe(`resolveComponents (ComponentResolver)`, () => {
             await nui.resolveComponents({
               components: m.button({
                 text: { if: [{}, 'hello', 'bye'] },
-                onClick: [m.emit()],
+                onClick: [m.emitObject()],
                 style: { border: { style: '2' }, shadow: 'true' },
               }),
               on: { if: () => false },

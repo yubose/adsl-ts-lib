@@ -60,7 +60,9 @@ describe(`utils`, () => {
     })
 
     it(`should get the iteratorVar if its a listItem`, async () => {
-      const list = await NUI.resolveComponents(m.list({ iteratorVar: 'trap' }))
+      const list = await NUI.resolveComponents(
+        m.list({ iteratorVar: 'trap', listObject: ['s'] }),
+      )
       const listItem = list.child()
       expect(n.findIteratorVar(listItem)).to.eq('trap')
     })
@@ -69,11 +71,12 @@ describe(`utils`, () => {
       const list = await NUI.resolveComponents(
         m.list({
           iteratorVar: 'iceCream',
+          listObject: ['s'],
           children: [
             m.listItem({
               children: [
                 m.view({
-                  children: [m.button],
+                  children: [m.button()],
                 }),
               ],
             }),
@@ -112,8 +115,13 @@ describe(`utils`, () => {
     })
 
     it(`should return true for listItem components`, async () => {
-      expect(n.isListConsumer((await NUI.resolveComponents(m.list())).child()))
-        .to.be.true
+      const component = await NUI.resolveComponents(
+        m.list({
+          iteratorVar: 'itemObject',
+          listObject: [{ avatar: 'myimage.jpeg' }],
+        }),
+      )
+      expect(n.isListConsumer(component.child())).to.be.true
     })
 
     it(`should return true for deeply nested descendants of a list`, async () => {

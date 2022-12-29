@@ -34,7 +34,7 @@ export function getListAttribute(component: NuiComponent.Instance) {
     index = listIndex ? listIndex : 0
     const list = listItem.parent
     if (isComponent(list)) {
-      dataObject =  list.get('listObject') || list.blueprint.listObject
+      dataObject = list.get('listObject') || list.blueprint.listObject
       // dataObject = list.get('listObject')
     }
 
@@ -332,6 +332,9 @@ export function isListConsumer(
   component: unknown,
 ): component is NuiComponent.Instance {
   if (!isComponent(component)) return false
+  if (u.isStr(component.type) && /list/i.test(component.type)) {
+    return true
+  }
   return !!findIteratorVar(component)
 }
 

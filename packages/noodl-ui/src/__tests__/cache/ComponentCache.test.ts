@@ -25,9 +25,9 @@ describe(`ComponentCache`, () => {
       const videoChatComponents = Array(3)
         .fill(null)
         .map((_) => createComponent(m.button()))
-      signInComponents.forEach((inst) => componentCache.add(inst, 'SignIn'))
+      signInComponents.forEach((inst) => componentCache.add(inst, '', 'SignIn'))
       videoChatComponents.forEach((inst) =>
-        componentCache.add(inst, 'VideoChat'),
+        componentCache.add(inst, '', 'VideoChat'),
       )
       expect(componentCache).to.have.lengthOf(6)
       componentCache.clear('SignIn')
@@ -102,14 +102,14 @@ describe(`ComponentCache`, () => {
 
     it(`should return an object with a component and page prop`, () => {
       const component = createComponent('select')
-      const obj = componentCache.add(component, page)
+      const obj = componentCache.add(component, '', 'CreateNewAccount')
       expect(obj).to.have.property('component').to.eq(component)
       expect(obj).to.have.property('page').to.eq('CreateNewAccount')
     })
 
     it(`should accept strings`, () => {
       const component = createComponent('select')
-      const obj = componentCache.add(component, 'Frog')
+      const obj = componentCache.add(component, '', 'Frog')
       expect(obj).to.have.property('component').to.eq(component)
       expect(obj).to.have.property('page').to.eq('Frog')
     })

@@ -21,7 +21,7 @@ import { presets } from '../constants'
 const parse = (comp: any, opts?: Parameters<typeof normalizeProps>[2]) =>
   normalizeProps({}, comp, { viewport: { width: 375, height: 667 }, ...opts })
 
-describe.only('normalizeProps', () => {
+describe('normalizeProps', () => {
   describe(`dataKey`, () => {
     it(`[textField] should set value on data-value`, () => {
       const opts = {

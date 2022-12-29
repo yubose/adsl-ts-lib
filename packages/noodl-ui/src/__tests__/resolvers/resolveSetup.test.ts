@@ -180,35 +180,12 @@ describe(u.yellow(`resolveSetup`), () => {
       nui.use({ emit: { [trigger]: spy } })
       const { component } = await resolveComponent(
         m.label({
-          [trigger]: [m.evalObject, m.emit(), m.evalObject],
+          [trigger]: [m.evalObject, m.emitObject(), m.evalObject],
         }),
       )
       // @ts-expect-error
       await component.get(trigger)?.execute({})
       await waitFor(() => expect(spy).to.be.calledOnce)
     })
-
-    for (const obs of emitHooks) {
-      const hookName = u.isObj(obs) ? obs.trigger : obs
-      it(`should call on.emit.createActionChain hook with the expected args for "${hookName}"`, async () => {
-        const spy = sinon.spy()
-        await nui.resolveComponents({
-          components: m.label({
-            [hookName]: m.emit({
-              dataKey: { var1: 'itemObject' },
-              actions: [],
-            }),
-          }),
-          on: { emit: { createActionChain: spy } },
-        })
-        const args = spy.args[0][0]
-        expect(spy).to.be.calledOnce
-        expect(args).to.be.an('object')
-        expect(args).to.have.property('actionChain')
-        expect(args).to.have.property('actions')
-        expect(args).to.have.property('component')
-        expect(args).to.have.property('trigger')
-      })
-    }
   })
 })

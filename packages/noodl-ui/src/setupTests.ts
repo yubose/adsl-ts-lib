@@ -17,6 +17,7 @@ JSDOM('', {
 chai.use(sinonChai)
 
 before(() => {
+  process.stdout.write('\x1Bc')
   log.setLevel('debug')
 })
 

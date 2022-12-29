@@ -61,7 +61,7 @@ describe(u.italic(`createActionChain`), () => {
       'onFocus',
       [
         m.pageJump(),
-        m.emit(),
+        m.emitObject(),
         m.goto(),
         m.builtIn({ funcName: 'too' } as any),
         m.refresh(),
@@ -132,7 +132,7 @@ describe(u.italic(`createActionChain`), () => {
         'onFocus',
         [
           m.pageJump(),
-          m.emit(),
+          m.emitObject(),
           m.goto(),
           m.builtIn('too'),
           m.refresh(),
@@ -495,7 +495,7 @@ describe(`when handling register objects`, () => {
       const spy = sinon.spy(async () => 'abc') as any
       const component = m.register({
         onEvent: 'helloEvent',
-        emit: m.emit().emit as any,
+        emit: m.emitObject().emit as any,
       })
       nui.use({ register: component })
       const obj = nui.cache.register.get(component.onEvent as string)
@@ -762,7 +762,7 @@ describe(u.italic(`use`), () => {
       it(`should convert emit objects to action chains`, async () => {
         const component = m.register({
           onEvent: 'helloEvent',
-          emit: m.emit(),
+          emit: m.emitObject(),
         })
         const register = nui._experimental.register(component)
         expect(register.callbacks).to.have.length.greaterThan(0)
@@ -773,7 +773,7 @@ describe(u.italic(`use`), () => {
         const spy = sinon.spy()
         const component = m.register({
           onEvent: 'helloEvent',
-          emit: m.emit(),
+          emit: m.emitObject(),
         })
         const register = nui._experimental.register(component, {
           handler: { fn: spy },
