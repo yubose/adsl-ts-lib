@@ -118,7 +118,7 @@ function attachUserEvents<N extends t.NDOMElement>(
         }
         const executeFun  = (...args:any)=>{
           setTimeout(() => {
-            // @ts-expect-error
+						// @ts-ignore
             component.get?.(eventType)?.execute?.(...args);            
             node.removeEventListener("scroll",executeScroll);
             node.removeEventListener("onPull",executeFun);
