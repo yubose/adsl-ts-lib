@@ -1,2 +1,2 @@
-npm verison patch
-npm publish
+npm run build
+npm run publish-ui
