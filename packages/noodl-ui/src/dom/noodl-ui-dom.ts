@@ -739,6 +739,11 @@ class NDOM extends NDOMInternal {
         //   }
         //   console.log('test88',newComponent)
         // }
+        // let scrollHeight:any = 0
+        // if (component.type === 'chatList') {
+        //       scrollHeight = node?.scrollHeight
+        //       newComponent.set('scrollheight',scrollHeight) 
+        // }
         this.removeComponent(component)
         newComponent = await nui.resolveComponents?.({
           callback: options?.callback,

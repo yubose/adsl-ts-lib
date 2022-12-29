@@ -66,6 +66,7 @@ function attachUserEvents<N extends t.NDOMElement>(
        * where the emitted action handlers are being called before local
        * root object gets their data values updated.
        */
+      
       if (eventType === 'onLazyLoading') {
         let event: Event|null = new Event('onLazyLoading', {
           bubbles: true,
@@ -96,7 +97,37 @@ function attachUserEvents<N extends t.NDOMElement>(
         node.addEventListener('scroll', executeScroll)
         node.addEventListener('onLazyLoading', executeFun)
         return
-      }else{
+      } else if (eventType === 'onPull'){
+        let event: Event|null = new Event('onPull', {
+          bubbles: true,
+          cancelable: false,
+        })
+        const executeScroll = () => {
+          // let viewHeight =
+          //   node.clientHeight || document.documentElement.clientHeight
+          // let contentHeight =
+          //   node.scrollHeight || document.documentElement.scrollHeight //内容高度
+          let scrollTop = node.scrollTop || document.documentElement.scrollTop
+          console.log(scrollTop);
+          if (scrollTop<= 50) {
+            //到达底部0px时,加载新内容
+            node.dispatchEvent(event as Event);
+            node.removeEventListener("scroll",executeScroll);
+            node.removeEventListener("onPull",executeFun);
+          }
+        }
+        const executeFun  = (...args:any)=>{
+          setTimeout(() => {
+            // @ts-expect-error
+            component.get?.(eventType)?.execute?.(...args);            
+            node.removeEventListener("scroll",executeScroll);
+            node.removeEventListener("onPull",executeFun);
+          })
+        }
+        node.addEventListener('scroll', executeScroll)
+        node.addEventListener('onPull', executeFun)
+        return
+      } else{
 				if (eventType === 'onClick') {
 					if (!node.classList.contains('noodl-onclick')) {
 						node.classList.add('noodl-onclick')
