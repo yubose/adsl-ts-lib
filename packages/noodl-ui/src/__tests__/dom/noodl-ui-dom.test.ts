@@ -1,6 +1,5 @@
 // @ts-nocheck
 import * as u from '@jsmanifest/utils'
-import * as nc from 'noodl-common'
 import * as nt from 'noodl-types'
 import m from 'noodl-test-utils'
 import sinon from 'sinon'
@@ -16,8 +15,8 @@ import {
 import { ndom, createRender, waitMs } from '../test-utils'
 import GlobalComponentRecord from '../global/GlobalComponentRecord'
 
-describe(nc.coolGold(`noodl-ui-dom`), () => {
-  describe(nc.italic(`createGlobalRecord`), () => {
+describe(`noodl-ui-dom`, () => {
+  describe(`createGlobalRecord`, () => {
     it(`should add the GlobalComponentRecord to the global store`, async () => {
       const { render } = createRender({
         components: [m.popUpComponent({ global: true })],
@@ -31,7 +30,7 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
     })
   })
 
-  describe(nc.italic(`createPage`), () => {
+  describe(`createPage`, () => {
     it(`should set the base/main "page" property if it is empty`, () => {
       ndom.reset().resync()
       expect(ndom.page).to.be.undefined
@@ -60,7 +59,7 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
     })
   })
 
-  describe(nc.italic(`draw`), () => {
+  describe(`draw`, () => {
     it(`should have all components in the component cache`, async () => {
       const rawComponents = [
         m.list({
@@ -224,7 +223,7 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
     })
   })
 
-  describe(nc.italic(`request`), () => {
+  describe(`request`, () => {
     xit(
       `should throw if the ${nuiEmitTransaction.REQUEST_PAGE_OBJECT} transaction ` +
         `doesn't exist`,
@@ -258,7 +257,7 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
     })
   })
 
-  describe(nc.italic(`redraw`), () => {
+  describe(`redraw`, () => {
     xit(`should delete all components involved in the redraw from the component cache`, async () => {
       const rawComponents = [
         m.list({
@@ -290,7 +289,7 @@ describe(nc.coolGold(`noodl-ui-dom`), () => {
     })
   })
 
-  describe(nc.italic(`render`), () => {
+  describe(`render`, () => {
     it(`should render noodl components to the DOM`, async () => {
       const { render } = createRender({
         components: [m.button(), m.textField(), m.select(), m.video()],

@@ -1,11 +1,10 @@
 // @ts-nocheck
 import { expect } from 'chai'
 import m from 'noodl-test-utils'
-import * as nc from 'noodl-common'
 import * as util from '../utils'
 import { createRender } from '../test-utils'
 
-describe(nc.coolGold(`createRender`), () => {
+describe(`createRender`, () => {
   it(`should be able to render to the DOM with just 1 or more components`, async () => {
     const node = util.findByElementId(await createRender(m.button()).render())
     expect(node).to.exist

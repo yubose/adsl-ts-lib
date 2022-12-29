@@ -2,7 +2,6 @@
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
   "dependencies": {
     "noodl-action-chain": "^0.0.160",
-    "noodl-common": "^0.0.58",
     "noodl-test-utils": "^0.0.12",
     "noodl-types": "*",
     "noodl-utils": "^0.0.126",

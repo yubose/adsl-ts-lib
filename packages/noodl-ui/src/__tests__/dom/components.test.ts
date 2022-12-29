@@ -6,7 +6,6 @@ import { ComponentObject, PageObject } from 'noodl-types'
 import { Page as NuiPage } from 'noodl-m'
 import m from 'noodl-test-utils'
 import * as u from '@jsmanifest/utils'
-import * as nc from 'noodl-common'
 import { event as nuiEvent, NuiComponent } from 'noodl-m'
 import { getRenderProps, createRender } from '../../utils/test-utils'
 import {
@@ -25,8 +24,8 @@ import type NDOMPage from '../../Page'
 const _createRender: any = () => {}
 const render = createRender()
 
-describe(nc.coolGold('components'), () => {
-  describe(nc.italic(`Page`), () => {
+describe('components', () => {
+  describe(`Page`, () => {
     let Donut: PageObject
     let Cereal: PageObject
     let Hello: PageObject
@@ -443,7 +442,7 @@ describe(nc.coolGold('components'), () => {
       },
     )
 
-    describe(nc.italic('component cache'), () => {
+    describe(('component cache'), () => {
       let _counter = 0
       let _ids = [] as number[]
 
@@ -770,7 +769,7 @@ describe(nc.coolGold('components'), () => {
     })
   })
 
-  describe(nc.italic(`textField`), () => {
+  describe((`textField`), () => {
     it(`should initialize value with data-value on load`, async () => {
       const { render } = _createRender({
         root: {
@@ -787,7 +786,7 @@ describe(nc.coolGold('components'), () => {
     })
   })
 
-  describe(nc.italic(`select`), () => {
+  describe((`select`), () => {
     it(`should not have an extra item in options`, async () => {
       const genders = ['2020', '2021', '2022']
       const { render } = _createRender({
@@ -806,7 +805,7 @@ describe(nc.coolGold('components'), () => {
     })
   })
 
-  describe(nc.italic(`list`), () => {
+  describe((`list`), () => {
     it(`load double list`, async () => {
       const listData = [
         { key: 'A', data: [{ key: 'apple' }, { key: 'appointment' }] },

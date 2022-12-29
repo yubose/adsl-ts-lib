@@ -2,7 +2,6 @@
 import sinon from 'sinon'
 import m from 'noodl-test-utils'
 import * as u from '@jsmanifest/utils'
-import * as nc from 'noodl-common'
 import { expect } from 'chai'
 import { prettyDOM } from '@testing-library/dom'
 import {

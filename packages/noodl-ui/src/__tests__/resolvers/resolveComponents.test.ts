@@ -3,7 +3,6 @@ import * as u from '@jsmanifest/utils'
 import sinon from 'sinon'
 import m from 'noodl-test-utils'
 import { expect } from 'chai'
-import { coolGold, italic, magenta } from 'noodl-common'
 import { waitFor } from '@testing-library/dom'
 import { ComponentObject } from 'noodl-types'
 import nui from '../../noodl-ui'
@@ -35,7 +34,7 @@ async function resolveComponent(component: ComponentObject) {
   return nui.resolveComponents({ components: component, page })
 }
 
-describe(coolGold(`resolveComponents (ComponentResolver)`), () => {
+describe(`resolveComponents (ComponentResolver)`, () => {
   it(`should call the callback on every resolved child in order of creation time`, async () => {
     const spy = sinon.spy((f) => undefined)
     const listObject = [{ fruit: 'apple' }, { fruit: 'berry' }]
@@ -148,7 +147,7 @@ describe(coolGold(`resolveComponents (ComponentResolver)`), () => {
     })
   })
 
-  describe(italic(`list`), () => {
+  describe(`list`, () => {
     let listObject: any[] = []
     let componentObject: ReturnType<typeof m.list>
 
@@ -178,9 +177,7 @@ describe(coolGold(`resolveComponents (ComponentResolver)`), () => {
 
     it(
       `should provide the dataObject to each listItem children by setting ` +
-        `it as the value to a property that is taken from value of ${magenta(
-          'iteratorVar',
-        )}`,
+        `it as the value to a property that is taken from value of ${'iteratorVar'}`,
       async () => {
         const component = await resolveComponent(componentObject)
         const iteratorVar = component.get('iteratorVar') || ''
@@ -196,7 +193,7 @@ describe(coolGold(`resolveComponents (ComponentResolver)`), () => {
     )
   })
 
-  describe(italic(`Page`), () => {
+  describe(`Page`, () => {
     let componentObject: ReturnType<typeof m.page>
 
     beforeEach(() => {
@@ -322,9 +319,9 @@ describe(coolGold(`resolveComponents (ComponentResolver)`), () => {
     })
   })
 
-  describe(italic(`plugin`), () => {
+  describe(`plugin`, () => {
     it(
-      `should emit the ${magenta(`content`)} event with the content when ` +
+      `should emit the ${`content`} event with the content when ` +
         `contents are fetched`,
       async () => {
         const component = await nui.resolveComponents({
@@ -355,15 +352,15 @@ describe(coolGold(`resolveComponents (ComponentResolver)`), () => {
     })
   })
 
-  describe(italic(`register`), () => {
+  describe(`register`, () => {
     //
   })
 
-  describe(italic(`scrollView`), () => {
+  describe(`scrollView`, () => {
     //
   })
 
-  describe(italic(`textField`), () => {
+  describe(`textField`, () => {
     it(`should set the data-value from local root`, async () => {
       const pageObject = {
         formData: { password: 'mypassword' },
@@ -376,11 +373,11 @@ describe(coolGold(`resolveComponents (ComponentResolver)`), () => {
     })
   })
 
-  describe(italic(`textBoard`), () => {
+  describe(`textBoard`, () => {
     //
   })
 
-  describe(italic(`contentType: timer`), () => {
+  describe(`contentType: timer`, () => {
     //
   })
 })

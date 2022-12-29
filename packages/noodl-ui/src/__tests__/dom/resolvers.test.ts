@@ -6,7 +6,6 @@ import sinon from 'sinon'
 import { NuiComponent, createComponent, flatten } from 'noodl-ui'
 import { waitFor } from '@testing-library/dom'
 import { expect } from 'chai'
-import { coolGold, italic, magenta, white } from 'noodl-common'
 import { createRender, ndom } from '../test-utils'
 import { nui } from '../nui'
 import NOODLDOM from '../noodl-ui-dom'
@@ -15,7 +14,7 @@ import * as n from '../utils'
 import * as c from '../constants'
 import Timer from '../global/Timer'
 
-describe(coolGold(`resolvers`), () => {
+describe(`resolvers`, () => {
   it(`should attach the component id as the element id`, async () => {
     const { render } = createRender(m.label())
     const component = await render()
@@ -34,7 +33,7 @@ describe(coolGold(`resolvers`), () => {
     expect(n.findFirstByElementId(await render()).textContent).to.eq(dataValue)
   })
 
-  describe(italic(`button`), () => {
+  describe(`button`, () => {
     it('should have a pointer cursor if it has an onClick', async () => {
       const { render } = createRender(
         m.button({ text: 'hello', onClick: [m.emitObject()] }),
@@ -45,21 +44,17 @@ describe(coolGold(`resolvers`), () => {
     })
   })
 
-  describe(italic(`data- attributes`), () => {
+  describe(`data- attributes`, () => {
     const dataAttribsWithoutSelect = c.dataAttributes.filter(
       (a) => !/options/i.test(a),
     )
 
-    xit(`should be able to attach the ${magenta(
-      'data-options',
-    )} attribute to a DOM element`, () => {
+    xit(`should be able to attach the ${'data-options'} attribute to a DOM element`, () => {
       //
     })
 
     dataAttribsWithoutSelect.forEach((attr) => {
-      it(`should be able to attach the ${magenta(
-        attr,
-      )} attribute to a DOM element`, async () => {
+      it(`should be able to attach the ${attr} attribute to a DOM element`, async () => {
         const iteratorVar = 'orange'
         const { request } = createRender({
           components: [
@@ -103,7 +98,7 @@ describe(coolGold(`resolvers`), () => {
   })
 })
 
-describe(italic(`ecosDoc`), () => {
+describe(`ecosDoc`, () => {
   it(`should create an iframe as a direct child`, async () => {
     const ecosObj = m.ecosObj('image')
     const { pageObject, render } = createRender(
@@ -198,7 +193,7 @@ describe(italic(`ecosDoc`), () => {
     })
   })
 
-  describe(italic(`Displaying`), () => {
+  describe(`Displaying`, () => {
     describe(white('note'), () => {
       it(`should only display the note's body content and not the title`, async () => {
         const component = await createRender(
@@ -223,7 +218,7 @@ describe(italic(`ecosDoc`), () => {
   })
 })
 
-describe(italic(`image`), () => {
+describe(`image`, () => {
   it('should attach the pointer cursor if it has onClick', async () => {
     const { render } = createRender(m.image({ onClick: [] }))
     expect(n.findFirstByElementId(await render())?.style)
@@ -239,7 +234,7 @@ describe(italic(`image`), () => {
   })
 })
 
-describe(italic(`label`), () => {
+describe(`label`, () => {
   it('should attach the pointer cursor if it has onClick', async () => {
     const { render } = createRender(m.image({ onClick: [] }))
     expect(n.findFirstByElementId(await render()).style)
@@ -248,7 +243,7 @@ describe(italic(`label`), () => {
   })
 })
 
-describe(italic(`list`), () => {
+describe(`list`, () => {
   xit(
     `should generate the same amount of children as the amount of data ` +
       `objects provided`,
@@ -283,7 +278,7 @@ describe(italic(`list`), () => {
   // TODO - update.list.item handling?
 })
 
-describe(italic(`page`), () => {
+describe(`page`, () => {
   let result: ReturnType<typeof createRender>
   let node: HTMLIFrameElement
   let component: NuiComponent.Instance
@@ -322,7 +317,7 @@ describe(italic(`page`), () => {
   )
 })
 
-describe.skip(italic(`plugin`), () => {
+describe.skip(`plugin`, () => {
   it(`should receive a function as the node argument`, async () => {
     const spy = sinon.spy()
     const ndom = new NOODLDOM()
@@ -378,7 +373,7 @@ describe.skip(italic(`plugin`), () => {
   })
 })
 
-describe(italic(`styles`), () => {
+describe(`styles`, () => {
   describe(`Positioning / Sizing`, () => {
     describe(`when components are missing "top"`, () => {
       const finalKeys = ['top', 'height']
@@ -499,7 +494,7 @@ describe(italic(`styles`), () => {
   })
 })
 
-describe(italic(`text=func`), () => {
+describe(`text=func`, () => {
   it(`[lists] should use the dataKey to get the value and pass as args to the text=func func`, async () => {
     const date = new Date().toISOString()
     const spy = sinon.spy(() => date)
@@ -563,7 +558,7 @@ describe(italic(`text=func`), () => {
   })
 })
 
-describe(italic(`timer`), () => {
+describe(`timer`, () => {
   let timer: Timer | undefined
 
   afterEach(() => void timer?.clear?.())
@@ -660,7 +655,7 @@ describe(italic(`timer`), () => {
   })
 })
 
-describe(italic(`video`), () => {
+describe(`video`, () => {
   it('should have object-fit set to "contain"', async () => {
     const { render } = createRender({ type: 'video', videoFormat: 'mp4' })
     const component = await render()
@@ -748,7 +743,7 @@ describe(italic(`video`), () => {
   ---- HOOKS
 -------------------------------------------------------- */
 
-describe(italic(`Hooks`), () => {
+describe(`Hooks`, () => {
   describe(`onResource`, () => {
     xit(`should call the resolve functions immediately if the resource node is already in the DOM`, async () => {
       //

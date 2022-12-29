@@ -4,7 +4,6 @@ import m from 'noodl-test-utils'
 import { NuiComponent } from 'noodl-ui'
 import { waitFor } from '@testing-library/dom'
 import { expect } from 'chai'
-import { coolGold, italic, white } from 'noodl-common'
 import {
   ComponentObject,
   EcosDocComponentObject,
@@ -57,15 +56,15 @@ async function getEcosDocRenderResults<N extends NameField = NameField>({
   }
 }
 
-describe(coolGold(`createEcosDocElement`), () => {
+describe(`createEcosDocElement`, () => {
   it(`should create an iframe element`, async () => {
     const { iframe } = await getEcosDocLoadResult()
     expect(iframe).to.have.property('tagName', 'IFRAME')
     expect(iframe).to.be.instanceOf(HTMLIFrameElement)
   })
 
-  describe(italic('Rendering'), () => {
-    describe(white(`image documents`), () => {
+  describe('Rendering', () => {
+    describe(`image documents`, () => {
       it(`should render the image element into its body and set the src`, async () => {
         const customEcosObj = m.ecosDoc({
           name: {
@@ -89,7 +88,7 @@ describe(coolGold(`createEcosDocElement`), () => {
       })
     })
 
-    describe(white(`pdf documents`), () => {
+    describe(`pdf documents`, () => {
       it(`should render the pdf element into its body and set the src`, async () => {
         const ecosObj = m.ecosDoc('pdf')
         const component = await nui.resolveComponents(m.ecosDocComponent('pdf'))
@@ -103,8 +102,8 @@ describe(coolGold(`createEcosDocElement`), () => {
       })
     })
 
-    describe(white(`text documents`), () => {
-      describe(white(`plain text`), async () => {
+    describe(`text documents`, () => {
+      describe(`plain text`, async () => {
         it(`should show the title and content`, async () => {
           const customEcosObj = m.ecosDoc({
             name: {
@@ -140,7 +139,7 @@ describe(coolGold(`createEcosDocElement`), () => {
     })
   })
 
-  describe(italic(`Classes`), () => {
+  describe(`Classes`, () => {
     it(`should attach the class name "${c.classes.ECOS_DOC}" on the iframe`, async () => {
       expect(
         (await getEcosDocLoadResult()).iframe.classList.contains(
@@ -149,7 +148,7 @@ describe(coolGold(`createEcosDocElement`), () => {
       ).to.be.true
     })
 
-    describe(white(`image`), () => {
+    describe(`image`, () => {
       it(`should attach the class name "${c.classes.ECOS_DOC_IMAGE}"`, async () => {
         const { iframe } = await getEcosDocLoadResult(
           m.ecosDocComponent('image'),
@@ -164,7 +163,7 @@ describe(coolGold(`createEcosDocElement`), () => {
       })
     })
 
-    describe(white(`note`), () => {
+    describe(`note`, () => {
       it(
         `should attach the class name "${c.classes.ECOS_DOC_NOTE}" on note ` +
           `elements`,
@@ -204,7 +203,7 @@ describe(coolGold(`createEcosDocElement`), () => {
       )
     })
 
-    describe(white(`pdf`), () => {
+    describe(`pdf`, () => {
       it(
         `should attach the class name "${c.classes.ECOS_DOC_PDF}" on ` +
           `the iframe`,

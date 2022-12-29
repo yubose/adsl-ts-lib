@@ -1,13 +1,12 @@
 // @ts-nocheck
 import * as u from '@jsmanifest/utils'
 import { expect } from 'chai'
-import * as nc from 'noodl-common'
 import { ndom } from '../test-utils'
 import * as i from '../utils/internal'
 import { waitFor } from '@testing-library/dom'
 
-describe(nc.coolGold(`internal (utilities)`), () => {
-  describe(nc.italic(`_syncPages`), () => {
+describe(`internal (utilities)`, () => {
+  describe(`_syncPages`, () => {
     describe(`when a root page is missing`, () => {
       xit(`should treat the incoming page as the new root page`, () => {
         const page1 = ndom.createPage('SignIn')

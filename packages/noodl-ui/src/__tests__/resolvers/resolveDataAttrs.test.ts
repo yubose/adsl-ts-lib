@@ -4,7 +4,6 @@ import m from 'noodl-test-utils'
 import { ComponentObject } from 'noodl-types'
 import { waitFor } from '@testing-library/dom'
 import { expect } from 'chai'
-import { coolGold, italic } from 'noodl-common'
 import NUI from '../../noodl-ui'
 import { createDataKeyReference } from '../../utils/test-utils'
 
@@ -25,8 +24,8 @@ const getGenderListObject = () => [
   { key: 'Gender', value: 'Other' },
 ]
 
-describe(coolGold(`resolveDataAttrs`), () => {
-  describe(italic(`data-key`), () => {
+describe(`resolveDataAttrs`, () => {
+  describe(`data-key`, () => {
     it('should set the data-key and remove the dataKey property', async () => {
       const { component } = await resolveComponent(
         m.label({ dataKey: 'formData.password' }),
@@ -36,7 +35,7 @@ describe(coolGold(`resolveDataAttrs`), () => {
     })
   })
 
-  describe(italic(`data-value`), () => {
+  describe(`data-value`, () => {
     it('should set the data-value for list consumers', async () => {
       createDataKeyReference({
         pageObject: { info: { gender: getGenderListObject() } },
@@ -79,7 +78,7 @@ describe(coolGold(`resolveDataAttrs`), () => {
     ).eq('pfft@gmail.com')
   })
 
-  describe(italic(`data-options`), () => {
+  describe(`data-options`, () => {
     let iteratorVar = 'itemObject'
     let listObject: { key: string; doc: number[] }[]
 
@@ -150,7 +149,7 @@ describe(coolGold(`resolveDataAttrs`), () => {
     })
   })
 
-  describe(italic(`data-viewtag`), () => {
+  describe(`data-viewtag`, () => {
     it('should attach viewTag as the value for data-viewtag', async () => {
       expect(
         (
@@ -162,7 +161,7 @@ describe(coolGold(`resolveDataAttrs`), () => {
     })
   })
 
-  describe(italic(`data-listid`), () => {
+  describe(`data-listid`, () => {
     it('should attach data-listid for list components', async () => {
       expect(
         (
@@ -178,7 +177,7 @@ describe(coolGold(`resolveDataAttrs`), () => {
     })
   })
 
-  describe(italic(`data-ux`), () => {
+  describe(`data-ux`, () => {
     it(
       `should attach the data attribute for contentType: passwordHidden ` +
         `components and its value as passwordHidden`,

@@ -1,12 +1,11 @@
 // @ts-nocheck
 import m from 'noodl-test-utils'
 import { expect } from 'chai'
-import { coolGold, italic, magenta } from 'noodl-common'
 import nui from '../../noodl-ui'
 
-describe(coolGold(`resolveStyles (ComponentResolver)`), () => {
-  describe(italic(`Components`), () => {
-    describe(magenta('page'), () => {
+describe(`resolveStyles (ComponentResolver)`, () => {
+  describe(`Components`, () => {
+    describe('page', () => {
       it(`should have its styles parsed like others`, async () => {
         const components = await nui.resolveComponents([
           m.view({
@@ -35,7 +34,7 @@ describe(coolGold(`resolveStyles (ComponentResolver)`), () => {
     })
   })
 
-  describe(magenta(`listObject references`), () => {
+  describe(`listObject references`, () => {
     it(`should resolve references coming from listItem data objects`, async () => {
       const listObject = [
         {
