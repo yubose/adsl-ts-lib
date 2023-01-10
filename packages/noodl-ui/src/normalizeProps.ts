@@ -596,6 +596,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
               if (styleKey === 'autoplay') {
                 set(blueprint, 'autoplay', styleValue)
               }
+              if(styleKey === 'opacity') set(value, 'opacity', styleValue)
             }
 
             if (s.isKeyRelatedToWidthOrHeight(styleValue as any)) {
