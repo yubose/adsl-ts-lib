@@ -129,6 +129,9 @@ dataAttribsResolver.setResolver(async (component, options, next) => {
         if (component.blueprint?.['path=func']) {
           if (component.get('wait')) {
             result = await component.get('path=func')?.(result)
+            if (!result) {
+              result = component.get('path=func')?.(result)
+            }
           } else {
             result = component.get('path=func')?.(result)
           }
