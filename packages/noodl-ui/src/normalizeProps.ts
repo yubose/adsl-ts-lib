@@ -573,15 +573,15 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
               set(value, key, _value)
             }
           }
-          for (const [key, vpKey, val] of [
-            ['maxHeight', 'height', maxHeight],
-            ['minHeight', 'height', minHeight],
-            ['maxWidth', 'width', maxWidth],
-            ['minWidth', 'width', minWidth],
+          for (const [realKey,key, vpKey, val] of [
+            ['max-height','maxHeight', 'height', maxHeight],
+            ['min-height','minHeight', 'height', minHeight],
+            ['max-width','maxWidth', 'width', maxWidth],
+            ['min-width','minWidth', 'width', minWidth],
           ]) {
             if (!isNil(val)) {
               const newValue = String(s.getSize(val, viewport?.[vpKey]))
-              set(value, key, newValue)
+              set(value, realKey, newValue)
             }
           }
           // }
@@ -596,6 +596,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
               if (styleKey === 'autoplay') {
                 set(blueprint, 'autoplay', styleValue)
               }
+              if(styleKey === 'opacity') set(value, 'opacity', styleValue)
             }
 
             if (s.isKeyRelatedToWidthOrHeight(styleValue as any)) {
