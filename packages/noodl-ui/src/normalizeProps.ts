@@ -749,6 +749,9 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                             ),
                           )
                           set(value, styleKey, newValue)
+                        }else{
+                          set(value, styleKey, _styleValue)
+
                         }
                       } else if (styleKey === 'pointerEvents') {
                         set(value, 'pointer-events', _styleValue)
