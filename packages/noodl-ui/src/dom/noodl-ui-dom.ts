@@ -69,6 +69,7 @@ class NDOM extends NDOMInternal {
         pageIds: this.global.pageIds,
         pageNames: this.global.pageNames,
         timers: this.global.timers,
+        interval: this.global.intervals
       },
       hooks: this.hooks,
       resolvers: this.resolvers,

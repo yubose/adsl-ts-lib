@@ -8,6 +8,7 @@ let _global: NDOMGlobal
 export class NDOMGlobal {
   #components: t.GlobalMap['components'] = new Map()
   #register = new Map()
+  #intervals = new Map()
   // @ts-expect-error
   #draw: t.GlobalMap['draw'] = new Map()
   #hooks: t.GlobalMap['hooks'] = new Map()
@@ -19,7 +20,8 @@ export class NDOMGlobal {
       components: this.components,
       pages: this.pages,
       timers: this.timers,
-      register: this.register
+      register: this.register,
+      intervals: this.intervals,
     }
   }
 
@@ -59,6 +61,10 @@ export class NDOMGlobal {
 
   get timers() {
     return this.#timers
+  }
+
+  get intervals(){
+    return this.#intervals
   }
 
 
