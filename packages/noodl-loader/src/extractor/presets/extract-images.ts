@@ -1,7 +1,10 @@
-import { fp, is as coreIs } from 'noodl-core'
+import { is as cis } from 'noodl-core'
 import { isMap, isPair, isScalar } from '../../utils/yml'
 import type { ExtractFn } from '../extractor-types'
 import { ExtractType } from '../../constants'
+
+const isImage = (v: any) =>
+  typeof v === 'string' && /.(jpg|jpeg|gif|png|svg|tif|bmp|webp)$/i.test(v)
 
 const extractImages: ExtractFn = (
   key,
@@ -22,7 +25,7 @@ const extractImages: ExtractFn = (
     })
   }
 
-  if (isScalar(node) && coreIs.str(node.value)) {
+  if (isScalar(node) && cis.str(node.value)) {
     let pathLength = path.length
     let prevNode: any
 
@@ -42,7 +45,7 @@ const extractImages: ExtractFn = (
         }
       } else {
         if (key === 'value') {
-          if (coreIs.image(node.value)) {
+          if (isImage(node.value)) {
             const url = cadlEndpoint?.createAssetURL(node.value)
             createAsset({ type: ExtractType.Asset, id: url, props: { url } })
           }
@@ -50,7 +53,7 @@ const extractImages: ExtractFn = (
       }
     } else {
       if (key === 'value') {
-        if (coreIs.image(node.value)) {
+        if (isImage(node.value)) {
           const url = cadlEndpoint?.createAssetURL(node.value)
           createAsset({ type: ExtractType.Asset, id: url, props: { url } })
         }
@@ -62,9 +65,9 @@ const extractImages: ExtractFn = (
 
       if (pairKey === 'path') {
         if (isScalar(pair.value)) {
-          if (coreIs.str(pair.value.value)) {
+          if (cis.str(pair.value.value)) {
             const value = pair.value.value
-            if (coreIs.image(value)) {
+            if (isImage(value)) {
               const url = cadlEndpoint?.createAssetURL(value)
               createAsset({ type: ExtractType.Asset, id: url, props: { url } })
             }
@@ -77,10 +80,10 @@ const extractImages: ExtractFn = (
           if (key === 'value') {
             const value = pair.value.value
 
-            if (coreIs.str(value)) {
-              if (coreIs.reference(value)) {
+            if (cis.str(value)) {
+              if (cis.reference(value)) {
                 //
-              } else if (coreIs.image(value)) {
+              } else if (isImage(value)) {
                 const url = cadlEndpoint?.createAssetURL(value)
                 createAsset({
                   type: ExtractType.Asset,

@@ -75,7 +75,7 @@ export function replacePlaceholders<
     if (coreIs.arr(value) || coreIs.obj(value)) return true
     if (isNode(value)) {
       if (isScalar(value)) {
-        return coreIs.str(value.value) && rx.test(value.value)
+        return coreIs.str((value as any).value) && rx.test((value as any).value)
       }
       return true
     }
@@ -114,19 +114,19 @@ export function replacePlaceholders<
     if (node) {
       if (isScalar(node)) {
         if (isReplaceable(node.value)) {
-          node.value = replacePlaceholders(rx, node.value, values)
+          node.value = replacePlaceholders(rx, node.value as any, values)
         }
       } else if (isMap(node)) {
         node.items.forEach((pair) => {
           if (isReplaceable(pair.value)) {
-            pair.value = replacePlaceholders(rx, pair.value, values)
+            pair.value = replacePlaceholders(rx, pair.value as any, values)
           }
         })
       } else if (isSeq(node)) {
         const seqNode = node
         seqNode.items.forEach((item, index) => {
           if (isReplaceable(item)) {
-            seqNode.set(index, replacePlaceholders(rx, item, values))
+            seqNode.set(index, replacePlaceholders(rx, item as any, values))
           }
         })
       }
@@ -138,7 +138,7 @@ export function replacePlaceholders<
   if (coreIs.obj(objs)) {
     for (const [key, value] of fp.entries(objs)) {
       if (isReplaceable(value)) {
-        objs[key] = replacePlaceholders(rx, value, values)
+        objs[key] = replacePlaceholders(rx, value as any, values)
       } else if (coreIs.arr(value)) {
         value.forEach((v, i) => {
           if (isReplaceable(v)) {

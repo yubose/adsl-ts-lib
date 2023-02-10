@@ -1,5 +1,5 @@
 import type { LiteralUnion } from 'type-fest'
-import { fp, is as coreIs } from 'noodl-core'
+import { fp, is as cis } from 'noodl-core'
 import inv from 'invariant'
 import y, { isPair } from 'yaml'
 import path from 'path'
@@ -56,9 +56,9 @@ export async function getYml(options: GetYmlFnOptions): Promise<any> {
     let _value = ''
     let { config, cadlEndpoint, fs: _fs, mode, value } = options
 
-    if (coreIs.obj(value)) {
+    if (cis.obj(value)) {
       _value = stringify(value)
-    } else if (coreIs.str(value)) {
+    } else if (cis.str(value)) {
       _value = value
     }
 
@@ -277,11 +277,6 @@ class NoodlLoader extends t.AbstractLoader {
       spread?: boolean
     } = {},
   ): Promise<void> {
-    if (!arguments.length) {
-      inv(!!this.configKey, `Cannot load without a configKey`)
-      return void (await this.load(this.config.configKey))
-    }
-
     const {
       dir,
       includePreload = true,
@@ -320,7 +315,7 @@ class NoodlLoader extends t.AbstractLoader {
     const loadPreloadOrPages = (names: string[]) =>
       Promise.all(names.map((name) => this.load(name, options)))
 
-    if (is.equalFileKey(this.configKey, value)) {
+    if (this.configKey && is.equalFileKey(this.configKey, value)) {
       const configYml = await getYml({
         ...this.getLoadOptions(),
         dir,
@@ -341,7 +336,7 @@ class NoodlLoader extends t.AbstractLoader {
       if (includePages) {
         await loadPreloadOrPages(this.cadlEndpoint.getPages())
       }
-    } else if (is.equalFileKey(this.appKey, value)) {
+    } else if (this.appKey && is.equalFileKey(this.appKey, value)) {
       await this.loadCadlEndpoint(
         await getYml({
           ...this.getLoadOptions(),
@@ -355,7 +350,7 @@ class NoodlLoader extends t.AbstractLoader {
         { ...this.getLoadOptions(), dir, mode },
       )
     } else if (
-      this.cadlEndpoint.preloadExists(value) ||
+      (value && this.cadlEndpoint.preloadExists(value)) ||
       this.cadlEndpoint.pageExists(value)
     ) {
       const name = value
@@ -378,8 +373,9 @@ class NoodlLoader extends t.AbstractLoader {
         name,
         await getYml({ ...this.getLoadOptions(), dir, mode, value: endpoint }),
       )
-    } else if (is.url(value)) {
+    } else if (value && is.url(value)) {
       const { name } = path.parse(value)
+
       if (
         [this.configKey, this.appKey].some((key) => is.equalFileKey(key, name))
       ) {
@@ -387,8 +383,13 @@ class NoodlLoader extends t.AbstractLoader {
       } else {
         await handlePreloadOrPage(name, await fetchYml(value))
       }
-    } else if (is.file(value)) {
+    } else if (value && is.file(value)) {
       await this.load(path.parse(value).name, { ...options, mode: 'file' })
+    } else if (this.configKey) {
+      // Fallback to loading from the config
+      return this.load(this.configKey, options)
+    } else {
+      throw new Error(`Missing configKey`)
     }
   }
 
@@ -416,7 +417,7 @@ class NoodlLoader extends t.AbstractLoader {
       const configJson = parseYml('object', yml)
 
       inv(
-        coreIs.obj(configJson),
+        cis.obj(configJson),
         `Expected an object for config but received ${typeOf(configJson)}`,
       )
 
@@ -463,7 +464,7 @@ class NoodlLoader extends t.AbstractLoader {
 
       fp.assign(_props, parseAs('json', await getYml(options)))
     } else {
-      if (coreIs.obj(arg1)) {
+      if (cis.obj(arg1)) {
         if (isNode(arg1) || isPair(arg1) || isDocument(arg1)) {
           let node: any = arg1
 
@@ -495,7 +496,7 @@ class NoodlLoader extends t.AbstractLoader {
             fp.assign(_props, parseAs('json', yml))
           }
         }
-      } else if (coreIs.str(arg1)) {
+      } else if (cis.str(arg1)) {
         fp.assign(_props, parseAs('json', arg1))
       } else {
         console.error(new Error(`REMINDER: CONTINUE THIS IMPLEMENTATION`))
