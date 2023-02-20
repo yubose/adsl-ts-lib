@@ -43,7 +43,7 @@ const configs = [
       esbuild({
         include: /\.ts$/,
         exclude: /node_modules/,
-        minify: true,
+        minify: false,
         // minify: !_DEV_,
         minifyIdentifiers: false,
         target: 'es2018',
