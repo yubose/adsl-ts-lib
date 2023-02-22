@@ -19,7 +19,7 @@ class Component<C extends ComponentObject = ComponentObject> {
   #children: t.NuiComponent.Instance[] = []
   #defaultChildren: t.NuiComponent.Instance[] = []
   #id = ''
-  #eventListeners = new Map()
+  #eventListeners = {}
   #parent: t.NuiComponent.Instance | null = null
   type: C['type']
 
@@ -126,8 +126,8 @@ class Component<C extends ComponentObject = ComponentObject> {
     this.#component.style = style
   }
 
-  addEventListeners(event:string,callback:Function){
-    this.#eventListeners.set(event, callback)
+  addEventListeners({event,callback}: {event:string,callback:Function}){
+    this.#eventListeners[event] = callback
   }
 
   removeAllEventListeners(){
@@ -137,9 +137,9 @@ class Component<C extends ComponentObject = ComponentObject> {
         this.#eventListeners?.[event]?.()
       }
     }
-    for(let [event,callback] of this.#eventListeners){
-      callback?.()
-    }
+    // for(let [event,callback] of this.#eventListeners){
+    //   callback?.()
+    // }
 
   }
   /**

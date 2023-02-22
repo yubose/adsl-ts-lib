@@ -319,6 +319,9 @@ class NDOM extends NDOMInternal {
   async request(page = this.page, pageRequesting = '', opts?: { on }) {
     // Cache the currently requesting page to detect for newer requests during the call
     pageRequesting = pageRequesting || page.requesting || ''
+    if((window as any).pcomponents){
+      this.removeComponentListener((window as any).pcomponents[0])
+    }
     try {
       // This is needed for the consumer to run any operations prior to working
       // with the components (ex: processing the "init" in page objects)
@@ -391,9 +394,6 @@ class NDOM extends NDOMInternal {
       | t.ResolveComponentOptions<any>['callback']
       | Omit<t.ResolveComponentOptions<any>, 'components' | 'page'>,
   ) {
-    if((window as any).pcomponents){
-      this.removeComponent((window as any).pcomponents[0])
-    }
     
     const resolveOptions = u.isFnc(options) ? { callback: options } : options
     if (resolveOptions?.on) {
@@ -911,7 +911,6 @@ class NDOM extends NDOMInternal {
   removeComponent(component: t.NuiComponent.Instance | undefined | null) {
     if (!component) return
     const remove = (_c: t.NuiComponent.Instance) => {
-      component.removeAllEventListeners()
       cache.component.remove(_c)
       ;(_c.has?.('global') || _c.blueprint?.global) &&
         this.removeGlobalComponent(_c.get(c.DATA_GLOBALID))
@@ -920,6 +919,14 @@ class NDOM extends NDOMInternal {
       _c.children?.forEach?.((_c) => remove(_c))
       _c.has('page') && _c.remove('page')
       _c.clear?.()
+    }
+    remove(component)
+  }
+  removeComponentListener(component: t.NuiComponent.Instance | undefined | null){
+    if (!component) return
+    const remove = (_c: t.NuiComponent.Instance) => {
+      _c.removeAllEventListeners()
+      _c.children?.forEach?.((_c) => remove(_c))
     }
     remove(component)
   }

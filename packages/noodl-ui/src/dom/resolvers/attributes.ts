@@ -140,14 +140,15 @@ function attachUserEvents<N extends t.NDOMElement>(
             clearTimeout(timeId)
           })
         }
-        node.addEventListener(normalizeEventName(eventType), callback)
-        const clearEvent = ()=>{
-          console.log('test remove')
-          node.removeEventListener(normalizeEventName(eventType), callback)
-        }
+        // node.addEventListener(normalizeEventName(eventType), callback)
+        // const clearEvent = ()=>{
+        //   console.log('test remove')
+        //   node.removeEventListener(normalizeEventName(eventType), callback)
+        // }
         
-        (component as any).addEventListeners(normalizeEventName(eventType),clearEvent)
-        // const listener = addListener(node,normalizeEventName(eventType), callback )
+        // component.addEventListeners(normalizeEventName(eventType),clearEvent)
+        const listener = addListener(node,normalizeEventName(eventType), callback )
+        component.addEventListeners(listener)
         
       }
 
@@ -157,7 +158,9 @@ function attachUserEvents<N extends t.NDOMElement>(
 function addListener(node:t.NDOMElement, event:string, callback:any){
   node.addEventListener(event,callback)
   return {
-    destroy(){
+    event,
+    callback: ()=>{
+      console.log('test remove listener',event)
       node.removeEventListener(event,callback)
     }
   }
