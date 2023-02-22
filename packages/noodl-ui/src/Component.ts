@@ -137,6 +137,7 @@ class Component<C extends ComponentObject = ComponentObject> {
         this.#eventListeners?.[event]?.()
       }
     }
+    this.#eventListeners = {}
     // for(let [event,callback] of this.#eventListeners){
     //   callback?.()
     // }
