@@ -391,6 +391,10 @@ class NDOM extends NDOMInternal {
       | t.ResolveComponentOptions<any>['callback']
       | Omit<t.ResolveComponentOptions<any>, 'components' | 'page'>,
   ) {
+    if((window as any).pcomponents){
+      this.removeComponent((window as any).pcomponents[0])
+    }
+    
     const resolveOptions = u.isFnc(options) ? { callback: options } : options
     if (resolveOptions?.on) {
       const hooks = resolveOptions.on
@@ -907,6 +911,7 @@ class NDOM extends NDOMInternal {
   removeComponent(component: t.NuiComponent.Instance | undefined | null) {
     if (!component) return
     const remove = (_c: t.NuiComponent.Instance) => {
+      component.removeAllEventListeners()
       cache.component.remove(_c)
       ;(_c.has?.('global') || _c.blueprint?.global) &&
         this.removeGlobalComponent(_c.get(c.DATA_GLOBALID))

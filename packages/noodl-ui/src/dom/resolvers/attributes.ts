@@ -133,13 +133,34 @@ function attachUserEvents<N extends t.NDOMElement>(
 						node.classList.add('noodl-onclick')
 					}
 				}
-      node.addEventListener(normalizeEventName(eventType), (...args) =>
-        setTimeout(() => component.get?.(eventType)?.execute?.(...args))
-      )
+        
+        const callback = (...args: any)=>{
+          const timeId = setTimeout(() => {
+            component.get?.(eventType)?.execute?.(...args)
+            clearTimeout(timeId)
+          })
+        }
+        node.addEventListener(normalizeEventName(eventType), callback)
+        const clearEvent = ()=>{
+          console.log('test remove')
+          node.removeEventListener(normalizeEventName(eventType), callback)
+        }
+        
+        (component as any).addEventListeners(normalizeEventName(eventType),clearEvent)
+        // const listener = addListener(node,normalizeEventName(eventType), callback )
+        
       }
 
     }
   })
+}
+function addListener(node:t.NDOMElement, event:string, callback:any){
+  node.addEventListener(event,callback)
+  return {
+    destroy(){
+      node.removeEventListener(event,callback)
+    }
+  }
 }
 
 function handleKeyPress<N extends t.NDOMElement>(node: N) {

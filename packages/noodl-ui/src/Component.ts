@@ -19,6 +19,7 @@ class Component<C extends ComponentObject = ComponentObject> {
   #children: t.NuiComponent.Instance[] = []
   #defaultChildren: t.NuiComponent.Instance[] = []
   #id = ''
+  #eventListeners = new Map()
   #parent: t.NuiComponent.Instance | null = null
   type: C['type']
 
@@ -100,6 +101,9 @@ class Component<C extends ComponentObject = ComponentObject> {
     return this.#parent
   }
 
+  get eventListeners(){
+    return this.#eventListeners
+  }
   /**
    * Returns the value of the component property using key, or
    * Returns the value of the property of the component's style object
@@ -122,6 +126,22 @@ class Component<C extends ComponentObject = ComponentObject> {
     this.#component.style = style
   }
 
+  addEventListeners(event:string,callback:Function){
+    this.#eventListeners.set(event, callback)
+  }
+
+  removeAllEventListeners(){
+    const events = Object.keys(this.#eventListeners)
+    if(u.isArr(events)){
+      for(let event of events){
+        this.#eventListeners?.[event]?.()
+      }
+    }
+    for(let [event,callback] of this.#eventListeners){
+      callback?.()
+    }
+
+  }
   /**
    * Returns the value of the component property using key, or
    * Returns the value of the property of the component's style object
