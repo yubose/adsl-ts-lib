@@ -134,15 +134,13 @@ function attachUserEvents<N extends t.NDOMElement>(
           { component: t.NuiComponent.Instance; node: N },
           Event,
           void
-        >({ component, node }, (options, event: Event) => {
-          setTimeout(
-            wrap({ ...options, event }, ({ component, node, event }) => {
-              // @ts-expect-error
-              component.get?.(eventType)?.execute?.(event)
-              node.removeEventListener('scroll', executeScroll)
-              node.removeEventListener('onPull', executeFun)
-            }),
-          )
+        >({ component, node }, ({ component, node }, event: Event) => {
+          setTimeout(() => {
+            // @ts-expect-error
+            component.get?.(eventType)?.execute?.(event)
+            node.removeEventListener('scroll', executeScroll)
+            node.removeEventListener('onPull', executeFun)
+          })
         })
         node.addEventListener('scroll', executeScroll)
         node.addEventListener('onPull', executeFun)
@@ -154,9 +152,9 @@ function attachUserEvents<N extends t.NDOMElement>(
           }
         }
 
-        const callback = (...args: any) => {
+        const callback = (event: Event, component: t.NuiComponent.Instance) => {
           const timeId = setTimeout(() => {
-            component.get?.(eventType)?.execute?.(...args)
+            component.get?.(eventType)?.execute?.(event)
             clearTimeout(timeId)
           })
         }
@@ -170,7 +168,7 @@ function attachUserEvents<N extends t.NDOMElement>(
         const listener = addListener(
           node,
           normalizeEventName(eventType),
-          callback,
+          partialR(callback, component),
         )
         component.addEventListeners(listener)
       }
