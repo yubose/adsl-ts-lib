@@ -2,6 +2,7 @@ import * as u from '@jsmanifest/utils'
 import startOfDay from 'date-fns/startOfDay'
 import partial from 'lodash/partial'
 import partialR from 'lodash/partialRight'
+import wrap from 'lodash/wrap'
 import { Identify, userEvent } from 'noodl-types'
 import {
   _isScriptEl,
@@ -115,7 +116,7 @@ function attachUserEvents<N extends t.NDOMElement>(
           bubbles: true,
           cancelable: false,
         })
-        const executeScroll = () => {
+        const executeScroll = wrap<N, Event, void>(node, (node) => {
           // let viewHeight =
           //   node.clientHeight || document.documentElement.clientHeight
           // let contentHeight =
@@ -128,15 +129,21 @@ function attachUserEvents<N extends t.NDOMElement>(
             node.removeEventListener('scroll', executeScroll)
             node.removeEventListener('onPull', executeFun)
           }
-        }
-        const executeFun = (...args: any) => {
-          setTimeout(() => {
-            // @ts-ignore
-            component.get?.(eventType)?.execute?.(...args)
-            node.removeEventListener('scroll', executeScroll)
-            node.removeEventListener('onPull', executeFun)
-          })
-        }
+        })
+        const executeFun = wrap<
+          { component: t.NuiComponent.Instance; node: N },
+          Event,
+          void
+        >({ component, node }, (options, event: Event) => {
+          setTimeout(
+            wrap({ ...options, event }, ({ component, node, event }) => {
+              // @ts-expect-error
+              component.get?.(eventType)?.execute?.(event)
+              node.removeEventListener('scroll', executeScroll)
+              node.removeEventListener('onPull', executeFun)
+            }),
+          )
+        })
         node.addEventListener('scroll', executeScroll)
         node.addEventListener('onPull', executeFun)
         return
