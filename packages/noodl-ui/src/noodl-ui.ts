@@ -759,14 +759,6 @@ const NUI = (function () {
 
   const o = {
     _experimental,
-    _defineGetter(
-      key: string,
-      opts: ((...args: any[]) => any) | PropertyDescriptor,
-    ) {
-      Object.defineProperty(this, key, {
-        get: u.isFnc(opts) ? () => opts : () => opts.get,
-      })
-    },
     get cache() {
       return cache
     },
@@ -1184,11 +1176,11 @@ const NUI = (function () {
       cache.plugin.clear()
       cache.register.clear()
       cache.transactions.clear()
-      o._defineGetter('getAssetsUrl', () => '')
-      o._defineGetter('getBaseUrl', () => '')
-      o._defineGetter('getPages', () => [])
-      o._defineGetter('getPreloadPages', () => [])
-      o._defineGetter('getRoot', () => '')
+      o.getAssetsUrl = () => ''
+      o.getBaseUrl = () => ''
+      o.getPreloadPages = () => []
+      o.getPages = () => []
+      o.getRoot = () => ({})
     },
     setLogLevel: (level: keyof typeof log.levels) => log.setLevel(level),
     use(args: t.UseArg) {
@@ -1304,7 +1296,7 @@ const NUI = (function () {
         'getPreloadPages',
         'getRoot',
       ]) {
-        args[key] && o._defineGetter(key, args[key])
+        if (key in args) o[key] = args[key]
       }
 
       return o
