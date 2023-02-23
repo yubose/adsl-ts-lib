@@ -75,7 +75,11 @@ function attachUserEvents<N extends t.NDOMElement>(
           bubbles: true,
           cancelable: false,
         })
-        const executeScroll = () => {
+        const executeScroll = wrap<
+          { component: t.NuiComponent.Instance; node: N },
+          Event,
+          void
+        >({ component, node }, ({ component, node }, event) => {
           let viewHeight =
             node.clientHeight || document.documentElement.clientHeight
           let contentHeight =
@@ -90,7 +94,7 @@ function attachUserEvents<N extends t.NDOMElement>(
               partialR(executeFun, component, node),
             )
           }
-        }
+        })
         const executeFun = (
           event: Event,
           component: t.NuiComponent.Instance,
