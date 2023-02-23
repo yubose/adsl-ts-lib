@@ -918,6 +918,7 @@ class NDOM extends NDOMInternal {
       _c?.parent?.removeChild(_c)
       _c.children?.forEach?.((_c) => remove(_c))
       _c.has('page') && _c.remove('page')
+      _c.has('signaturePad') && _c.remove('signaturePad')
       _c.clear?.()
     }
     remove(component)
