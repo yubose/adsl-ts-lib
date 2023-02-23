@@ -1,5 +1,7 @@
 import * as u from '@jsmanifest/utils'
 import startOfDay from 'date-fns/startOfDay'
+import partial from 'lodash/partial'
+import partialR from 'lodash/partialRight'
 import { Identify, userEvent } from 'noodl-types'
 import {
   _isScriptEl,
@@ -53,9 +55,9 @@ function attachUserEvents<N extends t.NDOMElement>(
      * - onInput
      */
     // console.log(component.type,"oooo")
-    if ((component.type==="select" && eventType === 'onChange')) return
-    if (eventType === 'onInput'){
-      if((component.blueprint.debounce)){
+    if (component.type === 'select' && eventType === 'onChange') return
+    if (eventType === 'onInput') {
+      if (component.blueprint.debounce) {
         return
       }
     }
@@ -66,14 +68,13 @@ function attachUserEvents<N extends t.NDOMElement>(
        * where the emitted action handlers are being called before local
        * root object gets their data values updated.
        */
-      
+
       if (eventType === 'onLazyLoading') {
-        let event: Event|null = new Event('onLazyLoading', {
+        let event: Event | null = new Event('onLazyLoading', {
           bubbles: true,
           cancelable: false,
         })
         const executeScroll = () => {
-
           let viewHeight =
             node.clientHeight || document.documentElement.clientHeight
           let contentHeight =
@@ -81,24 +82,36 @@ function attachUserEvents<N extends t.NDOMElement>(
           let scrollTop = node.scrollTop || document.documentElement.scrollTop
           if (Math.floor(contentHeight - viewHeight - scrollTop) <= 1) {
             //到达底部0px时,加载新内容
-            node.dispatchEvent(event as Event);
-            node.removeEventListener("scroll",executeScroll);
-            node.removeEventListener("onLazyLoading",executeFun);
+            node.dispatchEvent(event as Event)
+            node.removeEventListener('scroll', executeScroll)
+            node.removeEventListener(
+              'onLazyLoading',
+              partialR(executeFun, component, node),
+            )
           }
         }
-        const executeFun  = (...args:any)=>{
-          setTimeout(() => {
-            // @ts-expect-error
-            component.get?.(eventType)?.execute?.(...args);            
-            node.removeEventListener("scroll",executeScroll);
-            node.removeEventListener("onLazyLoading",executeFun);
-          })
+        const executeFun = (
+          event: Event,
+          component: t.NuiComponent.Instance,
+          node: any,
+        ) => {
+          setTimeout(
+            ((component: t.NuiComponent.Instance, node: any) => {
+              // @ts-expect-error
+              component.get?.(eventType)?.execute?.(event)
+              node.removeEventListener('scroll', executeScroll)
+              node.removeEventListener('onLazyLoading', executeFun)
+            }).bind(null, component, node),
+          )
         }
         node.addEventListener('scroll', executeScroll)
-        node.addEventListener('onLazyLoading', executeFun)
+        node.addEventListener(
+          'onLazyLoading',
+          partialR(executeFun, component, node),
+        )
         return
-      } else if (eventType === 'onPull'){
-        let event: Event|null = new Event('onPull', {
+      } else if (eventType === 'onPull') {
+        let event: Event | null = new Event('onPull', {
           bubbles: true,
           cancelable: false,
         })
@@ -108,33 +121,33 @@ function attachUserEvents<N extends t.NDOMElement>(
           // let contentHeight =
           //   node.scrollHeight || document.documentElement.scrollHeight //内容高度
           let scrollTop = node.scrollTop || document.documentElement.scrollTop
-          console.log(scrollTop);
-          if (scrollTop<= 50) {
+          console.log(scrollTop)
+          if (scrollTop <= 50) {
             //到达底部0px时,加载新内容
-            node.dispatchEvent(event as Event);
-            node.removeEventListener("scroll",executeScroll);
-            node.removeEventListener("onPull",executeFun);
+            node.dispatchEvent(event as Event)
+            node.removeEventListener('scroll', executeScroll)
+            node.removeEventListener('onPull', executeFun)
           }
         }
-        const executeFun  = (...args:any)=>{
+        const executeFun = (...args: any) => {
           setTimeout(() => {
-						// @ts-ignore
-            component.get?.(eventType)?.execute?.(...args);            
-            node.removeEventListener("scroll",executeScroll);
-            node.removeEventListener("onPull",executeFun);
+            // @ts-ignore
+            component.get?.(eventType)?.execute?.(...args)
+            node.removeEventListener('scroll', executeScroll)
+            node.removeEventListener('onPull', executeFun)
           })
         }
         node.addEventListener('scroll', executeScroll)
         node.addEventListener('onPull', executeFun)
         return
-      } else{
-				if (eventType === 'onClick') {
-					if (!node.classList.contains('noodl-onclick')) {
-						node.classList.add('noodl-onclick')
-					}
-				}
-        
-        const callback = (...args: any)=>{
+      } else {
+        if (eventType === 'onClick') {
+          if (!node.classList.contains('noodl-onclick')) {
+            node.classList.add('noodl-onclick')
+          }
+        }
+
+        const callback = (...args: any) => {
           const timeId = setTimeout(() => {
             component.get?.(eventType)?.execute?.(...args)
             clearTimeout(timeId)
@@ -145,24 +158,26 @@ function attachUserEvents<N extends t.NDOMElement>(
         //   console.log('test remove')
         //   node.removeEventListener(normalizeEventName(eventType), callback)
         // }
-        
-        // component.addEventListeners(normalizeEventName(eventType),clearEvent)
-        const listener = addListener(node,normalizeEventName(eventType), callback )
-        component.addEventListeners(listener)
-        
-      }
 
+        // component.addEventListeners(normalizeEventName(eventType),clearEvent)
+        const listener = addListener(
+          node,
+          normalizeEventName(eventType),
+          callback,
+        )
+        component.addEventListeners(listener)
+      }
     }
   })
 }
-function addListener(node:t.NDOMElement, event:string, callback:any){
-  node.addEventListener(event,callback)
+function addListener(node: t.NDOMElement, event: string, callback: any) {
+  node.addEventListener(event, callback)
   return {
     event,
-    callback: ()=>{
-      console.log('test remove listener',event)
-      node.removeEventListener(event,callback)
-    }
+    callback: () => {
+      console.log('test remove listener', event)
+      node.removeEventListener(event, callback)
+    },
   }
 }
 
