@@ -1301,18 +1301,6 @@ const NUI = (function () {
 
       return o
     },
-    removeComponent(component: t.NuiComponent.Instance | undefined | null) {
-      if (!component) return
-      const remove = (_c: t.NuiComponent.Instance) => {
-        cache.component.remove(_c)
-        _c?.setParent?.(null)
-        _c?.parent?.removeChild(_c)
-        _c.children?.forEach?.((_c) => remove(_c))
-        _c.has('page') && _c.remove('page')
-        _c.clear?.()
-      }
-      remove(component)
-    },
   }
 
   return o
