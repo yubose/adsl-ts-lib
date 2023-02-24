@@ -69,50 +69,64 @@ function attachUserEvents<N extends t.NDOMElement>(
        * where the emitted action handlers are being called before local
        * root object gets their data values updated.
        */
-
       if (eventType === 'onLazyLoading') {
-        let event: Event | null = new Event('onLazyLoading', {
+        let events: Event | null = new Event('onLazyLoading', {
           bubbles: true,
           cancelable: false,
         })
-        const executeScroll = wrap<
-          { component: t.NuiComponent.Instance; node: N },
-          Event,
-          void
-        >({ component, node }, ({ component, node }, event) => {
+        // const executeScroll = wrap<
+        //   { component: t.NuiComponent.Instance; node: N },
+        //   Event,
+        //   void
+        // >({ component, node }, ({ component, node }, event) => {
+        // })
+        const executeScroll = wrap<N, Event, void>(node, (node) => {
           let viewHeight =
             node.clientHeight || document.documentElement.clientHeight
           let contentHeight =
             node.scrollHeight || document.documentElement.scrollHeight //内容高度
           let scrollTop = node.scrollTop || document.documentElement.scrollTop
           if (Math.floor(contentHeight - viewHeight - scrollTop) <= 1) {
-            //到达底部0px时,加载新内容
-            node.dispatchEvent(event as Event)
+            //到达底部0px时,加载新内容s
+            node.dispatchEvent(events as Event)
             node.removeEventListener('scroll', executeScroll)
             node.removeEventListener(
               'onLazyLoading',
-              partialR(executeFun, component, node),
+              // partialR(executeFun, component, node),
+              executeFun
             )
           }
         })
-        const executeFun = (
-          event: Event,
-          component: t.NuiComponent.Instance,
-          node: any,
-        ) => {
-          setTimeout(
-            ((component: t.NuiComponent.Instance, node: any) => {
-              // @ts-expect-error
-              component.get?.(eventType)?.execute?.(event)
-              node.removeEventListener('scroll', executeScroll)
-              node.removeEventListener('onLazyLoading', executeFun)
-            }).bind(null, component, node),
-          )
-        }
+        // const executeFun = (
+        //   event: Event,
+        //   component: t.NuiComponent.Instance,
+        //   node: any,
+        // ) => {
+        //   setTimeout(
+        //     (() => {
+        //       // @ts-expect-error
+        //       component.get?.(eventType)?.execute?.(event)
+        //       node.removeEventListener('scroll', executeScroll)
+        //       node.removeEventListener('onLazyLoading', executeFun)
+        //     }).bind(null, component, node),
+        //   )
+        // }
+        const executeFun = wrap<
+          { component: t.NuiComponent.Instance; node: N },
+          Event,
+          void
+        >({ component, node }, ({ component, node }, event: Event) => {
+          setTimeout(() => {
+            // @ts-expect-error
+            component.get?.(eventType)?.execute?.(event)
+            node.removeEventListener('scroll', executeScroll)
+            node.removeEventListener('onLazyLoading', executeFun)
+          })
+        })
         node.addEventListener('scroll', executeScroll)
         node.addEventListener(
           'onLazyLoading',
-          partialR(executeFun, component, node),
+          executeFun
         )
         return
       } else if (eventType === 'onPull') {
