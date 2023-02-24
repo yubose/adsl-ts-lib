@@ -4,6 +4,7 @@ import progress from 'rollup-plugin-progress'
 import commonjs from '@rollup/plugin-commonjs'
 import esbuild from 'rollup-plugin-esbuild'
 import external from 'rollup-plugin-peer-deps-external'
+import replace from 'rollup-plugin-replace'
 
 const extensions = ['.js', '.ts']
 const _DEV_ = process.env.NODE_ENV === 'development'
@@ -39,6 +40,9 @@ const configs = [
       progress(),
       external({
         includeDependencies: true,
+      }),
+      replace({
+        'process.env.NODE_ENV': `${JSON.stringify(process.env.NODE_ENV)}`,
       }),
       esbuild({
         include: /\.ts$/,

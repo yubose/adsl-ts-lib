@@ -7,6 +7,7 @@ import isComponent from '../../../utils/isComponent'
 import isNuiPage from '../../../utils/isPage'
 import * as c from '../../../constants'
 import * as t from '../../../types'
+import log from '../../../utils/log'
 
 export type ComponentPageEvent =
   typeof c.eventId.componentPage.on[keyof typeof c.eventId.componentPage.on]
@@ -48,7 +49,7 @@ class ComponentPage<
     component: t.NuiComponent.Instance,
     options?: { onLoad?: OnLoad; onError?: OnError; node?: any },
   ) {
-    // console.info(`[ComponentPage]`, { component, options })
+    // log.info(`[ComponentPage]`, { component, options })
     super(
       isNuiPage(component?.get?.('page'))
         ? component?.get?.('page')
@@ -78,14 +79,14 @@ class ComponentPage<
     window?.addEventListener('message', this.#onparentmessage)
     window?.addEventListener('messageerror', this.#onparentmessageerror)
     this.node?.addEventListener('load', (evt) => {
-      console.log(`[ComponentPage] DOM loaded`, {
+      log.log(`[ComponentPage] DOM loaded`, {
         event: evt,
         instance: this,
         id: this.id,
       })
     })
     this.node.addEventListener('error', (evt) => {
-      console.error(`[ComponentPage] Error`, evt)
+      log.error(`[ComponentPage] Error`, evt)
     })
     this.node?.addEventListener?.('unload', (evt) => {
       try {
@@ -93,7 +94,7 @@ class ComponentPage<
         this.body.remove()
         this.node.remove()
       } catch (error) {
-        console.error(`[ComponentPage] Unload error`, error)
+        log.error(`[ComponentPage] Unload error`, error)
       }
     })
 
@@ -159,20 +160,20 @@ class ComponentPage<
   }
 
   #onparentmessage = (evt: MessageEvent) => {
-    console.log(`%c[ComponentPage] Received message`, `color:#0047ff;`, evt)
+    log.log(`%c[ComponentPage] Received message`, `color:#0047ff;`, evt)
     this.#hooks
     let data
     try {
       if (u.isObj(evt.data)) data = evt.data
       else if (u.isStr(evt.data)) data = JSON.parse(evt.data)
     } catch (error) {
-      console.error(error)
+      log.error(error)
     }
     this.emitSync(c.eventId.componentPage.on.ON_MESSAGE, data)
   }
 
   #onparentmessageerror = (evt: MessageEvent) => {
-    console.log(
+    log.log(
       `%c[ComponentPage] Received message error `,
       `color:#0047ff;`,
       evt,
@@ -183,7 +184,7 @@ class ComponentPage<
     try {
       this.body?.appendChild?.(childNode)
     } catch (error) {
-      console.error(error)
+      log.error(error)
       throw error
     }
   }
@@ -359,7 +360,7 @@ class ComponentPage<
           this.component?.edit?.('page', value)
         }
       } else if (isNuiPage(this.component)) {
-        console.error(
+        log.error(
           `Received a NuiPage in the "component" property of a ComponentPage`,
           this.component,
         )
@@ -383,13 +384,13 @@ class ComponentPage<
       }
       this.node = node as NN
     } catch (error) {
-      console.error(error)
+      log.error(error)
       throw error
     }
   }
 
   sendMessage(message: any, origin = '*', transfer?: Transferable[]) {
-    console.log(
+    log.log(
       `%c[ComponentPage] Sending message to origin: ${origin}`,
       `color:#95a5a6;`,
       message,

@@ -3,6 +3,7 @@ import { BASE_PAGE_URL, eventId } from '../constants'
 import NUIPage from '../Page'
 import NUIViewport from '../Viewport'
 import * as t from '../types'
+import log from "../utils/log"
 
 class Page {
   #nuiPage: NUIPage
@@ -289,7 +290,7 @@ class Page {
       u.isArr(this.components) && (this.components.length = 0)
       u.forEach((v) => v && (v.length = 0), u.values(this.#hooks))
     } catch (error) {
-      console.error(error)
+      log.error(error)
     }
   }
 

@@ -885,7 +885,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
         ),
       )
     } else {
-      console.log({ SEE_WHAT_THIS_IS: blueprint })
+      log.log({ SEE_WHAT_THIS_IS: blueprint })
     }
   }
 

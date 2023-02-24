@@ -2,6 +2,7 @@ import * as u from '@jsmanifest/utils'
 import { component, EcosDocument, Identify, NameField } from 'noodl-types'
 import { classes } from '../constants'
 import createTextNode from './createTextNode'
+import log from '../utils/log'
 
 const is = Identify.ecosObj
 const getBody = (iframe: HTMLIFrameElement | null) =>
@@ -96,7 +97,7 @@ function createEcosDocElement<
             }
           }
         } catch (error) {
-          console.error(error)
+          log.error(error)
         }
 
         className && getBody(iframe)?.classList.add(className)
@@ -162,7 +163,7 @@ function createEcosDocElement<
           ) {
             iframe.src = process.env.NODE_ENV === 'test' ? '' : url
           } else {
-            console.log(
+            log.log(
               `%cThe url is in an unknown format (expected to receive it as ` +
                 `one of : "blob:...", "data:...", or "http")`,
               `color:#ec0000;`,
@@ -170,7 +171,7 @@ function createEcosDocElement<
             )
           }
         } else {
-          console.log(
+          log.log(
             `%cExpected a URL string as a value for ecosObj.name.data but received "${typeof url}" instead`,
             `color:#ec0000;`,
             url,
@@ -206,7 +207,7 @@ function createEcosDocElement<
               }
             })
           } else {
-            console.log(
+            log.log(
               `%cExpected a string for a note's "data" but received "${typeof ecosObj
                 .name.data}"`,
               `color:#ec0000;`,
@@ -214,7 +215,7 @@ function createEcosDocElement<
             )
           }
         } else {
-          console.log(
+          log.log(
             `%cA note is missing the "data" property. No content will be shown`,
             `color:#ec0000;`,
             component,
@@ -245,7 +246,7 @@ function createEcosDocElement<
           try {
             iframeContent.appendChild(img)
           } catch (error) {
-            console.error(error)
+            log.error(error)
           }
         } else {
           try {
@@ -264,7 +265,7 @@ function createEcosDocElement<
               }),
             )
           } catch (error) {
-            console.error(error)
+            log.error(error)
           }
         }
       }
@@ -277,7 +278,7 @@ function createEcosDocElement<
         try {
           iframe?.contentDocument?.body?.appendChild?.(iframeContent)
         } catch (error) {
-          console.error(error)
+          log.error(error)
         }
       })
     }
@@ -290,7 +291,7 @@ function createEcosDocElement<
     try {
       container.appendChild(iframe)
     } catch (error) {
-      console.error(error)
+      log.error(error)
     }
 
     return iframe

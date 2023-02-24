@@ -10,6 +10,7 @@ import {
 import type NDOMResolver from '../Resolver'
 import * as t from '../../types'
 import * as c from '../../constants'
+import log from '../../utils/log'
 
 const is = Identify
 
@@ -52,7 +53,7 @@ function attachUserEvents<N extends t.NDOMElement>(
      * - onChange
      * - onInput
      */
-    // console.log(component.type,"oooo")
+    // log.log(component.type,"oooo")
     if ((component.type==="select" && eventType === 'onChange')) return
     if (eventType === 'onInput'){
       if((component.blueprint.debounce)){
@@ -108,7 +109,7 @@ function attachUserEvents<N extends t.NDOMElement>(
           // let contentHeight =
           //   node.scrollHeight || document.documentElement.scrollHeight //内容高度
           let scrollTop = node.scrollTop || document.documentElement.scrollTop
-          console.log(scrollTop);
+          log.log(scrollTop);
           if (scrollTop<= 50) {
             //到达底部0px时,加载新内容
             node.dispatchEvent(event as Event);
@@ -142,7 +143,7 @@ function attachUserEvents<N extends t.NDOMElement>(
         }
         // node.addEventListener(normalizeEventName(eventType), callback)
         // const clearEvent = ()=>{
-        //   console.log('test remove')
+        //   log.log('test remove')
         //   node.removeEventListener(normalizeEventName(eventType), callback)
         // }
         
@@ -160,7 +161,7 @@ function addListener(node:t.NDOMElement, event:string, callback:any){
   return {
     event,
     callback: ()=>{
-      console.log('test remove listener',event)
+      log.log('test remove listener',event)
       node.removeEventListener(event,callback)
     }
   }
@@ -211,7 +212,7 @@ const attributesResolver: t.Resolve.Config = {
         }
       }
     } catch (error) {
-      console.error(error)
+      log.error(error)
     }
   },
   async resolve(args) {
@@ -221,7 +222,7 @@ const attributesResolver: t.Resolve.Config = {
       if (args.node) {
         if (args.component) {
           if (Identify.component.page(args.component)) {
-            // console.info(`PAGE COMPONENT`, args.global.pages)
+            // log.info(`PAGE COMPONENT`, args.global.pages)
           }
 
           const { path, placeholder, style } = args.component.blueprint || {}
@@ -403,7 +404,7 @@ const attributesResolver: t.Resolve.Config = {
         }
       }
     } catch (error) {
-      console.error(error)
+      log.error(error)
       throw error
     }
   },
