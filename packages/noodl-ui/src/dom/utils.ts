@@ -21,6 +21,7 @@ import isComponentPage from '../utils/isComponentPage'
 import isNDOMPage from '../utils/isNDOMPage'
 import * as t from '../types'
 import * as c from '../constants'
+import log from '../utils/log'
 
 export const _DEV_ = process.env.NODE_ENV === 'development'
 export const _TEST_ = process.env.NODE_ENV === 'test'
@@ -210,7 +211,7 @@ export function handleDrawGlobalComponent(
   if (globalRecord) {
     component.edit({ [c.DATA_GLOBALID]: globalId, globalId })
     if (globalRecord.componentId !== component.id) {
-      console.log(
+      log.log(
         `%cThe component with id "${component.id || '<Missing ID>'}" ` +
           `is different than the one in the global object.`,
         `color:#CCCD17`,
@@ -238,7 +239,7 @@ export function handleDrawGlobalComponent(
     }
 
     if (globalRecord.pageId !== page.id) {
-      console.log(
+      log.log(
         `%cPage ID for global object with id "${component.get(
           c.DATA_GLOBALID,
         )}" does not match with the page that is currently drawing for component "${
@@ -329,7 +330,7 @@ export const _syncPages = (function () {
             onChange: {
               id: 'syncPages',
               fn: (prev: string, next: string) => {
-                console.log(`${label} Page changed from "${prev}" to "${next}"`)
+                log.log(`${label} Page changed from "${prev}" to "${next}"`)
               },
             },
           })
@@ -446,7 +447,7 @@ export function getElementTag(
       msg += `None of the node types matched with "${componentType}". Perhaps it needs to be ' +
       'supported? (Defaulting to "div" instead)`
     }
-    console.log(`%c${msg}`, 'color:#e74c3c;font-weight:bold;', {
+    log.log(`%c${msg}`, 'color:#e74c3c;font-weight:bold;', {
       component,
       componentType,
       elementMap: getElementTag.prototype.elementMap,

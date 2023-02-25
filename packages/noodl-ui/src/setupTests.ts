@@ -45,7 +45,7 @@ afterEach(() => {
 
 after(() => {
   const { rss, heapTotal, heapUsed, external } = process.memoryUsage()
-  console.log(`Memory usage: `, {
+  log.log(`Memory usage: `, {
     rss: pb(rss),
     heapTotal: pb(heapTotal),
     heapUsed: pb(heapUsed),

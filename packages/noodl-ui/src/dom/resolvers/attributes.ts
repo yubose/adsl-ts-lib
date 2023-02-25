@@ -13,6 +13,7 @@ import {
 import type NDOMResolver from '../Resolver'
 import * as t from '../../types'
 import * as c from '../../constants'
+import log from '../../utils/log'
 
 const is = Identify
 
@@ -55,10 +56,10 @@ function attachUserEvents<N extends t.NDOMElement>(
      * - onChange
      * - onInput
      */
-    // console.log(component.type,"oooo")
-    if (component.type === 'select' && eventType === 'onChange') return
-    if (eventType === 'onInput') {
-      if (component.blueprint.debounce) {
+    // log.log(component.type,"oooo")
+    if ((component.type==="select" && eventType === 'onChange')) return
+    if (eventType === 'onInput'){
+      if((component.blueprint.debounce)){
         return
       }
     }
@@ -178,7 +179,7 @@ function attachUserEvents<N extends t.NDOMElement>(
         }
         // node.addEventListener(normalizeEventName(eventType), callback)
         // const clearEvent = ()=>{
-        //   console.log('test remove')
+        //   log.log('test remove')
         //   node.removeEventListener(normalizeEventName(eventType), callback)
         // }
 
@@ -197,10 +198,10 @@ function addListener(node: t.NDOMElement, event: string, callback: any) {
   node.addEventListener(event, callback)
   return {
     event,
-    callback: () => {
-      console.log('test remove listener', event)
-      node.removeEventListener(event, callback)
-    },
+    callback: ()=>{
+      log.log('test remove listener',event)
+      node.removeEventListener(event,callback)
+    }
   }
 }
 
@@ -249,7 +250,7 @@ const attributesResolver: t.Resolve.Config = {
         }
       }
     } catch (error) {
-      console.error(error)
+      log.error(error)
     }
   },
   async resolve(args) {
@@ -259,7 +260,7 @@ const attributesResolver: t.Resolve.Config = {
       if (args.node) {
         if (args.component) {
           if (Identify.component.page(args.component)) {
-            // console.info(`PAGE COMPONENT`, args.global.pages)
+            // log.info(`PAGE COMPONENT`, args.global.pages)
           }
 
           const { path, placeholder, style } = args.component.blueprint || {}
@@ -441,7 +442,7 @@ const attributesResolver: t.Resolve.Config = {
         }
       }
     } catch (error) {
-      console.error(error)
+      log.error(error)
       throw error
     }
   },

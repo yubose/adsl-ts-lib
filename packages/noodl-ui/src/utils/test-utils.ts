@@ -9,6 +9,7 @@ import NDOM from '../dom/noodl-ui-dom'
 import Viewport from '../Viewport'
 import * as c from '../constants'
 import * as t from '../types'
+import log from './log'
 
 export { nui }
 
@@ -276,7 +277,7 @@ export function getRenderProps(
     _root = { [_page.page]: { components: _page.components } }
   }
 
-  console.log({ _viewport })
+  log.log({ _viewport })
 
   if (!_page.viewport) _page.viewport = _viewport
   if (u.isNil(_page.viewport.width) || u.isNil(_page.viewport.height)) {

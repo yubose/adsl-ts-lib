@@ -5,6 +5,7 @@
     "noodl-test-utils": "^0.0.12",
     "noodl-types": "*",
     "noodl-utils": "^0.0.126",
+    "rollup-plugin-replace": "^2.2.0",
     "signature_pad": "^4.0.7"
   },
   "description": "NOODL JavaScript library",
@@ -33,12 +34,14 @@
   "scripts": {
     "build": "concurrently \"rollup -c --environment BUILD:production\" \"npm run types\"",
     "build:development": "cross-env NODE_ENV=development concurrently \"rollup -c --environment BUILD:development\" \"npm run types\"",
+    "build:stable": "cross-env NODE_ENV=production concurrently \"rollup -c --environment BUILD:development\" \"npm run types\"",
     "publish-ui": "npm version patch && npm publish -f",
     "start": "concurrently \"rollup -c -w --environment BUILD:development\" \"npm run types\"",
     "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --file src/setupTests.ts --extensions ts --watch --watch-files \"src/**/*.ts\" \"src/**/*.test.ts\" --ignore \"src/__tests__/dom/**/*\"",
     "test:file": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json --file src/setupTests.ts -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\"",
     "types": "tsc --declaration --declarationDir dist --emitDeclarationOnly",
-    "watch": "cross-env NODE_ENV=development NODE_OPTIONS=\"--stack-trace-limit=10000\" rollup -c -w"
+    "watch": "cross-env NODE_ENV=development NODE_OPTIONS=\"--stack-trace-limit=10000\" rollup -c -w",
+    "watch:stable": "cross-env NODE_ENV=production NODE_OPTIONS=\"--stack-trace-limit=10000\" rollup -c -w"
   },
   "typings": "dist/index.d.ts",
   "version": "0.1.1114"

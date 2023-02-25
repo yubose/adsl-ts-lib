@@ -483,7 +483,7 @@ const NUI = (function () {
       }
     }
     // let bb = Date.now()
-    // console.log('%c[timerlog]','color: red','renderstep-callback',`${bb}`)
+    // log.log('%c[timerlog]','color: red','renderstep-callback',`${bb}`)
     async function xform(
       c: t.NuiComponent.Instance,
       {

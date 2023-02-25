@@ -126,7 +126,6 @@ setupResolver.setResolver(
             ])
             on?.actionChain && actionChain.use(on.actionChain)
             if (trigger !== 'path') {
-              console.log('HEHEHE')
 
               await on?.emit?.createActionChain?.({
                 actionChain,
