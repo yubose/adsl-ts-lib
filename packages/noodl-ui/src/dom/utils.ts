@@ -729,3 +729,13 @@ export function toSelectOption(value: any): t.SelectOption {
   }
   return value as t.SelectOption
 }
+
+export function addListener(node: t.NDOMElement, event: string, callback: any) {
+  node.addEventListener(event, callback)
+  return {
+    event,
+    callback: ()=>{
+      node.removeEventListener(event,callback)
+    }
+  }
+}

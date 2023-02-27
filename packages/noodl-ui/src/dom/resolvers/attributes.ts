@@ -6,6 +6,7 @@ import { Identify, userEvent } from 'noodl-types'
 import {
   _isScriptEl,
   addClassName,
+  addListener,
   isDisplayable,
   normalizeEventName,
 } from '../utils'
@@ -123,11 +124,23 @@ function attachUserEvents<N extends t.NDOMElement>(
             node.removeEventListener('onLazyLoading', executeFun)
           })
         })
-        node.addEventListener('scroll', executeScroll)
-        node.addEventListener(
-          'onLazyLoading',
-          executeFun
+        // node.addEventListener('scroll', executeScroll)
+        // node.addEventListener(
+        //   'onLazyLoading',
+        //   executeFun
+        // )
+        const scrolllistener = addListener(
+          node,
+          'scroll',
+          partialR(executeScroll, component),
         )
+        const onLazyLoadinglistener = addListener(
+          node,
+          'onLazyLoading',
+          partialR(executeFun, component),
+        )
+        component.addEventListeners(scrolllistener)
+        component.addEventListeners(onLazyLoadinglistener)
         return
       } else if (eventType === 'onPull') {
         let event: Event | null = new Event('onPull', {
@@ -160,8 +173,20 @@ function attachUserEvents<N extends t.NDOMElement>(
             node.removeEventListener('onPull', executeFun)
           })
         })
-        node.addEventListener('scroll', executeScroll)
-        node.addEventListener('onPull', executeFun)
+        // node.addEventListener('scroll', executeScroll)
+        // node.addEventListener('onPull', executeFun)
+        const scrolllistener = addListener(
+          node,
+          'scroll',
+          partialR(executeScroll, component),
+        )
+        const executeFunlistener = addListener(
+          node,
+          'onPull',
+          partialR(executeFun, component),
+        )
+        component.addEventListeners(scrolllistener)
+        component.addEventListeners(executeFunlistener)
         return
       } else {
         if (eventType === 'onClick') {
@@ -192,15 +217,6 @@ function attachUserEvents<N extends t.NDOMElement>(
       }
     }
   })
-}
-function addListener(node: t.NDOMElement, event: string, callback: any) {
-  node.addEventListener(event, callback)
-  return {
-    event,
-    callback: ()=>{
-      node.removeEventListener(event,callback)
-    }
-  }
 }
 
 function handleKeyPress<N extends t.NDOMElement>(node: N) {

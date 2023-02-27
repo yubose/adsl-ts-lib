@@ -320,6 +320,11 @@ class NDOM extends NDOMInternal {
   async request(page = this.page, pageRequesting = '', opts?: { on }) {
     // Cache the currently requesting page to detect for newer requests during the call
     pageRequesting = pageRequesting || page.requesting || ''
+    // window.addEventListener('beforeunload',(event)=>{
+    //   event.preventDefault()
+    //   console.log('test1000')
+    //   this.removeComponentListener((window as any).pcomponents[0])
+    // })
     if((window as any).pcomponents){
       this.removeComponentListener((window as any).pcomponents[0])
     }
@@ -750,6 +755,7 @@ class NDOM extends NDOMInternal {
         //       scrollHeight = node?.scrollHeight
         //       newComponent.set('scrollheight',scrollHeight) 
         // }
+        this.removeComponentListener(component)
         this.removeComponent(component)
         newComponent = await nui.resolveComponents?.({
           callback: options?.callback,
@@ -928,6 +934,11 @@ class NDOM extends NDOMInternal {
     if (!component) return
     const remove = (_c: t.NuiComponent.Instance) => {
       _c.removeAllEventListeners()
+      if(_c.has('page') ){
+        const signaturePad = _c.get('signaturePad')
+        signaturePad.off()
+        _c.remove(signaturePad)
+      }
       _c.clear('hooks')
       _c.children?.forEach?.((_c) => remove(_c))
     }
