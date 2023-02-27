@@ -12,6 +12,7 @@ import {
   _resetComponentCache,
   _resetRegisters,
   _resetTransactions,
+  removeAllNode,
 } from './utils'
 import GlobalComponentRecord from './global/GlobalComponentRecord'
 import componentFactory from './factory/componentFactory/componentFactory'
@@ -320,13 +321,11 @@ class NDOM extends NDOMInternal {
   async request(page = this.page, pageRequesting = '', opts?: { on }) {
     // Cache the currently requesting page to detect for newer requests during the call
     pageRequesting = pageRequesting || page.requesting || ''
-    // window.addEventListener('beforeunload',(event)=>{
-    //   event.preventDefault()
-    //   console.log('test1000')
-    //   this.removeComponentListener((window as any).pcomponents[0])
-    // })
     if((window as any).pcomponents){
-      this.removeComponentListener((window as any).pcomponents[0])
+      const rootComponents = (window as any).pcomponents[0]
+      // const rootNode = document.getElementById(rootComponents.id)
+      // rootNode && this.removeAllNode(rootNode)
+      this.removeComponentListener(rootComponents)
     }
     try {
       // This is needed for the consumer to run any operations prior to working
@@ -790,7 +789,8 @@ class NDOM extends NDOMInternal {
               // @ts-expect-error
               parentNode.replaceChild(newNode, node)
             } else {
-              node?.remove?.()
+              // node?.remove?.()
+              removeAllNode(node)
             }
             node = newNode as HTMLElement
             newNode = null

@@ -739,3 +739,22 @@ export function addListener(node: t.NDOMElement, event: string, callback: any) {
     }
   }
 }
+
+export function removeAllNode(node: t.NDOMElement) {
+  const remove = (node:any)=>{
+    if(node){
+      const childs = node.childNodes
+      for(let child of childs){
+        remove(child)
+      }
+      node.remove()
+    }
+  }
+  if (node) {
+    try {
+      remove(node)
+    } catch (error) {
+      log.error(error)
+    }
+  }
+}
