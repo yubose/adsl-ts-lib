@@ -131,12 +131,20 @@ class Component<C extends ComponentObject = ComponentObject> {
   }
 
   removeAllEventListeners(){
+    const transEventName = (word:string)=>{
+      const capitalizedWord = word.charAt(0).toUpperCase() + word.slice(1)
+      const event = 'on'+capitalizedWord
+      return event
+    }
     const events = Object.keys(this.#eventListeners)
     if(u.isArr(events)){
       for(let event of events){
         this.#eventListeners?.[event]?.()
+        this.#component[transEventName(event)] = null
       }
     }
+    this.remove('signaturePad')
+    Object.defineProperty(this, c.NUI_ID, {})
     this.#eventListeners = {}
     // for(let [event,callback] of this.#eventListeners){
     //   callback?.()

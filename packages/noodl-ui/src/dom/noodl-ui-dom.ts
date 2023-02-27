@@ -928,6 +928,7 @@ class NDOM extends NDOMInternal {
     if (!component) return
     const remove = (_c: t.NuiComponent.Instance) => {
       _c.removeAllEventListeners()
+      _c.clear('hooks')
       _c.children?.forEach?.((_c) => remove(_c))
     }
     remove(component)

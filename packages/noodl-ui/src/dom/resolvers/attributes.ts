@@ -1,6 +1,5 @@
 import * as u from '@jsmanifest/utils'
 import startOfDay from 'date-fns/startOfDay'
-import partial from 'lodash/partial'
 import partialR from 'lodash/partialRight'
 import wrap from 'lodash/wrap'
 import { Identify, userEvent } from 'noodl-types'
@@ -199,7 +198,6 @@ function addListener(node: t.NDOMElement, event: string, callback: any) {
   return {
     event,
     callback: ()=>{
-      log.log('test remove listener',event)
       node.removeEventListener(event,callback)
     }
   }
