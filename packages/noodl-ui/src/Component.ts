@@ -146,9 +146,7 @@ class Component<C extends ComponentObject = ComponentObject> {
     this.remove('signaturePad')
     Object.defineProperty(this, c.NUI_ID, {})
     this.#eventListeners = {}
-    // for(let [event,callback] of this.#eventListeners){
-    //   callback?.()
-    // }
+
 
   }
   /**

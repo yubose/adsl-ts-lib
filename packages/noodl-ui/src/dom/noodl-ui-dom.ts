@@ -788,6 +788,7 @@ class NDOM extends NDOMInternal {
             if (parentNode) {
               // @ts-expect-error
               parentNode.replaceChild(newNode, node)
+              removeAllNode(node)
             } else {
               // node?.remove?.()
               removeAllNode(node)
@@ -933,13 +934,13 @@ class NDOM extends NDOMInternal {
   removeComponentListener(component: t.NuiComponent.Instance | undefined | null){
     if (!component) return
     const remove = (_c: t.NuiComponent.Instance) => {
-      _c.removeAllEventListeners()
-      if(_c.has('page') ){
+      if(_c.has('signaturePad') ){
         const signaturePad = _c.get('signaturePad')
         signaturePad.off()
         _c.remove(signaturePad)
       }
       _c.clear('hooks')
+      _c.removeAllEventListeners()
       _c.children?.forEach?.((_c) => remove(_c))
     }
     remove(component)
