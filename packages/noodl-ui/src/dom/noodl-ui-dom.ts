@@ -754,7 +754,8 @@ class NDOM extends NDOMInternal {
         //       scrollHeight = node?.scrollHeight
         //       newComponent.set('scrollheight',scrollHeight) 
         // }
-        this.removeComponentListener(component)
+        // this.removeComponentListener(component)
+        !(component.get('lazyCount') > 0 && component.get("lazyState")) && this.removeComponentListener(component)
         this.removeComponent(component)
         newComponent = await nui.resolveComponents?.({
           callback: options?.callback,
