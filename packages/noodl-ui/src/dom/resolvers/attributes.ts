@@ -219,16 +219,29 @@ function attachUserEvents<N extends t.NDOMElement>(
   })
 }
 
-function handleKeyPress<N extends t.NDOMElement>(node: N) {
-  function onKeyPress(n: N, evt: KeyboardEvent) {
+// function handleKeyPress<N extends t.NDOMElement>(node: N) {
+//   function onKeyPress(n: N, evt: KeyboardEvent) {
+//     if (evt.key === 'Enter') {
+//       const inputs = document.querySelectorAll('input')
+//       const currentIndex = [...inputs].findIndex((el) => n.isEqualNode(el))
+//       const targetIndex = (currentIndex + 1) % inputs.length
+//       if (currentIndex + 1 < inputs.length) inputs[targetIndex]?.focus?.()
+//     }
+//   }
+//   node.addEventListener('keypress', onKeyPress.bind(null, node))
+// }
+// 使用事件委托 把监听绑定在document‘上 防止过多的监听
+function handleKeyPress() {
+  function onKeyPress(evt: KeyboardEvent) {
     if (evt.key === 'Enter') {
+      const target = evt.target as HTMLElement
       const inputs = document.querySelectorAll('input')
-      const currentIndex = [...inputs].findIndex((el) => n.isEqualNode(el))
+      const currentIndex = [...inputs].findIndex((el) => target.isEqualNode(el))
       const targetIndex = (currentIndex + 1) % inputs.length
-      if (currentIndex + 1 < inputs.length) inputs[targetIndex]?.focus?.()
+      if (currentIndex + 1 < inputs.length) (inputs[targetIndex] as HTMLElement)?.focus?.()
     }
   }
-  node.addEventListener('keypress', onKeyPress.bind(null, node))
+  document.addEventListener('keypress', onKeyPress)
 }
 
 const attributesResolver: t.Resolve.Config = {
