@@ -1,5 +1,6 @@
 import * as u from '@jsmanifest/utils'
 import Timer from './Timer'
+import log from '../../utils/log'
 
 class Timers {
   #timers: Map<string, Timer> = new Map()
@@ -28,7 +29,7 @@ class Timers {
       this.#timers.delete(timer.dataKey)
     }
     if (inst) {
-      console.log(
+      log.log(
         `%cRemoving timer using dataKey "${inst.dataKey}"`,
         `color:#95a5a6;`,
       )

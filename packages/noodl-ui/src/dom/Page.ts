@@ -3,6 +3,8 @@ import { BASE_PAGE_URL, eventId } from '../constants'
 import NUIPage from '../Page'
 import NUIViewport from '../Viewport'
 import * as t from '../types'
+import log from "../utils/log"
+import { removeAllNode } from './utils'
 
 class Page {
   #nuiPage: NUIPage
@@ -51,6 +53,8 @@ class Page {
         document.createElement('div')
       this.node.id = this.id as string
     }
+    const rootNode = document.getElementById('root')?.childNodes[0] as t.NDOMElement
+    rootNode && removeAllNode(rootNode)
     this.emitSync(eventId.page.on.ON_BEFORE_CLEAR_ROOT_NODE, this.node)
     this.node.textContent = ''
     this.node.style.cssText = ''
@@ -192,6 +196,7 @@ class Page {
     return previousPage || ''
   }
 
+
   /**
    * Returns a JS representation of the current state of this page instance
    */
@@ -289,7 +294,7 @@ class Page {
       u.isArr(this.components) && (this.components.length = 0)
       u.forEach((v) => v && (v.length = 0), u.values(this.#hooks))
     } catch (error) {
-      console.error(error)
+      log.error(error)
     }
   }
 

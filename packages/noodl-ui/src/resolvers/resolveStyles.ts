@@ -2,6 +2,7 @@ import * as u from '@jsmanifest/utils'
 import ComponentResolver from '../Resolver'
 import normalizeProps from '../normalizeProps'
 import type { NuiComponent } from '../types'
+import log from '../utils/log'
 
 const resolveStyles = new ComponentResolver('resolveStyles')
 
@@ -19,7 +20,7 @@ const getParent = function getParent(
     switch (op) {
       case 'traverse': {
         const { depth, ref } = opArgs || {}
-        console.log({ depth, ref })
+        log.log({ depth, ref })
 
         if (u.isNum(depth)) {
           let parent = this as any
@@ -52,13 +53,13 @@ resolveStyles.setResolver(async (component, options, next) => {
     }),
   )
   // if((component.style.visibility === 'hidden' ||  component.style.display === 'none') && component.children.length>0&&localStorage.getItem('initPageStatus')==='true'){
-  //   console.log('test8990',component)
+  //   log.log('test8990',component)
   //   component.removeAllDefaultChild()
   //   component.copyFromChildrenToDefault()
   //   component.children.map(child=>{
   //     component.removeChild(child)
   //   })
-  //   console.log('test8991',component)
+  //   log.log('test8991',component)
   // }
 
   return next?.()

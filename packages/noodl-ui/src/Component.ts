@@ -19,6 +19,7 @@ class Component<C extends ComponentObject = ComponentObject> {
   #children: t.NuiComponent.Instance[] = []
   #defaultChildren: t.NuiComponent.Instance[] = []
   #id = ''
+  #eventListeners = {}
   #parent: t.NuiComponent.Instance | null = null
   type: C['type']
 
@@ -100,6 +101,9 @@ class Component<C extends ComponentObject = ComponentObject> {
     return this.#parent
   }
 
+  get eventListeners(){
+    return this.#eventListeners
+  }
   /**
    * Returns the value of the component property using key, or
    * Returns the value of the property of the component's style object
@@ -122,6 +126,29 @@ class Component<C extends ComponentObject = ComponentObject> {
     this.#component.style = style
   }
 
+  addEventListeners({event,callback}: {event:string,callback:Function}){
+    this.#eventListeners[event] = callback
+  }
+
+  removeAllEventListeners(){
+    const transEventName = (word:string)=>{
+      const capitalizedWord = word.charAt(0).toUpperCase() + word.slice(1)
+      const event = 'on'+capitalizedWord
+      return event
+    }
+    const events = Object.keys(this.#eventListeners)
+    if(u.isArr(events)){
+      for(let event of events){
+        this.#eventListeners?.[event]?.()
+        this.#component[transEventName(event)] = null
+      }
+    }
+    this.remove('signaturePad')
+    Object.defineProperty(this, c.NUI_ID, {})
+    this.#eventListeners = {}
+
+
+  }
   /**
    * Returns the value of the component property using key, or
    * Returns the value of the property of the component's style object

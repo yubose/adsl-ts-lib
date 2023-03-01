@@ -1,15 +1,19 @@
 import * as u from '@jsmanifest/utils'
 import startOfDay from 'date-fns/startOfDay'
+import partialR from 'lodash/partialRight'
+import wrap from 'lodash/wrap'
 import { Identify, userEvent } from 'noodl-types'
 import {
   _isScriptEl,
   addClassName,
+  addListener,
   isDisplayable,
   normalizeEventName,
 } from '../utils'
 import type NDOMResolver from '../Resolver'
 import * as t from '../../types'
 import * as c from '../../constants'
+import log from '../../utils/log'
 
 const is = Identify
 
@@ -52,7 +56,7 @@ function attachUserEvents<N extends t.NDOMElement>(
      * - onChange
      * - onInput
      */
-    // console.log(component.type,"oooo")
+    // log.log(component.type,"oooo")
     if ((component.type==="select" && eventType === 'onChange')) return
     if (eventType === 'onInput'){
       if((component.blueprint.debounce)){
@@ -66,92 +70,179 @@ function attachUserEvents<N extends t.NDOMElement>(
        * where the emitted action handlers are being called before local
        * root object gets their data values updated.
        */
-      
       if (eventType === 'onLazyLoading') {
-        let event: Event|null = new Event('onLazyLoading', {
+        let events: Event | null = new Event('onLazyLoading', {
           bubbles: true,
           cancelable: false,
         })
-        const executeScroll = () => {
-
+        // const executeScroll = wrap<
+        //   { component: t.NuiComponent.Instance; node: N },
+        //   Event,
+        //   void
+        // >({ component, node }, ({ component, node }, event) => {
+        // })
+        const executeScroll = wrap<N, Event, void>(node, (node) => {
           let viewHeight =
             node.clientHeight || document.documentElement.clientHeight
           let contentHeight =
             node.scrollHeight || document.documentElement.scrollHeight //内容高度
           let scrollTop = node.scrollTop || document.documentElement.scrollTop
           if (Math.floor(contentHeight - viewHeight - scrollTop) <= 1) {
-            //到达底部0px时,加载新内容
-            node.dispatchEvent(event as Event);
-            node.removeEventListener("scroll",executeScroll);
-            node.removeEventListener("onLazyLoading",executeFun);
+            //到达底部0px时,加载新内容s
+            node.dispatchEvent(events as Event)
+            node.removeEventListener('scroll', executeScroll)
+            node.removeEventListener(
+              'onLazyLoading',
+              // partialR(executeFun, component, node),
+              executeFun
+            )
           }
-        }
-        const executeFun  = (...args:any)=>{
+        })
+        // const executeFun = (
+        //   event: Event,
+        //   component: t.NuiComponent.Instance,
+        //   node: any,
+        // ) => {
+        //   setTimeout(
+        //     (() => {
+        //       // @ts-expect-error
+        //       component.get?.(eventType)?.execute?.(event)
+        //       node.removeEventListener('scroll', executeScroll)
+        //       node.removeEventListener('onLazyLoading', executeFun)
+        //     }).bind(null, component, node),
+        //   )
+        // }
+        const executeFun = wrap<
+          { component: t.NuiComponent.Instance; node: N },
+          Event,
+          void
+        >({ component, node }, ({ component, node }, event: Event) => {
           setTimeout(() => {
             // @ts-expect-error
-            component.get?.(eventType)?.execute?.(...args);            
-            node.removeEventListener("scroll",executeScroll);
-            node.removeEventListener("onLazyLoading",executeFun);
+            component.get?.(eventType)?.execute?.(event)
+            node.removeEventListener('scroll', executeScroll)
+            node.removeEventListener('onLazyLoading', executeFun)
           })
-        }
-        node.addEventListener('scroll', executeScroll)
-        node.addEventListener('onLazyLoading', executeFun)
+        })
+        // node.addEventListener('scroll', executeScroll)
+        node.addEventListener(
+          'onLazyLoading',
+          executeFun
+        )
+        const scrolllistener = addListener(
+          node,
+          'scroll',
+          partialR(executeScroll, component),
+        )
+     
+        // const onLazyLoadinglistener = addListener(
+        //   node,
+        //   'onLazyLoading',
+        //   partialR(executeFun, component),
+        // )
+        component.addEventListeners(scrolllistener)
+        // component.addEventListeners(onLazyLoadinglistener)
         return
-      } else if (eventType === 'onPull'){
-        let event: Event|null = new Event('onPull', {
+      } else if (eventType === 'onPull') {
+        let event: Event | null = new Event('onPull', {
           bubbles: true,
           cancelable: false,
         })
-        const executeScroll = () => {
+        const executeScroll = wrap<N, Event, void>(node, (node) => {
           // let viewHeight =
           //   node.clientHeight || document.documentElement.clientHeight
           // let contentHeight =
           //   node.scrollHeight || document.documentElement.scrollHeight //内容高度
           let scrollTop = node.scrollTop || document.documentElement.scrollTop
-          console.log(scrollTop);
-          if (scrollTop<= 50) {
+          console.log(scrollTop)
+          if (scrollTop <= 50) {
             //到达底部0px时,加载新内容
-            node.dispatchEvent(event as Event);
-            node.removeEventListener("scroll",executeScroll);
-            node.removeEventListener("onPull",executeFun);
+            node.dispatchEvent(event as Event)
+            node.removeEventListener('scroll', executeScroll)
+            node.removeEventListener('onPull', executeFun)
+          }
+        })
+        const executeFun = wrap<
+          { component: t.NuiComponent.Instance; node: N },
+          Event,
+          void
+        >({ component, node }, ({ component, node }, event: Event) => {
+          setTimeout(() => {
+            // @ts-expect-error
+            component.get?.(eventType)?.execute?.(event)
+            node.removeEventListener('scroll', executeScroll)
+            node.removeEventListener('onPull', executeFun)
+          })
+        })
+        // node.addEventListener('scroll', executeScroll)
+        node.addEventListener('onPull', executeFun)
+        const scrolllistener = addListener(
+          node,
+          'scroll',
+          partialR(executeScroll, component),
+        )
+        // const executeFunlistener = addListener(
+        //   node,
+        //   'onPull',
+        //   partialR(executeFun, component),
+        // )
+        component.addEventListeners(scrolllistener)
+        // component.addEventListeners(executeFunlistener)
+        return
+      } else {
+        if (eventType === 'onClick') {
+          if (!node.classList.contains('noodl-onclick')) {
+            node.classList.add('noodl-onclick')
           }
         }
-        const executeFun  = (...args:any)=>{
-          setTimeout(() => {
-						// @ts-ignore
-            component.get?.(eventType)?.execute?.(...args);            
-            node.removeEventListener("scroll",executeScroll);
-            node.removeEventListener("onPull",executeFun);
+
+        const callback = (event: Event, component: t.NuiComponent.Instance) => {
+          const timeId = setTimeout(() => {
+            component.get?.(eventType)?.execute?.(event)
+            clearTimeout(timeId)
           })
         }
-        node.addEventListener('scroll', executeScroll)
-        node.addEventListener('onPull', executeFun)
-        return
-      } else{
-				if (eventType === 'onClick') {
-					if (!node.classList.contains('noodl-onclick')) {
-						node.classList.add('noodl-onclick')
-					}
-				}
-      node.addEventListener(normalizeEventName(eventType), (...args) =>
-        setTimeout(() => component.get?.(eventType)?.execute?.(...args))
-      )
-      }
+        // node.addEventListener(normalizeEventName(eventType), callback)
+        // const clearEvent = ()=>{
+        //   log.log('test remove')
+        //   node.removeEventListener(normalizeEventName(eventType), callback)
+        // }
 
+        // component.addEventListeners(normalizeEventName(eventType),clearEvent)
+        const listener = addListener(
+          node,
+          normalizeEventName(eventType),
+          partialR(callback, component),
+        )
+        component.addEventListeners(listener)
+      }
     }
   })
 }
 
-function handleKeyPress<N extends t.NDOMElement>(node: N) {
-  function onKeyPress(n: N, evt: KeyboardEvent) {
+// function handleKeyPress<N extends t.NDOMElement>(node: N) {
+//   function onKeyPress(n: N, evt: KeyboardEvent) {
+//     if (evt.key === 'Enter') {
+//       const inputs = document.querySelectorAll('input')
+//       const currentIndex = [...inputs].findIndex((el) => n.isEqualNode(el))
+//       const targetIndex = (currentIndex + 1) % inputs.length
+//       if (currentIndex + 1 < inputs.length) inputs[targetIndex]?.focus?.()
+//     }
+//   }
+//   node.addEventListener('keypress', onKeyPress.bind(null, node))
+// }
+// 使用事件委托 把监听绑定在document‘上 防止过多的监听
+function handleKeyPress() {
+  function onKeyPress(evt: KeyboardEvent) {
     if (evt.key === 'Enter') {
+      const target = evt.target as HTMLElement
       const inputs = document.querySelectorAll('input')
-      const currentIndex = [...inputs].findIndex((el) => n.isEqualNode(el))
+      const currentIndex = [...inputs].findIndex((el) => target.isEqualNode(el))
       const targetIndex = (currentIndex + 1) % inputs.length
-      if (currentIndex + 1 < inputs.length) inputs[targetIndex]?.focus?.()
+      if (currentIndex + 1 < inputs.length) (inputs[targetIndex] as HTMLElement)?.focus?.()
     }
   }
-  node.addEventListener('keypress', onKeyPress.bind(null, node))
+  document.addEventListener('keypress', onKeyPress)
 }
 
 const attributesResolver: t.Resolve.Config = {
@@ -187,7 +278,7 @@ const attributesResolver: t.Resolve.Config = {
         }
       }
     } catch (error) {
-      console.error(error)
+      log.error(error)
     }
   },
   async resolve(args) {
@@ -197,7 +288,7 @@ const attributesResolver: t.Resolve.Config = {
       if (args.node) {
         if (args.component) {
           if (Identify.component.page(args.component)) {
-            // console.info(`PAGE COMPONENT`, args.global.pages)
+            // log.info(`PAGE COMPONENT`, args.global.pages)
           }
 
           const { path, placeholder, style } = args.component.blueprint || {}
@@ -379,7 +470,7 @@ const attributesResolver: t.Resolve.Config = {
         }
       }
     } catch (error) {
-      console.error(error)
+      log.error(error)
       throw error
     }
   },

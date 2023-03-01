@@ -1,4 +1,5 @@
 import sinonChai from 'sinon-chai'
+import pb from 'pretty-bytes'
 import chai from 'chai'
 import JSDOM from 'jsdom-global'
 import { assetsUrl, baseUrl, getPresetPageObjects } from './utils/test-utils'
@@ -40,4 +41,14 @@ afterEach(() => {
   document.head.textContent = ''
   document.body.textContent = ''
   nui.reset()
+})
+
+after(() => {
+  const { rss, heapTotal, heapUsed, external } = process.memoryUsage()
+  log.log(`Memory usage: `, {
+    rss: pb(rss),
+    heapTotal: pb(heapTotal),
+    heapUsed: pb(heapUsed),
+    external: pb(external),
+  })
 })

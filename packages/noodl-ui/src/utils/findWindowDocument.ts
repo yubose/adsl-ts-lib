@@ -1,4 +1,5 @@
 import findWindow from './findWindow'
+import log from './log'
 
 function findWindowDocument(
   cb: (
@@ -14,7 +15,7 @@ function findWindowDocument(
       // Allow the loop to continue if it is accessing an outside origin window
       if (err.name === 'SecurityError' || (err as any).code === 18) {
       } else {
-        console.error(`[${err.name}]: ${err.message}`)
+        log.error(`[${err.name}]: ${err.message}`)
       }
       return false
     }

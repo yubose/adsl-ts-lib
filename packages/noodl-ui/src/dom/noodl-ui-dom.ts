@@ -12,6 +12,7 @@ import {
   _resetComponentCache,
   _resetRegisters,
   _resetTransactions,
+  removeAllNode,
 } from './utils'
 import GlobalComponentRecord from './global/GlobalComponentRecord'
 import componentFactory from './factory/componentFactory/componentFactory'
@@ -33,6 +34,7 @@ import Resolver from './Resolver'
 import { _isIframeEl, _syncPages, _TEST_ } from './utils'
 import * as c from '../constants'
 import * as t from '../types'
+import log from '../utils/log'
 
 const pageEvt = c.eventId.page
 const defaultResolvers = [attributeResolvers, componentResolvers]
@@ -142,7 +144,7 @@ class NDOM extends NDOMInternal {
     const createComponentPage = (arg: NUIPage | t.NuiComponent.Instance) => {
       if (arg?.id === 'root') {
         if (!isNUIPage(arg)) {
-          console.log(
+          log.log(
             `%cA root NDOMPage is being instantiated but the argument given was not a NUIPage`,
             `color:#ec0000;`,
             arg,
@@ -156,14 +158,14 @@ class NDOM extends NDOMInternal {
         {
           node,
           onLoad: (evt, node) => {
-            console.log(
+            log.log(
               `%c[onLoad] NuiPage loaded for page "${page?.page}" on a page component`,
               `color:#00b406;`,
               { event: evt, node },
             )
           },
           onError: (err) => {
-            console.log(
+            log.log(
               `%c[onError] Error creating an NDOM page for a page component: ${err.message}`,
               `color:#ec0000;`,
               err,
@@ -319,6 +321,12 @@ class NDOM extends NDOMInternal {
   async request(page = this.page, pageRequesting = '', opts?: { on }) {
     // Cache the currently requesting page to detect for newer requests during the call
     pageRequesting = pageRequesting || page.requesting || ''
+    if((window as any).pcomponents){
+      const rootComponents = (window as any).pcomponents[0]
+      // const rootNode = document.getElementById(rootComponents.id)
+      // rootNode && this.removeAllNode(rootNode)
+      this.removeComponentListener(rootComponents)
+    }
     try {
       // This is needed for the consumer to run any operations prior to working
       // with the components (ex: processing the "init" in page objects)
@@ -334,14 +342,14 @@ class NDOM extends NDOMInternal {
           ) {
             await cb()
           } else if (page.requesting) {
-            console.log(
+            log.log(
               `%cAborting this navigate request to ${pageRequesting} because` +
                 `a more recent request for "${page.requesting}" was instantiated`,
               `color:#FF5722;`,
               { pageAborting: pageRequesting, pageRequesting: page.requesting },
             )
             delete page.modifiers[pageRequesting]
-            return console.error(
+            return log.error(
               `A more recent request from "${pageRequesting}" to "${page.requesting}" was called`,
             )
           }
@@ -391,6 +399,7 @@ class NDOM extends NDOMInternal {
       | t.ResolveComponentOptions<any>['callback']
       | Omit<t.ResolveComponentOptions<any>, 'components' | 'page'>,
   ) {
+    
     const resolveOptions = u.isFnc(options) ? { callback: options } : options
     if (resolveOptions?.on) {
       const hooks = resolveOptions.on
@@ -541,11 +550,11 @@ class NDOM extends NDOMInternal {
           //         node && ((node as HTMLImageElement).src = result)
           //       }
           //     } catch (error) {
-          //       console.error(error)
+          //       log.error(error)
           //     }
           //   }
           // } catch (error) {
-          //   console.error(error)
+          //   log.error(error)
           // } finally {
           //   if (!node) {
           //     node = document.createElement('img')
@@ -591,7 +600,7 @@ class NDOM extends NDOMInternal {
         const parent = component.has?.('global')
           ? document.body
           : container || document.body
-        // console.log(count,"kkkk")
+        // log.log(count,"kkkk")
         // NOTE: This needs to stay above the code below or the children will
         // not be able to access their parent during the resolver calls
         if (!parent.contains(node)) {
@@ -672,7 +681,7 @@ class NDOM extends NDOMInternal {
         }
       }
     } catch (error) {
-      console.error(error)
+      log.error(error)
       throw error
     }
     return node || null
@@ -730,21 +739,23 @@ class NDOM extends NDOMInternal {
         if (index) {
           newComponent.edit({ index })
         }
-        // console.log(component.get("lazyCount"),newComponent,component,"kkkkk");
-        // console.log('test86',component,component.children.length,component.defaultChildren.length)
-        // console.log('test87',newComponent,newComponent.length,newComponent.defaultChildren.length)
+        // log.log(component.get("lazyCount"),newComponent,component,"kkkkk");
+        // log.log('test86',component,component.children.length,component.defaultChildren.length)
+        // log.log('test87',newComponent,newComponent.length,newComponent.defaultChildren.length)
         // if(component.children.length === 0 &&  component.defaultChildren.length>0){
         //   newComponent.removeChild()
         //   for(const child of component.defaultChildren){
         //     newComponent.createChild(child)
         //   }
-        //   console.log('test88',newComponent)
+        //   log.log('test88',newComponent)
         // }
         // let scrollHeight:any = 0
         // if (component.type === 'chatList') {
         //       scrollHeight = node?.scrollHeight
         //       newComponent.set('scrollheight',scrollHeight) 
         // }
+        // this.removeComponentListener(component)
+        !(component.get('lazyCount') > 0 && component.get("lazyState")) && this.removeComponentListener(component)
         this.removeComponent(component)
         newComponent = await nui.resolveComponents?.({
           callback: options?.callback,
@@ -778,8 +789,10 @@ class NDOM extends NDOMInternal {
             if (parentNode) {
               // @ts-expect-error
               parentNode.replaceChild(newNode, node)
+              removeAllNode(node)
             } else {
-              node?.remove?.()
+              // node?.remove?.()
+              removeAllNode(node)
             }
             node = newNode as HTMLElement
             newNode = null
@@ -788,7 +801,7 @@ class NDOM extends NDOMInternal {
         }
       }
     } catch (error) {
-      console.error(error)
+      log.error(error)
       throw new Error(error)
     }
 
@@ -914,7 +927,22 @@ class NDOM extends NDOMInternal {
       _c?.parent?.removeChild(_c)
       _c.children?.forEach?.((_c) => remove(_c))
       _c.has('page') && _c.remove('page')
+      _c.has('signaturePad') && _c.remove('signaturePad')
       _c.clear?.()
+    }
+    remove(component)
+  }
+  removeComponentListener(component: t.NuiComponent.Instance | undefined | null){
+    if (!component) return
+    const remove = (_c: t.NuiComponent.Instance) => {
+      if(_c.has('signaturePad') ){
+        const signaturePad = _c.get('signaturePad')
+        signaturePad.off()
+        _c.remove(signaturePad)
+      }
+      _c.clear('hooks')
+      _c.removeAllEventListeners()
+      _c.children?.forEach?.((_c) => remove(_c))
     }
     remove(component)
   }
@@ -960,7 +988,7 @@ class NDOM extends NDOMInternal {
         node.parentNode?.removeChild?.(node)
         node.remove?.()
       } catch (error) {
-        console.error(error)
+        log.error(error)
       }
     }
   }
@@ -985,7 +1013,7 @@ class NDOM extends NDOMInternal {
           page?.node?.remove?.()
         }
       } catch (error) {
-        console.error(error)
+        log.error(error)
       }
       page = null
     }

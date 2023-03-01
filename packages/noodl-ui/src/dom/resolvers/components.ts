@@ -31,6 +31,7 @@ import { _isLinkEl, _isIframeEl, _isScriptEl, _isStyleEl } from '../utils'
 import * as t from '../../types'
 import * as c from '../../constants'
 import { isEmpty } from 'lodash'
+import log from '../../utils/log'
 
 const componentsResolver: t.Resolve.Config = {
   name: `[noodl-ui-dom] components`,
@@ -57,7 +58,7 @@ const componentsResolver: t.Resolve.Config = {
         }
       }
     } catch (error) {
-      console.error(error)
+      log.error(error)
       throw new Error(error)
     }
   },
@@ -220,7 +221,7 @@ const componentsResolver: t.Resolve.Config = {
               insert(pluginNode, args.component.get('plugin')?.location)
             }
           } catch (error) {
-            console.error(error)
+            log.error(error)
           }
 
           return pluginNode
@@ -294,7 +295,7 @@ const componentsResolver: t.Resolve.Config = {
                       if (has(dataObject, _dataKey)) {
                         // set(dataObject, dataKey, blob)
                       } else {
-                        console.log(
+                        log.log(
                           `%cTried to set a signature blob using path "${_dataKey}" ` +
                             `but it was not found in the root or local root object. ` +
                             `It will be created now.`,
@@ -308,7 +309,7 @@ const componentsResolver: t.Resolve.Config = {
                         )
                       }
                     } else {
-                      console.log(
+                      log.log(
                         `%c"nui" is missing in the "components" DOM resolver`,
                         `color:#ec0000;`,
                         this,
@@ -320,14 +321,14 @@ const componentsResolver: t.Resolve.Config = {
                 )
               })
             } else {
-              console.log(
+              log.log(
                 `%cSignature pad is missing from a canvas component!`,
                 `color:#ec0000;`,
                 args,
               )
             }
           } else {
-            console.log(
+            log.log(
               `%cInvalid data key "${dataKey}" for a canvas component. ` +
                 `There may be unexpected behavior`,
               `color:#ec0000;`,
@@ -355,13 +356,13 @@ const componentsResolver: t.Resolve.Config = {
             )
             iframe = loadResult.iframe
           } catch (error) {
-            console.error(error)
+            log.error(error)
             iframe = document.createElement('iframe')
           }
 
           iframe && (iframe.id = `${idLabel}-document-${args.component.id}`)
           iframe.onerror = (evt) =>
-            console.error(`[ERROR]: In ecosDoc component: ${evt}`, evt)
+            log.error(`[ERROR]: In ecosDoc component: ${evt}`, evt)
 
           args.node?.appendChild(iframe)
         }
@@ -423,7 +424,7 @@ const componentsResolver: t.Resolve.Config = {
               result
                 .then?.((path: any) => {
                   if (!path) {
-                    console.log(
+                    log.log(
                       `%cReceived an empty value from "path=func"! An empty string will be set as the image's "src" attribute`,
                       `color:#ec0000;`,
                       args.component,
@@ -448,7 +449,7 @@ const componentsResolver: t.Resolve.Config = {
                       parent?.appendChild(iframe)
                       parent?.removeChild(args.node)
                     } else {
-                      console.log('load path', path)
+                      log.log('load path', path)
                       setAttr('src', path?.url)
                     }
                   } else {
@@ -457,7 +458,7 @@ const componentsResolver: t.Resolve.Config = {
                   }
                 })
                 .catch((error: any) => {
-                  console.log(error)
+                  log.log(error)
                   if (!args.component?.get?.(c.DATA_SRC)) return
                   setAttr('src', args.component?.get?.(c.DATA_SRC) || '')
                 })
@@ -542,7 +543,7 @@ const componentsResolver: t.Resolve.Config = {
                           dataObject,
                         )
                       } else {
-                        console.log(
+                        log.log(
                           `%cCould not find a postMessage emit action inside a postMessage action chain`,
                           `color:#ec0000;`,
                           { ...args, dataObject },
@@ -553,7 +554,7 @@ const componentsResolver: t.Resolve.Config = {
                       // actionChain.data.set('dataObject', dataObject)
                       await actionChain.execute()
                     } else {
-                      console.log(
+                      log.log(
                         `%cReceived a message from a child of a page component and expected an action chain but received "${typeof args.component.get(
                           'postMessage',
                         )}"`,
@@ -586,7 +587,7 @@ const componentsResolver: t.Resolve.Config = {
                     try {
                       componentPage.replaceNode(opts.node)
                     } catch (error) {
-                      console.error(error)
+                      log.error(error)
                     }
                   }
 
@@ -614,7 +615,7 @@ const componentsResolver: t.Resolve.Config = {
                 }
 
                 // args.node.src = args.component.get('page')?.page || ''
-                componentPage.node.onload = console.error
+                componentPage.node.onload = log.error
               } else {
                 /**
                  * If this page component is not remote, it is loading a page
@@ -639,14 +640,14 @@ const componentsResolver: t.Resolve.Config = {
                           isComponent(componentPage.component) &&
                           args.component !== componentPage.component
                         ) {
-                          console.log(
+                          log.log(
                             `Incoming component is not the same as current component. Patching now`,
                           )
                           componentPage.patch(args.component)
                         }
 
                         if (!componentPage.hasNuiPage && nuiPage) {
-                          console.log(
+                          log.log(
                             `ComponentPage does not have a nuiPage. Patching now with a new one`,
                           )
                           componentPage.patch(nuiPage)
@@ -654,14 +655,14 @@ const componentsResolver: t.Resolve.Config = {
                           nuiPage &&
                           nuiPage !== componentPage.getNuiPage()
                         ) {
-                          console.log(
+                          log.log(
                             `The nuiPage in the ComponentPage is different than the incoming one. Patching with the incoming one now`,
                             nuiPage,
                           )
                           componentPage.patch(nuiPage)
                         }
                       } else {
-                        console.info(`nuiPage does not exist in the PageCache`)
+                        log.info(`nuiPage does not exist in the PageCache`)
                       }
 
                       const pageName =
@@ -683,7 +684,7 @@ const componentsResolver: t.Resolve.Config = {
                         )
                       }
                     } else {
-                      console.log(
+                      log.log(
                         `ComponentPage is null or undefined inside onPageComponents`,
                       )
                     }
@@ -774,7 +775,7 @@ const componentsResolver: t.Resolve.Config = {
                       ) || [],
                     )
                   } catch (error) {
-                    console.error(error)
+                    log.error(error)
                   }
                 }
 
@@ -784,14 +785,14 @@ const componentsResolver: t.Resolve.Config = {
                   ?.on?.('PAGE_CHANGED', onPageComponents)
               }
             } else {
-              console.log(
+              log.log(
                 `%cEncountered a page component with a node that is not an iframe. This is not supported yet`,
                 `color:#FF5722;`,
                 args,
               )
             }
           } else {
-            console.log(
+            log.log(
               `%cA page component did not receive its NUIPage instance`,
               `color:#ec0000;`,
               args,
@@ -891,7 +892,7 @@ const componentsResolver: t.Resolve.Config = {
           if (u.isArr(args.component)) {
             if (u.isArr(textBoard)) {
               if (u.isStr(text)) {
-                console.log(
+                log.log(
                   `%cA component cannot have a "text" and "textBoard" property ` +
                     `because they both overlap. The "text" will take precedence.`,
                   `color:#ec0000;`,
@@ -932,7 +933,7 @@ const componentsResolver: t.Resolve.Config = {
                 }
               })
             } else {
-              console.log(
+              log.log(
                 `%cExpected textBoard to be an array but received "${typeof textBoard}". ` +
                   `This part of the component will not be included in the output`,
                 `color:#ec0000;`,
@@ -967,7 +968,7 @@ const componentsResolver: t.Resolve.Config = {
         else if (Identify.component.textField(args.component)) {
           if (args.component.has('isEditable')) {
             const isEditable = args.component.get('isEditable')
-            // console.log(maxLen,"nnnnn")
+            // log.log(maxLen,"nnnnn")
             const isDisabled = Identify.isBooleanFalse(isEditable)
             if (isDisabled) {
               setAttr('disabled', isDisabled)
@@ -1034,7 +1035,7 @@ const componentsResolver: t.Resolve.Config = {
 
       return args.node
     } catch (error) {
-      console.error(error)
+      log.error(error)
       throw error
     }
   },

@@ -1,3 +1,4 @@
+import log from '../utils/log'
 /**
  * Creates an image element that loads asynchronously
  * @param { HTMLElement } container - Element to attach the image in
@@ -15,7 +16,7 @@ function createAsyncImageElement(
       if (!container) resolve(node)
       else container.appendChild(node)
     } catch (error) {
-      console.error(error)
+      log.error(error)
       reject(error)
     } finally {
       node.dispatchEvent(new Event('load'))

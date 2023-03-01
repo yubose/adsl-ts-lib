@@ -483,7 +483,7 @@ const NUI = (function () {
       }
     }
     // let bb = Date.now()
-    // console.log('%c[timerlog]','color: red','renderstep-callback',`${bb}`)
+    // log.log('%c[timerlog]','color: red','renderstep-callback',`${bb}`)
     async function xform(
       c: t.NuiComponent.Instance,
       {
@@ -759,14 +759,6 @@ const NUI = (function () {
 
   const o = {
     _experimental,
-    _defineGetter(
-      key: string,
-      opts: ((...args: any[]) => any) | PropertyDescriptor,
-    ) {
-      Object.defineProperty(this, key, {
-        get: u.isFnc(opts) ? () => opts : () => opts.get,
-      })
-    },
     get cache() {
       return cache
     },
@@ -1184,11 +1176,11 @@ const NUI = (function () {
       cache.plugin.clear()
       cache.register.clear()
       cache.transactions.clear()
-      o._defineGetter('getAssetsUrl', () => '')
-      o._defineGetter('getBaseUrl', () => '')
-      o._defineGetter('getPages', () => [])
-      o._defineGetter('getPreloadPages', () => [])
-      o._defineGetter('getRoot', () => '')
+      o.getAssetsUrl = () => ''
+      o.getBaseUrl = () => ''
+      o.getPreloadPages = () => []
+      o.getPages = () => []
+      o.getRoot = () => ({})
     },
     setLogLevel: (level: keyof typeof log.levels) => log.setLevel(level),
     use(args: t.UseArg) {
@@ -1304,22 +1296,10 @@ const NUI = (function () {
         'getPreloadPages',
         'getRoot',
       ]) {
-        args[key] && o._defineGetter(key, args[key])
+        if (key in args) o[key] = args[key]
       }
 
       return o
-    },
-    removeComponent(component: t.NuiComponent.Instance | undefined | null) {
-      if (!component) return
-      const remove = (_c: t.NuiComponent.Instance) => {
-        cache.component.remove(_c)
-        _c?.setParent?.(null)
-        _c?.parent?.removeChild(_c)
-        _c.children?.forEach?.((_c) => remove(_c))
-        _c.has('page') && _c.remove('page')
-        _c.clear?.()
-      }
-      remove(component)
     },
   }
 

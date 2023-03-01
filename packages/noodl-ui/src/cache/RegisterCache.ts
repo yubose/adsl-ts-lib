@@ -10,6 +10,10 @@ class RegisterCache {
     RegisterCache._inst = this
   }
 
+  get length() {
+    return this.#cache.size
+  }
+
   clear() {
     this.#cache.clear()
     return this
