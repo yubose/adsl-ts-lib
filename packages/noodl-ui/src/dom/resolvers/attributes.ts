@@ -125,22 +125,23 @@ function attachUserEvents<N extends t.NDOMElement>(
           })
         })
         // node.addEventListener('scroll', executeScroll)
-        // node.addEventListener(
-        //   'onLazyLoading',
-        //   executeFun
-        // )
+        node.addEventListener(
+          'onLazyLoading',
+          executeFun
+        )
         const scrolllistener = addListener(
           node,
           'scroll',
           partialR(executeScroll, component),
         )
-        const onLazyLoadinglistener = addListener(
-          node,
-          'onLazyLoading',
-          partialR(executeFun, component),
-        )
+     
+        // const onLazyLoadinglistener = addListener(
+        //   node,
+        //   'onLazyLoading',
+        //   partialR(executeFun, component),
+        // )
         component.addEventListeners(scrolllistener)
-        component.addEventListeners(onLazyLoadinglistener)
+        // component.addEventListeners(onLazyLoadinglistener)
         return
       } else if (eventType === 'onPull') {
         let event: Event | null = new Event('onPull', {
@@ -174,19 +175,19 @@ function attachUserEvents<N extends t.NDOMElement>(
           })
         })
         // node.addEventListener('scroll', executeScroll)
-        // node.addEventListener('onPull', executeFun)
+        node.addEventListener('onPull', executeFun)
         const scrolllistener = addListener(
           node,
           'scroll',
           partialR(executeScroll, component),
         )
-        const executeFunlistener = addListener(
-          node,
-          'onPull',
-          partialR(executeFun, component),
-        )
+        // const executeFunlistener = addListener(
+        //   node,
+        //   'onPull',
+        //   partialR(executeFun, component),
+        // )
         component.addEventListeners(scrolllistener)
-        component.addEventListeners(executeFunlistener)
+        // component.addEventListeners(executeFunlistener)
         return
       } else {
         if (eventType === 'onClick') {
