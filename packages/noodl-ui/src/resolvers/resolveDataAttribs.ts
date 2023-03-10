@@ -254,10 +254,11 @@ dataAttribsResolver.setResolver(async (component, options, next) => {
           component.edit({ 'data-src': src, path: src })
           // Wrapping this in a setTimeout allows DOM elements to subscribe
           // their callbacks before this fires
-          setTimeout(() => {
+          const timer = setTimeout(() => {
             // TODO - Deprecate "src" in favor of data-value
             path && component.emit('path', src)
             image && component.emit('image', src)
+            clearTimeout(timer)
           })
         }
       }
@@ -307,9 +308,10 @@ dataAttribsResolver.setResolver(async (component, options, next) => {
 
       if (dataOptions) {
         component.set('data-options', dataOptions || [])
-        setTimeout(() =>
-          component.emit('options', component.get('data-options')),
-        )
+        const timer = setTimeout(() =>{
+          component.emit('options', component.get('data-options'))
+          clearTimeout(timer)
+        },)
       } else {
         log.error(
           `%cCould not find the list of options for a select component using the path "${selectOptions}"`,

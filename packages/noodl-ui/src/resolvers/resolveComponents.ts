@@ -447,7 +447,10 @@ componentResolver.setResolver(async (component, options, next) => {
         }
         const content = await res?.json?.()
         plugin && (plugin.content = component.get('content'))
-        setTimeout(async () => component.emit('content', content || ''))
+        const timer = setTimeout(async () => {
+          component.emit('content', content || '')
+          clearTimeout(timer)
+        })
       } catch (error) {
         const err = error instanceof Error ? error : new Error(String(error))
         log.error(`[${err.name}]: ${err.message}`, err)

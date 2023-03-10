@@ -117,31 +117,32 @@ function attachUserEvents<N extends t.NDOMElement>(
           Event,
           void
         >({ component, node }, ({ component, node }, event: Event) => {
-          setTimeout(() => {
+          const timer = setTimeout(() => {
             // @ts-expect-error
             component.get?.(eventType)?.execute?.(event)
             node.removeEventListener('scroll', executeScroll)
             node.removeEventListener('onLazyLoading', executeFun)
+            clearTimeout(timer)
           })
         })
         // node.addEventListener('scroll', executeScroll)
-        node.addEventListener(
-          'onLazyLoading',
-          executeFun
-        )
+        // node.addEventListener(
+        //   'onLazyLoading',
+        //   executeFun
+        // )
         const scrolllistener = addListener(
           node,
           'scroll',
           partialR(executeScroll, component),
         )
      
-        // const onLazyLoadinglistener = addListener(
-        //   node,
-        //   'onLazyLoading',
-        //   partialR(executeFun, component),
-        // )
+        const onLazyLoadinglistener = addListener(
+          node,
+          'onLazyLoading',
+          partialR(executeFun, component),
+        )
         component.addEventListeners(scrolllistener)
-        // component.addEventListeners(onLazyLoadinglistener)
+        component.addEventListeners(onLazyLoadinglistener)
         return
       } else if (eventType === 'onPull') {
         let event: Event | null = new Event('onPull', {
@@ -167,27 +168,28 @@ function attachUserEvents<N extends t.NDOMElement>(
           Event,
           void
         >({ component, node }, ({ component, node }, event: Event) => {
-          setTimeout(() => {
+          const timer = setTimeout(() => {
             // @ts-expect-error
             component.get?.(eventType)?.execute?.(event)
             node.removeEventListener('scroll', executeScroll)
             node.removeEventListener('onPull', executeFun)
+            clearTimeout(timer)
           })
         })
         // node.addEventListener('scroll', executeScroll)
-        node.addEventListener('onPull', executeFun)
+        // node.addEventListener('onPull', executeFun)
         const scrolllistener = addListener(
           node,
           'scroll',
           partialR(executeScroll, component),
         )
-        // const executeFunlistener = addListener(
-        //   node,
-        //   'onPull',
-        //   partialR(executeFun, component),
-        // )
+        const executeFunlistener = addListener(
+          node,
+          'onPull',
+          partialR(executeFun, component),
+        )
         component.addEventListeners(scrolllistener)
-        // component.addEventListeners(executeFunlistener)
+        component.addEventListeners(executeFunlistener)
         return
       } else {
         if (eventType === 'onClick') {
@@ -195,11 +197,10 @@ function attachUserEvents<N extends t.NDOMElement>(
             node.classList.add('noodl-onclick')
           }
         }
-
         const callback = (event: Event, component: t.NuiComponent.Instance) => {
-          const timeId = setTimeout(() => {
+          const timer = setTimeout(() => {
             component.get?.(eventType)?.execute?.(event)
-            clearTimeout(timeId)
+            clearTimeout(timer)
           })
         }
         // node.addEventListener(normalizeEventName(eventType), callback)
@@ -312,6 +313,7 @@ const attributesResolver: t.Resolve.Config = {
           /* -------------------------------------------------------
             ---- ENTER KEY FOR INPUTS
           -------------------------------------------------------- */
+          //@ts-expect-error
           elementType === 'INPUT' && handleKeyPress(args.node)
           /* -------------------------------------------------------
             ---- NON TEXTFIELDS
