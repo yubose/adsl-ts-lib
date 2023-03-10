@@ -313,7 +313,6 @@ const attributesResolver: t.Resolve.Config = {
           /* -------------------------------------------------------
             ---- ENTER KEY FOR INPUTS
           -------------------------------------------------------- */
-          //@ts-expect-error
           elementType === 'INPUT' && handleKeyPress(args.node)
           /* -------------------------------------------------------
             ---- NON TEXTFIELDS
