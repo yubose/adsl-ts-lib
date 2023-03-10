@@ -45,5 +45,5 @@
     "watch:stable": "cross-env NODE_ENV=production NODE_OPTIONS=\"--stack-trace-limit=10000\" rollup -c -w"
   },
   "typings": "dist/index.d.ts",
-  "version": "0.1.1115"
+  "version": "0.1.1116"
 }
