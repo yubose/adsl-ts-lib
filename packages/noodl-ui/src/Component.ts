@@ -127,7 +127,11 @@ class Component<C extends ComponentObject = ComponentObject> {
   }
 
   addEventListeners({event,callback}: {event:string,callback:Function}){
-    this.#eventListeners[event] = callback
+    if(u.isArr(this.#eventListeners[event])){
+      this.#eventListeners[event].push(callback)
+    }else{
+      this.#eventListeners[event] = [callback]
+    }
   }
 
   removeAllEventListeners(){
@@ -139,9 +143,22 @@ class Component<C extends ComponentObject = ComponentObject> {
     const events = Object.keys(this.#eventListeners)
     if(u.isArr(events)){
       for(let event of events){
-        this.#eventListeners?.[event]?.()
+        this.#eventListeners?.[event].forEach((callback:Function)=>{
+          callback?.()
+        })
+        if(u.isArr(this.#eventListeners[event])){
+          this.#eventListeners[event].length = 0
+        }
         this.#component[transEventName(event)] = null
       }
+    }
+    if(this.#component['path']){
+      this.#component['path'] = null
+      this.props['path'] = null
+    }
+    if(this.#component['text=func']){
+      this.#component['text=func'] = null
+      this.props['text=func'] = null
     }
     this.remove('signaturePad')
     Object.defineProperty(this, c.NUI_ID, {})

@@ -511,7 +511,7 @@ const NUI = (function () {
       const iteratorVar = context?.iteratorVar || ''
       const isListConsumer = iteratorVar && u.isObj(context?.dataObject)
 
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         for (const [key, value] of u.entries(c.props)) {
           if (key === 'style') {
             // TODO - Put these finalizers into a curry utility func. This is temp. hardcoded for now
@@ -565,6 +565,7 @@ const NUI = (function () {
             }
           }
         }
+        clearTimeout(timer)
       })
       return {
         component: c,

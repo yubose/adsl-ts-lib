@@ -9,6 +9,7 @@ import {
   _getOrCreateComponentPage,
   _isDivEl,
   _isPluginComponent,
+  addListener,
   findFirstByElementId,
   isImageDoc,
   isMarkdownDoc,
@@ -391,7 +392,7 @@ const componentsResolver: t.Resolve.Config = {
 
           let pathResult: any
           if (Identify.folds.emit(original['path'])) {
-            setTimeout(() => {
+            const timer = setTimeout(() => {
               const ac = args.component.get('path')
               pathResult = ac?.execute?.()
               pathResult.then((res: any) => {
@@ -400,6 +401,7 @@ const componentsResolver: t.Resolve.Config = {
                 setAttr('src', re)
                 setDataAttr('src', re)
               })
+              clearTimeout(timer)
             }, 0)
           }
 
@@ -955,14 +957,17 @@ const componentsResolver: t.Resolve.Config = {
               setAttr('disabled', isDisabled)
             }
           }
-          args.node?.addEventListener(
-            'change',
-            function (this: HTMLTextAreaElement) {
-              this.dataset.value = this.value
-              args.component.edit(c.DATA_VALUE, this.value)
-              args.component.emit(c.DATA_VALUE, this.value)
-            },
-          )
+          function textviewChange(this: HTMLTextAreaElement) {
+            this.dataset.value = this.value
+            args.component.edit(c.DATA_VALUE, this.value)
+            args.component.emit(c.DATA_VALUE, this.value)
+          }
+          const listener = addListener(args.node,'change',textviewChange)
+          // args.node?.addEventListener(
+          //   'change',
+          //   textviewChange
+          // )
+          args.component.addEventListeners(listener)
         }
         // textField
         else if (Identify.component.textField(args.component)) {
@@ -981,14 +986,17 @@ const componentsResolver: t.Resolve.Config = {
             const autocomplete = args.component.get('autocomplete')
             setAttr('autocomplete', autocomplete)
           }
-          args.node?.addEventListener(
-            'change',
-            function (this: HTMLInputElement) {
-              this.dataset.value = this.value
-              args.component.edit(c.DATA_VALUE, this.value)
-              args.component.emit(c.DATA_VALUE, this.value)
-            },
-          )
+          function textChange(this: HTMLInputElement) {
+            this.dataset.value = this.value
+            args.component.edit(c.DATA_VALUE, this.value)
+            args.component.emit(c.DATA_VALUE, this.value)
+          }
+          // args.node?.addEventListener(
+          //   'change',
+          //   textChange
+          // )
+          const listener = addListener(args.node,'change',textChange)
+          args.component.addEventListeners(listener)
         }
         // VIDEO
         else if (Identify.component.video(args.component)) {
@@ -1032,7 +1040,6 @@ const componentsResolver: t.Resolve.Config = {
           videoEl.style.objectFit = 'contain'
         }
       }
-
       return args.node
     } catch (error) {
       log.error(error)

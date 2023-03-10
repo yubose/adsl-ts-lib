@@ -323,8 +323,6 @@ class NDOM extends NDOMInternal {
     pageRequesting = pageRequesting || page.requesting || ''
     if((window as any).pcomponents){
       const rootComponents = (window as any).pcomponents[0]
-      // const rootNode = document.getElementById(rootComponents.id)
-      // rootNode && this.removeAllNode(rootNode)
       this.removeComponentListener(rootComponents)
     }
     try {
