@@ -351,9 +351,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
           if (backgroundImage) {
             const imagePath = getAssetsUrl() + backgroundImage
             const position = imagePosition
-            console.log(imagePath)
-            console.log(position);
-            set(value,'background', `url(${imageName}) ${position}`)
+            set(value,'background', `url(${imagePath}) ${position}`)
           }
           // TEXTALIGN
           if (textAlign) {
@@ -631,6 +629,14 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                 if (is.traverseReference(styleValue)) break
                 styleValue = newstyleValue
               }
+              if (styleKey == 'imagePosition'&& backgroundImage) {
+                const imagePath = getAssetsUrl() + backgroundImage
+                const position = styleValue
+                set(value,'background', `url(${imagePath}) ${position}`)
+              }
+
+
+
 
               // Resolve vw/vh units (Values directly relative to viewport)
               if (s.isVwVh(styleValue)) {
@@ -743,6 +749,11 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                       let _styleValue = com.formatColor(
                         get(dataObject, dataKey),
                       )
+                      if (styleKey == 'imagePosition'&& backgroundImage) {
+                        const imagePath = getAssetsUrl() + backgroundImage
+                        const position = _styleValue
+                        set(value,'background', `url(${imagePath}) ${position}`)
+                      }
 
                       if (s.isKeyRelatedToWidthOrHeight(styleKey)) {
                         _styleValue = String(_styleValue)
