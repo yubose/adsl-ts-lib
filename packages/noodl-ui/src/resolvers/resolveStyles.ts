@@ -40,7 +40,7 @@ const getParent = function getParent(
 }
 
 resolveStyles.setResolver(async (component, options, next) => {
-  const { context, viewport, getRoot, page, keepVpUnit } = options
+  const { context, viewport, getRoot, page, keepVpUnit,getAssetsUrl } = options
 
   component.edit(
     normalizeProps(component.props, component.blueprint, {
@@ -50,6 +50,7 @@ resolveStyles.setResolver(async (component, options, next) => {
       pageName: page?.page,
       root: getRoot(),
       viewport,
+      getAssetsUrl
     }),
   )
   // if((component.style.visibility === 'hidden' ||  component.style.display === 'none') && component.children.length>0&&localStorage.getItem('initPageStatus')==='true'){

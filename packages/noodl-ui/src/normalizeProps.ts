@@ -73,6 +73,7 @@ export interface ParseOptions<
   get?: <C = any>(component: C, key: any, initialValue?: any) => any
   set?: (obj: any, key: string | number, value: any) => void
   unset?: (obj: any, key: string | number) => void
+  getAssetsUrl?: Function
 }
 
 /**
@@ -131,7 +132,6 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
       }),
     })
   }
-
   const {
     context,
     getParent,
@@ -152,6 +152,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
     set = lset,
     unset = lunset,
     viewport,
+    getAssetsUrl
   } = parseOptions
 
   if (!u.isFnc(getHelpers)) {
@@ -271,6 +272,8 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
             fontStyle,
             textAlign,
             verticalAlign,
+            backgroundImage,
+            imagePosition
           } = originalValue
 
           /* -------------------------------------------------------
@@ -345,7 +348,13 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
               set(value, 'alignItems', 'center')
             }
           }
-
+          if (backgroundImage) {
+            const imagePath = getAssetsUrl() + backgroundImage
+            const position = imagePosition
+            console.log(imagePath)
+            console.log(position);
+            set(value,'background', `url(${imageName}) ${position}`)
+          }
           // TEXTALIGN
           if (textAlign) {
             // "centerX", "centerY", "left", "center", "right"
