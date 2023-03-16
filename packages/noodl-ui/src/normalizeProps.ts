@@ -73,6 +73,7 @@ export interface ParseOptions<
   get?: <C = any>(component: C, key: any, initialValue?: any) => any
   set?: (obj: any, key: string | number, value: any) => void
   unset?: (obj: any, key: string | number) => void
+  getAssetsUrl?: Function
 }
 
 /**
@@ -131,7 +132,6 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
       }),
     })
   }
-
   const {
     context,
     getParent,
@@ -152,6 +152,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
     set = lset,
     unset = lunset,
     viewport,
+    getAssetsUrl
   } = parseOptions
 
   if (!u.isFnc(getHelpers)) {
@@ -271,6 +272,8 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
             fontStyle,
             textAlign,
             verticalAlign,
+            backgroundImage,
+            imagePosition
           } = originalValue
 
           /* -------------------------------------------------------
@@ -345,7 +348,11 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
               set(value, 'alignItems', 'center')
             }
           }
-
+          if (backgroundImage) {
+            const imagePath = getAssetsUrl() + backgroundImage
+            const position = imagePosition
+            set(value,'background', `url(${imagePath}) ${position}`)
+          }
           // TEXTALIGN
           if (textAlign) {
             // "centerX", "centerY", "left", "center", "right"
@@ -622,6 +629,14 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                 if (is.traverseReference(styleValue)) break
                 styleValue = newstyleValue
               }
+              if (styleKey == 'imagePosition'&& backgroundImage) {
+                const imagePath = getAssetsUrl() + backgroundImage
+                const position = styleValue
+                set(value,'background', `url(${imagePath}) ${position}`)
+              }
+
+
+
 
               // Resolve vw/vh units (Values directly relative to viewport)
               if (s.isVwVh(styleValue)) {
@@ -734,6 +749,11 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                       let _styleValue = com.formatColor(
                         get(dataObject, dataKey),
                       )
+                      if (styleKey == 'imagePosition'&& backgroundImage) {
+                        const imagePath = getAssetsUrl() + backgroundImage
+                        const position = _styleValue
+                        set(value,'background', `url(${imagePath}) ${position}`)
+                      }
 
                       if (s.isKeyRelatedToWidthOrHeight(styleKey)) {
                         _styleValue = String(_styleValue)
