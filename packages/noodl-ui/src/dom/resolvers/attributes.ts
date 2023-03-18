@@ -2,7 +2,7 @@ import * as u from '@jsmanifest/utils'
 import startOfDay from 'date-fns/startOfDay'
 import partialR from 'lodash/partialRight'
 import wrap from 'lodash/wrap'
-import { Identify, userEvent } from 'noodl-types'
+import { Identify, component, userEvent } from 'noodl-types'
 import {
   _isScriptEl,
   addClassName,
@@ -16,6 +16,7 @@ import * as c from '../../constants'
 import log from '../../utils/log'
 
 const is = Identify
+
 
 function attachText<N extends t.NDOMElement>(node: N, ...text: string[]) {
   if (!node.innerHTML.trim()) {
@@ -49,6 +50,8 @@ function attachUserEvents<N extends t.NDOMElement>(
   node: N,
   component: t.NuiComponent.Instance,
 ) {
+  let componentsNum = component.children.length;
+
   userEvent.forEach((eventType: string) => {
     /**
      * TODO - Don't include DOM events in this loop. Instead, the user can register them via noodl-ui-dom resolve API
@@ -71,10 +74,10 @@ function attachUserEvents<N extends t.NDOMElement>(
        * root object gets their data values updated.
        */
       if (eventType === 'onLazyLoading') {
-        let events: Event | null = new Event('onLazyLoading', {
-          bubbles: true,
-          cancelable: false,
-        })
+        // let events: Event | null = new Event('onLazyLoading', {
+        //   bubbles: true,
+        //   cancelable: false,
+        // })
         // const executeScroll = wrap<
         //   { component: t.NuiComponent.Instance; node: N },
         //   Event,
@@ -87,15 +90,23 @@ function attachUserEvents<N extends t.NDOMElement>(
           let contentHeight =
             node.scrollHeight || document.documentElement.scrollHeight //内容高度
           let scrollTop = node.scrollTop || document.documentElement.scrollTop
-          if (Math.floor(contentHeight - viewHeight - scrollTop) <= 1) {
+          if (component.children.length===componentsNum &&Math.floor(contentHeight - viewHeight - scrollTop) <= 1) {
+          console.log(component.children.length,componentsNum,"oooooo")
+            componentsNum+= component.blueprint.lazyCount;
+            const timer = setTimeout(() => {
+              // @ts-expect-error
+              component.get?.(eventType)?.execute?.(event)
+              node.removeEventListener('scroll', executeScroll)
+            // node.removeEventListener('onLazyLoading', executeFun)
+              clearTimeout(timer)
+            })
             //到达底部0px时,加载新内容s
-            node.dispatchEvent(events as Event)
-            node.removeEventListener('scroll', executeScroll)
-            node.removeEventListener(
-              'onLazyLoading',
-              // partialR(executeFun, component, node),
-              executeFun
-            )
+            // node.dispatchEvent(events as Event)
+            // node.removeEventListener(
+            //   'onLazyLoading',
+            //   // partialR(executeFun, component, node),
+            //   executeFun
+            // )
           }
         })
         // const executeFun = (
@@ -112,19 +123,19 @@ function attachUserEvents<N extends t.NDOMElement>(
         //     }).bind(null, component, node),
         //   )
         // }
-        const executeFun = wrap<
-          { component: t.NuiComponent.Instance; node: N },
-          Event,
-          void
-        >({ component, node }, ({ component, node }, event: Event) => {
-          const timer = setTimeout(() => {
-            // @ts-expect-error
-            component.get?.(eventType)?.execute?.(event)
-            node.removeEventListener('scroll', executeScroll)
-            node.removeEventListener('onLazyLoading', executeFun)
-            clearTimeout(timer)
-          })
-        })
+        // const executeFun = wrap<
+        //   { component: t.NuiComponent.Instance; node: N },
+        //   Event,
+        //   void
+        // >({ component, node }, ({ component, node }, event: Event) => {
+        //   const timer = setTimeout(() => {
+        //     // @ts-expect-error
+        //     component.get?.(eventType)?.execute?.(event)
+        //     node.removeEventListener('scroll', executeScroll)
+        //     // node.removeEventListener('onLazyLoading', executeFun)
+        //     clearTimeout(timer)
+        //   })
+        // })
         // node.addEventListener('scroll', executeScroll)
         // node.addEventListener(
         //   'onLazyLoading',
@@ -136,13 +147,13 @@ function attachUserEvents<N extends t.NDOMElement>(
           partialR(executeScroll, component),
         )
      
-        const onLazyLoadinglistener = addListener(
-          node,
-          'onLazyLoading',
-          partialR(executeFun, component),
-        )
+        // const onLazyLoadinglistener = addListener(
+        //   node,
+        //   'onLazyLoading',
+        //   partialR(executeFun, component),
+        // )
         component.addEventListeners(scrolllistener)
-        component.addEventListeners(onLazyLoadinglistener)
+        // component.addEventListeners(onLazyLoadinglistener)
         return
       } else if (eventType === 'onPull') {
         let event: Event | null = new Event('onPull', {
