@@ -34,7 +34,13 @@ export function getListAttribute(component: NuiComponent.Instance) {
     index = listIndex ? listIndex : 0
     const list = listItem.parent
     if (isComponent(list)) {
-      dataObject = list.get('listObject') || list.blueprint.listObject
+      let data
+      try{
+        data =  list.get('listObject')
+      }catch(e){
+        console.log(e)
+      }
+      dataObject =  data || list.blueprint.listObject
       // dataObject = list.get('listObject')
     }
 
