@@ -5,6 +5,7 @@ import PageCache from './cache/PageCache'
 import PluginCache from './cache/PluginCache'
 import RegisterCache from './cache/RegisterCache'
 import TransactionCache from './cache/TransactionsCache'
+import TimerCache from './cache/TimerCache'
 import * as t from './types'
 
 const _actionsCache = new ActionsCache() as ActionsCache &
@@ -22,6 +23,7 @@ const _pageCache = new PageCache()
 const _pluginCache = new PluginCache()
 const _registerCache = new RegisterCache()
 const _transactionCache = new TransactionCache()
+const _timer = new TimerCache()
 
 const _cache = {
   actions: _actionsCache,
@@ -30,6 +32,7 @@ const _cache = {
   plugin: _pluginCache,
   register: _registerCache,
   transactions: _transactionCache,
+  timer: _timer,
 }
 
 export default _cache

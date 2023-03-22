@@ -2,7 +2,7 @@ import * as u from '@jsmanifest/utils'
 import startOfDay from 'date-fns/startOfDay'
 import partialR from 'lodash/partialRight'
 import wrap from 'lodash/wrap'
-import { Identify, component, userEvent } from 'noodl-types'
+import { Identify, userEvent } from 'noodl-types'
 import {
   _isScriptEl,
   addClassName,
