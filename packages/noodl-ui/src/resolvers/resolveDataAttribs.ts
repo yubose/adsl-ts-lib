@@ -118,7 +118,11 @@ dataAttribsResolver.setResolver(async (component, options, next) => {
           result = addDate(initialTime, { seconds: result })
           result === null && (result = new Date())
         }
-        result = component.get('text=func')(result)
+        if(result){
+          result = component.get('text=func')(result)
+        }else{
+          result = component.get('text')
+        }
       }
 
       //path=func
