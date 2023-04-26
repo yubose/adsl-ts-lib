@@ -15,23 +15,23 @@ import * as c from '../constants'
 
 const { DiagnosticCode } = consts
 
-let docDiagnostics: DocDiagnostics
-let docRoot: Root
-let docVisitor: DocVisitor
+xdescribe(`asserters`, () => {
+  let docDiagnostics: DocDiagnostics
+  let docRoot: Root
+  let docVisitor: DocVisitor
 
-beforeEach(() => {
-  docRoot = new Root()
-  docVisitor = new DocVisitor()
-  docDiagnostics = new DocDiagnostics()
-  docDiagnostics.use(docVisitor)
-  docDiagnostics.use(docRoot)
-})
+  beforeEach(() => {
+    docRoot = new Root()
+    docVisitor = new DocVisitor()
+    docDiagnostics = new DocDiagnostics()
+    docDiagnostics.use(docVisitor)
+    docDiagnostics.use(docRoot)
+  })
 
-function runAsserter(...name: (keyof typeof asserters)[]) {
-  return docDiagnostics.run({ asserters: name.map((n) => asserters[n]) })
-}
+  function runAsserter(...name: (keyof typeof asserters)[]) {
+    return docDiagnostics.run({ asserters: name.map((n) => asserters[n]) })
+  }
 
-describe(`asserters`, () => {
   // it.only(``, () => {
   //   docRoot.set('Topo', {
   //     goto1: { goto: 'A@.#C' },

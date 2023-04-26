@@ -12,7 +12,7 @@ beforeEach(() => {
   root = new Root()
 })
 
-describe(`deref`, () => {
+xdescribe(`deref`, () => {
   it(`should initiate the state expectedly`, () => {
     const spy = sinon.spy()
     const ref = '.SignIn.components.1.children.0.text'

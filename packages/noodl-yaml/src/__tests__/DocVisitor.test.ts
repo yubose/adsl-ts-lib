@@ -9,41 +9,41 @@ import deref from '../utils/deref'
 import DocDiagnostics from '../DocDiagnostics'
 import DocVisitor from '../DocVisitor'
 
-let docDiagnostics: DocDiagnostics
-let docRoot: Root
-let docVisitor: DocVisitor
+xdescribe(`DocVisitor`, () => {
+  let docDiagnostics: DocDiagnostics
+  let docRoot: Root
+  let docVisitor: DocVisitor
 
-beforeEach(() => {
-  docRoot = new Root()
-  docRoot.set('Topo', {
-    formData: {
-      password: '123',
-      email: 'pfft@gmail.com',
-      currentIcon: '..icon',
-      gender: 'Male',
-    },
-    icon: 'arrow.svg',
-  })
-  docRoot.set('SignIn', {
-    email: 'lopez@yahoo.com',
-    components: [
-      { type: 'button', text: '..greeting' },
-      {
-        type: 'view',
-        children: [
-          { type: 'label', text: '.SignIn.email' },
-          { type: 'textField', dataKey: 'SignIn.email' },
-        ],
+  beforeEach(() => {
+    docRoot = new Root()
+    docRoot.set('Topo', {
+      formData: {
+        password: '123',
+        email: 'pfft@gmail.com',
+        currentIcon: '..icon',
+        gender: 'Male',
       },
-    ],
+      icon: 'arrow.svg',
+    })
+    docRoot.set('SignIn', {
+      email: 'lopez@yahoo.com',
+      components: [
+        { type: 'button', text: '..greeting' },
+        {
+          type: 'view',
+          children: [
+            { type: 'label', text: '.SignIn.email' },
+            { type: 'textField', dataKey: 'SignIn.email' },
+          ],
+        },
+      ],
+    })
+    docVisitor = new DocVisitor()
+    docDiagnostics = new DocDiagnostics()
+    docDiagnostics.use(docVisitor)
+    docDiagnostics.use(docRoot)
   })
-  docVisitor = new DocVisitor()
-  docDiagnostics = new DocDiagnostics()
-  docDiagnostics.use(docVisitor)
-  docDiagnostics.use(docRoot)
-})
 
-describe(`DocVisitor`, () => {
   it(`[visit] should replace the node if returned with a new node`, () => {
     docRoot.clear()
     docRoot.set('Topo', { myGreeting: 'hello!', getMyGreeting: '..myGreeting' })

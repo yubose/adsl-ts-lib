@@ -12,7 +12,7 @@ import * as c from '../constants'
 
 let viewport = { width: 1024, height: 768 }
 
-describe.only(`transform`, () => {
+describe(`transform`, () => {
   it(`should be able to manipulate/normalize the node as if it was a plain object`, () => {
     const listObject = [{ color: 'red' }, { color: 'green' }, { color: 'blue' }]
     const component = m.view({

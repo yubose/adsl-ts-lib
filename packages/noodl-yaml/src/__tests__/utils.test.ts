@@ -1,6 +1,7 @@
 import { expect } from 'chai'
 import curry from 'lodash/curry'
 import sinon from 'sinon'
+import m from 'noodl-test-utils'
 import y from 'yaml'
 import { findPair, mapTag } from 'yaml/util'
 import { consts, fp, is as coreIs } from 'noodl-core'
@@ -11,7 +12,6 @@ import { toYml } from '../utils/yaml'
 import { factory } from '../factory'
 import { createProducer, createEmitter } from '../machine'
 import { resolve as _resolve } from './resolve'
-import { ui } from './test-utils'
 import get from '../utils/get'
 import set from '../utils/set'
 import has from '../utils/has'
@@ -59,7 +59,7 @@ const createNoodlMochaTesters = (node: any) => {
 describe(`utils`, () => {
   describe(`createNode`, () => {
     it(`should deeply create nodes`, () => {
-      const component = ui.image({
+      const component = m.image({
         path: 'abc.png',
         style: {
           top: '0.1',

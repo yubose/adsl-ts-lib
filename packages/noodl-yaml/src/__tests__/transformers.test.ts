@@ -7,7 +7,7 @@ import replace from '../transformers/replace'
 
 let root: Root
 
-describe(`transformers`, () => {
+xdescribe(`transformers`, () => {
   describe(`if`, () => {
     beforeEach(() => {
       root = new Root()

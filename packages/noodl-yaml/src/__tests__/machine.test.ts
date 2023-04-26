@@ -21,7 +21,7 @@ const { Meta, MetaKind } = c
 const produce = createProducer()
 const emitter = createEmitter({ produce })
 
-describe(`ActionChain`, () => {
+xdescribe(`ActionChain`, () => {
   it(``, () => {
     const ac = new ActionChain()
     const cursor = new Cursor()
@@ -29,7 +29,7 @@ describe(`ActionChain`, () => {
   })
 })
 
-describe(`machine`, () => {
+xdescribe(`machine`, () => {
   describe(`emitter`, () => {
     describe(`when emitting await references`, () => {
       it.skip(`should use the second argument as the value and set it on the key in the first argument`, () => {

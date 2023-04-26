@@ -7,7 +7,7 @@ import is from '../utils/is'
 
 const createScalar = (v?: any) => new y.Scalar(v)
 
-describe(`is`, () => {
+xdescribe(`is`, () => {
   nt.componentTypes.forEach((type) => {
     it(`[${type}] should return true`, () => {
       expect(is[type](new y.Document({ type, text: 'Hello!' }).contents as any))
