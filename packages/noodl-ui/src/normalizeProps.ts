@@ -212,7 +212,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
             isLocalKey ? get(root, pageName) : root,
             datapath,
           )
-          set(props, 'data-value', dataValue)
+          _.set(props, 'data-value', dataValue)
           if (is.component.select(blueprint)) {
             const dataOptions = isStr(get(blueprint, 'options'))
               ? get(isLocalKey ? get(root, pageName) : root, datapath)
