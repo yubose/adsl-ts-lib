@@ -127,6 +127,7 @@ export const trigger = {
   ON_MOUSEOVER: 'onMouseOver',
   ON_LAZYLOADING: 'onLazyLoading',
   ON_PULL: 'onPull',
+  ON_ONCONTEXTMENU: 'onPull',
 } as const
 
 /* -------------------------------------------------------

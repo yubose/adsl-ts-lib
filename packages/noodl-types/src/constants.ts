@@ -178,5 +178,6 @@ export const userEvent = [
   'onMouseOut',
   'onMouseOver',
   'onLazyLoading',
-  'onPull' 
+  'onPull' ,
+  'onContextmenu'
 ] as const
