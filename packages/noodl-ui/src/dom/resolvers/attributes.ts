@@ -50,7 +50,7 @@ function attachUserEvents<N extends t.NDOMElement>(
   node: N,
   component: t.NuiComponent.Instance,
 ) {
-  let componentsNum = component.children.length;
+  let componentsNum = component.children?.at(-1)?.children.length;
 
   userEvent.forEach((eventType: string) => {
     /**
@@ -89,10 +89,10 @@ function attachUserEvents<N extends t.NDOMElement>(
             node.clientHeight || document.documentElement.clientHeight
           let contentHeight =
             node.scrollHeight || document.documentElement.scrollHeight //内容高度
-          let scrollTop = node.scrollTop || document.documentElement.scrollTop
-          if (component.children.length===componentsNum &&Math.floor(contentHeight - viewHeight - scrollTop) <= 1) {
-            componentsNum+= component.blueprint.lazyCount;
-            const timer = setTimeout(() => {
+            let scrollTop = node.scrollTop || document.documentElement.scrollTop;
+            if (((component.children?.at(-1)?.children.length===componentsNum )||component.get("updateState")) &&Math.floor(contentHeight - viewHeight - scrollTop) <= 1) {
+              componentsNum+= component.blueprint.lazyCount;
+              const timer = setTimeout(() => {
               // @ts-expect-error
               component.get?.(eventType)?.execute?.(event)
               node.removeEventListener('scroll', executeScroll)
