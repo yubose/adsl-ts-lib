@@ -497,12 +497,12 @@ class NDOM extends NDOMInternal {
         page: NDOMPage
       }): void
     },
+    dataOptions?: any
   ) {
     let hooks = options?.on
     let node: t.NDOMElement | null = null
     let page: NDOMPage = pageProp || this.page
-    let count = +component.get('lazyCount') as number
-
+    let count = +component.get('lazyCount') as number;
     try {
       if (component) {
         if (_isPluginComponent(component)) {
@@ -665,9 +665,15 @@ class NDOM extends NDOMInternal {
               const childNode = (await this.draw(child, node, page, {
                 ...options,
                 on: hooks,
-              })) as HTMLElement
+              },dataOptions)) as HTMLElement
               childNode && childrenContainer?.appendChild(childNode)
             }
+          }
+          if(dataOptions?.focus === node.getAttribute("data-viewtag")){
+             setTimeout(()=>{
+                node?.focus();
+                node?.setSelectionRange(-1, -1)
+            });
           }
           if (
             childrenContainer.nodeType ===
@@ -689,6 +695,7 @@ class NDOM extends NDOMInternal {
     component: C, // ex: listItem (component instance)
     pageProp?: NDOMPage,
     options?: Parameters<NDOM['draw']>[3],
+    dataOptions?: any
   ) {
     let context: any = options?.context
     let isPageComponent = Identify.component.page(component)
@@ -772,7 +779,7 @@ class NDOM extends NDOMInternal {
               on: options?.on || this.renderState.options.hooks,
               context,
               nodeIndex: getNodeIndex(node),
-            })
+            },dataOptions)
             node = newNode
           } else {
             let parentNode = node.parentNode
@@ -783,7 +790,7 @@ class NDOM extends NDOMInternal {
               on: options?.on || this.renderState.options.hooks,
               context,
               nodeIndex: currentIndex,
-            })
+            },dataOptions)
             if (parentNode) {
               // @ts-expect-error
               parentNode.replaceChild(newNode, node)
