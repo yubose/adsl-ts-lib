@@ -57,8 +57,8 @@ class ComponentCache {
     return {
       next() {
         return {
-          value: components.pop(),
           done: !components.length,
+          value: components.pop(),
         }
       },
     }
