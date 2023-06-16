@@ -702,8 +702,9 @@ componentResolver.setResolver(async (component, options, next) => {
                       }
                     }
                   }
+                } else {
+                  set(item,key,styleValue)
                 }
-                set(item,key,styleValue)
               }
             }
  
@@ -755,6 +756,30 @@ componentResolver.setResolver(async (component, options, next) => {
                       ? item.display
                       : `inline-block`,
                     }: undefined),
+                ...('backgroundColor' in item
+                    ?{
+                      backgroundColor: item.backgroundColor,
+                    }: undefined),
+                ...('outline' in item
+                    ?{
+                      outline: item.outline,
+                    }: undefined),
+                ...('borderWidth' in item
+                    ?{
+                      borderWidth: item.borderWidth,
+                    }: undefined),
+                ...('border' in item
+                    ?{
+                      border: item.border,
+                    }: undefined),
+                ...('borderRadius' in item
+                    ?{
+                      borderRadius: item.borderRadius,
+                    }: undefined),
+                ...('textIndent' in item
+                    ?{
+                      textIndent: item.textIndent,
+                    }: undefined),
               },
               // text: 'text' in item ? `${item.text}` : '',
             }
@@ -762,6 +787,7 @@ componentResolver.setResolver(async (component, options, next) => {
             if('textField' in item){
               componentObject['data-value'] = 'text' in item ? `${item.text}` : ''
               componentObject['richtext'] = true
+              componentObject['placeholder'] = 'placeholder' in item ? `${item.placeholder}` : ''
             }else{
               componentObject['text'] =  'text' in item ? `${item.text}` : ''
             }
