@@ -751,7 +751,9 @@ componentResolver.setResolver(async (component, options, next) => {
                     }: undefined),
                 ...('display' in item
                     ?{
-                      display: item.display,
+                      display: item.display !== "block"
+                      ? item.display
+                      : `inline-block`,
                     }: undefined),
               },
               // text: 'text' in item ? `${item.text}` : '',
