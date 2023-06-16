@@ -672,6 +672,7 @@ class NDOM extends NDOMInternal {
           if(dataOptions?.focus === node.getAttribute("data-viewtag")){
              setTimeout(()=>{
                 node?.focus();
+                //@ts-expect-error
                 node?.setSelectionRange(-1, -1)
             });
           }

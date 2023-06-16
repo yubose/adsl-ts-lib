@@ -523,8 +523,10 @@ componentResolver.setResolver(async (component, options, next) => {
                     : item.text
               }
             }
+            const type = 'textField' in item? 'textField':'span'
+
             let componentObject = {
-              type: 'span',
+              type: type,
               style: {
                 // display: 'inline-block',
                 ...('color' in item
@@ -562,6 +564,143 @@ componentResolver.setResolver(async (component, options, next) => {
               text: 'text' in item ? `${item.text}` : '',
             }
 
+            userEvent.forEach((event) => {
+              item?.[event] && (componentObject[event] = item?.[event])
+            })
+
+            const text = createComponent(componentObject, page)
+
+            userEvent.forEach((event) => {
+              if (item?.[event]) {
+                const actionChain = options.createActionChain(
+                  event,
+                  item[event] as NUIActionObject[],
+                )
+                if (options.on?.actionChain) {
+                  actionChain.use(options.on.actionChain)
+                }
+                text.edit({ [event]: actionChain })
+              }
+            })
+            component.createChild(text)
+            callback?.(text)
+          }
+        })
+      } else {
+        log.error(
+          `%cExpected textBoard to be an array but received "${typeof textBoard}". ` +
+            `This part of the component will not be included in the output`,
+          `color:#ec0000;font-weight:bold;`,
+          { component, textBoard },
+        )
+      }
+    }
+    
+    if (original.type === 'richtext' && 'textBoard' in original) {
+      if (u.isArr(textBoard)) {
+        if (u.isStr(text)) {
+          log.error(
+            `%cA component cannot have a "text" and "textBoard" property because ` +
+              `they both overlap. The "text" will take precedence.`,
+            `color:#ec0000;font-weight:bold;`,
+            component.toJSON(),
+          )
+        }
+        const dataObject = u.isObj(findListDataObject(component))
+          ? findListDataObject(component)
+          : context?.dataObject
+        const listAttribute = getListAttribute(component)
+        textBoard.forEach((item) => {
+          if (is.textBoardItem(item)) {
+            const child = createComponent('br', page)
+            callback?.(child)
+            component.createChild(child)
+          }else {
+            /**
+             * NOTE: Normally in the return type we would return the child
+             * component wrapped with a resolveComponent call but it is conflicting
+             * with our custom implementation because its being assigned unwanted style
+             * attributes like "position: absolute" which disrupts the text display.
+             * TODO: Instead of a resolverComponent, we should make a resolveStyles
+             * to get around this issue. For now we'll hard code known props like "color"
+             * color ---> color
+             * fontSize----> fontSize
+             * fontWeight---> normal | bold | number
+             */
+            let itemText = item?.text
+
+            if (item?.dataKey || itemText) {
+              if (!item.dataKey) item.dataKey = itemText
+              if (iteratorVar && item?.dataKey.startsWith(iteratorVar)) {
+                const dataKey = excludeIteratorVar(item?.dataKey, iteratorVar)
+                item.text = dataKey ? get(dataObject, dataKey) : dataObject
+              } else if (iteratorVar && item?.dataKey.startsWith('listAttr')) {
+                const dataKey = excludeIteratorVar(item?.dataKey, 'listAttr')
+                item.text = dataKey
+                  ? get(listAttribute, dataKey)
+                  : listAttribute
+              } else {
+                const dataObject =
+                  findDataValue(
+                    [() => getRoot(), () => getRoot()[page.page]],
+                    item?.dataKey,
+                  ) || item.dataKey
+                item.text = u.isObj(dataObject)
+                  ? get(dataObject, item?.datKey)
+                  : dataObject
+                item.text =
+                  item.text === item?.dataKey
+                    ? itemText
+                      ? itemText
+                      : ''
+                    : item.text
+              }
+            }
+            const type = 'textField' in item? 'textField':'span'
+
+            let componentObject = {
+              type: type,
+              style: {
+                // display: 'inline-block',
+                ...('color' in item
+                  ? { color: formatColor(item.color || '') }
+                  : undefined),
+                  ...('textDecoration' in item
+                  ? { textDecoration: item.textDecoration || '' }
+                  : undefined),
+                ...('fontSize' in item
+                  ? {
+                      fontSize:
+                        item.fontSize.search(/[a-z]/gi) != -1
+                          ? item.fontSize
+                          : item.fontSize + 'px',
+                    }
+                  : undefined),
+                ...('fontWeight' in item
+                  ? { fontWeight: item.fontWeight }
+                  : undefined),
+                ...('left' in item
+                  ? {
+                      marginLeft: item.left.includes('px')
+                        ? item.left
+                        : `${item.left}px`,
+                    }
+                  : undefined),
+                ...('top' in item
+                  ? {
+                      marginTop: item.top.includes('px')
+                        ? item.top
+                        : `${item.top}px`,
+                    }
+                  : undefined),
+              },
+              // text: 'text' in item ? `${item.text}` : '',
+            }
+            if('textField' in item){
+              componentObject['data-value'] = 'text' in item ? `${item.text}` : ''
+            }else{
+              componentObject['text'] =  'text' in item ? `${item.text}` : ''
+            }
             userEvent.forEach((event) => {
               item?.[event] && (componentObject[event] = item?.[event])
             })
