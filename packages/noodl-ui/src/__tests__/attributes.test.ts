@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as u from '@jsmanifest/utils'
 import m from 'noodl-test-utils'
 import chai from 'chai'
