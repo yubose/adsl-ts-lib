@@ -949,8 +949,11 @@ const componentsResolver: t.Resolve.Config = {
           node.style.display = 'inline'
           node.style.wordBreak = 'break-all'
           node.style.wordWrap = 'break-word'
+          node.style.margin = '2px 2px'
+          node.style.padding = '2px 2px'
           node.setAttribute('contenteditable','true')
-          if(!original.style?.border) node.style.border = '1px solid'  
+          node.style.borderRadius = '4px'
+          if(!original.style?.border) node.style.border = '1px solid rgb(222,222,222)'
 
           let width = original?.style?.['width']?original?.['style']?.['width']:'0px'
           let newWidth = parseInt(width)
