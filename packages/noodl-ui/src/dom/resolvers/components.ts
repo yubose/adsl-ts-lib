@@ -950,8 +950,8 @@ const componentsResolver: t.Resolve.Config = {
           node.style.display = 'inline'
           node.style.wordBreak = 'break-all'
           node.style.wordWrap = 'break-word'
-          node.style.margin = '2px 2px'
-          node.style.padding = '2px 2px'
+          node.style.margin = '0px 2px'
+          node.style.padding = '0px 2px'
           node.setAttribute('contenteditable','true')
           node.style.borderRadius = '4px'
           if(!original.style?.border) node.style.border = '1px solid rgb(222,222,222)'
