@@ -708,7 +708,7 @@ componentResolver.setResolver(async (component, options, next) => {
               }
             }
  
-            const type = 'textField' in item? 'textField':'span'
+            const type = 'textField' in item? 'div':'span'
             let componentObject = {
               type: type,
               style: {

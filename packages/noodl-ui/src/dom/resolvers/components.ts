@@ -943,6 +943,38 @@ const componentsResolver: t.Resolve.Config = {
               )
             }
           }
+        }else if(original?.richtext && original.richtext){
+
+          const node = args.node
+          node.style.display = 'inline'
+          node.style.wordBreak = 'break-all'
+          node.style.wordWrap = 'break-word'
+          node.setAttribute('contenteditable','true')
+          if(!original.style?.border) node.style.border = '1px solid'  
+
+          let width = original?.style?.['width']?original?.['style']?.['width']:'0px'
+          let newWidth = parseInt(width)
+
+
+          const curWidth = node.offsetWidth
+          if(newWidth>0 && curWidth<newWidth){
+            node.style.display = 'inline-block'
+            node.style.width = `${newWidth}px` 
+          }
+
+          if(newWidth>0){
+            node.oninput = (event)=>{
+              node.style.display = 'inline'
+              const curWidth = (event.target as any)?.offsetWidth
+              if(curWidth < newWidth){
+                node.style.display = 'inline-block'
+                node.style.width = `${newWidth}px`
+              }else{
+                node.style.display = 'inline'
+              }
+            }
+          }
+          
         }
 
         /* -------------------------------------------------------
