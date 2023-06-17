@@ -598,7 +598,7 @@ componentResolver.setResolver(async (component, options, next) => {
       }
     }
     
-    if (original.type === 'richtext' && 'textBoard' in original) {
+    if (is.component.richtext(original) && 'textBoard' in original) {
       if (u.isArr(textBoard)) {
         if (u.isStr(text)) {
           log.error(

@@ -163,6 +163,7 @@ export const Identify = (function () {
       ),
       video: identifyObj<t.VideoComponentObject>((v) => v.type === 'video'),
       view: identifyObj<t.ViewComponentObject>((v) => v.type === 'view'),
+      richtext: identifyObj<t.DividerComponentObject>((v) => v.type === 'richtext'),
     },
     ecosObj: {
       audio(v: unknown) {},
