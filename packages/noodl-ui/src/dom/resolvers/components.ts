@@ -947,8 +947,6 @@ const componentsResolver: t.Resolve.Config = {
 
           const node = args.node
 
-          console.log("TEST", node.style.display)
-
           node.style.display = 'inline'
           node.style.wordBreak = 'break-all'
           node.style.wordWrap = 'break-word'
