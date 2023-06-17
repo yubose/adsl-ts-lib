@@ -752,8 +752,8 @@ componentResolver.setResolver(async (component, options, next) => {
                     }: undefined),
                 ...('display' in item
                     ?{
-                      display: item.display !== "block"
-                      ? item.display
+                      display: item.display === "none"
+                      ? `none`
                       : `inline-block`,
                     }: undefined),
                 ...('backgroundColor' in item
@@ -780,7 +780,13 @@ componentResolver.setResolver(async (component, options, next) => {
                     ?{
                       textIndent: item.textIndent,
                     }: undefined),
-              },
+                ...('lineHeight' in item
+                    ?{
+                      lineHeight: item.lineHeight.includes("px")
+                      ? item.lineHeight
+                      : `${item.lineHeight}px` ,
+                    }: undefined),
+              }, 
               // text: 'text' in item ? `${item.text}` : '',
             }
 

@@ -943,9 +943,12 @@ const componentsResolver: t.Resolve.Config = {
               )
             }
           }
-        }else if(original?.richtext && original.richtext){
+        }else if(original?.richtext && original.richtext && args.node.style.display !== "none"){
 
           const node = args.node
+
+          console.log("TEST", node.style.display)
+
           node.style.display = 'inline'
           node.style.wordBreak = 'break-all'
           node.style.wordWrap = 'break-word'
