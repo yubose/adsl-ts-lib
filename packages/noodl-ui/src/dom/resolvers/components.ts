@@ -1030,7 +1030,16 @@ const componentsResolver: t.Resolve.Config = {
           // args.node?.addEventListener(
           //   'change',
           //   textChange
-          // )
+          // )console.log('test',args.component.contentType,this.value)
+          if(args.component?.contentType === 'int'){
+            function textInput(this: HTMLInputElement) {
+              this.value = this.value.replace(/[^0-9]/g,'')
+              this.dataset.value = this.value
+            }
+            const inputListener = addListener(args.node,'input',textInput)
+            args.component.addEventListeners(inputListener)
+          }
+          
           const listener = addListener(args.node,'change',textChange)
           args.component.addEventListeners(listener)
         }
