@@ -2,6 +2,7 @@ import * as u from '@jsmanifest/utils'
 import cloneDeep from 'lodash/cloneDeep'
 import get from 'lodash/get'
 import set from 'lodash/set'
+import NuiViewport from '../Viewport'
 import { userEvent } from 'noodl-types'
 import { excludeIteratorVar, findDataValue } from 'noodl-utils'
 import type { ComponentObject, EcosDocument } from 'noodl-types'
@@ -11,6 +12,7 @@ import isNuiPage from '../utils/isPage'
 import resolveReference from '../utils/resolveReference'
 import { formatColor } from '../utils/common'
 import is from '../utils/is'
+import * as s from '../utils/style'
 import {
   findIteratorVar,
   findListDataObject,
@@ -596,7 +598,7 @@ componentResolver.setResolver(async (component, options, next) => {
       }
     }
     
-    if (original.type === 'richtext' && 'textBoard' in original) {
+    if (is.component.richtext(original) && 'textBoard' in original) {
       if (u.isArr(textBoard)) {
         if (u.isStr(text)) {
           log.error(
@@ -656,8 +658,57 @@ componentResolver.setResolver(async (component, options, next) => {
                     : item.text
               }
             }
-            const type = 'textField' in item? 'textField':'span'
 
+
+            for(let key of Object.keys(item)){
+              if(['text','dataKey','textField'].indexOf(key)===-1){
+                const styleValue = item[key]
+                if (s.isVwVh(styleValue)) {
+                  const valueNum = s.toNum(styleValue) / 100
+                  const newValue = options.keepVpUnit
+                    ? `calc(${styleValue})`
+                    : String(
+                        s.getSize(
+                          valueNum,
+                          s.getViewportBound(options.viewport, styleValue) as number,
+                        ),
+                      )
+                  set(item, key, newValue)
+                } else if (s.isKeyRelatedToWidthOrHeight(key)) {
+                  const computedValue = s.isNoodlUnit(styleValue)
+                    ? String(
+                        NuiViewport.getSize(
+                          styleValue,
+                          s.getViewportBound(options.viewport, key) as number,
+                          { unit: 'px' },
+                        ),
+                      )
+                    : undefined
+                  if (s.isNoodlUnit(styleValue)) {
+                    if (
+                      styleValue.includes('%') &&
+                      key === 'borderRadius'
+                    ) {
+                      set(item, key, styleValue)
+                    } else {
+                      set(item, key, computedValue)
+                    }
+                  } else if (s.isKeyRelatedToHeight(key)) {
+                    if (key == 'borderRadius' && u.isStr(styleValue)) {
+                      if (styleValue.includes('px')) {
+                        set(item, key, `${styleValue}`)
+                      } else {
+                        set(item, key, `${styleValue}px`)
+                      }
+                    }
+                  }
+                } else {
+                  set(item,key,styleValue)
+                }
+              }
+            }
+ 
+            const type = 'textField' in item? 'div':'span'
             let componentObject = {
               type: type,
               style: {
@@ -693,11 +744,56 @@ componentResolver.setResolver(async (component, options, next) => {
                         : `${item.top}px`,
                     }
                   : undefined),
-              },
+                ...('width' in item
+                    ?{
+                      width: item.width.includes('px')
+                        ? item.width
+                        : `${item.width}px`,
+                    }: undefined),
+                ...('display' in item
+                    ?{
+                      display: item.display === "none"
+                      ? `none`
+                      : `inline-block`,
+                    }: undefined),
+                ...('backgroundColor' in item
+                    ?{
+                      backgroundColor: item.backgroundColor,
+                    }: undefined),
+                ...('outline' in item
+                    ?{
+                      outline: item.outline,
+                    }: undefined),
+                ...('borderWidth' in item
+                    ?{
+                      borderWidth: item.borderWidth,
+                    }: undefined),
+                ...('border' in item
+                    ?{
+                      border: item.border,
+                    }: undefined),
+                ...('borderRadius' in item
+                    ?{
+                      borderRadius: item.borderRadius,
+                    }: undefined),
+                ...('textIndent' in item
+                    ?{
+                      textIndent: item.textIndent,
+                    }: undefined),
+                ...('lineHeight' in item
+                    ?{
+                      lineHeight: item.lineHeight.includes("px")
+                      ? item.lineHeight
+                      : `${item.lineHeight}px` ,
+                    }: undefined),
+              }, 
               // text: 'text' in item ? `${item.text}` : '',
             }
+
             if('textField' in item){
               componentObject['data-value'] = 'text' in item ? `${item.text}` : ''
+              componentObject['richtext'] = true
+              componentObject['placeholder'] = 'placeholder' in item ? `${item.placeholder}` : ''
             }else{
               componentObject['text'] =  'text' in item ? `${item.text}` : ''
             }

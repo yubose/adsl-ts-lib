@@ -443,7 +443,8 @@ class NDOM extends NDOMInternal {
     // for (let index = 0; index < numComponents; index++) {
     //   await this.draw(components[index] as any, page.node, page, resolveOptions)
     // }
-    if (this.global.pageNames[0] == 'VideoChat') {
+
+    if (['MeetingPage','VideoChat'].includes(this.global.pageNames[0])) {
       const numComponents = components.length
       for (let index = 0; index < numComponents; index++) {
         await this.draw(

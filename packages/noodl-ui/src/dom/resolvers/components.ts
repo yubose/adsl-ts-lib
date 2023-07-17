@@ -943,6 +943,42 @@ const componentsResolver: t.Resolve.Config = {
               )
             }
           }
+        }else if(original?.richtext && original.richtext && args.node.style.display !== "none"){
+
+          const node = args.node
+
+          node.style.display = 'inline'
+          node.style.wordBreak = 'break-all'
+          node.style.wordWrap = 'break-word'
+          node.style.margin = '0px 2px'
+          node.style.padding = '0px 2px'
+          node.setAttribute('contenteditable','true')
+          node.style.borderRadius = '4px'
+          if(!original.style?.border) node.style.border = '1px solid rgb(222,222,222)'
+
+          let width = original?.style?.['width']?original?.['style']?.['width']:'0px'
+          let newWidth = parseInt(width)
+
+
+          const curWidth = node.offsetWidth
+          if(newWidth>0 && curWidth<newWidth){
+            node.style.display = 'inline-block'
+            node.style.width = `${newWidth}px` 
+          }
+
+          if(newWidth>0){
+            node.oninput = (event)=>{
+              node.style.display = 'inline'
+              const curWidth = (event.target as any)?.offsetWidth
+              if(curWidth < newWidth){
+                node.style.display = 'inline-block'
+                node.style.width = `${newWidth}px`
+              }else{
+                node.style.display = 'inline'
+              }
+            }
+          }
+          
         }
 
         /* -------------------------------------------------------
@@ -994,7 +1030,16 @@ const componentsResolver: t.Resolve.Config = {
           // args.node?.addEventListener(
           //   'change',
           //   textChange
-          // )
+          // )console.log('test',args.component.contentType,this.value)
+          if(args.component?.contentType === 'int'){
+            function textInput(this: HTMLInputElement) {
+              this.value = this.value.replace(/[^0-9]/g,'')
+              this.dataset.value = this.value
+            }
+            const inputListener = addListener(args.node,'input',textInput)
+            args.component.addEventListeners(inputListener)
+          }
+          
           const listener = addListener(args.node,'change',textChange)
           args.component.addEventListeners(listener)
         }
