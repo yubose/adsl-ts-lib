@@ -577,9 +577,10 @@ class NDOM extends NDOMInternal {
           node = document.createElement(getElementTag(component))
           componentPage.replaceNode(node as HTMLIFrameElement)
         } else {
-          if (container?.tagName === 'UL' && +component.get('lazyCount') > 0 && component.get("lazyState")) {
-            node = container;
-          } else {
+            if (component.get('lazyload') !== false&&container?.tagName === 'UL' && +component.get('lazyCount') > 0 && component.get("lazyState")) {
+              node = container;
+            }
+           else {
             node = this.#createElementBinding?.(component) || null
             node && (node['isElementBinding'] = true)
             !node && (node = document.createElement(getElementTag(component)))
@@ -639,6 +640,7 @@ class NDOM extends NDOMInternal {
             : node
           let i: number = 0
           if (
+            component.get('lazyload') !== false&&
             Identify.component.list(component) &&
             component.children.length > 0 &&
             +component.get('lazyCount') > 0
@@ -761,7 +763,7 @@ class NDOM extends NDOMInternal {
         //       newComponent.set('scrollheight',scrollHeight) 
         // }
         // this.removeComponentListener(component)
-        !(component.get('lazyCount') > 0 && component.get("lazyState")) && this.removeComponentListener(component)
+        !(component.get('lazyCount') > 0 && component.get("lazyState")&&component.get('lazyload') !== false) && this.removeComponentListener(component)
         this.removeComponent(component)
         newComponent = await nui.resolveComponents?.({
           callback: options?.callback,
@@ -774,7 +776,7 @@ class NDOM extends NDOMInternal {
       }
       if (node) {
         if (newComponent) {
-          if (component.get('lazyCount') > 0 && component.get("lazyState")) {
+          if (component.get('lazyCount') > 0 && component.get("lazyState")&&component.get('lazyload') !== false) {
             let newNode = await this.draw(newComponent, node, page, {
               ...options,
               on: options?.on || this.renderState.options.hooks,
