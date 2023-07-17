@@ -597,8 +597,8 @@ componentResolver.setResolver(async (component, options, next) => {
         )
       }
     }
-    
-    if (is.component.richtext(original) && 'textBoard' in original) {
+    //@ts-ignore
+    if (is.component?.richtext(original) && 'textBoard' in original) {
       if (u.isArr(textBoard)) {
         if (u.isStr(text)) {
           log.error(
