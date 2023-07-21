@@ -432,7 +432,6 @@ const componentsResolver: t.Resolve.Config = {
                       args.component,
                     )
                   }
-
                   if (path && path?.url) {
                     if (path?.type && path.type == 'application/pdf') {
                       //pdf preview
@@ -451,8 +450,11 @@ const componentsResolver: t.Resolve.Config = {
                       parent?.appendChild(iframe)
                       parent?.removeChild(args.node)
                     } else {
-                      log.log('load path', path)
-                      setAttr('src', path?.url)
+                      setTimeout(()=>{
+                        log.log('load path', path)
+                        setAttr('src', path?.url)
+                      },0)
+                      
                     }
                   } else {
                     if (!args.component?.get?.(c.DATA_SRC)) return
