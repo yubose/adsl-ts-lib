@@ -8,6 +8,7 @@ import { removeAllNode } from './utils'
 
 class Page {
   #nuiPage: NUIPage
+  #mounted:boolean = false
   #state: t.Page.State = {
     aspectRatio: 1,
     aspectRatioMin: 1,
@@ -29,6 +30,7 @@ class Page {
   // @ts-expect-error
   #node: this['id'] extends 'root' ? HTMLDivElement : HTMLIFrameElement
   pageUrl: string = BASE_PAGE_URL;
+  
 
   [Symbol.for('nodejs.util.inspect.custom')]() {
     return {
@@ -71,6 +73,14 @@ class Page {
 
   set aspectRatio(value) {
     this.#state.aspectRatio = value
+  }
+
+  get mounted(){
+    return this.#mounted
+  }
+
+  set mounted(value: boolean){
+    this.#mounted = value
   }
 
   get aspectRatioMin() {
