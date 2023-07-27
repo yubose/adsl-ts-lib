@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { expect } from 'chai'
 import { waitFor } from '@testing-library/dom'
 import m from 'noodl-test-utils'
@@ -6,8 +5,8 @@ import * as nt from 'noodl-types'
 import sinon from 'sinon'
 import * as u from '@jsmanifest/utils'
 import { createOn, nui } from '../../utils/test-utils'
-import { emitHooks } from '../../resolvers/resolveSetup'
 
+// @ts-ignore
 let on: ReturnType<typeof createOn>
 
 beforeEach(() => {
@@ -17,6 +16,7 @@ beforeEach(() => {
 describe(u.yellow(`resolveSetup`), () => {
   describe(`when resolving traversal references`, () => {
     let ref1: nt.ReferenceString
+    // @ts-ignore
     let ref2: nt.ReferenceString
     let baseCheckViewButton: nt.ComponentObject
     let pageComponents: nt.ComponentObject[]
@@ -181,7 +181,7 @@ describe(u.yellow(`resolveSetup`), () => {
       const { component } = await resolveComponent(
         m.label({
           [trigger]: [m.evalObject, m.emitObject(), m.evalObject],
-        }),
+        } as any),
       )
       // @ts-expect-error
       await component.get(trigger)?.execute({})

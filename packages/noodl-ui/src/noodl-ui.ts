@@ -629,10 +629,10 @@ const NUI = (function () {
   function _getActions(
     actionType: 'builtIn',
   ): Map<string, t.Store.BuiltInObject[]>
-  function _getActions<AType extends typeof groupedActionTypes[number]>(
+  function _getActions<AType extends (typeof groupedActionTypes)[number]>(
     actionType: AType,
   ): t.Store.ActionObject<AType>[]
-  function _getActions<GAType extends typeof groupedActionTypes[number]>(
+  function _getActions<GAType extends (typeof groupedActionTypes)[number]>(
     actionType?: GAType | 'builtIn' | 'emit' | never,
   ) {
     if (actionType === undefined) return cache.actions

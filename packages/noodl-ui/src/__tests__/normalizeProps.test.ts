@@ -1,18 +1,9 @@
-// @ts-nocheck
 import { expect } from 'chai'
-import { waitFor } from '@testing-library/dom'
-import sinon from 'sinon'
 import m from 'noodl-test-utils'
 import * as u from '@jsmanifest/utils'
 import * as nt from 'noodl-types'
-import * as i from '../utils/internal'
 import * as s from '../utils/style'
-import {
-  assetsUrl,
-  baseUrl,
-  getDefaultViewportWidthHeight,
-  nui,
-} from '../utils/test-utils'
+import { getDefaultViewportWidthHeight, nui } from '../utils/test-utils'
 import NuiPage from '../Page'
 import log from '../utils/log'
 import normalizeProps from '../normalizeProps'
@@ -139,7 +130,9 @@ describe('normalizeProps', () => {
           () => {
             expect(
               parse(m.button({ style: { axis: 'horizontal' } })).style,
-            ).to.satisfy((s) => s.display === 'flex' && s.flexWrap === 'nowrap')
+            ).to.satisfy(
+              (s: any) => s.display === 'flex' && s.flexWrap === 'nowrap',
+            )
           },
         )
 
@@ -173,7 +166,9 @@ describe('normalizeProps', () => {
         it(`should change to { display: 'flex', alignItems: 'center' }`, () => {
           expect(
             parse(m.button({ style: { textAlign: 'centerY' } })).style,
-          ).to.satisfy((s) => s.display === 'flex' && s.alignItems === 'center')
+          ).to.satisfy(
+            (s: any) => s.display === 'flex' && s.alignItems === 'center',
+          )
         })
 
         it(`should delete the textAlign property`, () => {
@@ -200,7 +195,7 @@ describe('normalizeProps', () => {
       // @ts-expect-error
       leftCenterRightKeys
         .concat(['centerX'])
-        .forEach((key: typeof leftCenterRightKeys[number] | 'centerX') => {
+        .forEach((key: (typeof leftCenterRightKeys)[number] | 'centerX') => {
           it(
             `should change { textAlign: { x: '${key}', y: 'center' } } to ` +
               `{ textAlign: '${key}', display:'flex', alignItems: 'center }`,
@@ -234,7 +229,7 @@ describe('normalizeProps', () => {
           expect(
             parse(m.textField({ style: { border: borderPresetKey as any } }))
               .style,
-          ).to.satisfy((s) => u.entries(s).every(([k, v]) => s[k] === v))
+          ).to.satisfy((s: any) => u.entries(s).every(([k, v]) => s[k] === v))
         })
       })
 
@@ -330,7 +325,7 @@ describe('normalizeProps', () => {
       describe(`vw/vh`, () => {
         it(`should return back the original value if viewport dimensions are missing`, () => {
           expect(
-            normalizeProps({}, getComponent('2.8vh')).style,
+            normalizeProps({}, getComponent('2.8vh') as any).style,
           ).to.have.property('fontSize', '2.8vh')
         })
 
@@ -395,7 +390,7 @@ describe('normalizeProps', () => {
         })
 
         it(`should correctly resolve fontSize references`, () => {
-          const [label1, list1] = root.Topo.components.map((c) =>
+          const [label1, list1] = root.Topo.components.map((c: any) =>
             parse(c, { pageName: 'Topo', root }),
           )
           expect(label1.style).to.have.property('fontSize', `${30.015}px`)
@@ -553,7 +548,7 @@ describe('normalizeProps', () => {
     describe(`listItem`, () => {
       xit(`should remove listStyle and set padding to 0`, () => {
         expect(parse(m.listItem({})).style).to.satisfy(
-          (s) => s.listStyle === 'none',
+          (s: any) => s.listStyle === 'none',
         )
       })
     })

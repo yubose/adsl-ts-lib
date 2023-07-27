@@ -1,4 +1,3 @@
-// @ts-nocheck
 import sinon from 'sinon'
 import m from 'noodl-test-utils'
 import { ComponentObject } from 'noodl-types'
@@ -131,7 +130,7 @@ describe(`resolveDataAttrs`, () => {
           children: [
             m.listItem({
               [iteratorVar]: '',
-              children: [m.select({ options: 'itemObject.doc' })],
+              children: [m.select({ options: 'itemObject.doc' } as any)],
             }),
           ],
         }),
@@ -250,6 +249,7 @@ describe(`resolveDataAttrs`, () => {
     let emitObj: {
       emit: { dataKey: { var1: string; var2: string }; actions: any[] }
     }
+    // @ts-ignore
     let list: {
       type: string
       iteratorVar: string
@@ -284,6 +284,7 @@ describe(`resolveDataAttrs`, () => {
           actions: [],
         },
       }
+      // @ts-ignore
       list = await resolveComponent(
         m.list({
           type: 'list',
