@@ -20,6 +20,7 @@ export const componentTypes = [
 	'textView',
 	'video',
 	'view',
+	'richtext',
 ] as const
 
 export const minimalStyleKeys = [

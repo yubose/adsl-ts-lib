@@ -36,5 +36,5 @@
     "types": "tsc --declaration --declarationDir dist --emitDeclarationOnly"
   },
   "typings": "./dist/index.d.ts",
-  "version": "0.0.133"
+  "version": "0.0.134"
 }

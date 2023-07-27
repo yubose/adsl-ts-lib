@@ -592,6 +592,7 @@ export namespace Page {
       snapshot: Snapshot & { components: NuiComponent.Instance[] },
     ): void
     [eventId.page.on.ON_COMPONENTS_RENDERED](page: NDOMPage): void
+    [eventId.page.on.ON_MOUNTED](page: NDOMPage): void
     [eventId.page.on.ON_APPEND_NODE](args: {
       page: NDOMPage
       parentNode: HTMLElement

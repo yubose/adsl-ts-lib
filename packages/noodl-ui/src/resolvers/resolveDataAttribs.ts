@@ -118,7 +118,7 @@ dataAttribsResolver.setResolver(async (component, options, next) => {
           result = addDate(initialTime, { seconds: result })
           result === null && (result = new Date())
         }
-        if(result){
+        if(result||![undefined,null,NaN].includes(result)){
           result = component.get('text=func')(result)
         }else{
           result = component.get('text')

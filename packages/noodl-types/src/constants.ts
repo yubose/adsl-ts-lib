@@ -48,6 +48,7 @@ export const component = {
   view: 'view',
   rotation: 'rotation',
   checkbox: 'checkbox',
+  richtext: 'richtext',
 } as const
 
 export const componentKeys = [
@@ -178,5 +179,6 @@ export const userEvent = [
   'onMouseOut',
   'onMouseOver',
   'onLazyLoading',
-  'onPull' 
+  'onPull' ,
+  'onContextmenu'
 ] as const
