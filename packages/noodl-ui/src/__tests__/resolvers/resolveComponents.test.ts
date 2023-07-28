@@ -1,4 +1,3 @@
-// @ts-nocheck
 import * as u from '@jsmanifest/utils'
 import sinon from 'sinon'
 import m from 'noodl-test-utils'
@@ -72,11 +71,6 @@ describe(`resolveComponents (ComponentResolver)`, () => {
     nui.use({ getRoot: () => ({ Hello: HelloPg, Sam: pageObject }) })
     const page = nui.getRootPage()
     page.page = 'Sam'
-    const components = await nui.resolveComponents({
-      components: pageObject.components,
-      page,
-      callback: spy,
-    })
     const expectedCallsInOrder = [
       { type: 'view' },
       { type: 'label' },
@@ -113,10 +107,11 @@ describe(`resolveComponents (ComponentResolver)`, () => {
               text: ifObj,
               onClick: [m.emitObject()],
               style: { border: { style: '2' }, shadow: 'true' },
-            }),
+            } as any),
             on: { if: spy },
           })
         ).get('text')
+        // @ts-ignore
         const args = spy.args[0][0]
         expect(spy).to.be.calledOnce
         expect(args).to.have.property('key', 'text')
@@ -251,7 +246,7 @@ describe(`resolveComponents (ComponentResolver)`, () => {
         expect(page.viewport.width + 'px').to.eq(
           Number(
             Viewport.getSize(
-              component.blueprint.style.width,
+              component.blueprint.style?.width as string,
               nui.getRootPage().viewport.width,
             ),
           ).toPrecision() + 'px',
@@ -259,7 +254,7 @@ describe(`resolveComponents (ComponentResolver)`, () => {
         expect(page.viewport.height + 'px').to.eq(
           Number(
             Viewport.getSize(
-              component.blueprint.style.height,
+              component.blueprint.style?.height as string,
               nui.getRootPage().viewport.height,
             ),
           ).toPrecision() + 'px',
@@ -299,7 +294,7 @@ describe(`resolveComponents (ComponentResolver)`, () => {
             getRoot({ Cereal, Tiger: { components: [dividerComponent] } }),
           getPages: () => ['Cereal', 'Hello', 'Tiger'],
           transaction: {
-            [c.nuiEmitTransaction.REQUEST_PAGE_OBJECT]: async (p) =>
+            [c.nuiEmitTransaction.REQUEST_PAGE_OBJECT]: async (p: any) =>
               p.page === 'Tiger' ? nui.getRoot().Tiger : Cereal,
           },
         })
@@ -345,7 +340,8 @@ describe(`resolveComponents (ComponentResolver)`, () => {
         components: m.pluginHead({ path: 'abc.html' }),
       })
       const contents = 'hello123'
-      global.fetch = (f) => f
+      global.fetch = (f: any) => f
+      // @ts-ignore
       const spy = sinon.stub(global, 'fetch').returns(async () => contents)
       global.fetch = spy
       component.on('content', spy)

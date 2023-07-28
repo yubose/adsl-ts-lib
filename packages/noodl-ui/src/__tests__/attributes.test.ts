@@ -1,12 +1,8 @@
-//@ts-nocheck
-import * as u from '@jsmanifest/utils'
-import m from 'noodl-test-utils'
+// import * as u from '@jsmanifest/utils'
+// import m from 'noodl-test-utils'
 import chai from 'chai'
 import sinonChai from 'sinon-chai'
 import JSDOM from 'jsdom-global'
-import sinon from 'sinon'
-import { waitFor } from '@testing-library/dom'
-import { expect } from 'chai'
 import pb from 'pretty-bytes'
 import log from '../utils/log'
 import nui from '../noodl-ui'
@@ -17,7 +13,7 @@ chai.use(sinonChai)
 
 const baseUrl = 'http://127.0.0.1:3000/'
 const assetsUrl = `${baseUrl}assets/`
-const viewport = { width: 375, height: 667 }
+// const viewport = { width: 375, height: 667 }
 
 JSDOM('', {
   resources: 'usable',

@@ -203,6 +203,7 @@ export const eventId = {
       ON_COMPONENTS_RENDERED: 'ON_COMPONENTS_RENDERED',
       ON_NAVIGATE_ERROR: 'ON_NAVIGATE_ERROR',
       ON_SET_ROOT_NODE: 'ON_SET_ROOT_NODE',
+      ON_MOUNTED: 'ON_MOUNTED',
     },
     /** Sorted by order of occurrence */
     status: {
@@ -215,6 +216,7 @@ export const eventId = {
       COMPONENTS_RECEIVED: 'COMPONENTS_RECEIVED',
       RENDERING_COMPONENTS: 'RENDERING_COMPONENTS',
       COMPONENTS_RENDERED: 'COMPONENTS_RENDERED',
+      MOUNTED: 'MOUNTED',
     },
   },
 } as const

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import m from 'noodl-test-utils'
 import { expect } from 'chai'
 import nui from '../../noodl-ui'

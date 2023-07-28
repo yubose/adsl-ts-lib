@@ -1,4 +1,3 @@
-// @ts-nocheck
 import * as u from '@jsmanifest/utils'
 import * as nt from 'noodl-types'
 import * as nu from 'noodl-utils'
@@ -152,7 +151,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
     set = lset,
     unset = lunset,
     viewport,
-    getAssetsUrl
+    getAssetsUrl,
   } = parseOptions
 
   if (!u.isFnc(getHelpers)) {
@@ -201,7 +200,9 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
 
       if (originalKey === 'dataKey') {
         if (isStr(originalValue)) {
-          let datapath = nu.toDataPath(nu.trimReference(originalValue))
+          let datapath = nu.toDataPath(
+            nu.trimReference(originalValue as string),
+          )
           let isLocalKey = is.localKey(datapath.join('.'))
           // Note: This is here for fallback reasons.
           // dataKey should never be a reference in the noodl
@@ -212,7 +213,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
             isLocalKey ? get(root, pageName) : root,
             datapath,
           )
-          _.set(props, 'data-value', dataValue)
+          set(props, 'data-value', dataValue)
           if (is.component.select(blueprint)) {
             const dataOptions = isStr(get(blueprint, 'options'))
               ? get(isLocalKey ? get(root, pageName) : root, datapath)
@@ -273,8 +274,8 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
             textAlign,
             verticalAlign,
             backgroundImage,
-            imagePosition
-          } = originalValue
+            imagePosition,
+          } = (originalValue || {}) as nt.ComponentObject
 
           /* -------------------------------------------------------
             ---- COMPONENTS
@@ -349,9 +350,9 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
             }
           }
           if (backgroundImage) {
-            const imagePath = getAssetsUrl() + backgroundImage
+            const imagePath = getAssetsUrl?.() + backgroundImage
             const position = imagePosition
-            set(value,'background', `url(${imagePath}) ${position}`)
+            set(value, 'background', `url(${imagePath}) ${position}`)
           }
           // TEXTALIGN
           if (textAlign) {
@@ -553,7 +554,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                   s.getViewportBound(viewport, posKey) as number,
                 )
                 if (isObj(result)) {
-                  for (const [k, v] of entries(result)) set(value, k, v)
+                  for (const [k, v] of entries(result as any)) set(value, k, v)
                 }
               }
             })
@@ -566,7 +567,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
           -------------------------------------------------------- */
 
           const { width, height, maxHeight, maxWidth, minHeight, minWidth } =
-            originalValue || {}
+            originalValue || ({} as Record<string, any>)
 
           // if (viewport) {
           for (const [key, val] of [
@@ -580,11 +581,11 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
               set(value, key, _value)
             }
           }
-          for (const [realKey,key, vpKey, val] of [
-            ['max-height','maxHeight', 'height', maxHeight],
-            ['min-height','minHeight', 'height', minHeight],
-            ['max-width','maxWidth', 'width', maxWidth],
-            ['min-width','minWidth', 'width', minWidth],
+          for (const [realKey, _, vpKey, val] of [
+            ['max-height', 'maxHeight', 'height', maxHeight],
+            ['min-height', 'minHeight', 'height', minHeight],
+            ['max-width', 'maxWidth', 'width', maxWidth],
+            ['min-width', 'minWidth', 'width', minWidth],
           ]) {
             if (!isNil(val)) {
               const newValue = String(s.getSize(val, viewport?.[vpKey]))
@@ -593,7 +594,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
           }
           // }
           // HANDLING ARTBITRARY STYLES
-          for (let [styleKey, styleValue] of entries(originalValue)) {
+          for (let [styleKey, styleValue] of entries(originalValue as any)) {
             // Unwrap the reference for processing
             if (isStr(styleValue) && is.reference(styleValue)) {
               const isLocal = is.localReference(styleValue)
@@ -603,8 +604,8 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
               if (styleKey === 'autoplay') {
                 set(blueprint, 'autoplay', styleValue)
               }
-              if(styleKey === 'opacity') set(value, 'opacity', styleValue)
-              if(isStr(styleValue) && styleValue.endsWith('px')){
+              if (styleKey === 'opacity') set(value, 'opacity', styleValue)
+              if (isStr(styleValue) && (styleValue as string)?.endsWith('px')) {
                 set(value, styleKey, styleValue)
               }
             }
@@ -632,14 +633,11 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                 if (is.traverseReference(styleValue)) break
                 styleValue = newstyleValue
               }
-              if (styleKey == 'imagePosition'&& backgroundImage) {
-                const imagePath = getAssetsUrl() + backgroundImage
+              if (styleKey == 'imagePosition' && backgroundImage) {
+                const imagePath = getAssetsUrl?.() + backgroundImage
                 const position = styleValue
-                set(value,'background', `url(${imagePath}) ${position}`)
+                set(value, 'background', `url(${imagePath}) ${position}`)
               }
-
-
-
 
               // Resolve vw/vh units (Values directly relative to viewport)
               if (s.isVwVh(styleValue)) {
@@ -711,8 +709,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
 
                     } else if (s.isKeyRelatedToHeight(styleKey)) {
                       if (styleKey == 'borderRadius' && isStr(styleValue)) {
-
-                        if (styleValue.includes('px')) {
+                        if ((styleValue as string)?.includes('px')) {
                           set(value, styleKey, `${styleValue}`)
                         } else {
                           set(value, styleKey, `${styleValue}px`)
@@ -737,14 +734,14 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
               if (
                 isStr(styleValue) &&
                 (styleKey === 'textColor' ||
-                  styleValue.startsWith('0x') ||
+                  (styleValue as string)?.startsWith('0x') ||
                   isListPath)
               ) {
                 /* -------------------------------------------------------
                     ---- COLORS - REMINDER: Convert color values like 0x00000000 to #00000000
                   -------------------------------------------------------- */
                 if (styleKey === 'textColor') {
-                  set(value, 'color', com.formatColor(styleValue))
+                  set(value, 'color', com.formatColor(styleValue as string))
                   markDelete('textColor')
                 } else {
                   // Some list item consumers have data keys referencing color data values
@@ -755,25 +752,28 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                       get(context, 'dataObject') || findListDataObject(props)
                     if (isObj(dataObject)) {
                       const dataKey = nu.excludeIteratorVar(
-                        styleValue,
+                        styleValue as string,
                         iteratorVar,
                       ) as string
 
                       let _styleValue = com.formatColor(
                         get(dataObject, dataKey),
                       )
-                      if (styleKey == 'imagePosition'&& backgroundImage) {
-                        const imagePath = getAssetsUrl() + backgroundImage
+                      if (styleKey == 'imagePosition' && backgroundImage) {
+                        const imagePath = getAssetsUrl?.() + backgroundImage
                         const position = _styleValue
-                        set(value,'background', `url(${imagePath}) ${position}`)
+                        set(
+                          value,
+                          'background',
+                          `url(${imagePath}) ${position}`,
+                        )
                       }
 
                       if (s.isKeyRelatedToWidthOrHeight(styleKey)) {
                         _styleValue = String(_styleValue)
-                        if(/(px|em|cm|mm|rem|in|%)/.test(_styleValue)){
+                        if (/(px|em|cm|mm|rem|in|%)/.test(_styleValue)) {
                           set(value, styleKey, _styleValue)
-
-                        }else if (s.isNoodlUnit(_styleValue)) {
+                        } else if (s.isNoodlUnit(_styleValue)) {
                           const newValue = String(
                             NuiViewport.getSize(
                               _styleValue,
@@ -782,9 +782,8 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                             ),
                           )
                           set(value, styleKey, newValue)
-                        }else{
+                        } else {
                           set(value, styleKey, _styleValue)
-
                         }
                       } else if (styleKey === 'pointerEvents') {
                         set(value, 'pointer-events', _styleValue)
@@ -796,12 +795,14 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                     }
                   }
 
-                  if (isStr(styleValue) && styleValue.startsWith('0x')) {
-                    set(value, styleKey, com.formatColor(styleValue))
+                  if (
+                    isStr(styleValue) &&
+                    (styleValue as string).startsWith('0x')
+                  ) {
+                    set(value, styleKey, com.formatColor(styleValue as string))
                   }
                 }
               }
-              
             }
           }
         } else if (isStr(originalValue)) {
@@ -918,7 +919,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
         ),
       )
     } else {
-      log.log({ SEE_WHAT_THIS_IS: blueprint })
+      console.error(new Error('SEE_WHAT_THIS_IS'), blueprint)
     }
   }
 
