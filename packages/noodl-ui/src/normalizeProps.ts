@@ -661,13 +661,13 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
               // If the value is a path of a list item data object
               const isListPath =
                 !!iteratorVar && String(styleValue).startsWith(iteratorVar)
-
-              // '2.8vh', '20px', etc
+                
+                // '2.8vh', '20px', etc
               const isSizeValue =
                 s.isVwVh(styleValue) ||
                 s.isKeyRelatedToWidthOrHeight(styleKey) ||
                 ['fontSize', 'borderRadius', 'borderWidth'].includes(styleKey)
-
+                
               if (isSizeValue) {
                 if (viewport) {
                   if (s.isVwVh(styleValue)) {
@@ -682,6 +682,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                         )
                     set(value, styleKey, newValue)
                   } else if (s.isKeyRelatedToWidthOrHeight(styleKey)) {
+
                     const computedValue = s.isNoodlUnit(styleValue)
                       ? String(
                           NuiViewport.getSize(
@@ -694,14 +695,23 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
                     if (s.isNoodlUnit(styleValue)) {
                       if (
                         styleValue.includes('%') &&
-                        styleKey === 'borderRadius'
+                        ( ['borderRadius','width','height','top', 'left', 'marginTop',
+                        'fontSize',
+                        'padding',
+                        'paddingTop',
+                        'margin',
+                        'paddingBottom',
+                        'marginBottom'].includes(styleKey))
                       ) {
                         set(value, styleKey, styleValue)
-                      } else {
+                      }
+                        else {
                         set(value, styleKey, computedValue)
                       }
+
                     } else if (s.isKeyRelatedToHeight(styleKey)) {
                       if (styleKey == 'borderRadius' && isStr(styleValue)) {
+
                         if (styleValue.includes('px')) {
                           set(value, styleKey, `${styleValue}`)
                         } else {
