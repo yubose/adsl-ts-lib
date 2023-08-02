@@ -503,7 +503,7 @@ class NDOM extends NDOMInternal {
     let hooks = options?.on
     let node: t.NDOMElement | null = null
     let page: NDOMPage = pageProp || this.page
-    let count = +component.get('lazyCount') as number;
+
     try {
       if (component) {
         if (_isPluginComponent(component)) {
@@ -578,14 +578,9 @@ class NDOM extends NDOMInternal {
           node = document.createElement(getElementTag(component))
           componentPage.replaceNode(node as HTMLIFrameElement)
         } else {
-            if (component.get('lazyload') !== false&&container?.tagName === 'UL' && +component.get('lazyCount') > 0 && component.get("lazyState")) {
-              node = container;
-            }
-           else {
-            node = this.#createElementBinding?.(component) || null
-            node && (node['isElementBinding'] = true)
-            !node && (node = document.createElement(getElementTag(component)))
-          }
+          node = this.#createElementBinding?.(component) || null
+          node && (node['isElementBinding'] = true)
+         !node && (node = document.createElement(getElementTag(component)))     
         }
         if (component.has?.('global')) {
           handleDrawGlobalComponent.call(this, node, component, page)
@@ -639,39 +634,15 @@ class NDOM extends NDOMInternal {
           let childrenContainer = Identify.component.list(component)
             ? document.createDocumentFragment()
             : node
-          let i: number = 0
-          if (
-            component.get('lazyload') !== false&&
-            Identify.component.list(component) &&
-            component.children.length > 0 &&
-            +component.get('lazyCount') > 0
-          ) {
-            let newCount = component.children.length % count
-            i =
-              newCount !== 0
-                ? component.children.length - newCount
-                : component.children.length - count
-            for (i; i < component.children.length; i++) {
-              const childNode = (await this.draw(
-                component.children[i],
-                node,
-                page,
-                {
-                  ...options,
-                  on: hooks,
-                },
-              )) as HTMLElement
-              childNode && childrenContainer?.appendChild(childNode)
-            }
-          } else {
-            for (const child of component.children) {
-              const childNode = (await this.draw(child, node, page, {
-                ...options,
-                on: hooks,
-              },dataOptions)) as HTMLElement
-              childNode && childrenContainer?.appendChild(childNode)
-            }
+          
+          for (const child of component.children) {
+            const childNode = (await this.draw(child, node, page, {
+              ...options,
+              on: hooks,
+            },dataOptions)) as HTMLElement
+            childNode && childrenContainer?.appendChild(childNode)
           }
+          
           if(dataOptions?.focus === node.getAttribute("data-viewtag")){
              setTimeout(()=>{
                 node?.focus();
@@ -736,18 +707,7 @@ class NDOM extends NDOMInternal {
           node,
           page,
         })
-        newComponent = nui.createComponent(
-          component.blueprint,
-          page?.getNuiPage?.(),
-        )
-
-        if (parent) {
-          newComponent.setParent(parent)
-          parent.createChild(newComponent)
-        }
-        if (index) {
-          newComponent.edit({ index })
-        }
+       
         // log.log(component.get("lazyCount"),newComponent,component,"kkkkk");
         // log.log('test86',component,component.children.length,component.defaultChildren.length)
         // log.log('test87',newComponent,newComponent.length,newComponent.defaultChildren.length)
@@ -764,30 +724,80 @@ class NDOM extends NDOMInternal {
         //       newComponent.set('scrollheight',scrollHeight) 
         // }
         // this.removeComponentListener(component)
-        !(component.get('lazyCount') > 0 && component.get("lazyState")&&component.get('lazyload') !== false) && this.removeComponentListener(component)
-        this.removeComponent(component)
-        newComponent = await nui.resolveComponents?.({
-          callback: options?.callback,
-          components: newComponent,
-          page: page?.getNuiPage?.(),
-          context,
-          on: options?.on || this.renderState.options.hooks,
-        })
+        if(component.get('lazyCount') > 0 && component.get("lazyState") && component.get('lazyload') !== false && component.get('lazyloading')){
+          const allData = component.get('listObject')
+          const currentNodeLength = component.children.length
+          const latestData = allData.slice(currentNodeLength-allData.length)
+          const componentBlueprintTemp = u.cloneDeep(component.children[0].blueprint)
+          if(u.isArr(latestData) && latestData.length > 0){
+            Promise.all(latestData.map(async(data,arrIndex)=>{
+              componentBlueprintTemp.itemObject = data
+              const itemComponent = nui.createComponent(
+                componentBlueprintTemp,
+                page?.getNuiPage?.(),
+              )
+              const index = currentNodeLength + arrIndex
+              itemComponent.setParent(component)
+              component.createChild(itemComponent)
+              itemComponent.edit({index})
+              await nui.resolveComponents?.({
+                callback: options?.callback,
+                components: itemComponent,
+                page: page?.getNuiPage?.(),
+                context:{
+                  ...context,
+                  dataObject: data
+                },
+                on: options?.on || this.renderState.options.hooks,
+              })
+              if(node){            
+                await this.draw(itemComponent as any, node, page, {
+                  ...dataOptions,
+                  dataObject : data
+                })
+              }
+            }))
+           
+          }
+        }else{
+          newComponent = nui.createComponent(
+            component.blueprint,
+            page?.getNuiPage?.(),
+          )
+  
+          if (parent) {
+            newComponent.setParent(parent)
+            parent.createChild(newComponent)
+          }
+          if (index) {
+            newComponent.edit({ index })
+          }
+          this.removeComponent(component)
+          newComponent = await nui.resolveComponents?.({
+            callback: options?.callback,
+            components: newComponent,
+            page: page?.getNuiPage?.(),
+            context,
+            on: options?.on || this.renderState.options.hooks,
+          })
+        }
+        !(component.get('lazyCount') > 0 && component.get("lazyState")&&component.get('lazyload') !== false && component.get('lazyloading')) && this.removeComponentListener(component)
         // newComponent.copyFromChildrenToDefault()
       }
       if (node) {
         if (newComponent) {
-          if (component.get('lazyCount') > 0 && component.get("lazyState")&&component.get('lazyload') !== false) {
-            let newNode = await this.draw(newComponent, node, page, {
-              ...options,
-              on: options?.on || this.renderState.options.hooks,
-              context,
-              nodeIndex: getNodeIndex(node),
-            },dataOptions)
-            node = newNode
+          if (component.get('lazyCount') > 0 && component.get("lazyState")&&component.get('lazyload') !== false && component.get('lazyloading')) {
+            // let newNode = await this.draw(newComponent, node, page, {
+            //   ...options,
+            //   on: options?.on || this.renderState.options.hooks,
+            //   context,
+            //   nodeIndex: getNodeIndex(node),
+            // },dataOptions)
+            // node = newNode
           } else {
             let parentNode = node.parentNode
             let currentIndex = getNodeIndex(node)
+            const scrollTop = node.scrollTop
             // @ts-expect-error
             let newNode = await this.draw(newComponent, parentNode, page, {
               ...options,
@@ -803,6 +813,7 @@ class NDOM extends NDOMInternal {
               // node?.remove?.()
               removeAllNode(node)
             }
+            newNode && (newNode.scrollTop = scrollTop)
             node = newNode as HTMLElement
             newNode = null
             parentNode = null
@@ -813,8 +824,13 @@ class NDOM extends NDOMInternal {
       log.error(error)
       throw new Error(error)
     }
-
-    return [node, newComponent] as [typeof node, typeof component]
+    if(component.get('lazyCount') > 0 && component.get("lazyState")&&component.get('lazyload') !== false && component.get('lazyloading')){
+      component.set('lazyloading',false)
+      return [node, component] as [typeof node, typeof component]
+    }else{
+      return [node, newComponent] as [typeof node, typeof component]
+    }
+    
   }
 
   register(obj: t.Store.ActionObject): this
