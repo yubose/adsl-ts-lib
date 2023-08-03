@@ -91,7 +91,7 @@ function attachUserEvents<N extends t.NDOMElement>(
             node.scrollHeight || document.documentElement.scrollHeight //内容高度
             let scrollTop = node.scrollTop || document.documentElement.scrollTop;
             
-            if ((component.get('lazyCount') > 0 && component.get("lazyState")) && Math.floor(contentHeight - viewHeight - scrollTop) <= 50) {
+            if (((component.children?.at(-1)?.children.length===componentsNum )||component.get("updateState")) && Math.floor(contentHeight - viewHeight - scrollTop) <= 50) {
               componentsNum+= component.blueprint.lazyCount;
               const timer = setTimeout(() => {
                 component.set('lazyloading',true)
