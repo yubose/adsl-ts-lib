@@ -60,7 +60,7 @@ function attachUserEvents<N extends t.NDOMElement>(
      * - onInput
      */
     // log.log(component.type,"oooo")
-    if ((component.type==="select" && eventType === 'onChange')) return
+    // if ((component.type==="select" && eventType === 'onChange')) return
     if (eventType === 'onInput'){
       if((component.blueprint.debounce)){
         return
