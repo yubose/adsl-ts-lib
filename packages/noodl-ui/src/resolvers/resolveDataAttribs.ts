@@ -32,7 +32,7 @@ dataAttribsResolver.setResolver(async (component, options, next) => {
   } = original
 
   const iteratorVar = context?.iteratorVar || n.findIteratorVar(component)
-
+  
   if (Identify.component.listItem(component)) {
     // When redrawing a listItem the context must be customly injected back into the context via invoking resolveComponents directly, since by default the only way to receive this information is through rendering listItem children from the list parent
     if (!component.get(iteratorVar) && context?.dataObject) {
@@ -119,7 +119,14 @@ dataAttribsResolver.setResolver(async (component, options, next) => {
           result === null && (result = new Date())
         }
         if(result||![undefined,null,NaN].includes(result)){
-          result = component.get('text=func')(result)
+          const cacheTime = component.get('cacheTime')
+          const func = component.get('text=func')
+          if(func.length>=2 && cacheTime){
+            result = func?.(result,cacheTime)
+          }else{
+            result = func?.(result)
+          }
+          
         }else{
           result = component.get('text')
         }

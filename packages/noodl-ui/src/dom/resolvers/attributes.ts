@@ -90,15 +90,17 @@ function attachUserEvents<N extends t.NDOMElement>(
           let contentHeight =
             node.scrollHeight || document.documentElement.scrollHeight //内容高度
             let scrollTop = node.scrollTop || document.documentElement.scrollTop;
-            if (((component.children?.at(-1)?.children.length===componentsNum )||component.get("updateState")) &&Math.floor(contentHeight - viewHeight - scrollTop) <= 1) {
+            
+            if (((component.children?.at(-1)?.children.length===componentsNum )||component.get("updateState")) && Math.floor(contentHeight - viewHeight - scrollTop) <= 50) {
               componentsNum+= component.blueprint.lazyCount;
               const timer = setTimeout(() => {
-              // @ts-expect-error
-              component.get?.(eventType)?.execute?.(event)
-              node.removeEventListener('scroll', executeScroll)
-            // node.removeEventListener('onLazyLoading', executeFun)
-              clearTimeout(timer)
-            })
+                component.set('lazyloading',true)
+                // @ts-expect-error
+                component.get?.(eventType)?.execute?.(event)
+                node.removeEventListener('scroll', executeScroll)
+              // node.removeEventListener('onLazyLoading', executeFun)
+                clearTimeout(timer)
+              })
             //到达底部0px时,加载新内容s
             // node.dispatchEvent(events as Event)
             // node.removeEventListener(
@@ -106,7 +108,7 @@ function attachUserEvents<N extends t.NDOMElement>(
             //   // partialR(executeFun, component, node),
             //   executeFun
             // )
-          }
+            }
         })
         // const executeFun = (
         //   event: Event,
