@@ -180,5 +180,9 @@ export const userEvent = [
   'onMouseOver',
   'onLazyLoading',
   'onPull' ,
-  'onContextmenu'
+  'onContextmenu',
+  "startRecord",
+  "pauseRecord",
+  "resumeRecord",
+  "endRecord"
 ] as const

@@ -202,6 +202,13 @@ function attachUserEvents<N extends t.NDOMElement>(
         component.addEventListeners(scrolllistener)
         component.addEventListeners(executeFunlistener)
         return
+      } else if([
+        "startRecord",
+        "pauseRecord",
+        "resumeRecord",
+        "endRecord"
+      ].includes(eventType)) {
+        return
       } else {
         if (eventType === 'onClick') {
           if (!node.classList.contains('noodl-onclick')) {
