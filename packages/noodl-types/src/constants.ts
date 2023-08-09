@@ -184,5 +184,6 @@ export const userEvent = [
   "startRecord",
   "pauseRecord",
   "resumeRecord",
-  "endRecord"
+  "endRecord",
+  "finishRecord"
 ] as const
