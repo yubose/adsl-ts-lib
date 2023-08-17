@@ -727,38 +727,41 @@ class NDOM extends NDOMInternal {
         if(component.get('lazyCount') > 0 && component.get("lazyState") && component.get('lazyload') !== false && component.get('lazyloading')){
           const allData = component.get('listObject')
           const currentNodeLength = component.children.length
-          const latestData = allData.slice(currentNodeLength-allData.length)
-          const componentBlueprintTemp = u.cloneDeep(component.children[0].blueprint)
-          if(u.isArr(latestData) && latestData.length > 0){
-            Promise.all(latestData.map(async(data,arrIndex)=>{
-              componentBlueprintTemp.itemObject = data
-              const itemComponent = nui.createComponent(
-                componentBlueprintTemp,
-                page?.getNuiPage?.(),
-              )
-              const index = currentNodeLength + arrIndex
-              itemComponent.setParent(component)
-              component.createChild(itemComponent)
-              itemComponent.edit({index})
-              await nui.resolveComponents?.({
-                callback: options?.callback,
-                components: itemComponent,
-                page: page?.getNuiPage?.(),
-                context:{
-                  ...context,
-                  dataObject: data
-                },
-                on: options?.on || this.renderState.options.hooks,
-              })
-              if(node){            
-                await this.draw(itemComponent as any, node, page, {
-                  ...dataOptions,
-                  dataObject : data
+          if(allData.length > currentNodeLength){
+            const latestData = allData.slice(currentNodeLength-allData.length)
+            const componentBlueprintTemp = u.cloneDeep(component.children[0].blueprint)
+            if(u.isArr(latestData) && latestData.length > 0){
+              Promise.all(latestData.map(async(data,arrIndex)=>{
+                componentBlueprintTemp.itemObject = data
+                const itemComponent = nui.createComponent(
+                  componentBlueprintTemp,
+                  page?.getNuiPage?.(),
+                )
+                const index = currentNodeLength + arrIndex
+                itemComponent.setParent(component)
+                component.createChild(itemComponent)
+                itemComponent.edit({index})
+                await nui.resolveComponents?.({
+                  callback: options?.callback,
+                  components: itemComponent,
+                  page: page?.getNuiPage?.(),
+                  context:{
+                    ...context,
+                    dataObject: data
+                  },
+                  on: options?.on || this.renderState.options.hooks,
                 })
-              }
-            }))
-           
+                if(node){            
+                  await this.draw(itemComponent as any, node, page, {
+                    ...dataOptions,
+                    dataObject : data
+                  })
+                }
+              }))
+            
+            }
           }
+          
         }else{
           newComponent = nui.createComponent(
             component.blueprint,
