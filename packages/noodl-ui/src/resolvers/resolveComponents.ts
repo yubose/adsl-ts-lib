@@ -502,10 +502,10 @@ componentResolver.setResolver(async (component, options, next) => {
               if (!item.dataKey) item.dataKey = itemText
               if (iteratorVar && item?.dataKey.startsWith(iteratorVar)) {
                 const dataKey = excludeIteratorVar(item?.dataKey, iteratorVar)
-                item.text = dataKey ? get(dataObject, dataKey) : dataObject
+                item.value = dataKey ? get(dataObject, dataKey) : dataObject
               } else if (iteratorVar && item?.dataKey.startsWith('listAttr')) {
                 const dataKey = excludeIteratorVar(item?.dataKey, 'listAttr')
-                item.text = dataKey
+                item.value = dataKey
                   ? get(listAttribute, dataKey)
                   : listAttribute
               } else {
@@ -514,17 +514,18 @@ componentResolver.setResolver(async (component, options, next) => {
                     [() => getRoot(), () => getRoot()[page.page]],
                     item?.dataKey,
                   ) || item.dataKey
-                item.text = u.isObj(dataObject)
+                item.value = u.isObj(dataObject)
                   ? get(dataObject, item?.datKey)
                   : dataObject
-                item.text =
-                  item.text === item?.dataKey
-                    ? itemText
-                      ? itemText
+                item.value =
+                  item.value === item?.dataKey
+                    ? item?.text
+                      ? item.text
                       : ''
-                    : item.text
+                    : item.value
               }
             }
+            item.value = u.isNil(item.value)?item.text:item.value
             const type = 'textField' in item? 'textField':'span'
 
             let componentObject = {
@@ -563,7 +564,7 @@ componentResolver.setResolver(async (component, options, next) => {
                     }
                   : undefined),
               },
-              text: 'text' in item ? `${item.text}` : '',
+              text: 'value' in item ? `${item.value}` : '',
             }
 
             userEvent.forEach((event) => {

@@ -485,14 +485,14 @@ const componentsResolver: t.Resolve.Config = {
                   setAttr('innerHTML', content)
                 })
               } else {
-                if (!isEmpty(datavalue)) {
+                // if (!isEmpty(datavalue)) {
                   let content = String(datavalue)
                   content =
                     content.indexOf('\n') !== -1
                       ? content.replace(/\n/g, '<br>')
                       : content
                   setAttr('innerHTML', content)
-                }
+                // }
               }
             } else if (text) {
               setAttr('innerHTML', String(text))
