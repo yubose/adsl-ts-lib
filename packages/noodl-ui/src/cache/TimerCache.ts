@@ -41,8 +41,10 @@ class TimerCache{
     remove<N extends string = any>(name: N): this {
       const timerObj = this.#cache.get(name)
       if(timerObj?.type === 'Interval'){
+        //@ts-expect-error
         clearInterval(timerObj.timer)
       }else if(timerObj?.type === 'Timeout'){
+        //@ts-expect-error
         clearTimeout(timerObj.timer)
       }
       this.#cache.delete(name)

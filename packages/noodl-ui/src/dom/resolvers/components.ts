@@ -31,7 +31,6 @@ import type { ComponentPage } from '../factory/componentFactory'
 import { _isLinkEl, _isIframeEl, _isScriptEl, _isStyleEl } from '../utils'
 import * as t from '../../types'
 import * as c from '../../constants'
-import { isEmpty } from 'lodash'
 import log from '../../utils/log'
 
 const componentsResolver: t.Resolve.Config = {
@@ -257,6 +256,15 @@ const componentsResolver: t.Resolve.Config = {
               )
             }
             setStyleAttr('cursor', onClick ? 'pointer' : 'auto')
+          }
+        }
+        if(Identify.component.view(args.component)){
+  
+          if (args.component.has('autoExpand')) {
+            const autoExpand = args.component.get('autoExpand')
+            if (autoExpand) {
+              args.node.setAttribute('contenteditable','true')
+            }
           }
         }
         // CANVAS
