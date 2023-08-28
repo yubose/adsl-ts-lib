@@ -206,7 +206,9 @@ function attachUserEvents<N extends t.NDOMElement>(
         "pauseRecord",
         "resumeRecord",
         "endRecord",
-        "finishRecord"
+        "finishRecord",
+        "errorRecord",
+        "beforeFinish"
       ].includes(eventType)) {
         return
       } else {
