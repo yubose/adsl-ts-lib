@@ -14,6 +14,7 @@ import type NDOMResolver from '../Resolver'
 import * as t from '../../types'
 import * as c from '../../constants'
 import log from '../../utils/log'
+import { debounce } from 'lodash'
 
 const is = Identify
 
@@ -156,6 +157,9 @@ function attachUserEvents<N extends t.NDOMElement>(
         // component.addEventListeners(onLazyLoadinglistener)
         return
       } else if (eventType === 'onPull') {
+
+        const _debounce = component.blueprint.debounce
+
         let event: Event | null = new Event('onPull', {
           bubbles: true,
           cancelable: false,
@@ -191,12 +195,12 @@ function attachUserEvents<N extends t.NDOMElement>(
         const scrolllistener = addListener(
           node,
           'scroll',
-          partialR(executeScroll, component),
+          partialR(_debounce ? debounce(executeScroll, _debounce) : executeScroll, component),
         )
         const executeFunlistener = addListener(
           node,
           'onPull',
-          partialR(executeFun, component),
+          partialR(_debounce ? debounce(executeFun, _debounce) : executeFun, component),
         )
         component.addEventListeners(scrolllistener)
         component.addEventListeners(executeFunlistener)
