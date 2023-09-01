@@ -259,11 +259,31 @@ const componentsResolver: t.Resolve.Config = {
           }
         }
         if(Identify.component.view(args.component)){
-  
+
           if (args.component.has('autoExpand')) {
             const autoExpand = args.component.get('autoExpand')
             if (autoExpand) {
               args.node.setAttribute('contenteditable','true')
+            }
+          }
+        }
+        if(Identify.component.textView(args.component)){
+  
+          if (args.component.has('autoExpand')) {
+            const autoExpand = args.component.get('autoExpand')
+            if (autoExpand) {
+              const textArea = args.node
+              textArea.addEventListener('input',function(){
+                this.style.height = 'auto'
+                if (this.clientHeight >= this.scrollHeight) {
+                  this.style.overflowY = 'hidden'
+                } else {
+                  this.style.height = `${this.scrollHeight}px`
+                  this.style.overflowY = 'auto'
+                }
+              })
+
+
             }
           }
         }
