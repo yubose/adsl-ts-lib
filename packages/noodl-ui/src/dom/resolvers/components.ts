@@ -271,6 +271,8 @@ const componentsResolver: t.Resolve.Config = {
   
           if (args.component.has('autoExpand')) {
             const autoExpand = args.component.get('autoExpand')
+            //@ts-expect-error
+            args.node.rows = 1
             if (autoExpand) {
               const textArea = args.node
               const paddingBottom = textArea.style.paddingBottom?parseFloat(textArea.style.paddingBottom):0
