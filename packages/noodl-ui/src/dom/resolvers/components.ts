@@ -268,11 +268,11 @@ const componentsResolver: t.Resolve.Config = {
           }
         }
         if(Identify.component.textView(args.component)){
-  
+          const rows = args.component.get('rows')
+          //@ts-expect-error
+          rows && (args.node.rows = rows)
           if (args.component.has('autoExpand')) {
             const autoExpand = args.component.get('autoExpand')
-            //@ts-expect-error
-            args.node.rows = 1
             if (autoExpand) {
               const textArea = args.node
               const paddingBottom = textArea.style.paddingBottom?parseFloat(textArea.style.paddingBottom):0
