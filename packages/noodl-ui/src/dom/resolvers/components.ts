@@ -504,23 +504,26 @@ const componentsResolver: t.Resolve.Config = {
         // LABEL
         else if (Identify.component.label(args.component)) {
           if (args.node) {
+            const isBr = args.component.get('isBr')
             if (args.component.get(c.DATA_VALUE)) {
               const datavalue = args.component.get(c.DATA_VALUE)
               if (typeof datavalue.then === 'function') {
                 datavalue.then?.((content: string) => {
-                  content =
+                  const replaceContent =
                     content.indexOf('\n') !== -1
                       ? content.replace(/\n/g, '<br>')
                       : content
+                  content = isBr? replaceContent:content
                   setAttr('innerHTML', content)
                 })
               } else {
                 // if (!isEmpty(datavalue)) {
                   let content = String(datavalue)
-                  content =
+                  const replaceContent =
                     content.indexOf('\n') !== -1
                       ? content.replace(/\n/g, '<br>')
                       : content
+                  content = isBr? replaceContent:content
                   setAttr('innerHTML', content)
                 // }
               }
