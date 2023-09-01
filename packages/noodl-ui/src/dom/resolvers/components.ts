@@ -273,12 +273,14 @@ const componentsResolver: t.Resolve.Config = {
             const autoExpand = args.component.get('autoExpand')
             if (autoExpand) {
               const textArea = args.node
+              const paddingBottom = textArea.style.paddingBottom?parseFloat(textArea.style.paddingBottom):0
+              const paddingTop = textArea.style.paddingTop?parseFloat(textArea.style.paddingTop):0
               textArea.addEventListener('input',function(){
                 this.style.height = 'auto'
                 if (this.clientHeight >= this.scrollHeight) {
                   this.style.overflowY = 'hidden'
                 } else {
-                  this.style.height = `${this.scrollHeight}px`
+                  this.style.height = `${this.scrollHeight - paddingBottom - paddingTop}px`
                   this.style.overflowY = 'auto'
                 }
               })
