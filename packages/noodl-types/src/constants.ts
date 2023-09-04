@@ -187,5 +187,6 @@ export const userEvent = [
   "endRecord",
   "finishRecord",
   "errorRecord",
-  "beforeFinish"
+  "beforeFinish",
+  'deleteCallBack',
 ] as const
