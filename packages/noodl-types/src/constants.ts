@@ -49,6 +49,7 @@ export const component = {
   rotation: 'rotation',
   checkbox: 'checkbox',
   richtext: 'richtext',
+  search: 'search',
 } as const
 
 export const componentKeys = [
