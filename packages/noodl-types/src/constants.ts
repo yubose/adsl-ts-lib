@@ -49,6 +49,7 @@ export const component = {
   rotation: 'rotation',
   checkbox: 'checkbox',
   richtext: 'richtext',
+  search: 'search',
 } as const
 
 export const componentKeys = [
@@ -187,5 +188,6 @@ export const userEvent = [
   "endRecord",
   "finishRecord",
   "errorRecord",
-  "beforeFinish"
+  "beforeFinish",
+  'deleteCallBack',
 ] as const

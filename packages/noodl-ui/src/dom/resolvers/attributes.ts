@@ -212,7 +212,8 @@ function attachUserEvents<N extends t.NDOMElement>(
         "endRecord",
         "finishRecord",
         "errorRecord",
-        "beforeFinish"
+        "beforeFinish",
+        'deleteCallBack',
       ].includes(eventType)) {
         return
       } else {
