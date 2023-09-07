@@ -227,25 +227,30 @@ function attachUserEvents<N extends t.NDOMElement>(
             node.classList.add('noodl-oncontextmenu')
           }
         }
-        const callback = (event: Event, component: t.NuiComponent.Instance) => {
-          const timer = setTimeout(() => {
-            component.get?.(eventType)?.execute?.(event)
-            clearTimeout(timer)
-          })
-        }
-        // node.addEventListener(normalizeEventName(eventType), callback)
-        // const clearEvent = ()=>{
-        //   log.log('test remove')
-        //   node.removeEventListener(normalizeEventName(eventType), callback)
-        // }
+        if(component.contentType === 'search'){
 
-        // component.addEventListeners(normalizeEventName(eventType),clearEvent)
-        const listener = addListener(
-          node,
-          normalizeEventName(eventType),
-          partialR(callback, component),
-        )
-        component.addEventListeners(listener)
+        }else{
+          const callback = (event: Event, component: t.NuiComponent.Instance) => {
+            const timer = setTimeout(() => {
+              component.get?.(eventType)?.execute?.(event)
+              clearTimeout(timer)
+            })
+          }
+          // node.addEventListener(normalizeEventName(eventType), callback)
+          // const clearEvent = ()=>{
+          //   log.log('test remove')
+          //   node.removeEventListener(normalizeEventName(eventType), callback)
+          // }
+  
+          // component.addEventListeners(normalizeEventName(eventType),clearEvent)
+          const listener = addListener(
+            node,
+            normalizeEventName(eventType),
+            partialR(callback, component),
+          )
+          component.addEventListeners(listener)
+        }
+        
       }
     }
   })
