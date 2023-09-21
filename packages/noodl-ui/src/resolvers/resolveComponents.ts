@@ -526,9 +526,8 @@ componentResolver.setResolver(async (component, options, next) => {
               }
             }
             item.value = u.isNil(item.value)?item.text:item.value
-            const type = 'textField' in item? 'textField':'span'
-
-            let componentObject = {
+            let type = 'textField' in item? 'textField':item?.img?"image":'span'
+            let componentObject = !item?.img ?{
               type: type,
               style: {
                 // display: 'inline-block',
@@ -565,6 +564,85 @@ componentResolver.setResolver(async (component, options, next) => {
                   : undefined),
               },
               text: 'value' in item ? `${item.value}` : '',
+            }:{
+              type: type,
+              style: {
+                // display: 'inline-block',
+                ...('color' in item
+                  ? { color: formatColor(item.color || '') }
+                  : undefined),
+                  ...('textDecoration' in item
+                  ? { textDecoration: item.textDecoration || '' }
+                  : undefined),
+                ...('fontSize' in item
+                  ? {
+                      fontSize:
+                        item.fontSize.search(/[a-z]/gi) != -1
+                          ? item.fontSize
+                          : item.fontSize + 'px',
+                    }
+                  : undefined),
+                ...('fontWeight' in item
+                  ? { fontWeight: item.fontWeight }
+                  : undefined),
+                ...('left' in item
+                  ? {
+                      marginLeft: item.left.includes('px')
+                        ? item.left
+                        : `${item.left}px`,
+                    }
+                  : undefined),
+                ...('top' in item
+                  ? {
+                      marginTop: item.top.includes('px')
+                        ? item.top
+                        : `${item.top}px`,
+                    }
+                  : undefined),
+                ...('width' in item
+                    ?{
+                      width: item.width.includes('px')
+                        ? item.width
+                        : `${item.width}px`,
+                    }: undefined),
+                ...('display' in item
+                    ?{
+                      display: item.display === "none"
+                      ? `none`
+                      : `inline-block`,
+                    }: undefined),
+                ...('backgroundColor' in item
+                    ?{
+                      backgroundColor: item.backgroundColor,
+                    }: undefined),
+                ...('outline' in item
+                    ?{
+                      outline: item.outline,
+                    }: undefined),
+                ...('borderWidth' in item
+                    ?{
+                      borderWidth: item.borderWidth,
+                    }: undefined),
+                ...('border' in item
+                    ?{
+                      border: item.border,
+                    }: undefined),
+                ...('borderRadius' in item
+                    ?{
+                      borderRadius: item.borderRadius,
+                    }: undefined),
+                ...('textIndent' in item
+                    ?{
+                      textIndent: item.textIndent,
+                    }: undefined),
+                ...('lineHeight' in item
+                    ?{
+                      lineHeight: item.lineHeight.includes("px")
+                      ? item.lineHeight
+                      : `${item.lineHeight}px` ,
+                    }: undefined),
+              },
+              'data-src': 'img' in item ? `${resolveAssetUrl(item?.img, getAssetsUrl())}` : ''
             }
 
             userEvent.forEach((event) => {
