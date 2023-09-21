@@ -599,11 +599,28 @@ componentResolver.setResolver(async (component, options, next) => {
                         : `${item.top}px`,
                     }
                   : undefined),
+
                 ...('width' in item
                     ?{
                       width: item.width.includes('px')
-                        ? item.width
-                        : `${item.width}px`,
+                        ? `${item.width}px`
+                        : String(
+                          s.getSize(
+                            item.width,
+                            s.getViewportBound(options.viewport, "width") as number,
+                          ),
+                        )
+                    }: undefined),
+                ...('height' in item
+                    ?{
+                      width: item.height.includes('px')
+                        ? `${item.height}px`
+                        : String(
+                          s.getSize(
+                            item.height,
+                            s.getViewportBound(options.viewport, "height") as number,
+                          ),
+                        )
                     }: undefined),
                 ...('display' in item
                     ?{
