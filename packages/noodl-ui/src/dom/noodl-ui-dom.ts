@@ -684,7 +684,9 @@ class NDOM extends NDOMInternal {
     let index = component.get('index') || 0
 
     try {
+      let oldViewTag,newViewTag
       if (component) {
+        oldViewTag = component.get(c.DATA_VIEWTAG)
         if (Identify.component.listItem(component)) {
           const iteratorVar =
             findIteratorVar(component) ||
@@ -767,7 +769,6 @@ class NDOM extends NDOMInternal {
             component.blueprint,
             page?.getNuiPage?.(),
           )
-  
           if (parent) {
             newComponent.setParent(parent)
             parent.createChild(newComponent)
@@ -783,6 +784,7 @@ class NDOM extends NDOMInternal {
             context,
             on: options?.on || this.renderState.options.hooks,
           })
+         newViewTag = newComponent.get(c.DATA_VIEWTAG)
         }
         !(component.get('lazyCount') > 0 && component.get("lazyState")&&component.get('lazyload') !== false && component.get('lazyloading')) && this.removeComponentListener(component)
         // newComponent.copyFromChildrenToDefault()
@@ -816,7 +818,7 @@ class NDOM extends NDOMInternal {
               // node?.remove?.()
               removeAllNode(node)
             }
-            newNode && (newNode.scrollTop = scrollTop)
+            newNode && (newViewTag === oldViewTag) && (!u.isNil(newViewTag)) && (newNode.scrollTop = scrollTop)
             node = newNode as HTMLElement
             newNode = null
             parentNode = null
