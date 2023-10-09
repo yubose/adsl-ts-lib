@@ -11,6 +11,7 @@ import type {
   ActionChainObserver,
 } from './types'
 import * as c from './constants'
+import { cloneDeep } from 'lodash'
 
 class ActionChain<
   A extends ActionObject = ActionObject,
@@ -255,6 +256,18 @@ class ActionChain<
                     result: action?.result,
                   })
                   iterator = await this.next?.(result)
+                  const results = cloneDeep(result)
+                  while (results && isArray(results) && results.length) {
+                    let res = results.pop()
+                    while (isArray(res)) {
+                      results.push(...res)
+                      res = results.pop()
+                    }
+                    if(isPlainObject(res) && res['abort']){
+                      iterator.done = true
+                    }
+                  }
+
                 }
               }
             } else {
