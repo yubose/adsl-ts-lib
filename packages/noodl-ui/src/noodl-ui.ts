@@ -38,6 +38,7 @@ import { isUnitTestEnv } from './utils/common'
 import cache from './_cache'
 import * as i from './utils/internal'
 import * as t from './types'
+import * as s from './utils/style'
 
 const NUI = (function () {
   const _hooks = new Map<keyof t.On, t.On[keyof t.On][]>()
@@ -1302,6 +1303,16 @@ const NUI = (function () {
 
       return o
     },
+    getSize(size:string,type: 'height'|'width'){
+      const viewport = window['app'].viewport
+      if (s.isNoodlUnit(size)) {
+        const _size = String(
+          s.getSize(size, viewport?.[type] as number),
+        )
+        return _size
+      }
+      return size
+    }
   }
 
   return o
