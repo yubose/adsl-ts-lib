@@ -14,7 +14,7 @@ import type NDOMResolver from '../Resolver'
 import * as t from '../../types'
 import * as c from '../../constants'
 import log from '../../utils/log'
-import { debounce } from 'lodash'
+import debounce from 'lodash/debounce'
 
 const is = Identify
 
@@ -246,7 +246,7 @@ function attachUserEvents<N extends t.NDOMElement>(
           const listener = addListener(
             node,
             normalizeEventName(eventType),
-            partialR(callback, component),
+            eventType === 'onClick'? partialR(debounce(callback,200), component) :partialR(callback, component),
           )
           component.addEventListeners(listener)
         }
