@@ -506,6 +506,7 @@ const componentsResolver: t.Resolve.Config = {
         // LABEL
         else if (Identify.component.label(args.component)) {
           if (args.node) {
+            args.node.style.setProperty('white-space','pre-wrap')
             const isBr = args.component.get('isBr')
             if (args.component.get(c.DATA_VALUE)) {
               const datavalue = args.component.get(c.DATA_VALUE)
