@@ -214,6 +214,7 @@ function attachUserEvents<N extends t.NDOMElement>(
         "errorRecord",
         "beforeFinish",
         'deleteCallBack',
+        'imageClick'
       ].includes(eventType)) {
         return
       } else {

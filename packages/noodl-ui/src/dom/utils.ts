@@ -488,6 +488,7 @@ getElementTag.prototype.elementMap = {
   textView: 'textarea',
   video: 'video',
   view: 'div',
+  chatList: 'div',
 } as const
 
 /**
