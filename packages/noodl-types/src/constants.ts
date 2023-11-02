@@ -190,4 +190,5 @@ export const userEvent = [
   "errorRecord",
   "beforeFinish",
   'deleteCallBack',
+  'imageClick'
 ] as const
