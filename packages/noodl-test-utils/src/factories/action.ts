@@ -17,7 +17,7 @@ import type {
   SaveSignatureActionObject,
   UpdateActionObject,
 } from 'noodl-types'
-import { mergeObject, strOrEmptyStr } from '../utils'
+import { strOrEmptyStr } from '../utils'
 import ecosJpgDoc from '../fixtures/jpg.json'
 import ecosNoteDoc from '../fixtures/note.json'
 import ecosPdfDoc from '../fixtures/pdf.json'
@@ -191,16 +191,17 @@ const actionFactory = (function () {
     arg1?: DataKey | Partial<EmitObjectFold>,
     arg2?: Actions,
   ) {
-    const emitObject = { emit: { dataKey: '', actions: [] } } as EmitObjectFold
+    const obj = { emit: { dataKey: '', actions: [] } } as EmitObjectFold
     if (arg1) {
-      if ((u.isObj(arg1) && 'dataKey' in arg1) || 'actions' in arg1) {
-        mergeObject(emitObject, arg1)
+      // @ts-expect-error
+      if (u.isObj(arg1) && ('dataKey' in arg1 || 'actions' in arg1)) {
+        Object.assign(obj.emit, arg1)
       } else {
-        emitObject.dataKey = arg1
+        obj.dataKey = arg1
       }
     }
-    if (u.isArr(arg2)) emitObject.actions = arg2
-    return emitObject
+    if (u.isArr(arg2)) obj.actions = arg2
+    return obj
   }
 
   function goto<Destination extends string>(

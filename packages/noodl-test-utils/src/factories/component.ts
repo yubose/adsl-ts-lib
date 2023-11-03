@@ -125,7 +125,9 @@ const componentFactory = (function () {
 
   function image<Path = any>(props?: Path | Partial<ImageComponentObject>) {
     const comp = { type: 'image' } as ImageComponentObject
-    if (u.isObj(props)) {
+    if (u.isStr(props)) {
+      comp.path = props
+    } else if (u.isObj(props)) {
       if ('path' in props || 'type' in props) {
         u.assign(comp, props)
       } else {

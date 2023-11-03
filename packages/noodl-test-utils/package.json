@@ -20,7 +20,7 @@
   "license": "ISC",
   "main": "dist/index.js",
   "module": "dist/index.js",
-  "name": "noodl-ui-test-utils",
+  "name": "noodl-test-utils",
   "prettier": {
     "arrowParens": "always",
     "endOfLine": "lf",
@@ -37,7 +37,7 @@
   "scripts": {
     "build": "tsc",
     "start": "tsc -w",
-    "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" \"src/**/*.test.ts\""
+    "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" \"src/**/*.test.ts\" --watch-files \"../noodl-types/dist\""
   },
   "types": "dist/index.d.ts",
   "version": "0.0.43"
