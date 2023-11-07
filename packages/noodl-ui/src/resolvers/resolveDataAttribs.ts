@@ -137,15 +137,32 @@ dataAttribsResolver.setResolver(async (component, options, next) => {
         Identify.component.image(component) ||
         Identify.component.video(component)
       ) {
+        const func = component.get('path=func')
         if (component.blueprint?.['path=func']) {
+
+          if(func?.name === 'prepareChatDocToPath'){
+            const root = getRoot()
+            const func = root.builtIn.getCacheByKey
+            const payload = {
+              apiObject: {
+                id: result,
+                func: 'prepareDocToPath'
+              },
+            }
+            const res = await func?.(payload)
+            if(res){
+              component.edit({ 'data-src': res.url })
+            }
+          }
           if (component.get('wait')) {
-            result = await component.get('path=func')?.(result)
+            result = await func?.(result)
             if (!result) {
-              result = component.get('path=func')?.(result)
+              result = func?.(result)
             }
           } else {
-            result = component.get('path=func')?.(result)
+            result = func?.(result)
           }
+
         }
       }
 
