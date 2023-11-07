@@ -96,7 +96,7 @@ describe(u.yellow(`noodl-test-utils`), () => {
     })
 
     it(`[image] should create an image component object`, () => {
-      expect(ui.image()).to.deep.eq({ type: 'image', path: '' })
+      expect(ui.image()).to.deep.eq({ type: 'image' })
     })
 
     it(`[image] should set the string arg as path`, () => {

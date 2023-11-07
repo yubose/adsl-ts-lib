@@ -304,6 +304,8 @@ export type StyleTextAlign =
   | 'left'
   | 'right'
 
+export type StyleTextAlignDirection = 'left' | 'center' | 'right'
+
 export interface StyleTextAlignObject {
   x?: 'center' | 'centerX' | 'left' | 'right'
   y?: 'center' | 'centerY' | 'left' | 'right'

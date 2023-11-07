@@ -1,6 +1,7 @@
 import type { LiteralUnion } from 'type-fest'
 import type { KnownStyleKeys, ReferenceString, StyleObject } from 'noodl-types'
 import y from 'yaml'
+// @ts-ignore
 import { findPair } from 'yaml/util'
 import { is as coreIs } from 'noodl-core'
 import getYamlNodeKind from './getYamlNodeKind'
