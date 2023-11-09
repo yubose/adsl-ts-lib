@@ -170,7 +170,7 @@ function attachUserEvents<N extends t.NDOMElement>(
           // let contentHeight =
           //   node.scrollHeight || document.documentElement.scrollHeight //内容高度
           let scrollTop = node.scrollTop || document.documentElement.scrollTop
-          if (scrollTop <= 50) {
+          if (scrollTop <= 200) {
             //到达底部0px时,加载新内容
             node.dispatchEvent(event as Event)
             node.removeEventListener('scroll', executeScroll)

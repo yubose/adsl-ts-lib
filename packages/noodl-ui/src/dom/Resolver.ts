@@ -130,6 +130,30 @@ export default class NDOMResolver {
     await Promise.all(runners.map((r) => this.resolve(r, options)))
   }
 
+  async runOnly<
+    T extends string = string,
+    N extends t.NDOMElement<T> = t.NDOMElement<T>,
+  >({
+    on,
+    ndom,
+    node,
+    component,
+    page,
+    resolvers,
+    resolveName,
+  }: Pick<t.Resolve.BaseOptions<T, N>, 'node' | 'component'> & {
+    on?: t.ResolveComponentOptions<any>['on']
+    ndom: NDOM
+    page?: NDOMPage
+    resolvers: OrArray<t.Resolve.Config<T, N>>
+    resolveName: string  
+  }) {
+    const options = this.getOptions({ on, ndom, node, component, page })
+    const runners = u.array(resolvers)
+    const rs = runners.filter(r=>r.name === resolveName)
+    await Promise.all(rs.map((r) => this.resolve(r, options)))
+  }
+
   async resolve<
     T extends string = string,
     N extends t.NDOMElement<T> = t.NDOMElement<T>,

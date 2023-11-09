@@ -702,6 +702,19 @@ class NDOM extends NDOMInternal {
             context.iteratorVar = iteratorVar
           }
         }
+        if(component.type === 'chatList' && node){
+          let hooks = options?.on
+          await this.#R.runOnly({
+            on: hooks,
+            ndom: this,
+            node: node,
+            component,
+            page,
+            resolvers: this.resolvers,
+            resolveName: '[App] chatList'
+          })
+          return [node, component] as [typeof node, typeof component]
+        }
         page?.emitSync?.(c.eventId.page.on.ON_REDRAW_BEFORE_CLEANUP, {
           parent: component?.parent as t.NuiComponent.Instance,
           component,
