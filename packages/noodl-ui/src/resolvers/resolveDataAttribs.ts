@@ -30,7 +30,7 @@ dataAttribsResolver.setResolver(async (component, options, next) => {
     resource,
     viewTag,
   } = original
-
+  let prepareDocToPath:string|null = null
   const iteratorVar = context?.iteratorVar || n.findIteratorVar(component)
   
   if (Identify.component.listItem(component)) {
@@ -150,8 +150,8 @@ dataAttribsResolver.setResolver(async (component, options, next) => {
               },
             }
             const res = await func?.(payload)
-            if(res){
-              component.edit({ 'data-src': res.url })
+            if(res && res?.url){
+              prepareDocToPath = res.url
             }
           }
           if (component.get('wait')) {
@@ -246,10 +246,9 @@ dataAttribsResolver.setResolver(async (component, options, next) => {
   if (path || resource || image) {
     let src = ''
 
-    if (u.isStr(path)) src = path
+    if (u.isStr(path)) src = prepareDocToPath || path
     else if (u.isStr(resource)) src = resource
     else if (u.isStr(image)) src = image
-
     // Path emits are handled in resolveActions
     if (u.isStr(src)) {
       if (Identify.reference(src)) {
