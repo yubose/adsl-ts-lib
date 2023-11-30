@@ -207,6 +207,7 @@ function attachUserEvents<N extends t.NDOMElement>(
         return
       } else if([
         "startRecord",
+        'onGenerateClick',
         "pauseRecord",
         "resumeRecord",
         "endRecord",
