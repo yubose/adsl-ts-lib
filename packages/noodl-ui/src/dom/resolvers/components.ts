@@ -294,6 +294,27 @@ const componentsResolver: t.Resolve.Config = {
 
             }
           }
+
+          if (args.component.has('isEditable')) {
+            const isEditable = args.component.get('isEditable')
+            const isDisabled = Identify.isBooleanFalse(isEditable)
+            if (isDisabled) {
+              setAttr('disabled', isDisabled)
+            }
+            console.log(999999,isDisabled)
+
+          }
+          function textviewChange(this: HTMLTextAreaElement) {
+            this.dataset.value = this.value
+            args.component.edit(c.DATA_VALUE, this.value)
+            args.component.emit(c.DATA_VALUE, this.value)
+          }
+          const listener = addListener(args.node,'change',textviewChange)
+          // args.node?.addEventListener(
+          //   'change',
+          //   textviewChange
+          // )
+          args.component.addEventListeners(listener)
         }
         // CANVAS
         else if (Identify.component.canvas(args.component)) {
