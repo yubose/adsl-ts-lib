@@ -4,9 +4,8 @@
     "url": "https://github.com/pfftdammitchris/noodl-cli/issues"
   },
   "dependencies": {
-    "noodl-types": "*"
+    "noodl-types": "^1.0.274"
   },
-  "devDependencies": {},
   "directories": {
     "dist": "dist",
     "test": "__tests__"
@@ -34,5 +33,5 @@
     "types": "tsc --declaration --declarationDir dist --emitDeclarationOnly"
   },
   "types": "dist/index.d.ts",
-  "version": "0.0.162"
+  "version": "0.0.163"
 }
