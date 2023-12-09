@@ -1,7 +1,3 @@
-import type { LiteralUnion } from 'type-fest'
-import type * as nt from 'noodl-types'
-import * as u from '@jsmanifest/utils'
-
 const stringFactory = (function () {
   const ref = (function () {
     function _eval(rootKey: string, path?: string): `=.${string}`
