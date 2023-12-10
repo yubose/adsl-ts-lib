@@ -1,9 +1,10 @@
 {
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
   "dependencies": {
+    "@jsmanifest/utils": "^1.0.73",
     "noodl-action-chain": "^0.0.160",
     "noodl-test-utils": "^0.0.12",
-    "noodl-types": "^1.0.274",
+    "noodl-types": "^1.0.275",
     "noodl-utils": "^0.0.135",
     "rollup-plugin-replace": "^2.2.0",
     "signature_pad": "^4.0.7"
@@ -45,5 +46,5 @@
     "watch:stable": "cross-env NODE_ENV=production NODE_OPTIONS=\"--stack-trace-limit=10000\" rollup -c -w"
   },
   "typings": "dist/index.d.ts",
-  "version": "0.1.1177"
+  "version": "0.1.1179"
 }
