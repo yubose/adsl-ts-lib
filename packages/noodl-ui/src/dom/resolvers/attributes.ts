@@ -218,7 +218,8 @@ function attachUserEvents<N extends t.NDOMElement>(
         'deleteCallBack',
         'imageClick',
         'onVoiceClick',
-        'onTextClick'
+        'onTextClick',
+        'onEditClick'
       ].includes(eventType)) {
         return
       } else {
