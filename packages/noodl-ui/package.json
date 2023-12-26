@@ -4,7 +4,7 @@
     "@jsmanifest/utils": "^1.0.73",
     "noodl-action-chain": "^0.0.160",
     "noodl-test-utils": "^0.0.12",
-    "noodl-types": "^1.0.276",
+    "noodl-types": "^1.0.277",
     "noodl-utils": "^0.0.135",
     "rollup-plugin-replace": "^2.2.0",
     "signature_pad": "^4.0.7"
