@@ -1,10 +1,11 @@
 {
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
   "dependencies": {
+    "@jsmanifest/utils": "^1.0.73",
     "noodl-action-chain": "^0.0.160",
     "noodl-test-utils": "^0.0.12",
-    "noodl-types": "*",
-    "noodl-utils": "^0.0.134",
+    "noodl-types": "^1.0.275",
+    "noodl-utils": "^0.0.135",
     "rollup-plugin-replace": "^2.2.0",
     "signature_pad": "^4.0.7"
   },
@@ -25,7 +26,7 @@
     "tsconfig.json",
     "tsconfig.test.json"
   ],
-  "gitHead": "0b9e684034928e0e7dbd3f056ba3fc39dc8e6320",
+  "gitHead": "12f36ba01c0e3f6e069650f933a4068887532537",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -45,5 +46,5 @@
     "watch:stable": "cross-env NODE_ENV=production NODE_OPTIONS=\"--stack-trace-limit=10000\" rollup -c -w"
   },
   "typings": "dist/index.d.ts",
-  "version": "0.1.1176"
+  "version": "0.1.1181"
 }

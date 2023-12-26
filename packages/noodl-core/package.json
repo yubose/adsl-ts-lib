@@ -1,7 +1,7 @@
 {
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
   "dependencies": {
-    "noodl-types": "*"
+    "noodl-types": "^1.0.274"
   },
   "description": "Core JavaScript library for the Neuron Organic Object Description Language (NOODL)",
   "directories": {
@@ -11,7 +11,7 @@
   "files": [
     "dist"
   ],
-  "gitHead": "0b9e684034928e0e7dbd3f056ba3fc39dc8e6320",
+  "gitHead": "12f36ba01c0e3f6e069650f933a4068887532537",
   "homepage": "",
   "keywords": [
     "noodl",
@@ -43,5 +43,5 @@
     "types:watch": "npm run types -- -w"
   },
   "types": "./dist/index.d.ts",
-  "version": "0.1.56"
+  "version": "0.1.57"
 }

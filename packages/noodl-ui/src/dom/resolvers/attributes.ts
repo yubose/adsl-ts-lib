@@ -206,20 +206,23 @@ function attachUserEvents<N extends t.NDOMElement>(
         component.addEventListeners(executeFunlistener)
         return
       } else if([
-        "startRecord",
+        'startRecord',
         'onGenerateClick',
-        "pauseRecord",
-        "resumeRecord",
-        "endRecord",
-        "finishRecord",
-        "errorRecord",
-        "beforeFinish",
+        'onTranscriptionClick',
+        'pauseRecord',
+        'resumeRecord',
+        'endRecord',
+        'finishRecord',
+        'errorRecord',
+        'beforeFinish',
         'deleteCallBack',
         'imageClick',
         "onCancelClick",
         "onSelectClick",
-        "onDateClick"
-
+        "onDateClick",
+        'onVoiceClick',
+        'onTextClick',
+        'onEditClick'
       ].includes(eventType)) {
         return
       } else {

@@ -81,7 +81,7 @@ setupResolver.setResolver(
         ---- USER EVENTS (onClick, onHover, onBlur, etc)
       -------------------------------------------------------- */
         // @ts-expect-error
-        nt.userEvent.concat(['postMessage','imageClick']).forEach((eventType) => {
+        nt.userEvent.concat(['postMessage']).forEach((eventType) => {
           if (original[eventType]) {
             const actionChain = createActionChain(
               eventType,

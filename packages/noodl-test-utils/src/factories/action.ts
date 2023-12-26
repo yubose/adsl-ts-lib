@@ -26,15 +26,17 @@ import ecosTextDoc from '../fixtures/text.json'
 import * as t from '../types'
 
 const actionFactory = (function () {
-  function builtIn<FuncName extends string>(
+  function builtInAction<FuncName extends string>(
     funcName: FuncName,
   ): BuiltInActionObject & { funcName: FuncName }
 
-  function builtIn(props?: Partial<BuiltInActionObject>): BuiltInActionObject
+  function builtInAction(
+    props?: Partial<BuiltInActionObject>,
+  ): BuiltInActionObject
 
-  function builtIn(): BuiltInActionObject
+  function builtInAction(): BuiltInActionObject
 
-  function builtIn(obj?: string | Partial<BuiltInActionObject>) {
+  function builtInAction(obj?: string | Partial<BuiltInActionObject>) {
     const a = { actionType: 'builtIn' } as BuiltInActionObject
     if (u.isStr(obj)) a.funcName = obj
     return u.assign(a, u.isObj(obj) ? obj : undefined)
@@ -197,10 +199,10 @@ const actionFactory = (function () {
       if (u.isObj(arg1) && ('dataKey' in arg1 || 'actions' in arg1)) {
         Object.assign(obj.emit, arg1)
       } else {
-        obj.dataKey = arg1
+        obj.emit.dataKey = arg1
       }
     }
-    if (u.isArr(arg2)) obj.actions = arg2
+    if (u.isArr(arg2)) obj.emit.actions = arg2
     return obj
   }
 
@@ -213,10 +215,20 @@ const actionFactory = (function () {
   function goto(): GotoObject
 
   function goto<A extends GotoObject>(props?: string | Partial<A>) {
-    return {
-      goto: strOrEmptyStr(props),
-      ...(u.isObj(props) ? props : undefined),
-    } as GotoObject
+    const result = {} as GotoObject
+
+    if (u.isObj(props)) {
+      u.assign(result, props)
+      if ('destination' in props) {
+        result.destination = props.destination
+        result.goto = result.goto || result.destination
+      } else {
+        result.goto = props.goto || ''
+      }
+    } else {
+      result.goto = strOrEmptyStr(props)
+    }
+    return result as GotoObject & { destination?: string }
   }
 
   function ifObject<IfConditions extends any[]>(
@@ -232,12 +244,12 @@ const actionFactory = (function () {
   ) {
     const a = {} as IfObject
     if (u.isArr(value)) a.if = value as any
-    else a.if = value?.if || ([] as any)
+    else a.if = value?.if || ([undefined, undefined, undefined] as any)
     return a
   }
 
   return {
-    builtIn,
+    builtInAction,
     ecosDoc,
     evalObject,
     emit: emitObject,
