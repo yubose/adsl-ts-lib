@@ -217,6 +217,9 @@ function attachUserEvents<N extends t.NDOMElement>(
         'beforeFinish',
         'deleteCallBack',
         'imageClick',
+        "onCancelClick",
+        "onSelectClick",
+        "onDateClick",
         'onVoiceClick',
         'onTextClick',
         'onEditClick'
