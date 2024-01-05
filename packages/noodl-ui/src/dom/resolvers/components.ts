@@ -271,9 +271,10 @@ const componentsResolver: t.Resolve.Config = {
           const rows = args.component.get('rows')
           //@ts-expect-error
           rows && (args.node.rows = rows)
-          if (args.component.has('autoExpand')) {
-            const autoExpand = args.component.get('autoExpand')
-            if (autoExpand) {
+          if (!args.component.has('autoExpand') || args.component.get('autoExpand') === true || args.component.get('autoExpand') === 'true') {
+            
+            // const autoExpand = args.component.get('autoExpand')
+            // if (autoExpand) {
               const textArea = args.node
               const paddingBottom = textArea.style.paddingBottom?parseFloat(textArea.style.paddingBottom):0
               const paddingTop = textArea.style.paddingTop?parseFloat(textArea.style.paddingTop):0
@@ -294,7 +295,7 @@ const componentsResolver: t.Resolve.Config = {
               })
 
 
-            }
+            // }
           }
 
           if (args.component.has('isEditable')) {
