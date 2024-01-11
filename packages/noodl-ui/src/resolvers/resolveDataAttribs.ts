@@ -138,6 +138,7 @@ dataAttribsResolver.setResolver(async (component, options, next) => {
         Identify.component.video(component)
       ) {
         const func = component.get('path=func')
+        const outBase64 = component.get('base64data')
         if (component.blueprint?.['path=func']) {
 
           if(func?.name === 'prepareChatDocToPath'){
@@ -157,10 +158,10 @@ dataAttribsResolver.setResolver(async (component, options, next) => {
           if (component.get('wait')) {
             result = await func?.(result)
             if (!result) {
-              result = func?.(result)
+              result = outBase64? func?.(result,null,outBase64) : func?.(result)
             }
           } else {
-            result = func?.(result)
+            result = outBase64? func?.(result,null,outBase64) : func?.(result)
           }
 
         }
