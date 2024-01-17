@@ -571,6 +571,7 @@ export const findBySrc = makeFindByAttr('data-src')
 export const findByViewTag = makeFindByAttr('data-viewtag')
 export const findByUX = makeFindByAttr('data-ux')
 export const findByDataOpton = makeFindByAttr('data-option')
+export const findByDefaultDate = makeFindByAttr('default-date')
 
 export function findByClassName(className: string | undefined) {
   return findElement((doc) =>
@@ -616,6 +617,9 @@ export const findFirstByViewTag = makeFindFirstBy<string>((doc, viewTag) =>
 )
 export const findFirstByDataOption = makeFindFirstBy<string>(
   (doc, dataOption) => doc.querySelector(`[data-option="${dataOption}"]`),
+)
+export const findFirstByDefaultDate = makeFindFirstBy<string>(
+  (doc, defaultDate) => doc.querySelector(`[default-data"${defaultDate}"]`),
 )
 export const findFirstByVideoOption = makeFindFirstBy<string>(
   (doc, videoOption) => doc.querySelector(`[video-option="${videoOption}"]`),
