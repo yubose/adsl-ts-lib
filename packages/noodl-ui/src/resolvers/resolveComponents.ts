@@ -664,6 +664,7 @@ componentResolver.setResolver(async (component, options, next) => {
 
             userEvent.forEach((event) => {
               item?.[event] && (componentObject[event] = item?.[event])
+              item?.[event] && (componentObject['style']['cursor'] = 'pointer')
             })
 
             const text = createComponent(componentObject, page)
