@@ -570,7 +570,11 @@ export const findByPlaceholder = makeFindByAttr('data-placeholder')
 export const findBySrc = makeFindByAttr('data-src')
 export const findByViewTag = makeFindByAttr('data-viewtag')
 export const findByUX = makeFindByAttr('data-ux')
-export const findByDataOpton = makeFindByAttr('data-option')
+export const findByDataOption = makeFindByAttr('data-option')
+export const findByTimeSlot = makeFindByAttr('timeSlot')
+export const findByProviderId = makeFindByAttr('providerId')
+export const findByFacilityId = makeFindByAttr('facilityId')
+export const findByLocationId = makeFindByAttr('locationId')
 export const findByDefaultDate = makeFindByAttr('default-date')
 
 export function findByClassName(className: string | undefined) {
@@ -617,6 +621,18 @@ export const findFirstByViewTag = makeFindFirstBy<string>((doc, viewTag) =>
 )
 export const findFirstByDataOption = makeFindFirstBy<string>(
   (doc, dataOption) => doc.querySelector(`[data-option="${dataOption}"]`),
+)
+export const findFirstByDataTimeSlot = makeFindFirstBy<string>(
+  (doc, dataTimeSlot) => doc.querySelector(`[data-timeSlot="${dataTimeSlot}"]`),
+)
+export const findFirstByDataProviderId = makeFindFirstBy<string>(
+  (doc, dataProviderId) => doc.querySelector(`[data-providerId="${dataProviderId}"]`),
+)
+export const findFirstByDataFacilityId = makeFindFirstBy<string>(
+  (doc, dataFacilityId) => doc.querySelector(`[data-facilityId="${dataFacilityId}"]`),
+)
+export const findFirstByDataLocationId = makeFindFirstBy<string>(
+  (doc, dataLocationId) => doc.querySelector(`[data-locationId="${dataLocationId}"]`),
 )
 export const findFirstByDefaultDate = makeFindFirstBy<string>(
   (doc, defaultDate) => doc.querySelector(`[default-data"${defaultDate}"]`),
