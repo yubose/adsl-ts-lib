@@ -55,8 +55,6 @@ class Page {
         document.createElement('div')
       this.node.id = this.id as string
     }
-    const rootNode = document.getElementById('root')?.childNodes[0] as t.NDOMElement
-    rootNode && removeAllNode(rootNode)
     this.emitSync(eventId.page.on.ON_BEFORE_CLEAR_ROOT_NODE, this.node)
     this.node.textContent = ''
     this.node.style.cssText = ''

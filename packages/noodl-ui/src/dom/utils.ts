@@ -769,11 +769,15 @@ export function removeAllNode(node: t.NDOMElement) {
         remove(child)
       }
       node.remove()
+      node = null
+      return
     }
   }
+
   if (node) {
     try {
       remove(node)
+      return
     } catch (error) {
       log.error(error)
     }
