@@ -4,7 +4,6 @@ import NUIPage from '../Page'
 import NUIViewport from '../Viewport'
 import * as t from '../types'
 import log from "../utils/log"
-import { removeAllNode } from './utils'
 
 class Page {
   #nuiPage: NUIPage
