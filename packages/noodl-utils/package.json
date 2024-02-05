@@ -33,8 +33,9 @@
     "start": "cross-env NODE_ENV=development rollup -c -w",
     "test": "cross-env TS_NODE_PROJECT=\"tsconfig.test.json\" NODE_ENV=test ts-mocha -r jsdom-global/register --file src/__tests__/setup.ts -r source-map-support/register --extensions ts --watch --watch-files src src/**/*.test.ts",
     "test:file": "NODE_ENV=test ts-mocha -r jsdom-global/register --extensions ts --watch --watch-files src",
-    "types": "tsc --declaration --declarationDir dist --emitDeclarationOnly"
+    "types": "tsc --declaration --declarationDir dist --emitDeclarationOnly",
+    "publish-utils": "npm version patch && npm publish -f"
   },
   "typings": "./dist/index.d.ts",
-  "version": "0.0.135"
+  "version": "0.0.136"
 }
