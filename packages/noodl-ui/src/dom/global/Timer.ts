@@ -1,5 +1,5 @@
 import * as u from '@jsmanifest/utils'
-import add from 'date-fns/add'
+import { add } from 'date-fns'
 
 class Timer {
   #onClear: Timer['onClear']

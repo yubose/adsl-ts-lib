@@ -1,5 +1,5 @@
 import * as u from '@jsmanifest/utils'
-import startOfDay from 'date-fns/startOfDay'
+import { startOfDay } from 'date-fns'
 import partialR from 'lodash/partialRight'
 import wrap from 'lodash/wrap'
 import { Identify, userEvent } from 'noodl-types'
@@ -17,7 +17,6 @@ import log from '../../utils/log'
 import debounce from 'lodash/debounce'
 
 const is = Identify
-
 
 function attachText<N extends t.NDOMElement>(node: N, ...text: string[]) {
   if (!node.innerHTML.trim()) {
@@ -51,7 +50,7 @@ function attachUserEvents<N extends t.NDOMElement>(
   node: N,
   component: t.NuiComponent.Instance,
 ) {
-  let componentsNum = component.children?.at(-1)?.children.length;
+  let componentsNum = component.children?.at(-1)?.children.length
 
   userEvent.forEach((eventType: string) => {
     /**
@@ -62,8 +61,8 @@ function attachUserEvents<N extends t.NDOMElement>(
      */
     // log.log(component.type,"oooo")
     // if ((component.type==="select" && eventType === 'onChange')) return
-    if (eventType === 'onInput'){
-      if((component.blueprint.debounce)){
+    if (eventType === 'onInput') {
+      if (component.blueprint.debounce) {
         return
       }
     }
@@ -90,17 +89,22 @@ function attachUserEvents<N extends t.NDOMElement>(
             node.clientHeight || document.documentElement.clientHeight
           let contentHeight =
             node.scrollHeight || document.documentElement.scrollHeight //内容高度
-            let scrollTop = node.scrollTop || document.documentElement.scrollTop;
-            if (((component.children?.at(-1)?.children.length===componentsNum )||component.get("updateState") || component.get("lazyState")) && Math.floor(contentHeight - viewHeight - scrollTop) <= 1) {
-              componentsNum+= component.blueprint.lazyCount;
-              const timer = setTimeout(() => {
-                component.set('lazyloading',true)
-                // @ts-expect-error
-                component.get?.(eventType)?.execute?.(event)
-                node.removeEventListener('scroll', executeScroll)
+          let scrollTop = node.scrollTop || document.documentElement.scrollTop
+          if (
+            (component.children?.at(-1)?.children.length === componentsNum ||
+              component.get('updateState') ||
+              component.get('lazyState')) &&
+            Math.floor(contentHeight - viewHeight - scrollTop) <= 1
+          ) {
+            componentsNum += component.blueprint.lazyCount
+            const timer = setTimeout(() => {
+              component.set('lazyloading', true)
+              // @ts-expect-error
+              component.get?.(eventType)?.execute?.(event)
+              node.removeEventListener('scroll', executeScroll)
               // node.removeEventListener('onLazyLoading', executeFun)
-                clearTimeout(timer)
-              })
+              clearTimeout(timer)
+            })
             //到达底部0px时,加载新内容s
             // node.dispatchEvent(events as Event)
             // node.removeEventListener(
@@ -108,7 +112,7 @@ function attachUserEvents<N extends t.NDOMElement>(
             //   // partialR(executeFun, component, node),
             //   executeFun
             // )
-            }
+          }
         })
         // const executeFun = (
         //   event: Event,
@@ -147,7 +151,7 @@ function attachUserEvents<N extends t.NDOMElement>(
           'scroll',
           partialR(executeScroll, component),
         )
-     
+
         // const onLazyLoadinglistener = addListener(
         //   node,
         //   'onLazyLoading',
@@ -157,7 +161,6 @@ function attachUserEvents<N extends t.NDOMElement>(
         // component.addEventListeners(onLazyLoadinglistener)
         return
       } else if (eventType === 'onPull') {
-
         const _debounce = component.blueprint.debounce
 
         let event: Event | null = new Event('onPull', {
@@ -195,31 +198,39 @@ function attachUserEvents<N extends t.NDOMElement>(
         const scrolllistener = addListener(
           node,
           'scroll',
-          partialR(_debounce ? debounce(executeScroll, _debounce) : executeScroll, component),
+          partialR(
+            _debounce ? debounce(executeScroll, _debounce) : executeScroll,
+            component,
+          ),
         )
         const executeFunlistener = addListener(
           node,
           'onPull',
-          partialR(_debounce ? debounce(executeFun, _debounce) : executeFun, component),
+          partialR(
+            _debounce ? debounce(executeFun, _debounce) : executeFun,
+            component,
+          ),
         )
         component.addEventListeners(scrolllistener)
         component.addEventListeners(executeFunlistener)
         return
-      } else if([
-        'startRecord',
-        'onGenerateClick',
-        'onTranscriptionClick',
-        'pauseRecord',
-        'resumeRecord',
-        'endRecord',
-        'finishRecord',
-        'errorRecord',
-        'beforeFinish',
-        'deleteCallBack',
-        'imageClick',
-        'onVoiceClick',
-        'onTextClick'
-      ].includes(eventType)) {
+      } else if (
+        [
+          'startRecord',
+          'onGenerateClick',
+          'onTranscriptionClick',
+          'pauseRecord',
+          'resumeRecord',
+          'endRecord',
+          'finishRecord',
+          'errorRecord',
+          'beforeFinish',
+          'deleteCallBack',
+          'imageClick',
+          'onVoiceClick',
+          'onTextClick',
+        ].includes(eventType)
+      ) {
         return
       } else {
         if (eventType === 'onClick') {
@@ -227,15 +238,17 @@ function attachUserEvents<N extends t.NDOMElement>(
             node.classList.add('noodl-onclick')
           }
         }
-        if(eventType=='onContextmenu'){
+        if (eventType == 'onContextmenu') {
           if (!node.classList.contains('noodl-oncontextmenu')) {
             node.classList.add('noodl-oncontextmenu')
           }
         }
-        if(component.contentType === 'search'){
-
-        }else{
-          const callback = (event: Event, component: t.NuiComponent.Instance) => {
+        if (component.contentType === 'search') {
+        } else {
+          const callback = (
+            event: Event,
+            component: t.NuiComponent.Instance,
+          ) => {
             const timer = setTimeout(() => {
               component.get?.(eventType)?.execute?.(event)
               clearTimeout(timer)
@@ -246,16 +259,17 @@ function attachUserEvents<N extends t.NDOMElement>(
           //   log.log('test remove')
           //   node.removeEventListener(normalizeEventName(eventType), callback)
           // }
-  
+
           // component.addEventListeners(normalizeEventName(eventType),clearEvent)
           const listener = addListener(
             node,
             normalizeEventName(eventType),
-            eventType === 'onClick'? partialR(debounce(callback,200), component) :partialR(callback, component),
+            eventType === 'onClick'
+              ? partialR(debounce(callback, 200), component)
+              : partialR(callback, component),
           )
           component.addEventListeners(listener)
         }
-        
       }
     }
   })
