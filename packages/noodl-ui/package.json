@@ -2,6 +2,7 @@
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
   "dependencies": {
     "@jsmanifest/utils": "^1.0.73",
+    "date-fns": "^3.4.0",
     "noodl-action-chain": "^0.0.160",
     "noodl-test-utils": "^0.0.12",
     "noodl-types": "^1.0.275",
@@ -12,7 +13,8 @@
   "description": "NOODL JavaScript library",
   "devDependencies": {
     "@testing-library/dom": "^8.16.0",
-    "@types/signature_pad": "^2.3.2"
+    "@types/signature_pad": "^2.3.2",
+    "pretty-bytes": "^6.1.1"
   },
   "engines": {
     "node": ">=14",
@@ -33,12 +35,12 @@
   "name": "noodl-ui",
   "repository": "pfftdammitchris/noodl-ui",
   "scripts": {
-    "build": "concurrently \"rollup -c --environment BUILD:production\" \"npm run types\"",
-    "build:development": "cross-env NODE_ENV=development concurrently \"rollup -c --environment BUILD:development\" \"npm run types\"",
-    "build:stable": "cross-env NODE_ENV=production concurrently \"rollup -c --environment BUILD:development\" \"npm run types\"",
+    "build": "concurrently \"rollup -c --environment BUILD:production\" \"pnpm types\"",
+    "build:development": "cross-env NODE_ENV=development concurrently \"rollup -c --environment BUILD:development\" \"pnpm types\"",
+    "build:stable": "cross-env NODE_ENV=production concurrently \"rollup -c --environment BUILD:development\" \"pnpm types\"",
     "publish-ui": "npm version patch && npm publish -f",
-    "prepublish-ui": "npm run build:stable",
-    "start": "concurrently \"rollup -c -w --environment BUILD:development\" \"npm run types\"",
+    "prepublish-ui": "pnpm build:stable",
+    "start": "concurrently \"rollup -c -w --environment BUILD:development\" \"pnpm types\"",
     "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --file src/setupTests.ts --extensions ts --watch --watch-files \"src/**/*.ts\" \"src/**/*.test.ts\" --ignore \"src/__tests__/dom/**/*\"",
     "test:file": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json --file src/setupTests.ts -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\"",
     "types": "tsc --declaration --declarationDir dist --emitDeclarationOnly",

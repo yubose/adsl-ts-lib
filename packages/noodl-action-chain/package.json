@@ -26,9 +26,9 @@
   },
   "scripts": {
     "build": "tsc",
-    "postbuild": "npm run types",
-    "poststart": "npm run types",
-    "start": "concurrently \"rollup -c -w\" \"npm run types\"",
+    "postbuild": "pnpm types",
+    "poststart": "pnpm types",
+    "start": "concurrently \"rollup -c -w\" \"pnpm types\"",
     "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json --file src/__tests__/setupTests.ts --extensions ts --watch --watch-files src \"src/**/*.test.ts\"",
     "types": "tsc --declaration --declarationDir dist --emitDeclarationOnly"
   },

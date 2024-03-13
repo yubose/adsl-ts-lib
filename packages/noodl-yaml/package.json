@@ -42,13 +42,13 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "dev": "concurrently \"npm run types:watch\" \"rollup -c -w\"",
-    "postbuild": "npm run types",
+    "dev": "concurrently \"pnpm types:watch\" \"rollup -c -w\"",
+    "postbuild": "pnpm types",
     "start": "npx tsc -w",
     "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" --watch-files \"../noodl-core/dist\" --watch-files \"../noodl-test-utils/dist\" --watch-files \"../noodl-ui/dist\" \"src/**/*.test.ts\" --file src/__tests__/setup.ts",
     "test:file": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" --watch-files \"../noodl-test-utils/dist\" --watch-files \"../noodl-ui/dist\" --file src/__tests__/setup.ts",
     "types": "npx tsc --emitDeclarationOnly --esModuleInterop --declaration --declarationDir dist --project tsconfig.json",
-    "types:watch": "npm run types -- -w"
+    "types:watch": "pnpm types -- -w"
   },
   "types": "dist/index.d.ts",
   "version": "0.0.51"

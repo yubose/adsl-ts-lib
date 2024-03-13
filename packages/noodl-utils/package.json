@@ -28,8 +28,8 @@
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production rollup -c",
-    "postbuild": "npm run types",
-    "poststart": "npm run types",
+    "postbuild": "pnpm types",
+    "poststart": "pnpm types",
     "start": "cross-env NODE_ENV=development rollup -c -w",
     "test": "cross-env TS_NODE_PROJECT=\"tsconfig.test.json\" NODE_ENV=test ts-mocha -r jsdom-global/register --file src/__tests__/setup.ts -r source-map-support/register --extensions ts --watch --watch-files src src/**/*.test.ts",
     "test:file": "NODE_ENV=test ts-mocha -r jsdom-global/register --extensions ts --watch --watch-files src",

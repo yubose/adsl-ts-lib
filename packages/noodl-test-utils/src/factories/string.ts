@@ -14,12 +14,19 @@ const stringFactory = (function () {
       return `..${args[0]}`
     }
 
+    function _override(rootKeyOrPath: string, path?: string) {
+      let result = `${rootKeyOrPath}`
+      if (typeof path === 'string') {
+        result += `.${path}`
+      }
+      if (!result.endsWith('@')) result += '@'
+      return result as `${string}@`
+    }
+
     const o = {
       eval: _eval,
       inherit: _inherit,
-      override: (str: string) => {
-        return (str.endsWith('@') ? str : `${str}@`) as `${string}@`
-      },
+      override: _override,
     }
 
     return o
@@ -35,7 +42,7 @@ const stringFactory = (function () {
           [] as string[],
         ),
         "'",
-      ]
+      ].join('') as `uid like '%${string}'`
     },
   }
 

@@ -33,14 +33,14 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "dev": "concurrently \"npm run types:watch\" \"rollup -c -w\"",
-    "postbuild": "npm run types",
-    "poststart": "npm run types",
+    "dev": "concurrently \"pnpm types:watch\" \"rollup -c -w\"",
+    "postbuild": "pnpm types",
+    "poststart": "pnpm types",
     "start": "tsc -w",
     "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" \"src/**/*.test.ts\"",
     "test:file": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\"",
     "types": "tsc --emitDeclarationOnly --esModuleInterop --declaration --declarationDir dist --project tsconfig.json",
-    "types:watch": "npm run types -- -w"
+    "types:watch": "pnpm types -- -w"
   },
   "types": "./dist/index.d.ts",
   "version": "0.1.57"

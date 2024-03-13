@@ -381,13 +381,9 @@ describe(u.yellow(`noodl-test-utils`), () => {
     it(`[uidLike]`, () => {
       const str1 = '=..formData.countryCode'
       const str2 = '=..formData.phoneNumber'
-      expect(str.uidLike(str1, str2)).to.deep.eq([
-        "uid like '%",
-        str1,
-        ' ',
-        str2,
-        "'",
-      ])
+      expect(str.uidLike(str1, str2)).to.eq(
+        `uid like '%=..formData.countryCode =..formData.phoneNumber'`,
+      )
     })
   })
 })

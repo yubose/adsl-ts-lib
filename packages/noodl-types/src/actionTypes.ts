@@ -140,6 +140,7 @@ export interface EvalActionObject
   extends ActionObject,
     Pick<UncommonActionObjectProps, 'dataKey' | 'dataObject'> {
   actionType: 'evalObject'
+  async?: boolean
   object?: OrArray<
     | IfObject
     | BuiltInEvalObject
@@ -326,8 +327,7 @@ export interface UpdateActionObject
     Pick<UncommonActionObjectProps, 'dataObject' | 'dataKey'> {}
 export interface ScanCameraActionObject
   extends ActionObject,
-      Pick<UncommonActionObjectProps, 'object' | 'dataKey'> {
-    actionType: 'scanCamera'
-    [key: string]: any
-  }
-  
+    Pick<UncommonActionObjectProps, 'object' | 'dataKey'> {
+  actionType: 'scanCamera'
+  [key: string]: any
+}
