@@ -27,6 +27,10 @@ dataAttribsResolver.setResolver(async (component, options, next) => {
     popUpView,
     path,
     poster,
+    timeSlot,
+    providerId,
+    facilityId,
+    locationId,
     resource,
     viewTag,
   } = original
@@ -138,6 +142,7 @@ dataAttribsResolver.setResolver(async (component, options, next) => {
         Identify.component.video(component)
       ) {
         const func = component.get('path=func')
+        const outBase64 = component.get('base64data')
         if (component.blueprint?.['path=func']) {
 
           if(func?.name === 'prepareChatDocToPath'){
@@ -157,10 +162,10 @@ dataAttribsResolver.setResolver(async (component, options, next) => {
           if (component.get('wait')) {
             result = await func?.(result)
             if (!result) {
-              result = func?.(result)
+              result = outBase64? func?.(result,null,outBase64) : func?.(result)
             }
           } else {
-            result = func?.(result)
+            result = outBase64? func?.(result,null,outBase64) : func?.(result)
           }
 
         }
@@ -201,6 +206,94 @@ dataAttribsResolver.setResolver(async (component, options, next) => {
       { 'data-key': dataKey, 'data-name': field },
       { remove: 'dataKey' },
     )
+  }
+  if (u.isStr(timeSlot)) {
+    let result: any
+    if (!Identify.folds.emit(timeSlot)) {
+      if (iteratorVar) {
+        const listAttribute = n.getListAttribute(component)
+        if (iteratorVar === timeSlot) {
+          result = context?.dataObject
+        } else if (timeSlot.startsWith('listAttr')) {
+          result = get(
+            listAttribute,
+            excludeIteratorVar(timeSlot, 'listAttr') as string,
+          )
+        } else {
+          result = get(
+            context?.dataObject,
+            excludeIteratorVar(timeSlot, iteratorVar) as string,
+          )
+        }
+      }
+      component.edit({ 'data-timeSlot': result })
+      }
+  }
+  if (u.isStr(providerId)) {
+    let result: any
+    if (!Identify.folds.emit(providerId)) {
+      if (iteratorVar) {
+        const listAttribute = n.getListAttribute(component)
+        if (iteratorVar === providerId) {
+          result = context?.dataObject
+        } else if (providerId.startsWith('listAttr')) {
+          result = get(
+            listAttribute,
+            excludeIteratorVar(providerId, 'listAttr') as string,
+          )
+        } else {
+          result = get(
+            context?.dataObject,
+            excludeIteratorVar(providerId, iteratorVar) as string,
+          )
+        }
+      }
+      component.edit({ 'data-providerId': result })
+      }
+  }
+  if (u.isStr(facilityId)) {
+    let result: any
+    if (!Identify.folds.emit(facilityId)) {
+      if (iteratorVar) {
+        const listAttribute = n.getListAttribute(component)
+        if (iteratorVar === facilityId) {
+          result = context?.dataObject
+        } else if (facilityId.startsWith('listAttr')) {
+          result = get(
+            listAttribute,
+            excludeIteratorVar(facilityId, 'listAttr') as string,
+          )
+        } else {
+          result = get(
+            context?.dataObject,
+            excludeIteratorVar(facilityId, iteratorVar) as string,
+          )
+        }
+      }
+      component.edit({ 'data-facilityId': result })
+      }
+  }
+  if (u.isStr(locationId)) {
+    let result: any
+    if (!Identify.folds.emit(locationId)) {
+      if (iteratorVar) {
+        const listAttribute = n.getListAttribute(component)
+        if (iteratorVar === locationId) {
+          result = context?.dataObject
+        } else if (locationId.startsWith('listAttr')) {
+          result = get(
+            listAttribute,
+            excludeIteratorVar(locationId, 'listAttr') as string,
+          )
+        } else {
+          result = get(
+            context?.dataObject,
+            excludeIteratorVar(locationId, iteratorVar) as string,
+          )
+        }
+      }
+      component.edit({ 'data-locationId': result })
+      }
   }
 
   /* -------------------------------------------------------

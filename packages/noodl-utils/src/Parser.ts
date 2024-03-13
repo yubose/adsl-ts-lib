@@ -164,15 +164,31 @@ class NoodlUtilsParser {
     const base = 'index.html?'
     pageUrl = pageUrl.indexOf(base) !== -1 ? pageUrl : pageUrl + base
     let separator = pageUrl.endsWith('?') ? '' : '-'
+    const [httpPath,pagePath] = pageUrl.split("?")
+    let pathArray:any[] = []
+    let noParamPathArray:any[] = []
+    if(pagePath){
+      pathArray = pagePath.split('-')
+      noParamPathArray = pathArray.map(path=>{
+          const mathInedx = path.indexOf('&')
+          if(mathInedx === -1){
+              return path
+          }else{
+              return path.split('&')[0]
+          }
+      })
+    }
+    const newDestination = destination.indexOf('&')!==-1?destination.split('&')[0]:destination
     if (destination !== startPage) {
-      const questionMarkIndex = pageUrl.indexOf(`?${destination}`)
-      const hyphenIndex = pageUrl.indexOf(`-${destination}`)
-      if (questionMarkIndex !== -1) {
+      const questionMarkIndex = pageUrl.indexOf(`?${newDestination}`)
+      const hyphenIndex = pageUrl.indexOf(`-${newDestination}`)
+      const index = noParamPathArray.indexOf(newDestination)
+      if (questionMarkIndex !== -1 && index !== -1 ) {
         pageUrl = pageUrl.substring(0, questionMarkIndex + 1)
-        separator = pageUrl.endsWith('?') ? '' : '-'
-      } else if (hyphenIndex !== -1) {
-        pageUrl = pageUrl.substring(0, hyphenIndex)
-        separator = pageUrl.endsWith('?') ? '' : '-'
+        separator = pageUrl.endsWith("?") ? "" : "-"
+      } else if (hyphenIndex !== -1 && index !== -1 ) {
+        const newArray = pathArray.splice(0,index)
+        pageUrl = `${httpPath}?${newArray.join('-')}`
       }
       pageUrl += `${separator}${destination}`
     } else {

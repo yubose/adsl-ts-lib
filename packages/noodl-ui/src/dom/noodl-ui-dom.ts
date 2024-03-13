@@ -35,6 +35,7 @@ import { _isIframeEl, _syncPages, _TEST_ } from './utils'
 import * as c from '../constants'
 import * as t from '../types'
 import log from '../utils/log'
+import { set } from 'lodash'
 
 const pageEvt = c.eventId.page
 const defaultResolvers = [attributeResolvers, componentResolvers]
@@ -433,6 +434,11 @@ class NDOM extends NDOMInternal {
      * Page components use NDOMPage instances that use their node as an
      * HTMLIFrameElement. They will have their own way of clearing their tree
      */
+    if(window?.['pcomponents']){
+      const rootComponents = window?.['pcomponents'][0]
+      this.removeComponentListener(rootComponents)
+      this.removeComponent(rootComponents)
+    }
     !_isIframeEl(page.node) && page.clearNode()
     page.setStatus(c.eventId.page.status.RENDERING_COMPONENTS)
     page.emitSync(
@@ -715,13 +721,13 @@ class NDOM extends NDOMInternal {
           })
           return [node, component] as [typeof node, typeof component]
         }
-        page?.emitSync?.(c.eventId.page.on.ON_REDRAW_BEFORE_CLEANUP, {
-          parent: component?.parent as t.NuiComponent.Instance,
-          component,
-          context,
-          node,
-          page,
-        })
+        // page?.emitSync?.(c.eventId.page.on.ON_REDRAW_BEFORE_CLEANUP, {
+        //   parent: component?.parent as t.NuiComponent.Instance,
+        //   component,
+        //   context,
+        //   node,
+        //   page,
+        // })
        
         // log.log(component.get("lazyCount"),newComponent,component,"kkkkk");
         // log.log('test86',component,component.children.length,component.defaultChildren.length)
@@ -778,6 +784,13 @@ class NDOM extends NDOMInternal {
           }
           
         }else{
+          page?.emitSync?.(c.eventId.page.on.ON_REDRAW_BEFORE_CLEANUP, {
+            parent: component?.parent as t.NuiComponent.Instance,
+            component,
+            context,
+            node,
+            page,
+          })
           newComponent = nui.createComponent(
             component.blueprint,
             page?.getNuiPage?.(),
@@ -789,6 +802,8 @@ class NDOM extends NDOMInternal {
           if (index) {
             newComponent.edit({ index })
           }
+          set(nui.getRoot(),'options', '')
+          this.removeComponentListener(component)
           this.removeComponent(component)
           newComponent = await nui.resolveComponents?.({
             callback: options?.callback,
@@ -828,7 +843,6 @@ class NDOM extends NDOMInternal {
               parentNode.replaceChild(newNode, node)
               removeAllNode(node)
             } else {
-              // node?.remove?.()
               removeAllNode(node)
             }
             newNode && (newViewTag === oldViewTag) && (!u.isNil(newViewTag)) && (newNode.scrollTop = scrollTop)
@@ -971,9 +985,17 @@ class NDOM extends NDOMInternal {
       _c.children?.forEach?.((_c) => remove(_c))
       _c.has('page') && _c.remove('page')
       _c.has('signaturePad') && _c.remove('signaturePad')
+      if (Object.getOwnPropertyDescriptor(this, '_ref_')) {
+        Object.defineProperty(this, '_ref_', {})
+        Object.defineProperty(this, '_path_', {})
+      }
+      
+      Object.defineProperty(this, 'get', {})
       _c.clear?.()
+      return
     }
     remove(component)
+    return
   }
   removeComponentListener(component: t.NuiComponent.Instance | undefined | null){
     if (!component) return
@@ -983,11 +1005,20 @@ class NDOM extends NDOMInternal {
         signaturePad.off()
         _c.remove(signaturePad)
       }
+      if (Object.getOwnPropertyDescriptor(this, '_ref_')) {
+        Object.defineProperty(this, '_ref_', {})
+        Object.defineProperty(this, '_path_', {})
+      }
+
+      Object.defineProperty(this, 'get', {})
+
       _c.clear('hooks')
       _c.removeAllEventListeners()
       _c.children?.forEach?.((_c) => remove(_c))
+      return
     }
     remove(component)
+    return
   }
 
   removeGlobalComponent(globalMap: NDOMGlobal, globalId = '') {

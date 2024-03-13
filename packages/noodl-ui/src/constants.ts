@@ -23,6 +23,11 @@ export const lib = {
     'placeholder',
     'postMessage',
     'dataOption',
+    'data-defaultDate',
+    'data-timeSlot',
+    'data-providerId',
+    'data-locationId',
+    'data-facilityId',
     'videoOption',
     'register',
   ],
@@ -36,7 +41,12 @@ export const lib = {
     'data-src',
     'data-value',
     'data-option',
+    'data-timeSlot',
+    'data-providerId',
+    'data-locationId',
+    'data-facilityId',
     'data-viewtag',
+    'data-defaultDate',
     'data-ux',
   ],
 } as const
@@ -122,6 +132,11 @@ export const trigger = {
   ON_MOUSEENTER: 'onMouseEnter',
   ON_MOUSELEAVE: 'onMouseLeave',
   DATA_OPTION: 'dataOption',
+  DEFULT_DATE: 'defaultDate',
+  TIMESLOT: 'timeSlot',
+  PROVIDERID: 'providerId',
+  FACILITYID: 'facilityId',
+  LOCATIONID: 'locationId',
   VIDEO_OPTION: 'videoOption',
   ON_MOUSEOUT: 'onMouseOut',
   ON_MOUSEOVER: 'onMouseOver',
@@ -175,6 +190,11 @@ export const DATA_GLOBALID = 'data-globalid'
 export const DATA_LISTID = 'data-listid'
 export const DATA_OPTIONS = 'data-options'
 export const DATA_OPTION = 'data-option'
+export const DATA_TIMESLOT = 'data-timeSlot'
+export const DATA_PROVIDERID = 'data-providerId'
+export const DATA_FACILITYID = 'data-facilityId'
+export const DATA_LOCATIONID = 'data-locationId'
+export const DEFULT_DATE = 'data-defaultDate'
 export const DATA_PLACEHOLDER = 'data-placeholder'
 export const DATA_VIEWTAG = 'data-viewtag'
 export const DATA_UX = 'data-ux'

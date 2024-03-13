@@ -834,7 +834,80 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
           datapath,
         )
         set(props, 'data-option', dataOption)
-      } else if (originalKey === 'placeholder') {
+      }else if (originalKey === 'timeSlot') {
+        // @ts-expect-error
+        let datapath = nu.toDataPath(nu.trimReference(originalValue))
+        let isLocalOption = is.localKey(datapath.join('.'))
+        // Note: This is here for fallback reasons.
+        // dataKey should never be a reference in the noodl
+        if (is.reference(originalValue)) {
+          isLocalOption = is.localReference(originalValue)
+        }
+        const timeSlot = get(
+          isLocalOption ? get(root, pageName) : root,
+          datapath,
+        )
+        set(props, 'data-timeSlot', timeSlot)
+      }else if (originalKey === 'locationId') {
+        // @ts-expect-error
+        let datapath = nu.toDataPath(nu.trimReference(originalValue))
+        let isLocalOption = is.localKey(datapath.join('.'))
+        // Note: This is here for fallback reasons.
+        // dataKey should never be a reference in the noodl
+        if (is.reference(originalValue)) {
+          isLocalOption = is.localReference(originalValue)
+        }
+        const locationId = get(
+          isLocalOption ? get(root, pageName) : root,
+          datapath,
+        )
+        set(props, 'data-locationId', locationId)
+      }else if (originalKey === 'facilityId') {
+        // @ts-expect-error
+        let datapath = nu.toDataPath(nu.trimReference(originalValue))
+        let isLocalOption = is.localKey(datapath.join('.'))
+        // Note: This is here for fallback reasons.
+        // dataKey should never be a reference in the noodl
+        if (is.reference(originalValue)) {
+          isLocalOption = is.localReference(originalValue)
+        }
+        const facilityId = get(
+          isLocalOption ? get(root, pageName) : root,
+          datapath,
+        )
+        set(props, 'data-facilityId', facilityId)
+      }else if (originalKey === 'providerId') {
+        // @ts-expect-error
+        let datapath = nu.toDataPath(nu.trimReference(originalValue))
+        let isLocalOption = is.localKey(datapath.join('.'))
+        // Note: This is here for fallback reasons.
+        // dataKey should never be a reference in the noodl
+        if (is.reference(originalValue)) {
+          isLocalOption = is.localReference(originalValue)
+        }
+        const providerId = get(
+          isLocalOption ? get(root, pageName) : root,
+          datapath,
+        )
+        set(props, 'data-providerId', providerId)
+      }
+      else if (originalKey === 'defaultDate') {
+        // @ts-expect-error
+        let datapath = nu.toDataPath(nu.trimReference(originalValue))
+        let isLocalOption = is.localKey(datapath.join('.'))
+        // Note: This is here for fallback reasons.
+        // dataKey should never be a reference in the noodl
+        if (is.reference(originalValue)) {
+          isLocalOption = is.localReference(originalValue)
+        }
+        const defaultDate = get(
+          isLocalOption ? get(root, pageName) : root,
+          datapath,
+        )
+        set(props, 'default-date', defaultDate)
+
+      } 
+      else if (originalKey === 'placeholder') {
         // @ts-expect-error
         let datapath = nu.toDataPath(nu.trimReference(originalValue))
         let isLocalOption = is.localKey(datapath.join('.'))

@@ -192,6 +192,11 @@ export const userEvent = [
   'deleteCallBack',
   'imageClick',
   'onGenerateClick',
+  "onCancelClick",
+  "onSelectClick",
+  "onDateClick",
   'onVoiceClick',
-  'onTextClick'
+  'onTextClick',
+  'onEditClick',
+  'imageClick',
 ] as const
