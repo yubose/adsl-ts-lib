@@ -472,10 +472,8 @@ const componentsResolver: t.Resolve.Config = {
           }
 
           args.component.on('path', (result: string) => {
-            if (args.node) {
               setAttr('src', result)
               setDataAttr('src', result)
-            }
           })
 
           // load promise return to image
