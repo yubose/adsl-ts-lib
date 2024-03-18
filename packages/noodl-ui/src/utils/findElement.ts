@@ -16,9 +16,7 @@ function findElement<Cb extends Callback>(cb: Cb) {
   if (result) {
     if (result instanceof NodeList || result instanceof HTMLCollection) {
       if (result.length > 1) {
-        const nodes = [] as HTMLElement[]
-        for (const node of result) nodes.push(node as HTMLElement)
-        return nodes
+        return Array.from(result) as HTMLElement[]
       } else {
         return result.item(0) as HTMLElement
       }
