@@ -929,11 +929,13 @@ const componentsResolver: t.Resolve.Config = {
             // Retrieved through reference
           }
           // setSelectOptions(args.node as HTMLSelectElement, selectOptions)
-          args.component.on('options', (dataOptions: any[]) => {
-            // clearOptions(args.node as HTMLSelectElement)
-            clearOptions(args.node as HTMLSelectElement)
-            setSelectOptions(args.node as HTMLSelectElement, dataOptions)
-          })
+          args.component.on('options', (function (node) {
+            return (dataOptions: any[]) => {
+              clearOptions(node as HTMLSelectElement)
+              setSelectOptions(node as HTMLSelectElement, dataOptions)
+              node = null as any
+            }
+          })(args.node))
 
           // Default to the first item if the user did not previously set their state
           if (
