@@ -163,8 +163,7 @@ export default class NDOMResolver {
   ) {
     await Promise.all(
       [config.before, config.resolve, config.after].map(
-        // @ts-expect-error
-        (fn) => fn && this.resolveCond(config.cond, options, fn),
+        async (fn) => fn && await this.resolveCond(config.cond, options, fn),
       ),
     )
   }
