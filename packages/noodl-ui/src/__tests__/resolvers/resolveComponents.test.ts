@@ -84,6 +84,10 @@ describe(`resolveComponents (ComponentResolver)`, () => {
       { type: 'button' },
       { type: 'button' },
     ]
+    await nui.resolveComponents({
+      components: pageObject.components,
+      callback: spy,
+    })
     expect(spy).to.have.property('callCount').to.eq(expectedCallsInOrder.length)
     const calls = spy.getCalls()
     expectedCallsInOrder.forEach((res, index) => {

@@ -14,7 +14,8 @@
   "devDependencies": {
     "@testing-library/dom": "^8.16.0",
     "@types/signature_pad": "^2.3.2",
-    "pretty-bytes": "^6.1.1"
+    "mutation-observer": "^1.0.3",
+    "pretty-bytes": "^5.6.0"
   },
   "engines": {
     "node": ">=14",

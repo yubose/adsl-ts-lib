@@ -13,6 +13,12 @@ JSDOM('', {
   runScripts: 'dangerously',
   url: baseUrl,
   pretendToBeVisual: true,
+  beforeParse(win) {
+    global.window = win as any
+    const MutationObserver = require('mutation-observer')
+    global.MutationObserver = MutationObserver
+    win.MutationObserver = MutationObserver
+  },
 })
 
 chai.use(sinonChai)

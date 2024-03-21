@@ -47,6 +47,7 @@ class NDOM extends NDOMInternal {
     onBeforeRequestPageObject: [],
     onAfterRequestPageObject: [],
   } as Record<keyof t.Hooks, t.Hooks[keyof t.Hooks][]>
+  #mutationObservers: Map<string, MutationObserver[]>
   #renderState = {
     draw: {
       active: {} as {
@@ -72,7 +73,7 @@ class NDOM extends NDOMInternal {
         pageIds: this.global.pageIds,
         pageNames: this.global.pageNames,
         timers: this.global.timers,
-        interval: this.global.intervals
+        interval: this.global.intervals,
       },
       hooks: this.hooks,
       resolvers: this.resolvers,
@@ -82,6 +83,7 @@ class NDOM extends NDOMInternal {
   constructor() {
     super()
     this.#R = new Resolver()
+    this.#mutationObservers = new Map()
     _syncPages.call(this)
   }
 
@@ -124,7 +126,7 @@ class NDOM extends NDOMInternal {
   createPage(nuiPage: NUIPage): NDOMPage | ComponentPage
   createPage(component: t.NuiComponent.Instance, node?: any): ComponentPage
   createPage(
-    args: Parameters<typeof nui['createPage']>[0],
+    args: Parameters<(typeof nui)['createPage']>[0],
   ): NDOMPage | ComponentPage
   createPage(args: {
     page: NUIPage
@@ -135,7 +137,7 @@ class NDOM extends NDOMInternal {
     args?:
       | t.NuiComponent.Instance
       | NUIPage
-      | Parameters<typeof nui['createPage']>[0]
+      | Parameters<(typeof nui)['createPage']>[0]
       | { page: NUIPage; viewport?: { width?: number; height?: number } }
       | string,
     node?: any,
@@ -249,6 +251,75 @@ class NDOM extends NDOMInternal {
   }
 
   /**
+   * @param args[0] Page name (Defaults to `'root'`) or callback
+   * @param args[1] Callback
+   */
+  createMutationObserver(
+    callback: MutationCallback,
+    /**
+     * Callback invoked (when manually disconnected, not during ndom.render) when observer is disconnected. Unhandled/leftover {@link MutationRecord}s are passed as arguments
+     */
+    onDisconect?: (mutations: MutationRecord[]) => void,
+  ): MutationObserver
+  createMutationObserver(
+    pageId: string,
+    callback: MutationCallback,
+    /**
+     * Callback invoked (when manually disconnected, not during ndom.render) when when observer is disconnected. Unhandled/leftover {@link MutationRecord}s are passed as arguments
+     */
+    onDisconect?: (mutations: MutationRecord[]) => void,
+  ): MutationObserver
+  createMutationObserver(...args: unknown[]): MutationObserver {
+    let pageId = ''
+    let callback: MutationCallback | undefined
+    let onDisconnect: ((mutations: MutationRecord[]) => void) | undefined
+
+    if (args.length > 1) {
+      if (u.isFnc(args[0])) {
+        callback = args[0]
+        onDisconnect = args[1] as any
+      } else {
+        pageId = args[0] as string
+        callback = args[1] as MutationCallback
+        onDisconnect = args[2] as any
+      }
+    } else {
+      pageId = args[0] as string
+    }
+
+    if (!pageId) pageId = 'root'
+
+    const _onMutation: MutationCallback = (mutations, observer) => {
+      callback?.(mutations, observer)
+    }
+
+    const observer = new MutationObserver(_onMutation)
+
+    if (!this.#mutationObservers.has(pageId)) {
+      this.#mutationObservers.set(pageId, [])
+    }
+
+    this.#mutationObservers.set(
+      pageId,
+      this.#mutationObservers.get(pageId)!.concat(observer),
+    )
+
+    return {
+      observe: observer.observe.bind(observer),
+      disconnect: () => {
+        const observers = this.#mutationObservers.get(pageId)
+        if (observers?.length) {
+          const index = observers.indexOf(observer)
+          if (index > -1) observers.splice(index, 1)
+        }
+        observer.disconnect()
+        if (onDisconnect) onDisconnect(observer.takeRecords())
+      },
+      takeRecords: observer.takeRecords.bind(observer),
+    }
+  }
+
+  /**
    * Finds and returns the associated NDOMPage from NUIPage
    * @param NUIPage nuiPage
    * @returns NDOMPage | null
@@ -318,11 +389,10 @@ class NDOM extends NDOMInternal {
    * The page.requesting value should be set prior to calling this method unless
    * pageRequesting is provided. If it is provided, it will be set automatically
    */
-  // @ts-expect-error
   async request(page = this.page, pageRequesting = '', opts?: { on }) {
     // Cache the currently requesting page to detect for newer requests during the call
     pageRequesting = pageRequesting || page.requesting || ''
-    if((window as any).pcomponents){
+    if ((window as any).pcomponents) {
       const rootComponents = (window as any).pcomponents[0]
       this.removeComponentListener(rootComponents)
     }
@@ -398,7 +468,6 @@ class NDOM extends NDOMInternal {
       | t.ResolveComponentOptions<any>['callback']
       | Omit<t.ResolveComponentOptions<any>, 'components' | 'page'>,
   ) {
-    
     const resolveOptions = u.isFnc(options) ? { callback: options } : options
     if (resolveOptions?.on) {
       const hooks = resolveOptions.on
@@ -434,23 +503,36 @@ class NDOM extends NDOMInternal {
      * Page components use NDOMPage instances that use their node as an
      * HTMLIFrameElement. They will have their own way of clearing their tree
      */
-    if(window?.['pcomponents']){
+    if (window?.['pcomponents']) {
       const rootComponents = window?.['pcomponents'][0]
       this.removeComponentListener(rootComponents)
       this.removeComponent(rootComponents)
     }
     !_isIframeEl(page.node) && page.clearNode()
     page.setStatus(c.eventId.page.status.RENDERING_COMPONENTS)
-    page.emitSync(
-      pageEvt.on.ON_BEFORE_RENDER_COMPONENTS,
-      page.snapshot({ components }),
-    )
+    page.emitSync(pageEvt.on.ON_BEFORE_RENDER_COMPONENTS, {
+      ...page.snapshot({ components }),
+      observers: this.#mutationObservers,
+    })
+
+    // Clean up mutation observers
+    const observers = this.#mutationObservers.get(page.id!)!
+    if (observers?.length) {
+      while (observers.length) {
+        const observer = observers.pop()
+        if (observer !== undefined) {
+          observer.disconnect()
+          observer.takeRecords()
+        }
+      }
+    }
+
     // const numComponents = components.length
     // for (let index = 0; index < numComponents; index++) {
     //   await this.draw(components[index] as any, page.node, page, resolveOptions)
     // }
 
-    if (['MeetingPage','VideoChat'].includes(this.global.pageNames[0])) {
+    if (['MeetingPage', 'VideoChat'].includes(this.global.pageNames[0])) {
       const numComponents = components.length
       for (let index = 0; index < numComponents; index++) {
         await this.draw(
@@ -504,7 +586,7 @@ class NDOM extends NDOMInternal {
         page: NDOMPage
       }): void
     },
-    dataOptions?: any
+    dataOptions?: any,
   ) {
     let hooks = options?.on
     let node: t.NDOMElement | null = null
@@ -586,7 +668,7 @@ class NDOM extends NDOMInternal {
         } else {
           node = this.#createElementBinding?.(component) || null
           node && (node['isElementBinding'] = true)
-         !node && (node = document.createElement(getElementTag(component)))     
+          !node && (node = document.createElement(getElementTag(component)))
         }
         if (component.has?.('global')) {
           handleDrawGlobalComponent.call(this, node, component, page)
@@ -640,21 +722,27 @@ class NDOM extends NDOMInternal {
           let childrenContainer = Identify.component.list(component)
             ? document.createDocumentFragment()
             : node
-          
+
           for (const child of component.children) {
-            const childNode = (await this.draw(child, node, page, {
-              ...options,
-              on: hooks,
-            },dataOptions)) as HTMLElement
+            const childNode = (await this.draw(
+              child,
+              node,
+              page,
+              {
+                ...options,
+                on: hooks,
+              },
+              dataOptions,
+            )) as HTMLElement
             childNode && childrenContainer?.appendChild(childNode)
           }
-          
-          if(dataOptions?.focus === node.getAttribute("data-viewtag")){
-             setTimeout(()=>{
-                node?.focus();
-                //@ts-expect-error
-                node?.setSelectionRange(-1, -1)
-            });
+
+          if (dataOptions?.focus === node.getAttribute('data-viewtag')) {
+            setTimeout(() => {
+              node?.focus()
+              //@ts-expect-error
+              node?.setSelectionRange(-1, -1)
+            })
           }
           if (
             childrenContainer.nodeType ===
@@ -676,7 +764,7 @@ class NDOM extends NDOMInternal {
     component: C, // ex: listItem (component instance)
     pageProp?: NDOMPage,
     options?: Parameters<NDOM['draw']>[3],
-    dataOptions?: any
+    dataOptions?: any,
   ) {
     let context: any = options?.context
     let isPageComponent = Identify.component.page(component)
@@ -690,7 +778,7 @@ class NDOM extends NDOMInternal {
     let index = component.get('index') || 0
 
     try {
-      let oldViewTag,newViewTag
+      let oldViewTag, newViewTag
       if (component) {
         oldViewTag = component.get(c.DATA_VIEWTAG)
         if (Identify.component.listItem(component)) {
@@ -708,7 +796,7 @@ class NDOM extends NDOMInternal {
             context.iteratorVar = iteratorVar
           }
         }
-        if(component.type === 'chatList' && node){
+        if (component.type === 'chatList' && node) {
           let hooks = options?.on
           await this.#R.runOnly({
             on: hooks,
@@ -717,7 +805,7 @@ class NDOM extends NDOMInternal {
             component,
             page,
             resolvers: this.resolvers,
-            resolveName: '[App] chatList'
+            resolveName: '[App] chatList',
           })
           return [node, component] as [typeof node, typeof component]
         }
@@ -728,7 +816,7 @@ class NDOM extends NDOMInternal {
         //   node,
         //   page,
         // })
-       
+
         // log.log(component.get("lazyCount"),newComponent,component,"kkkkk");
         // log.log('test86',component,component.children.length,component.defaultChildren.length)
         // log.log('test87',newComponent,newComponent.length,newComponent.defaultChildren.length)
@@ -742,48 +830,55 @@ class NDOM extends NDOMInternal {
         // let scrollHeight:any = 0
         // if (component.type === 'chatList') {
         //       scrollHeight = node?.scrollHeight
-        //       newComponent.set('scrollheight',scrollHeight) 
+        //       newComponent.set('scrollheight',scrollHeight)
         // }
         // this.removeComponentListener(component)
-        if(component.get('lazyCount') > 0 && component.get("lazyState") && component.get('lazyload') !== false && component.get('lazyloading')){
+        if (
+          component.get('lazyCount') > 0 &&
+          component.get('lazyState') &&
+          component.get('lazyload') !== false &&
+          component.get('lazyloading')
+        ) {
           const allData = component.get('listObject')
           const currentNodeLength = component.children.length
-          if(allData.length > currentNodeLength){
-            const latestData = allData.slice(currentNodeLength-allData.length)
-            const componentBlueprintTemp = u.cloneDeep(component.children[0].blueprint)
-            if(u.isArr(latestData) && latestData.length > 0){
-              Promise.all(latestData.map(async(data,arrIndex)=>{
-                componentBlueprintTemp.itemObject = data
-                const itemComponent = nui.createComponent(
-                  componentBlueprintTemp,
-                  page?.getNuiPage?.(),
-                )
-                const index = currentNodeLength + arrIndex
-                itemComponent.setParent(component)
-                component.createChild(itemComponent)
-                itemComponent.edit({index})
-                await nui.resolveComponents?.({
-                  callback: options?.callback,
-                  components: itemComponent,
-                  page: page?.getNuiPage?.(),
-                  context:{
-                    ...context,
-                    dataObject: data
-                  },
-                  on: options?.on || this.renderState.options.hooks,
-                })
-                if(node){            
-                  await this.draw(itemComponent as any, node, page, {
-                    ...dataOptions,
-                    dataObject : data
+          if (allData.length > currentNodeLength) {
+            const latestData = allData.slice(currentNodeLength - allData.length)
+            const componentBlueprintTemp = u.cloneDeep(
+              component.children[0].blueprint,
+            )
+            if (u.isArr(latestData) && latestData.length > 0) {
+              Promise.all(
+                latestData.map(async (data, arrIndex) => {
+                  componentBlueprintTemp.itemObject = data
+                  const itemComponent = nui.createComponent(
+                    componentBlueprintTemp,
+                    page?.getNuiPage?.(),
+                  )
+                  const index = currentNodeLength + arrIndex
+                  itemComponent.setParent(component)
+                  component.createChild(itemComponent)
+                  itemComponent.edit({ index })
+                  await nui.resolveComponents?.({
+                    callback: options?.callback,
+                    components: itemComponent,
+                    page: page?.getNuiPage?.(),
+                    context: {
+                      ...context,
+                      dataObject: data,
+                    },
+                    on: options?.on || this.renderState.options.hooks,
                   })
-                }
-              }))
-            
+                  if (node) {
+                    await this.draw(itemComponent as any, node, page, {
+                      ...dataOptions,
+                      dataObject: data,
+                    })
+                  }
+                }),
+              )
             }
           }
-          
-        }else{
+        } else {
           page?.emitSync?.(c.eventId.page.on.ON_REDRAW_BEFORE_CLEANUP, {
             parent: component?.parent as t.NuiComponent.Instance,
             component,
@@ -802,7 +897,7 @@ class NDOM extends NDOMInternal {
           if (index) {
             newComponent.edit({ index })
           }
-          set(nui.getRoot(),'options', '')
+          set(nui.getRoot(), 'options', '')
           this.removeComponentListener(component)
           this.removeComponent(component)
           newComponent = await nui.resolveComponents?.({
@@ -812,14 +907,24 @@ class NDOM extends NDOMInternal {
             context,
             on: options?.on || this.renderState.options.hooks,
           })
-         newViewTag = newComponent.get(c.DATA_VIEWTAG)
+          newViewTag = newComponent.get(c.DATA_VIEWTAG)
         }
-        !(component.get('lazyCount') > 0 && component.get("lazyState")&&component.get('lazyload') !== false && component.get('lazyloading')) && this.removeComponentListener(component)
+        !(
+          component.get('lazyCount') > 0 &&
+          component.get('lazyState') &&
+          component.get('lazyload') !== false &&
+          component.get('lazyloading')
+        ) && this.removeComponentListener(component)
         // newComponent.copyFromChildrenToDefault()
       }
       if (node) {
         if (newComponent) {
-          if (component.get('lazyCount') > 0 && component.get("lazyState")&&component.get('lazyload') !== false && component.get('lazyloading')) {
+          if (
+            component.get('lazyCount') > 0 &&
+            component.get('lazyState') &&
+            component.get('lazyload') !== false &&
+            component.get('lazyloading')
+          ) {
             // let newNode = await this.draw(newComponent, node, page, {
             //   ...options,
             //   on: options?.on || this.renderState.options.hooks,
@@ -832,12 +937,18 @@ class NDOM extends NDOMInternal {
             let currentIndex = getNodeIndex(node)
             const scrollTop = node.scrollTop
             // @ts-expect-error
-            let newNode = await this.draw(newComponent, parentNode, page, {
-              ...options,
-              on: options?.on || this.renderState.options.hooks,
-              context,
-              nodeIndex: currentIndex,
-            },dataOptions)
+            let newNode = await this.draw(
+              newComponent,
+              parentNode,
+              page,
+              {
+                ...options,
+                on: options?.on || this.renderState.options.hooks,
+                context,
+                nodeIndex: currentIndex,
+              },
+              dataOptions,
+            )
             if (parentNode) {
               // @ts-expect-error
               parentNode.replaceChild(newNode, node)
@@ -845,7 +956,10 @@ class NDOM extends NDOMInternal {
             } else {
               removeAllNode(node)
             }
-            newNode && (newViewTag === oldViewTag) && (!u.isNil(newViewTag)) && (newNode.scrollTop = scrollTop)
+            newNode &&
+              newViewTag === oldViewTag &&
+              !u.isNil(newViewTag) &&
+              (newNode.scrollTop = scrollTop)
             node = newNode as HTMLElement
             newNode = null
             parentNode = null
@@ -856,13 +970,17 @@ class NDOM extends NDOMInternal {
       log.error(error)
       throw new Error(error)
     }
-    if(component.get('lazyCount') > 0 && component.get("lazyState")&&component.get('lazyload') !== false && component.get('lazyloading')){
-      component.set('lazyloading',false)
+    if (
+      component.get('lazyCount') > 0 &&
+      component.get('lazyState') &&
+      component.get('lazyload') !== false &&
+      component.get('lazyloading')
+    ) {
+      component.set('lazyloading', false)
       return [node, component] as [typeof node, typeof component]
-    }else{
+    } else {
       return [node, newComponent] as [typeof node, typeof component]
     }
-    
   }
 
   register(obj: t.Store.ActionObject): this
@@ -989,7 +1107,7 @@ class NDOM extends NDOMInternal {
         Object.defineProperty(this, '_ref_', {})
         Object.defineProperty(this, '_path_', {})
       }
-      
+
       Object.defineProperty(this, 'get', {})
       _c.clear?.()
       return
@@ -997,10 +1115,12 @@ class NDOM extends NDOMInternal {
     remove(component)
     return
   }
-  removeComponentListener(component: t.NuiComponent.Instance | undefined | null){
+  removeComponentListener(
+    component: t.NuiComponent.Instance | undefined | null,
+  ) {
     if (!component) return
     const remove = (_c: t.NuiComponent.Instance) => {
-      if(_c.has('signaturePad') ){
+      if (_c.has('signaturePad')) {
         const signaturePad = _c.get('signaturePad')
         signaturePad.off()
         _c.remove(signaturePad)

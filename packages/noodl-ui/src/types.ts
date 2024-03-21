@@ -57,11 +57,11 @@ import type NDOM from './dom/noodl-ui-dom'
 import type NDOMPage from './dom/Page'
 import type NDOMResolver from './dom/Resolver'
 
-export type NUIActionType = ActionType | typeof lib.actionTypes[number]
-export type NUIActionGroupedType = typeof groupedActionTypes[number]
-export type NuiComponentType = ComponentType | typeof lib.components[number]
-export type NUITrigger = EventType | typeof lib.emitTriggers[number]
-export type DataAttribute = typeof lib.dataAttributes[number]
+export type NUIActionType = ActionType | (typeof lib.actionTypes)[number]
+export type NUIActionGroupedType = (typeof groupedActionTypes)[number]
+export type NuiComponentType = ComponentType | (typeof lib.components)[number]
+export type NUITrigger = EventType | (typeof lib.emitTriggers)[number]
+export type DataAttribute = (typeof lib.dataAttributes)[number]
 
 /* -------------------------------------------------------
   ---- ACTIONS
@@ -452,6 +452,8 @@ export interface Hooks {
   onAfterRequestPageObject(page: NDOMPage): void
 }
 
+export interface NDOMMutationObserver {}
+
 export type DOMNodeInput =
   | HTMLCollection
   | HTMLElement
@@ -589,7 +591,10 @@ export namespace Page {
       node: NDOM['page']['node']
     }): void
     [eventId.page.on.ON_BEFORE_RENDER_COMPONENTS](
-      snapshot: Snapshot & { components: NuiComponent.Instance[] },
+      snapshot: Snapshot & {
+        components: NuiComponent.Instance[]
+        observers: Map<string, MutationObserver[]>
+      },
     ): void
     [eventId.page.on.ON_COMPONENTS_RENDERED](page: NDOMPage): void
     [eventId.page.on.ON_MOUNTED](page: NDOMPage): void
@@ -634,7 +639,7 @@ export namespace Page {
   }
 
   export type Status =
-    typeof eventId.page.status[keyof typeof eventId.page.status]
+    (typeof eventId.page.status)[keyof typeof eventId.page.status]
 
   export type Snapshot = ReturnType<NDOMPage['snapshot']>
 }
@@ -645,7 +650,7 @@ export interface NDOMTransaction {
 
 export type NDOMTransactionId = keyof NDOMTransaction
 
-export type NDOMTrigger = typeof triggers[number]
+export type NDOMTrigger = (typeof triggers)[number]
 
 export interface ViewportObject {
   width: number
