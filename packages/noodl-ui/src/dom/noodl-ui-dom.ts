@@ -389,7 +389,7 @@ class NDOM extends NDOMInternal {
    * The page.requesting value should be set prior to calling this method unless
    * pageRequesting is provided. If it is provided, it will be set automatically
    */
-  async request(page = this.page, pageRequesting = '', opts?: { on }) {
+  async request(page = this.page, pageRequesting = '') {
     // Cache the currently requesting page to detect for newer requests during the call
     pageRequesting = pageRequesting || page.requesting || ''
     if ((window as any).pcomponents) {
@@ -933,10 +933,9 @@ class NDOM extends NDOMInternal {
             // },dataOptions)
             // node = newNode
           } else {
-            let parentNode = node.parentNode
+            let parentNode = node.parentNode as HTMLElement
             let currentIndex = getNodeIndex(node)
             const scrollTop = node.scrollTop
-            // @ts-expect-error
             let newNode = await this.draw(
               newComponent,
               parentNode,
@@ -962,7 +961,7 @@ class NDOM extends NDOMInternal {
               (newNode.scrollTop = scrollTop)
             node = newNode as HTMLElement
             newNode = null
-            parentNode = null
+            parentNode = null as any
           }
         }
       }

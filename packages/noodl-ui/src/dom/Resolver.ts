@@ -163,7 +163,7 @@ export default class NDOMResolver {
   ) {
     await Promise.all(
       [config.before, config.resolve, config.after].map(
-        async (fn) => fn && await this.resolveCond(config.cond, options, fn),
+        async (fn) => fn && await this.resolveCond(config.cond as any, options, fn as any),
       ),
     )
   }
