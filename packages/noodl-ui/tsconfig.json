@@ -1,14 +1,15 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-		"baseUrl": "src",
+    "baseUrl": "src",
     "declaration": true,
     "declarationDir": "dist",
     "lib": ["dom", "dom.iterable", "es2020"],
+    "ignoreDeprecations": "5.0",
     "module": "esnext",
     "outDir": "dist",
     "target": "esnext"
   },
-  "exclude": ["dist","src/__tests__"],
+  "exclude": ["dist", "src/__tests__"],
   "include": ["src"]
 }

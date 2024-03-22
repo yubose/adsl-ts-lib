@@ -40,7 +40,7 @@ export interface ParseOptions<
   getHelpers?: (opts?: Record<string, any>) => {
     props: Record<string, any>
     getParent?: any
-    blueprint: Partial<Props>
+    blueprint: Partial<Props> | nt.ReferenceString
     context: NormalizePropsContext
     root: Record<string, any> | (() => Record<string, any>)
     rootKey: string
@@ -99,7 +99,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
 
 function parse<Props extends Record<string, any> = Record<string, any>>(
   props: Record<string, any> = { style: {} },
-  blueprint: Partial<Props> = {},
+  blueprint: Partial<Props> | nt.ReferenceString = {},
   parseOptions: ParseOptions<Props> = {},
 ) {
   if (typeof parseOptions === undefined) {
@@ -155,7 +155,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
   } = parseOptions
 
   if (!u.isFnc(getHelpers)) {
-    return parse(props, blueprint, {
+    return parse(props, blueprint as string, {
       assign: Object.assign,
       entries: Object.entries,
       isArr: u.isArr,
@@ -184,7 +184,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
   if (props && !get(props, 'style')) set(props, 'style', {})
 
   if (isObj(get(blueprint, 'style'))) {
-    for (const [key, value] of entries(getBaseStyles(blueprint, root))) {
+    for (const [key, value] of entries(getBaseStyles(blueprint as {}, root))) {
       set(get(props, 'style'), key, value)
     }
   }
@@ -597,12 +597,12 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
           for (let [styleKey, styleValue] of entries(originalValue as any)) {
             // Unwrap the reference for processing
             if (isStr(styleValue) && is.reference(styleValue)) {
-              const isLocal = is.localReference(styleValue)
-              styleValue = getByRef(styleValue, {
-                ...getHelpers({ rootKey: isLocal ? pageName : undefined }),
+              const isLocal = is.localReference(styleValue as any)
+              styleValue = getByRef(styleValue  as string, {
+                ...getHelpers({ rootKey: isLocal ? pageName : undefined }) as any,
               })
               if (styleKey === 'autoplay') {
-                set(blueprint, 'autoplay', styleValue)
+                set(blueprint as any, 'autoplay', styleValue)
               }
               if (styleKey === 'opacity') set(value, 'opacity', styleValue)
               if (isStr(styleValue) && (styleValue as string)?.endsWith('px')) {
@@ -623,14 +623,14 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
 
             if (isStr(styleValue)) {
               while (is.reference(styleValue)) {
-                const isLocal = is.localReference(styleValue)
+                const isLocal = is.localReference(styleValue as string)
                 const newstyleValue = getByRef(
-                  styleValue,
-                  getHelpers({ rootKey: isLocal ? pageName : undefined }),
+                  styleValue as string,
+                  getHelpers({ rootKey: isLocal ? pageName : undefined }) as any,
                 )
                 if (newstyleValue === styleValue) break
                 // It will do an infinite loop without this
-                if (is.traverseReference(styleValue)) break
+                if (is.traverseReference(styleValue as string)) break
                 styleValue = newstyleValue
               }
               if (styleKey == 'imagePosition' && backgroundImage) {
@@ -816,12 +816,11 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
               value,
               getHelpers({
                 rootKey: is.localReference(value) ? pageName : undefined,
-              }),
+              }) as any,
             )
           : value || originalValue
         set(props, 'data-viewtag', viewTag)
       } else if (originalKey === 'dataOption') {
-        // @ts-expect-error
         let datapath = nu.toDataPath(nu.trimReference(originalValue))
         let isLocalOption = is.localKey(datapath.join('.'))
         // Note: This is here for fallback reasons.
@@ -835,7 +834,6 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
         )
         set(props, 'data-option', dataOption)
       }else if (originalKey === 'timeSlot') {
-        // @ts-expect-error
         let datapath = nu.toDataPath(nu.trimReference(originalValue))
         let isLocalOption = is.localKey(datapath.join('.'))
         // Note: This is here for fallback reasons.
@@ -849,7 +847,6 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
         )
         set(props, 'data-timeSlot', timeSlot)
       }else if (originalKey === 'locationId') {
-        // @ts-expect-error
         let datapath = nu.toDataPath(nu.trimReference(originalValue))
         let isLocalOption = is.localKey(datapath.join('.'))
         // Note: This is here for fallback reasons.
@@ -863,7 +860,6 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
         )
         set(props, 'data-locationId', locationId)
       }else if (originalKey === 'facilityId') {
-        // @ts-expect-error
         let datapath = nu.toDataPath(nu.trimReference(originalValue))
         let isLocalOption = is.localKey(datapath.join('.'))
         // Note: This is here for fallback reasons.
@@ -877,7 +873,6 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
         )
         set(props, 'data-facilityId', facilityId)
       }else if (originalKey === 'providerId') {
-        // @ts-expect-error
         let datapath = nu.toDataPath(nu.trimReference(originalValue))
         let isLocalOption = is.localKey(datapath.join('.'))
         // Note: This is here for fallback reasons.
@@ -892,7 +887,6 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
         set(props, 'data-providerId', providerId)
       }
       else if (originalKey === 'defaultDate') {
-        // @ts-expect-error
         let datapath = nu.toDataPath(nu.trimReference(originalValue))
         let isLocalOption = is.localKey(datapath.join('.'))
         // Note: This is here for fallback reasons.
@@ -908,7 +902,6 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
 
       } 
       else if (originalKey === 'placeholder') {
-        // @ts-expect-error
         let datapath = nu.toDataPath(nu.trimReference(originalValue))
         let isLocalOption = is.localKey(datapath.join('.'))
         // Note: This is here for fallback reasons.
@@ -925,7 +918,6 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
           set(props, 'data-placeholder', placeholder)
         }
       } else if (originalKey === 'videoOption') {
-        // @ts-expect-error
         let datapath = nu.toDataPath(nu.trimReference(originalValue))
         let isLocalOption = is.localKey(datapath.join('.'))
         // Note: This is here for fallback reasons.
@@ -941,7 +933,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
       } else {
         // Arbitrary references
         if (isStr(originalValue) && is.reference(originalValue)) {
-          value = getByRef(originalValue, getHelpers({ rootKey: pageName }))
+          value = getByRef(originalValue, getHelpers({ rootKey: pageName }) as any) 
           set(props, originalKey, value)
         }
       }
@@ -967,7 +959,7 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
       const isLocal = is.localReference(isHiddenValue)
       isHiddenValue = getByRef(
         isHiddenValue,
-        getHelpers({ rootKey: isLocal ? pageName : undefined }),
+        getHelpers({ rootKey: isLocal ? pageName : undefined }) as any,
       )
     }
 
@@ -985,10 +977,10 @@ function parse<Props extends Record<string, any> = Record<string, any>>(
       return parse(
         props,
         getByRef(
-          blueprint,
+          blueprint as string,
           getHelpers({
-            rootKey: is.localReference(blueprint) ? pageName : undefined,
-          }),
+            rootKey: is.localReference(blueprint as string) ? pageName : undefined,
+          }) as any,
         ),
       )
     } else {

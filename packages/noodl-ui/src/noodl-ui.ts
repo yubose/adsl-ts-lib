@@ -186,10 +186,10 @@ const NUI = (function () {
         const iteratorVar =
           (opts as any)?.context?.iteratorVar || findIteratorVar(component)
         if (u.isFnc(obj?.fn)) {
-          const emitAction = new EmitAction('path', args)
-          if ('dataKey' in args.emit) {
+          const emitAction = new EmitAction('path', args as any)
+          if ('dataKey' in (args as any).emit) {
             emitAction.dataKey = createEmitDataKey(
-              args.emit.dataKey as string,
+              (args as any).emit?.dataKey as string,
               _getQueryObjects({
                 component,
                 page,
@@ -239,7 +239,7 @@ const NUI = (function () {
             key: opts.key || '',
             component: opts.component,
             page: opts.page || page,
-            value: args,
+            value: args as any,
           })
         }
         return resolveAssetUrl(
@@ -586,7 +586,7 @@ const NUI = (function () {
         componentObject = i.defaultResolveReference(
           o.getRoot,
           page.page,
-          componentObject,
+          componentObject as any,
         )
       }
       // { components: [{ '.BaseHeader': '', style:{ shadow:'true' } }] }
@@ -956,6 +956,7 @@ const NUI = (function () {
                   opts?.context?.dataObject ||
                   findListDataObject(opts.component)
                 if (obj.emit?.dataKey) {
+                  // @ts-expect-error
                   action.dataKey = createEmitDataKey(
                     obj.emit.dataKey,
                     _getQueryObjects({
@@ -1271,7 +1272,7 @@ const NUI = (function () {
           nt.Identify.component.register(args.register) ||
           u.isArr(args.register)
         ) {
-          u.forEach(unary(o._experimental.register), u.array(args.register))
+          u.forEach(unary(o._experimental.register), u.array(args.register) as any)
         } else {
           // @ts-expect-error
           u.entries(args.register).forEach(

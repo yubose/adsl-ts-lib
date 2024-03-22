@@ -17,7 +17,7 @@ function resolveReference({
   const pageName = localKey || page?.page || ''
   value = defaultResolveReference(root, pageName, value as any)
   while (u.isStr(value) && is.reference(value)) {
-    value = defaultResolveReference(root, pageName, value)
+    value = defaultResolveReference(root, pageName, value as any)
   }
 
   return value

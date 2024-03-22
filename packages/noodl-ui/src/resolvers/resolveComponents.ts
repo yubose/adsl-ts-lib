@@ -996,7 +996,7 @@ componentResolver.setResolver(async (component, options, next) => {
         for (let index = 0; index < numChildren; index++) {
           const childObject = component.blueprint.children[index]
           let _page = is.component.page(component.parent)
-            ? component.parent.get('page')
+            ? component.parent?.get('page')
             : page || page
           let child = createComponent(childObject, _page)
           child = component.createChild(child)

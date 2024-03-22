@@ -1,3 +1,4 @@
+import type { LiteralUnion } from 'type-fest'
 import type { ComponentType } from './constantTypes'
 import { componentTypes } from './_internal/constants'
 import isAwaitReference from './utils/isAwaitReference'
@@ -22,7 +23,7 @@ function createIdentifier<
   IdentifyFn extends (v: unknown) => v is O = (v: unknown) => v is O,
 >(pred: IdentifyFn) {
   return function <V = any>(fn: (v: any) => boolean) {
-    return function (v: any): v is V {
+    return function (v: any): boolean {
       // @ts-expect-error
       return pred(v) ? fn(v) : undefined
     }
@@ -136,7 +137,9 @@ export const Identify = (function () {
         (v) => v.type === 'listItem',
       ),
       map: identifyObj<t.MapComponentObject>((v) => v.type === 'map'),
-      page: identifyObj<t.PageComponentObject>((v) => v.type === 'page'),
+      page: identifyObj<
+        Record<LiteralUnion<keyof t.PageComponentObject, string>, any>
+      >((v) => v.type === 'page'),
       plugin: identifyObj<t.PluginComponentObject>((v) => v.type === 'plugin'),
       pluginHead: identifyObj<t.PluginHeadComponentObject>(
         (v) => v.type === 'pluginHead',
@@ -163,7 +166,9 @@ export const Identify = (function () {
       ),
       video: identifyObj<t.VideoComponentObject>((v) => v.type === 'video'),
       view: identifyObj<t.ViewComponentObject>((v) => v.type === 'view'),
-      richtext: identifyObj<t.DividerComponentObject>((v) => v.type === 'richtext'),
+      richtext: identifyObj<t.DividerComponentObject>(
+        (v) => v.type === 'richtext',
+      ),
     },
     ecosObj: {
       audio(v: unknown) {},

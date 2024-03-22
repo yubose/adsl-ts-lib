@@ -200,8 +200,8 @@ export function getPresetPageObjects(): any {
                             text: 'Click to update this row',
                             onClick: [
                               m.emitObject(),
-                              // @ts-expect-error
                               m.evalObject({
+                                // @ts-expect-error
                                 object: async () => m.goto('Cloud'),
                               }),
                               m.popUp('abc'),

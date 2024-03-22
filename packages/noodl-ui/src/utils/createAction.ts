@@ -38,7 +38,7 @@ function createAction(
 
   if (u.isStr(args)) {
     if (Identify.folds.emit(args2)) {
-      action = new EmitAction(args, args2)
+      action = new EmitAction(args, args2 as any)
     } else if (args2) {
       if (u.isStr(args2)) {
         action = __createAction(args, { actionType: 'goto', goto: args2 })
@@ -49,7 +49,7 @@ function createAction(
     }
   } else if ('action' in args) {
     if (Identify.folds.emit(args.action)) {
-      action = new EmitAction(args.trigger, args.action)
+      action = new EmitAction(args.trigger, args.action as any)
     } else {
       if (!('actionType' in (args.action || {}))) {
         args.action = { ...args.action, actionType: getActionType(args.action) }

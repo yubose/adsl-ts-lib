@@ -18,18 +18,23 @@ function getActionObjectErrors(obj: NUIActionObjectInput | undefined) {
   } else if (Identify.goto(obj)) {
     //
   } else if (Identify.action.any(obj)) {
-    if (obj.actionType === 'anonymous') {
+    if ((obj as any).actionType === 'anonymous') {
       //
     } else if (Identify.action.builtIn(obj)) {
       //
     } else if (Identify.action.evalObject(obj)) {
-      if ('object' in obj) {
-        if (isRealRef(obj.object)) {
+      if ('object' in (obj ?? {})) {
+        if (isRealRef((obj as any).object)) {
           results.push(
-            `Received a string reference "${obj.object}" as the "object" for action "evalObject"`,
+            `Received a string reference "${
+              (obj as any).object
+            }" as the "object" for action "evalObject"`,
           )
-        } else if (obj.object !== null && typeof obj.object === 'object') {
-          for (const [key, val] of Object.entries(obj.object)) {
+        } else if (
+          (obj as any).object !== null &&
+          typeof (obj as any).object === 'object'
+        ) {
+          for (const [key, val] of Object.entries((obj as any).object)) {
             if (isRealRef(key)) {
               results.push(
                 `Received a string reference key "${key}" inside evalObject`,
@@ -73,8 +78,9 @@ function getActionObjectErrors(obj: NUIActionObjectInput | undefined) {
       //
     } else {
       results.push(
-        `Encountered an unsupported action object of type "${obj.actionType}". ` +
-          `Check typos or letter casings.`,
+        `Encountered an unsupported action object of type "${
+          (obj as any)?.actionType
+        }". ` + `Check typos or letter casings.`,
       )
     }
   }

@@ -38,8 +38,8 @@ function deref({
 
       if (u.isStr(value)) {
         while (is.reference(value)) {
-          if (is.traverseReference(value)) {
-            let parts = value.trim().split('_')
+          if (is.traverseReference(value as string)) {
+            let parts = (value as string).trim().split('_')
             let index = parts.length - 1
 
             while (!parts[0]?.startsWith('.') && index >= 0) {
@@ -84,7 +84,7 @@ function deref({
               return result
             }
           } else {
-            isLocal = is.localReference(value)
+            isLocal = is.localReference(value as string)
 
             if (isLocal) {
               if (rootKey && datapath[0] === rootKey) datapath.shift()
@@ -119,9 +119,10 @@ function deref({
         }
       }
     } else if (u.isArr(value)) {
-      return value.map((val, index) =>
+      // @ts-ignore
+      return (value.map((val, index) =>
         deref({ ...arguments[0], path: path.concat(index), ref: val }),
-      )
+      ))
     } else if (u.isObj(value)) {
       u.entries(value).forEach(([key, val]) => {
         if ((u.isStr(val) && is.reference(val)) || u.isObj(val)) {
