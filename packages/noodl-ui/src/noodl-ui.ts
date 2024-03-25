@@ -552,7 +552,10 @@ const NUI = (function () {
           } else {
             if (nt.Identify.reference(value)) {
               // Do one final check for the "get" method, since some custom getters are defined on component.get() even though it returns the same component object when using component.props
-              if (nt.Identify.reference(c.get(key)) && !['path','data-src'].includes(key)) {
+              if (
+                nt.Identify.reference(c.get(key)) &&
+                !['path', 'data-src'].includes(key)
+              ) {
                 log.debug(
                   `%cEncountered an unparsed reference value "${value}" for key "${key}"`,
                   `color:#ec0000;`,
@@ -1172,12 +1175,18 @@ const NUI = (function () {
       return _resolveComponents
     },
     reset() {
+      // Empty them
       cache.actions.clear()
+      // Resets to their default state
       cache.actions.reset()
+      // Removes all component instances
       cache.component.clear()
+      // Removes all pages
       cache.page.clear()
+      // Removes all registered head/bodyTop/bodyTail plugins
       cache.plugin.clear()
       cache.register.clear()
+      cache.timer.clear()
       cache.transactions.clear()
       o.getAssetsUrl = () => ''
       o.getBaseUrl = () => ''
@@ -1272,7 +1281,10 @@ const NUI = (function () {
           nt.Identify.component.register(args.register) ||
           u.isArr(args.register)
         ) {
-          u.forEach(unary(o._experimental.register), u.array(args.register) as any)
+          u.forEach(
+            unary(o._experimental.register),
+            u.array(args.register) as any,
+          )
         } else {
           // @ts-expect-error
           u.entries(args.register).forEach(
@@ -1304,16 +1316,14 @@ const NUI = (function () {
 
       return o
     },
-    getSize(size:string,type: 'height'|'width'){
+    getSize(size: string, type: 'height' | 'width') {
       const viewport = window['app'].viewport
       if (s.isNoodlUnit(size)) {
-        const _size = String(
-          s.getSize(size, viewport?.[type] as number),
-        )
+        const _size = String(s.getSize(size, viewport?.[type] as number))
         return _size
       }
       return size
-    }
+    },
   }
 
   return o
