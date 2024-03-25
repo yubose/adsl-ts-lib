@@ -39,6 +39,10 @@ class Timers {
       inst = undefined as any
     }
   }
+
+  clear() {
+    this.#timers.clear()
+  }
 }
 
 export default Timers
