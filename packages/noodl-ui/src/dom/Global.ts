@@ -34,7 +34,7 @@ export class NDOMGlobal {
     return this.#components
   }
 
-  get register(){
+  get register() {
     return this.#register
   }
 
@@ -58,19 +58,20 @@ export class NDOMGlobal {
     )
   }
 
-
   get timers() {
     return this.#timers
   }
 
-  get intervals(){
+  get intervals() {
     return this.#intervals
   }
 
-
   add(page: NDOMPage | ComponentPage) {
-    // @ts-expect-error
-    this.pages[page.id] = page
+    if (page.id) this.pages[page.id] = page
+    else
+      console.error(
+        new Error(`NDOMGlobal: Page missing ID! ${page.getNuiPage().id}`),
+      )
   }
 }
 

@@ -18,6 +18,7 @@ import findElement from '../utils/findElement'
 import { findParent, pullFromComponent } from '../utils/noodl'
 import is from '../utils/is'
 import isComponentPage from '../utils/isComponentPage'
+import NDOMGlobal from './Global'
 import isNDOMPage from '../utils/isNDOMPage'
 import * as t from '../types'
 import * as c from '../constants'
@@ -266,6 +267,7 @@ export const _resetTransactions = cache.transactions.clear.bind(
 )
 
 export const _syncPages = (function () {
+  const _global = new NDOMGlobal() // Singleton
   const _pageState = new Map<
     number,
     { initiated: boolean; fetching: boolean; initialPageValue: string }
@@ -336,6 +338,8 @@ export const _syncPages = (function () {
           })
 
           if (updateType === c.PAGE_CREATED) {
+            // console.log(`PAGE CREATED`, { _global })
+
             // Incoming page still in the loading state
             // Remove all previous loading pages since we only support 1 loading page right now
             for (const _page of cache.page.get().values()) {
@@ -355,37 +359,38 @@ export const _syncPages = (function () {
             }
 
             let ndomPage = this.findPage(page)
-            let stateSlice = _pageState.get(page.created) || initSlice(page)
 
             if (!ndomPage) {
               if (component) ndomPage = this.createPage(component)
               else {
-                if (page.id) {
-                  const pageComponent = this.cache.component?.get?.(
-                    page.id as string,
-                  )?.component
+                const pageComponent = this.cache.component?.get?.(
+                  page.id as string,
+                )?.component
 
-                  if (pageComponent) {
-                    if (pageComponent.get('page') !== page) {
-                      pageComponent.edit('page', page)
-                    }
-                    ndomPage = this.createPage(pageComponent) as NDOMPage
+                if (pageComponent) {
+                  if (pageComponent.get('page') !== page) {
+                    pageComponent.edit('page', page)
                   }
+                  ndomPage = this.createPage(pageComponent) as NDOMPage
                 }
 
-                !ndomPage && (ndomPage = this.createPage(page))
+                // !ndomPage && (ndomPage = this.createPage(page))
               }
             }
 
-            if (
-              // @ts-expect-error
-              !this.global.pageIds.includes(ndomPage.id)
-            ) {
-              this.global.add(ndomPage)
-            }
+            if (ndomPage) {
+              if (
+                // @ts-expect-error
+                !this.global.pageIds.includes(ndomPage.id)
+              ) {
+                this.global.add(ndomPage)
+              }
 
-            if (isComponentPage(ndomPage)) {
-              stateSlice.initiated = !!ndomPage.initialized
+              if (isComponentPage(ndomPage)) {
+                const stateSlice =
+                  _pageState.get(page.created) || initSlice(page)
+                stateSlice.initiated = !!ndomPage.initialized
+              }
             }
           } else if (updateType === c.PAGE_REMOVED) {
             _pageState.delete(page.created)
@@ -626,13 +631,16 @@ export const findFirstByDataTimeSlot = makeFindFirstBy<string>(
   (doc, dataTimeSlot) => doc.querySelector(`[data-timeSlot="${dataTimeSlot}"]`),
 )
 export const findFirstByDataProviderId = makeFindFirstBy<string>(
-  (doc, dataProviderId) => doc.querySelector(`[data-providerId="${dataProviderId}"]`),
+  (doc, dataProviderId) =>
+    doc.querySelector(`[data-providerId="${dataProviderId}"]`),
 )
 export const findFirstByDataFacilityId = makeFindFirstBy<string>(
-  (doc, dataFacilityId) => doc.querySelector(`[data-facilityId="${dataFacilityId}"]`),
+  (doc, dataFacilityId) =>
+    doc.querySelector(`[data-facilityId="${dataFacilityId}"]`),
 )
 export const findFirstByDataLocationId = makeFindFirstBy<string>(
-  (doc, dataLocationId) => doc.querySelector(`[data-locationId="${dataLocationId}"]`),
+  (doc, dataLocationId) =>
+    doc.querySelector(`[data-locationId="${dataLocationId}"]`),
 )
 export const findFirstByDefaultDate = makeFindFirstBy<string>(
   (doc, defaultDate) => doc.querySelector(`[default-data"${defaultDate}"]`),
@@ -755,17 +763,17 @@ export function addListener(node: t.NDOMElement, event: string, callback: any) {
   node.addEventListener(event, callback)
   return {
     event,
-    callback: ()=>{
-      node.removeEventListener(event,callback)
-    }
+    callback: () => {
+      node.removeEventListener(event, callback)
+    },
   }
 }
 
 export function removeAllNode(node: t.NDOMElement) {
-  const remove = (node:any)=>{
-    if(node){
+  const remove = (node: any) => {
+    if (node) {
       const childs = node.childNodes
-      for(let child of childs){
+      for (let child of childs) {
         remove(child)
       }
       node.remove()
