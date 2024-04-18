@@ -67,9 +67,7 @@
     "packages/noodl-action-chain",
     "packages/noodl-utils",
     "packages/noodl-ui",
-    "packages/noodl-core",
-    "packages/noodl-yaml",
-    "packages/gatsby-plugin-noodl"
+    "packages/noodl-core"
   ],
   "prettier": {
     "arrowParens": "always",
