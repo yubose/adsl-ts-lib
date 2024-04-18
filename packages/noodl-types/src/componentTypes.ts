@@ -31,10 +31,15 @@ export type UncommonComponentObjectProps = {
   isEditable?: string | boolean
   iteratorVar?: string
   listObject?: '' | ReferenceString | any[]
+  leftButton?: any
+  rightButton?: any
+  message?: string
   onEvent?: string
   optionKey?: string
   options?: '' | ReferenceString | any[]
+  msg?: string
   path?: Path
+  'path=func'?: any
   pathSelected?: string
   placeholder?: string | EmitObjectFold | IfObject
   popUpView?: string
@@ -194,7 +199,7 @@ export interface PluginBodyTailComponentObject
 
 export interface PopUpComponentObject
   extends ComponentObject,
-    Pick<UncommonComponentObjectProps, 'popUpView'> {
+    Pick<UncommonComponentObjectProps, 'message' | 'popUpView'> {
   type: 'popUp'
   [key: string]: any
 }

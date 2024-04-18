@@ -45,6 +45,8 @@ export type Extension = LiteralUnion<'yml', string>
 export type FileSuffix = `.${string}`
 
 export type FileName = `${string}.${Extension}`
+export type PageName = string
+export type Url = string
 
 export type GotoUrl = string
 
@@ -70,6 +72,10 @@ export type Path<V = any> = V extends string
   : V extends IfObject
   ? IfObject
   : EmitObjectFold | IfObject | string
+
+export type Switch = Array<
+  ReferenceString | { case: Array<string | ActionObject> }
+>
 
 export type TextBoardObject = (
   | { br?: '' | null }
