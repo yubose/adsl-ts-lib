@@ -1,20 +1,31 @@
 {
   "author": "Christopher Tran <pfftdammitchris@gmail.com>",
-  "description": "Test utilities for the noodl-ui library",
+  "dependencies": {
+    "noodl-types": "^1.0.254",
+    "type-fest": "^3.0.0"
+  },
+  "description": "Test utilities for the noodl applications",
+  "devDependencies": {
+    "@types/chai": "^4.3.3",
+    "@types/mocha": "^10.0.0",
+    "chai": "^4.3.6",
+    "mocha": "^10.0.0",
+    "ts-mocha": "^10.0.0"
+  },
   "directories": {
     "dist": "dist"
   },
   "files": [
     "dist"
   ],
-  "gitHead": "8d25fcb1c7079abb8c5afaf063fb945f2eace127",
+  "gitHead": "c8fff7d73d1597478386317eaa17c2b62a5651eb",
   "homepage": "",
   "keywords": [
-    "noodl-ui",
+    "ecos",
     "noodl",
+    "noodl-core",
     "unit",
     "test",
-    "noodlui",
     "aitmed"
   ],
   "license": "ISC",
@@ -37,11 +48,8 @@
   "scripts": {
     "build": "tsc",
     "start": "tsc -w",
-    "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" \"src/**/*.test.ts\" --watch-files \"../noodl-types/dist\""
+    "test": "cross-env NODE_ENV=test ts-mocha -p tsconfig.test.json -r source-map-support/register --extensions ts --watch --watch-files \"src/**/*.ts\" \"src/**/*.test.ts\""
   },
   "types": "dist/index.d.ts",
-  "version": "0.0.47",
-  "dependencies": {
-    "noodl-types": "^1.0.277"
-  }
+  "version": "0.0.12"
 }
