@@ -3,11 +3,11 @@ import { BASE_PAGE_URL, eventId } from '../constants'
 import NUIPage from '../Page'
 import NUIViewport from '../Viewport'
 import * as t from '../types'
-import log from "../utils/log"
+import log from '../utils/log'
 
 class Page {
   #nuiPage: NUIPage
-  #mounted:boolean = false
+  #mounted: boolean = false
   #state: t.Page.State = {
     aspectRatio: 1,
     aspectRatioMin: 1,
@@ -29,7 +29,6 @@ class Page {
   // @ts-expect-error
   #node: this['id'] extends 'root' ? HTMLDivElement : HTMLIFrameElement
   pageUrl: string = BASE_PAGE_URL;
-  
 
   [Symbol.for('nodejs.util.inspect.custom')]() {
     return {
@@ -57,10 +56,13 @@ class Page {
     this.emitSync(eventId.page.on.ON_BEFORE_CLEAR_ROOT_NODE, this.node)
     this.node.textContent = ''
     this.node.style.cssText = ''
-    this.node.style.position = 'absolute'
-    this.node.style.width = '100%'
+    this.node.style.position = 'relative'
+    this.node.style.width = this.#nuiPage.viewport?.width
+      ? `${this.#nuiPage.viewport?.width}px`
+      : '100%'
     this.node.style.height = '100%'
-
+    this.node.style.margin = 'auto'
+    console.log('test00', this.#nuiPage.viewport)
     return this
   }
 
@@ -72,11 +74,11 @@ class Page {
     this.#state.aspectRatio = value
   }
 
-  get mounted(){
+  get mounted() {
     return this.#mounted
   }
 
-  set mounted(value: boolean){
+  set mounted(value: boolean) {
     this.#mounted = value
   }
 
@@ -202,7 +204,6 @@ class Page {
     }
     return previousPage || ''
   }
-
 
   /**
    * Returns a JS representation of the current state of this page instance
