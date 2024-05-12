@@ -50,7 +50,7 @@ function attachUserEvents<N extends t.NDOMElement>(
   node: N,
   component: t.NuiComponent.Instance,
 ) {
-  let componentsNum = component.children?.at(-1)?.children.length
+  let componentsNum = component.children[component.children.length - 1]?.children.length
 
   userEvent.forEach((eventType: string) => {
     /**
@@ -91,7 +91,7 @@ function attachUserEvents<N extends t.NDOMElement>(
             node.scrollHeight || document.documentElement.scrollHeight //内容高度
           let scrollTop = node.scrollTop || document.documentElement.scrollTop
           if (
-            (component.children?.at(-1)?.children.length === componentsNum ||
+            (component.children[component.children.length - 1]?.children.length === componentsNum ||
               component.get('updateState') ||
               component.get('lazyState')) &&
             Math.floor(contentHeight - viewHeight - scrollTop) <= 1
@@ -112,7 +112,7 @@ function attachUserEvents<N extends t.NDOMElement>(
             //   // partialR(executeFun, component, node),
             //   executeFun
             // )
-          }
+        }
         })
         // const executeFun = (
         //   event: Event,
