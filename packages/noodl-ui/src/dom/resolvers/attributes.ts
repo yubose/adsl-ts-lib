@@ -50,7 +50,8 @@ function attachUserEvents<N extends t.NDOMElement>(
   node: N,
   component: t.NuiComponent.Instance,
 ) {
-  let componentsNum = component.children[component.children.length - 1]?.children.length
+  let componentsNum =
+    component.children[component.children.length - 1]?.children.length
 
   userEvent.forEach((eventType: string) => {
     /**
@@ -91,7 +92,8 @@ function attachUserEvents<N extends t.NDOMElement>(
             node.scrollHeight || document.documentElement.scrollHeight //内容高度
           let scrollTop = node.scrollTop || document.documentElement.scrollTop
           if (
-            (component.children[component.children.length - 1]?.children.length === componentsNum ||
+            (component.children[component.children.length - 1]?.children
+              .length === componentsNum ||
               component.get('updateState') ||
               component.get('lazyState')) &&
             Math.floor(contentHeight - viewHeight - scrollTop) <= 1
@@ -112,7 +114,7 @@ function attachUserEvents<N extends t.NDOMElement>(
             //   // partialR(executeFun, component, node),
             //   executeFun
             // )
-        }
+          }
         })
         // const executeFun = (
         //   event: Event,
@@ -214,25 +216,27 @@ function attachUserEvents<N extends t.NDOMElement>(
         component.addEventListeners(scrolllistener)
         component.addEventListeners(executeFunlistener)
         return
-      } else if([
-        'startRecord',
-        'onGenerateClick',
-        'onTranscriptionClick',
-        'pauseRecord',
-        'resumeRecord',
-        'endRecord',
-        'finishRecord',
-        'errorRecord',
-        'beforeFinish',
-        'deleteCallBack',
-        'imageClick',
-        "onCancelClick",
-        "onSelectClick",
-        "onDateClick",
-        'onVoiceClick',
-        'onTextClick',
-        'onEditClick'
-      ].includes(eventType)) {
+      } else if (
+        [
+          'startRecord',
+          'onGenerateClick',
+          'onTranscriptionClick',
+          'pauseRecord',
+          'resumeRecord',
+          'endRecord',
+          'finishRecord',
+          'errorRecord',
+          'beforeFinish',
+          'deleteCallBack',
+          'imageClick',
+          'onCancelClick',
+          'onSelectClick',
+          'onDateClick',
+          'onVoiceClick',
+          'onTextClick',
+          'onEditClick',
+        ].includes(eventType)
+      ) {
         return
       } else {
         if (eventType === 'onClick') {
@@ -450,6 +454,10 @@ const attributesResolver: t.Resolve.Config = {
                 setStyleAttr('width', parentWidth)
                 setStyleAttr('height', parentHeight)
               }
+            }
+            if (args.component.has('global')) {
+              args.node.style.left = '50%'
+              args.node.style.transform = `translate(-50%)`
             }
           }
 
